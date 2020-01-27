@@ -15,7 +15,7 @@ These docs have been created to help you handle and build the next Multi tenant 
 > {primary} Save weeks of time and build your Vue.js & Laravel SaaS app in minutes.
 
 ### 
-SaaSWeb provides the Ultimate starter kit for multi-tenant SaaS project on top of Laravel and Vue framework. 🦊
+SaaSWeb provides the ULTIMATE starter kit for multi-tenant SaaS project on top of Laravel and Vue framework. 🦊
 
 <a name="section-2"></a>
 
