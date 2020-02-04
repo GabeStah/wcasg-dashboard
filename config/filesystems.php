@@ -64,6 +64,12 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        'widget' => [
+            'driver' => 'local',
+            'root' => storage_path('app/widget'),
+
+        ],
+
     ],
 
 ];

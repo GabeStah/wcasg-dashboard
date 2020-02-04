@@ -11,10 +11,22 @@
 |
 */
 
+Route::get('foo', 'Api\Controllers\Domain\DomainController@foo');
+Route::get('widget', 'Api\Controllers\Domain\DomainController@widget');
+
 /**
  * API Routes
  */
 Route::group(['namespace' => 'Api\Controllers', 'as' => 'api.'], function () {
+
+    /**
+     * Account Routes
+     */
+//    Route::group(['prefix' => '/account', 'namespace' => 'Account', 'as' => 'account.'], function () {
+//        // profile index
+//        Route::get('/profile', 'ProfileController@index')->name('profile.index');
+//    });
+
 
     /**
      * Auth Routes

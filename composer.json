@@ -23,7 +23,8 @@
         "laravel/tinker": "^1.0",
         "pragmarx/countries": "*",
         "sarfraznawaz2005/visitlog": "^1.2",
-        "unisharp/laravel-filemanager": "^1.8"
+        "unisharp/laravel-filemanager": "^1.8",
+      "ext-http": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
