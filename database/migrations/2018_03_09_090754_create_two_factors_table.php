@@ -4,25 +4,29 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTwoFactorsTable extends Migration
-{
+class CreateTwoFactorsTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('two_factor', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_id')->unsigned()->index();
+            $table->bigIncrements('id');
+            $table
+                ->integer('user_id')
+                ->unsigned()
+                ->index();
             $table->string('identifier')->nullable();
             $table->string('phone');
             $table->string('dial_code');
             $table->boolean('verified')->default(false);
             $table->timestamps();
-            
-            $table->foreign('user_id')->references('id')->on('users');
+
+            $table
+                ->foreign('user_id')
+                ->references('id')
+                ->on('users');
         });
     }
 
@@ -31,8 +35,7 @@ class CreateTwoFactorsTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('two_factor');
     }
 }

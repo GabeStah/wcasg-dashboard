@@ -4,22 +4,27 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompaniesTable extends Migration
-{
+class CreateCompaniesTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('companies', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('name');
             $table->uuid('uuid');
             $table->string('country')->nullable();
-            $table->string('email')->unique()->index();
-            $table->string('phone')->nullable()->unique()->index();
+            $table
+                ->string('email')
+                ->unique()
+                ->index();
+            $table
+                ->string('phone')
+                ->nullable()
+                ->unique()
+                ->index();
             $table->timestamps();
         });
     }
@@ -29,8 +34,7 @@ class CreateCompaniesTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('companies');
     }
 }

@@ -4,17 +4,15 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVisitLogsTable extends Migration
-{
+class CreateVisitLogsTable extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('visitlogs', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('ip')->default('0.0.0.0');
             $table->string('browser')->nullable();
             $table->string('os')->nullable();
@@ -39,8 +37,7 @@ class CreateVisitLogsTable extends Migration
      *
      * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::drop('visitlogs');
     }
 }

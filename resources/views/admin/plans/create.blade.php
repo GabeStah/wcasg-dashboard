@@ -35,30 +35,30 @@
                     <label class="col-md-3 col-form-label" for="hf-name">Plan Price</label>
                     <div class="col-md-6">
                         <input type="text" id="price" name="price" class="form-control"
-                            placeholder="Enter Plan price.."
-                            value="{{ old('name') }}">
+                               placeholder="Enter Plan price.."
+                               value="{{ old('name') }}">
 
-                            @if ($errors->has('price'))
-                                <span class="text-danger">{{ $errors->first('price') }}</span>
-                            @endif
+                        @if ($errors->has('price'))
+                            <span class="text-danger">{{ $errors->first('price') }}</span>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="hf-name">Plan Trial</label>
                     <div class="col-md-6">
-                        <input type="text" id="trial" name="trial" class="form-control"
-                            placeholder="Enter Plan name.."
-                            value="{{ old('trial') }}">
+                        <input type="number" id="trial" name="trial" class="form-control"
+                               placeholder="Enter Plan Trial Duration (Days)"
+                               value="{{ old('trial') }}">
 
-                            @if ($errors->has('trial'))
-                                <span class="text-danger">{{ $errors->first('trial') }}</span>
-                            @endif
+                        @if ($errors->has('trial'))
+                            <span class="text-danger">{{ $errors->first('trial') }}</span>
+                        @endif
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="hf-name">Plan interval</label>
                     <div class="col-md-6">
-                            <select id="interval" type="" class="form-control" name="interval">
+                        <select id="interval" type="" class="form-control" name="interval">
                                 <option value="">Select Interval</option>
                                 <option value="day">Daily</option>
                                 <option value="week">Weekly</option>
