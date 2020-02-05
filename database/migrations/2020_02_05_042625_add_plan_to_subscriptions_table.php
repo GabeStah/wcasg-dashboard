@@ -15,7 +15,8 @@ class AddPlanToSubscriptionsTable extends Migration {
             $table
                 ->bigInteger('plan_id')
                 ->unsigned()
-                ->index();
+                ->index()
+                ->nullable();
             $table
                 ->foreign('plan_id')
                 ->references('id')
