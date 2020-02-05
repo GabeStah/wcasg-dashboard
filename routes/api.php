@@ -11,37 +11,56 @@
 |
 */
 
-Route::get('foo', 'Api\Controllers\Domain\DomainController@foo');
-Route::get('widget', 'Api\Controllers\Domain\DomainController@widget');
+Route::group(
+    [
+        'namespace' => 'Api\Controllers\Widget',
+        'middleware' => ['api.widget'],
+        'as' => 'api.widget.'
+    ],
+    function () {
+        Route::get('widget', 'WidgetController@get')->name('get');
+    }
+);
 
 /**
  * API Routes
  */
 Route::group(['namespace' => 'Api\Controllers', 'as' => 'api.'], function () {
-
     /**
      * Account Routes
      */
-//    Route::group(['prefix' => '/account', 'namespace' => 'Account', 'as' => 'account.'], function () {
-//        // profile index
-//        Route::get('/profile', 'ProfileController@index')->name('profile.index');
-//    });
-
+    Route::group(
+        ['prefix' => '/account', 'namespace' => 'Account', 'as' => 'account.'],
+        function () {
+            // profile index
+            Route::get('/profile', 'ProfileController@index')->name(
+                'profile.index'
+            );
+        }
+    );
 
     /**
      * Auth Routes
      */
     Route::group(['namespace' => 'Auth'], function () {
         // Registration Routes...
-        Route::post('register', 'RegisterController@register')->name('register');
+        Route::post('register', 'RegisterController@register')->name(
+            'register'
+        );
 
         /**
          * Activation
          */
-        Route::group(['prefix' => '/activation', 'as' => 'activation.'], function () {
-            // resend store
-            Route::post('/resend', 'ActivationResendController@store')->name('resend.store');
-        });
+        Route::group(
+            ['prefix' => '/activation', 'as' => 'activation.'],
+            function () {
+                // resend store
+                Route::post(
+                    '/resend',
+                    'ActivationResendController@store'
+                )->name('resend.store');
+            }
+        );
     });
 
     /**
@@ -50,37 +69,53 @@ Route::group(['namespace' => 'Api\Controllers', 'as' => 'api.'], function () {
      * Routes that require user to be authenticated
      */
     Route::group(['middleware' => ['auth:api']], function () {
-
         /**
          * Account Routes
          */
-        Route::group(['prefix' => '/account', 'namespace' => 'Account', 'as' => 'account.'], function () {
-            /**
-             * Profile
-             */
-            // profile index
-            Route::get('/profile', 'ProfileController@index')->name('profile.index');
+        Route::group(
+            [
+                'prefix' => '/account',
+                'namespace' => 'Account',
+                'as' => 'account.'
+            ],
+            function () {
+                /**
+                 * Profile
+                 */
+                // profile index
+                Route::get('/profile', 'ProfileController@index')->name(
+                    'profile.index'
+                );
 
-            // profile update
-            Route::post('/profile', 'ProfileController@store')->name('profile.store');
+                // profile update
+                Route::post('/profile', 'ProfileController@store')->name(
+                    'profile.store'
+                );
 
-            /**
-             * Password
-             */
-            // password store
-            Route::post('/password', 'PasswordController@store')->name('password.store');
+                /**
+                 * Password
+                 */
+                // password store
+                Route::post('/password', 'PasswordController@store')->name(
+                    'password.store'
+                );
 
-            /**
-             * Deactivate
-             */
-            // deactivate store
-            Route::post('/deactivate', 'DeactivateController@store')->name('deactivate.store');
-        });
+                /**
+                 * Deactivate
+                 */
+                // deactivate store
+                Route::post('/deactivate', 'DeactivateController@store')->name(
+                    'deactivate.store'
+                );
+            }
+        );
 
         /**
          * Subscription: active Routes
          */
-        Route::group(['middleware' => ['subscription.active:api']], function () {
-        });
+        Route::group(
+            ['middleware' => ['subscription.active:api']],
+            function () {}
+        );
     });
 });

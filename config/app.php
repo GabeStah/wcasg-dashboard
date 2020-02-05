@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -13,7 +12,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'WCASG App Dashboard'),
 
     /*
     |--------------------------------------------------------------------------
@@ -120,7 +119,6 @@ return [
     */
 
     'providers' => [
-
         /*
          * Laravel Framework Service Providers...
          */
@@ -168,8 +166,7 @@ return [
         CreatyDev\App\Providers\BladeServiceProvider::class,
         CreatyDev\App\Providers\TwoFactorServiceProvider::class,
         CreatyDev\App\Providers\TenantServiceProvider::class,
-        CreatyDev\App\Providers\UrlSchemeServiceProvider::class,
-
+        CreatyDev\App\Providers\UrlSchemeServiceProvider::class
     ],
 
     /*
@@ -184,7 +181,6 @@ return [
     */
 
     'aliases' => [
-
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         'Auth' => Illuminate\Support\Facades\Auth::class,
@@ -218,8 +214,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'DotenvEditor' => Brotzka\DotenvEditor\DotenvEditorFacade::class,
-
-    ],
-
+        'DotenvEditor' => Brotzka\DotenvEditor\DotenvEditorFacade::class
+    ]
 ];

@@ -70056,8 +70056,42 @@ var render = function() {
                                 })
                               ]
                             : row.type == "textarea"
-                              ? [
-                                  _c("textarea", {
+                            ? [
+                                _c("textarea", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.creating.form[row.value],
+                                      expression: "creating.form[row.value]"
+                                    }
+                                  ],
+                                  staticClass: "form-control",
+                                  class: {
+                                    "is-invalid": _vm.creating.errors[row.value]
+                                  },
+                                  domProps: {
+                                    value: _vm.creating.form[row.value]
+                                  },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.creating.form,
+                                        row.value,
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]
+                            : row.type == "select"
+                            ? [
+                                _c(
+                                  "select",
+                                  {
                                     directives: [
                                       {
                                         name: "model",
@@ -70066,149 +70100,104 @@ var render = function() {
                                         expression: "creating.form[row.value]"
                                       }
                                     ],
-                                    staticClass: "form-control",
+                                    staticClass: "form-control custom-select",
                                     class: {
                                       "is-invalid":
                                         _vm.creating.errors[row.value]
                                     },
-                                    domProps: {
-                                      value: _vm.creating.form[row.value]
-                                    },
                                     on: {
-                                      input: function($event) {
-                                        if ($event.target.composing) {
-                                          return
-                                        }
+                                      change: function($event) {
+                                        var $$selectedVal = Array.prototype.filter
+                                          .call($event.target.options, function(
+                                            o
+                                          ) {
+                                            return o.selected
+                                          })
+                                          .map(function(o) {
+                                            var val =
+                                              "_value" in o ? o._value : o.value
+                                            return val
+                                          })
                                         _vm.$set(
                                           _vm.creating.form,
                                           row.value,
-                                          $event.target.value
+                                          $event.target.multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
                                         )
                                       }
                                     }
-                                  })
-                                ]
-                              : row.type == "select"
-                                ? [
-                                    _c(
-                                      "select",
-                                      {
-                                        directives: [
-                                          {
-                                            name: "model",
-                                            rawName: "v-model",
-                                            value: _vm.creating.form[row.value],
-                                            expression:
-                                              "creating.form[row.value]"
-                                          }
-                                        ],
-                                        staticClass:
-                                          "form-control custom-select",
-                                        class: {
-                                          "is-invalid":
-                                            _vm.creating.errors[row.value]
-                                        },
-                                        on: {
-                                          change: function($event) {
-                                            var $$selectedVal = Array.prototype.filter
-                                              .call(
-                                                $event.target.options,
-                                                function(o) {
-                                                  return o.selected
-                                                }
-                                              )
-                                              .map(function(o) {
-                                                var val =
-                                                  "_value" in o
-                                                    ? o._value
-                                                    : o.value
-                                                return val
-                                              })
-                                            _vm.$set(
-                                              _vm.creating.form,
-                                              row.value,
-                                              $event.target.multiple
-                                                ? $$selectedVal
-                                                : $$selectedVal[0]
-                                            )
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _vm._l(row.options, function(option) {
-                                          return [
-                                            option.children.length
-                                              ? [
-                                                  _c(
-                                                    "optgroup",
-                                                    {
-                                                      attrs: {
-                                                        label: option.name
-                                                      }
-                                                    },
-                                                    _vm._l(
-                                                      option.children,
-                                                      function(child) {
-                                                        return _c(
-                                                          "option",
-                                                          {
-                                                            attrs: {
-                                                              disabled:
-                                                                String(
-                                                                  child.usable
-                                                                ).toLowerCase() !=
-                                                                "true"
-                                                            },
-                                                            domProps: {
-                                                              value: child.value
-                                                            }
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "\n                                                " +
-                                                                _vm._s(
-                                                                  child.name
-                                                                ) +
-                                                                "\n                                            "
-                                                            )
-                                                          ]
-                                                        )
-                                                      }
-                                                    ),
-                                                    0
-                                                  )
-                                                ]
-                                              : [
-                                                  _c(
-                                                    "option",
-                                                    {
-                                                      attrs: {
-                                                        disabled:
-                                                          String(
-                                                            option.usable
-                                                          ).toLowerCase() !=
-                                                          "true"
+                                  },
+                                  [
+                                    _vm._l(row.options, function(option) {
+                                      return [
+                                        option.children.length
+                                          ? [
+                                              _c(
+                                                "optgroup",
+                                                {
+                                                  attrs: { label: option.name }
+                                                },
+                                                _vm._l(
+                                                  option.children,
+                                                  function(child) {
+                                                    return _c(
+                                                      "option",
+                                                      {
+                                                        attrs: {
+                                                          disabled:
+                                                            String(
+                                                              child.usable
+                                                            ).toLowerCase() !=
+                                                            "true"
+                                                        },
+                                                        domProps: {
+                                                          value: child.value
+                                                        }
                                                       },
-                                                      domProps: {
-                                                        value: option.value
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        "\n                                            " +
-                                                          _vm._s(option.name) +
-                                                          "\n                                        "
-                                                      )
-                                                    ]
+                                                      [
+                                                        _vm._v(
+                                                          "\n                                                " +
+                                                            _vm._s(child.name) +
+                                                            "\n                                            "
+                                                        )
+                                                      ]
+                                                    )
+                                                  }
+                                                ),
+                                                0
+                                              )
+                                            ]
+                                          : [
+                                              _c(
+                                                "option",
+                                                {
+                                                  attrs: {
+                                                    disabled:
+                                                      String(
+                                                        option.usable
+                                                      ).toLowerCase() != "true"
+                                                  },
+                                                  domProps: {
+                                                    value: option.value
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                            " +
+                                                      _vm._s(option.name) +
+                                                      "\n                                        "
                                                   )
                                                 ]
-                                          ]
-                                        })
-                                      ],
-                                      2
-                                    )
-                                  ]
-                                : _vm._e(),
+                                              )
+                                            ]
+                                      ]
+                                    })
+                                  ],
+                                  2
+                                )
+                              ]
+                            : _vm._e(),
                           _vm._v(" "),
                           _vm.creating.errors[row.value]
                             ? _c("div", { staticClass: "invalid-feedback" }, [
