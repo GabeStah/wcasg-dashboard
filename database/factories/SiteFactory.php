@@ -9,6 +9,6 @@ use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Site::class, function (Faker $faker) {
     return [
-        'domain' => $faker->domainName()
+        'domain' => $faker->domainName
     ];
 });

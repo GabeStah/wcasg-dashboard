@@ -14,11 +14,11 @@ class CreateUserRolesTable extends Migration {
         Schema::create('user_roles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table
-                ->integer('user_id')
+                ->bigInteger('user_id')
                 ->unsigned()
                 ->index();
             $table
-                ->integer('role_id')
+                ->bigInteger('role_id')
                 ->unsigned()
                 ->index();
             $table->timestamp('expires_at')->nullable();

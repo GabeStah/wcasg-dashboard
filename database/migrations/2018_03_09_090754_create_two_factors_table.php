@@ -14,7 +14,7 @@ class CreateTwoFactorsTable extends Migration {
         Schema::create('two_factor', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table
-                ->integer('user_id')
+                ->bigInteger('user_id')
                 ->unsigned()
                 ->index();
             $table->string('identifier')->nullable();

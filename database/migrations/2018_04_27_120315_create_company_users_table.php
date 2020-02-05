@@ -14,11 +14,11 @@ class CreateCompanyUsersTable extends Migration {
         Schema::create('company_users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table
-                ->integer('user_id')
+                ->bigInteger('user_id')
                 ->unsigned()
                 ->index();
             $table
-                ->integer('company_id')
+                ->bigInteger('company_id')
                 ->unsigned()
                 ->index();
             $table->timestamps();

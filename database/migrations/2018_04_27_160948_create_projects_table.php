@@ -14,7 +14,7 @@ class CreateProjectsTable extends Migration {
         Schema::create('projects', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table
-                ->integer('company_id')
+                ->bigInteger('company_id')
                 ->unsigned()
                 ->index();
             $table->string('name', 250);
