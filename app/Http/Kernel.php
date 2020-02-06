@@ -44,8 +44,11 @@ class Kernel extends HttpKernel {
         'api' => ['throttle:60,1', 'bindings'],
 
         'api.widget' => [
-            \CreatyDev\Http\Middleware\Api\Widget\CheckOriginMissing::class,
-            \CreatyDev\Http\Middleware\Api\Widget\CheckOriginValid::class
+            \CreatyDev\Http\Middleware\Api\Widget\CheckValidWidgetRequest::class
+            //            \CreatyDev\Http\Middleware\Api\Widget\CheckOriginMissing::class,
+            //            \CreatyDev\Http\Middleware\Api\Widget\CheckTokenMissing::class,
+            //            \CreatyDev\Http\Middleware\Api\Widget\CheckTokenValid::class,
+            //            \CreatyDev\Http\Middleware\Api\Widget\CheckOriginValid::class
         ]
     ];
 

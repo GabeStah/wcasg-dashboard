@@ -9,31 +9,26 @@ use Throwable;
 
 class Widget extends Api {
     public $message = 'Widget API retrieval has failed.';
-    public $headers;
+    public $headers = [
+        'Content-Type' => 'text/javascript;charset=UTF-8'
+    ];
 
-    public function __construct(
-        $message = '',
-        $code = 0,
-        Throwable $previous = null
-    ) {
-        parent::__construct($message, $code, $previous);
-
-        // TODO: Move out of Exception to self-contained class
-        $this->headers = [
-            'Access-Control-Allow-Origin' => config('app.url'),
-            'Content-Type' => 'text/javascript;charset=UTF-8'
-        ];
+    public function setCorsOrigin($value) {
+        $this->headers['Access-Control-Allow-Origin'] = $value;
     }
 
     /**
      * Origin invalid.
      * Render the exception as an HTTP response.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return Response
      */
     public function render($request) {
         $prefix = '[' . config('app.name') . ']: ';
+        if (!isset($this->headers['Access-Control-Allow-Origin'])) {
+            $this->setCorsOrigin(config('app.url'));
+        }
         return response(
             "console.error('{$prefix}{$this->getMessage()}')",
             200,

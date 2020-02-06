@@ -4,6 +4,23 @@ namespace CreatyDev\Domain\Users\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * CreatyDev\Domain\Users\Models\ConfirmationToken
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property string $token
+ * @property \Illuminate\Support\Carbon $expires_at
+ * @property-read \CreatyDev\Domain\Users\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\ConfirmationToken newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\ConfirmationToken newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\ConfirmationToken query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\ConfirmationToken whereExpiresAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\ConfirmationToken whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\ConfirmationToken whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\ConfirmationToken whereUserId($value)
+ * @mixin \Eloquent
+ */
 class ConfirmationToken extends Model
 {
     public $timestamps = false;

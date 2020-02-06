@@ -9,9 +9,11 @@ use Faker\Generator;
 class SubscriptionTableSeeder extends Seeder {
     public function run() {
         $faker = Faker\Factory::create();
-        $user = User::first();
-        $localPlan = Plan::first();
-        $plan = \Stripe\Plan::retrieve($localPlan->gateway_id);
+        $userA = User::first();
+        $localPlanA = Plan::all()->get(0);
+        $localPlanB = Plan::all()->get(1);
+        $planA = \Stripe\Plan::retrieve($localPlanA->gateway_id);
+        $planB = \Stripe\Plan::retrieve($localPlanB->gateway_id);
 
         $token = \Stripe\Token::create([
             'card' => [
@@ -22,11 +24,14 @@ class SubscriptionTableSeeder extends Seeder {
             ]
         ]);
 
-        $subscription = $user
-            ->newSubscription('main', $plan->id)
+        $subscription = $userA
+            ->newSubscription('main', $planA->id)
             ->create($token->id);
 
-        $subscription->update(['plan_id' => $localPlan->id]);
+        $currentSub = $userA->subscription('main');
+        //        dump($currentSub);
+
+        $subscription->update(['plan_id' => $localPlanA->id]);
         // $user = User::find(1);
 
         // $subscription = $request->user()->newSubscription('main', 'premium')->create($paymentMethod);
@@ -37,7 +42,19 @@ class SubscriptionTableSeeder extends Seeder {
 
         //        $subscription->create($request->token);
 
-        factory(Site::class, 1)->create(['subscription_id' => $subscription]);
+        factory(Site::class, 1)->create([
+            'domain' => 'localhost:84',
+            'active' => true,
+            'subscription_id' => $subscription
+        ]);
+
+        factory(Site::class, 1)->create([
+            'domain' => '10.0.75.1:5000',
+            'active' => true,
+            'subscription_id' => $subscription
+        ]);
+
+        factory(Site::class, 5)->create(['subscription_id' => $subscription]);
 
         //
         //        $planName = 'Basic Plan';

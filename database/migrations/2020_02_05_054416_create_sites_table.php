@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 class CreateSitesTable extends Migration {
     /**
@@ -25,6 +26,8 @@ class CreateSitesTable extends Migration {
                 );
             $table
                 ->uuid('token')
+                ->unique()
+                ->index()
                 ->comment('Unique identifier to be used in API requests.');
             $table->timestamps();
 
