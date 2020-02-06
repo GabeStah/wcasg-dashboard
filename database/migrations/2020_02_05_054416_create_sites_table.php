@@ -14,21 +14,25 @@ class CreateSitesTable extends Migration {
     public function up() {
         Schema::create('sites', function (Blueprint $table) {
             $table->bigIncrements('id');
+
             $table
                 ->string('domain')
                 ->index()
                 ->comment('Root domain name + TLD.');
+
             $table
                 ->boolean('active')
                 ->default(false)
                 ->comment(
                     "Set by 'User'.  If 'true', allow incoming Widget requests to succeed, else fail."
                 );
+
             $table
                 ->uuid('token')
                 ->unique()
                 ->index()
                 ->comment('Unique identifier to be used in API requests.');
+
             $table->timestamps();
 
             // Associate with one subscription

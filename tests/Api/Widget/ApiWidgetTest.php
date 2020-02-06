@@ -3,9 +3,6 @@
 namespace Tests\Feature;
 
 use CreatyDev\Domain\Sites\Models\Site;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Laravel\Cashier\Subscription;
 use Tests\ResetDatabase;
 use Tests\TestCase;
 
@@ -58,7 +55,6 @@ class ApiWidgetTest extends TestCase {
             __('error.api.widget.missing-origin'),
             $response->content()
         );
-        dump($response->content());
     }
 
     public function testMissingToken() {
@@ -142,11 +138,20 @@ class ApiWidgetTest extends TestCase {
      */
     public function testValidTokenWithInvalidSubscription() {
         // Get valid token.
-        $activeSubs = Subscription::all()->where('active', true);
-        //        $token = Site::where($activeSubs);
+        //        $activeSubs = Subscription::all()->where('active', true);
+        //        //        $token = Site::where($activeSubs);
+        $site = Site::first();
+        // Verify sub is initially valid.
+        self::assertTrue($site->subscription->valid());
+        // Cancel related sub
+        $site->subscription->cancelNow();
+        // Verify sub not valid
+        self::assertFalse($site->subscription->valid());
+
+        $token = $site->token;
         $response = $this->withHeaders([
             'origin' => 'localhost:5000'
-        ])->get('/api/widget?token=123456');
+        ])->get("/api/widget?token={$token}");
 
         self::assertStringStartsWith('console.error', $response->content());
         $response->assertHeader(
@@ -160,40 +165,14 @@ class ApiWidgetTest extends TestCase {
         );
     }
 
-    public function testInvalidSubscription() {
+    public function testNotValidOrigin() {
+        // Get valid token.
+        $token = Site::first()->token;
+
         $response = $this->withHeaders([
-            'origin' => 'localhost:5000'
-        ])->get('/api/widget?token=123456');
-
-        self::assertStringStartsWith('console.error', $response->content());
-        $response->assertHeader(
-            'content-type',
-            'text/javascript;charset=UTF-8'
-        );
-
-        self::assertStringContainsStringIgnoringCase(
-            __('error.api.widget.invalid-subscription'),
-            $response->content()
-        );
-    }
-
-    public function testInvalidToken() {
-        $response = $this->get('/api/widget');
-
-        self::assertStringStartsWith('console.error', $response->content());
-        $response->assertHeader(
-            'content-type',
-            'text/javascript;charset=UTF-8'
-        );
-
-        self::assertStringContainsStringIgnoringCase(
-            __('error.api.widget.invalid-token'),
-            $response->content()
-        );
-    }
-
-    public function testInvalidOrigin() {
-        $response = $this->get('/api/widget');
+            // Pass invalid (mismatched) origin
+            'origin' => 'hocallost:5000'
+        ])->get("/api/widget?token={$token}");
 
         self::assertStringStartsWith('console.error', $response->content());
         $response->assertHeader(
@@ -223,6 +202,5 @@ class ApiWidgetTest extends TestCase {
             __('error.api.widget.invalid-origin'),
             $response->content()
         );
-        dump($response->content());
     }
 }

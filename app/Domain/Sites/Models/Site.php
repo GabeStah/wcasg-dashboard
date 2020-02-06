@@ -109,4 +109,9 @@ class Site extends Model {
     public function user() {
         return $this->subscription()->user;
     }
+
+    public static function withSubscriptions() {
+        $instance = new static();
+        (new static())::whereToken('asd');
+    }
 }

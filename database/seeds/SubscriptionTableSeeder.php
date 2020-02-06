@@ -5,6 +5,7 @@ use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Database\Seeder;
 use Faker\Generator;
+use Laravel\Cashier\SubscriptionBuilder;
 
 class SubscriptionTableSeeder extends Seeder {
     public function run() {
@@ -12,10 +13,19 @@ class SubscriptionTableSeeder extends Seeder {
         $userA = User::first();
         $localPlanA = Plan::all()->get(0);
         $localPlanB = Plan::all()->get(1);
+
         $planA = \Stripe\Plan::retrieve($localPlanA->gateway_id);
         $planB = \Stripe\Plan::retrieve($localPlanB->gateway_id);
 
-        $token = \Stripe\Token::create([
+        $tokenA = \Stripe\Token::create([
+            'card' => [
+                'number' => '4242424242424242',
+                'exp_month' => 2,
+                'exp_year' => 2021,
+                'cvc' => '314'
+            ]
+        ]);
+        $tokenB = \Stripe\Token::create([
             'card' => [
                 'number' => '4242424242424242',
                 'exp_month' => 2,
@@ -24,14 +34,26 @@ class SubscriptionTableSeeder extends Seeder {
             ]
         ]);
 
-        $subscription = $userA
-            ->newSubscription('main', $planA->id)
-            ->create($token->id);
+        $subscriptionC = new SubscriptionBuilder(
+            $userA,
+            'tertiary',
+            $planA->id
+        );
 
-        $currentSub = $userA->subscription('main');
+        $subscriptionA = $userA
+            ->newSubscription('main', $planA->id)
+            ->create($tokenA->id);
+        $subscriptionB = $userA
+            ->newSubscription('secondary', $planB->id)
+            ->create($tokenB->id);
+
+        //        $currentSub = $userA->subscription('main');
         //        dump($currentSub);
 
-        $subscription->update(['plan_id' => $localPlanA->id]);
+        //        $subscriptionA->cancel();
+
+        $subscriptionA->update(['plan_id' => $localPlanA->id]);
+        $subscriptionB->update(['plan_id' => $localPlanB->id]);
         // $user = User::find(1);
 
         // $subscription = $request->user()->newSubscription('main', 'premium')->create($paymentMethod);
@@ -45,16 +67,17 @@ class SubscriptionTableSeeder extends Seeder {
         factory(Site::class, 1)->create([
             'domain' => 'localhost:84',
             'active' => true,
-            'subscription_id' => $subscription
+            'subscription_id' => $subscriptionA
         ]);
 
         factory(Site::class, 1)->create([
             'domain' => '10.0.75.1:5000',
             'active' => true,
-            'subscription_id' => $subscription
+            'subscription_id' => $subscriptionB
         ]);
 
-        factory(Site::class, 5)->create(['subscription_id' => $subscription]);
+        factory(Site::class, 3)->create(['subscription_id' => $subscriptionA]);
+        factory(Site::class, 3)->create(['subscription_id' => $subscriptionB]);
 
         //
         //        $planName = 'Basic Plan';
