@@ -23,10 +23,7 @@ class CreateUsersTable extends Migration {
                 ->string('profile_image')
                 ->default('/uploads/images/avatar.png');
             $table->string('email')->unique();
-            $table
-                ->string('phone')
-                ->unique()
-                ->nullable();
+            $table->string('phone')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

@@ -22,31 +22,34 @@
 
     <!-- Icons -->
     <link href="{{ asset('argon/vendor/nucleo/css/nucleo.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <!-- Argon CSS -->
 
     <link rel="stylesheet" href="{{ asset('assets/css/argon.mine209.css?v=1.0.0') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" type="text/css">
+
+    <link rel="stylesheet" href="{{ asset('assets/css/vendor/bootstrap-editable.css') }}" type="text/css">
     @yield('styles')
 
 </head>
 
 <body>
-    <div id="app">
+<div id="app">
 
-        <!-- Sidenav -->
-        @include('account.layouts.partials.sidebar')
-        <!-- Main content -->
-        <div class="main-content" id="panel">
-            {{-- @include('layouts.partials._navigation') --}}
-            <!-- Topnav -->
-                @include('account.layouts.partials.topnav')
-            <!-- Header -->
-            <div class="container">
-                @include('layouts.partials.alerts._alerts')
-            </div>
-            <!-- Header -->
-            <div class="header pb-6">
+    <!-- Sidenav -->
+@include('account.layouts.partials.sidebar')
+<!-- Main content -->
+    <div class="main-content" id="panel">
+    {{-- @include('layouts.partials._navigation') --}}
+    <!-- Topnav -->
+    @include('account.layouts.partials.topnav')
+    <!-- Header -->
+        <div class="container">
+            @include('layouts.partials.alerts._alerts')
+        </div>
+        <!-- Header -->
+        <div class="header pb-6">
                 <div class="container-fluid">
                     <div class="header-body">
                         <div class="row align-items-center py-4">
@@ -82,25 +85,27 @@
     <!-- Core -->
     <script src="{{ asset('js/app.js') }}"></script>
 
-    <script src="{{ asset('assets/vendor/js-cookie/js.cookie.js') }}"></script>
-    <script src="{{ asset('assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js') }}"></script>
-    <script src="{{ asset('assets/vendor/lavalamp/js/jquery.lavalamp.min.js') }}"></script>
-    <!-- Optional JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
-    <!-- Argon JS -->
-    <script src="{{ asset('assets/js/argon.mine209.js?v=1.0.0') }}"></script>
-    <!-- Demo JS - remove this in your project -->
-    {{-- <script src="{{ asset('assets/js/demo.min.js') }}"></script> --}}
+<script src="{{ asset('assets/vendor/js-cookie/js.cookie.js') }}"></script>
+<script src="{{ asset('assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/lavalamp/js/jquery.lavalamp.min.js') }}"></script>
+<!-- Optional JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>
+<!-- Argon JS -->
+<script src="{{ asset('assets/js/argon.mine209.js?v=1.0.0') }}"></script>
+<!-- Demo JS - remove this in your project -->
+{{-- <script src="{{ asset('assets/js/demo.min.js') }}"></script> --}}
 
-    <!-- Scripts -->
-    @yield('scripts')
-        <!--Start of Tawk.to Script-->
+<script src="{{ asset('assets/js/vendor/bootstrap-editable.min.js') }}"></script>
+
+<!-- Scripts -->
+@yield('scripts')
+<!--Start of Tawk.to Script-->
 <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-    s1.async=true;
-    s1.src='https://embed.tawk.to/{{ env('TAWKTO_ID') }}/default';
+  var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+  (function () {
+    var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+    s1.async = true;
+    s1.src = 'https://embed.tawk.to/{{ env('TAWKTO_ID') }}/default';
     s1.charset='UTF-8';
     s1.setAttribute('crossorigin','*');
     s0.parentNode.insertBefore(s1,s0);

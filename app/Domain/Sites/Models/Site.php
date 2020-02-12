@@ -3,6 +3,7 @@
 namespace CreatyDev\Domain\Sites\Models;
 
 use CreatyDev\App\Traits\Eloquent\Roles\HasToken;
+use CreatyDev\Http\Api\Controllers\Widget\WidgetController;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -34,84 +35,107 @@ use Laravel\Cashier\Subscription;
  * @mixin Eloquent
  */
 class Site extends Model {
-    use HasToken;
+  use HasToken;
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'active' => 'boolean'
-    ];
+  /**
+   * The attributes that should be cast to native types.
+   *
+   * @var array
+   */
+  protected $casts = [
+    'active' => 'boolean'
+  ];
 
-    /**
-     * Get the host value of domain property.
-     *
-     * @return array|false|int|string|null
-     */
-    public function getDomainHost() {
-        return parse_url($this->domain, PHP_URL_HOST);
+  /**
+   * Get the host value of domain property.
+   *
+   * @return array|false|int|string|null
+   */
+  public function getDomainHost() {
+    return parse_url($this->domain, PHP_URL_HOST);
+  }
+
+  public function getWidgetScriptTag() {
+    $url = action('Api\Controllers\Widget\WidgetController@get');
+    $token = $this->token;
+
+    return "<script crossorigin='anonymous' src='{$url}?token={$token}'></script>";
+  }
+
+  public function activate() {
+    if (!$this->active) {
+      $this->active = true;
+      $this->save();
     }
+    return true;
+  }
 
-    /**
-     * Determine if site is marked as Active.
-     *
-     * @return bool
-     */
-    public function isActive() {
-        return $this->active;
+  public function deactivate() {
+    if ($this->active) {
+      $this->active = false;
+      $this->save();
     }
+    return true;
+  }
 
-    /**
-     * Determine if Subscription is active.
-     *
-     * @return boolean
-     */
-    public function isSubscriptionActive() {
-        return $this->subscription()
-            ->first()
-            ->active();
-    }
+  /**
+   * Determine if site is marked as Active.
+   *
+   * @return bool
+   */
+  public function isActive() {
+    return $this->active;
+  }
 
-    /**
-     * Determine if Subscription is valid.
-     *
-     * @return boolean
-     */
-    public function isSubscriptionValid() {
-        return $this->subscription()
-            ->first()
-            ->valid();
-    }
+  /**
+   * Determine if Subscription is active.
+   *
+   * @return boolean
+   */
+  public function isSubscriptionActive() {
+    return $this->subscription()
+      ->first()
+      ->active();
+  }
 
-    /**
-     * Determine if Site is both active and has a valid Subscription.
-     *
-     * @return bool
-     */
-    public function isValid() {
-        return $this->isActive() && $this->isSubscriptionValid();
-    }
+  /**
+   * Determine if Subscription is valid.
+   *
+   * @return boolean
+   */
+  public function isSubscriptionValid() {
+    return $this->subscription()
+      ->first()
+      ->valid();
+  }
 
-    /**
-     * Get the Subscription record.
-     */
-    public function subscription() {
-        return $this->belongsTo(Subscription::class);
-    }
+  /**
+   * Determine if Site is both active and has a valid Subscription.
+   *
+   * @return bool
+   */
+  public function isValid() {
+    return $this->isActive() && $this->isSubscriptionValid();
+  }
 
-    /**
-     * Get the User record.
-     *
-     * @return mixed
-     */
-    public function user() {
-        return $this->subscription()->user;
-    }
+  /**
+   * Get the Subscription record.
+   */
+  public function subscription() {
+    return $this->belongsTo(Subscription::class);
+  }
 
-    public static function withSubscriptions() {
-        $instance = new static();
-        (new static())::whereToken('asd');
-    }
+  /**
+   * Get the User record.
+   *
+   * @return mixed
+   */
+  public function user() {
+    return $this->subscription()->user;
+  }
+
+  public static function withSubscriptions() {
+    $instance = new static();
+    (new static())::whereToken('asd');
+  }
 }

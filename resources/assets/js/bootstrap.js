@@ -53,7 +53,12 @@ if (token) {
  * allows your team to easily build robust real-time web applications.
  */
 
+// $(document).ready(function () {
+//     $('span[id^="site-active"]').editable();
+// });
+
 // import Echo from 'laravel-echo'
+
 
 // window.Pusher = require('pusher-js');
 

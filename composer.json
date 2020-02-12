@@ -21,10 +21,10 @@
         "laravel/passport": "^7.0",
         "laravel/telescope": "^2.0",
         "laravel/tinker": "^1.0",
+        "php-http/curl-client": "^2.1",
         "pragmarx/countries": "*",
         "sarfraznawaz2005/visitlog": "^1.2",
-        "unisharp/laravel-filemanager": "^1.8",
-      "ext-http": "*"
+        "unisharp/laravel-filemanager": "^1.8"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",

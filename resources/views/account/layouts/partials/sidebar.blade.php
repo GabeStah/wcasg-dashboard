@@ -97,7 +97,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link{{ return_if(on_page('account.subscription.invoice.index'), ' active') }}"
-                                        href="/account/subscription/invoice/invoices">
+                                       href="/account/subscription/invoice/invoices">
                                         Invoices
                                     </a>
                                 </li>
@@ -106,21 +106,21 @@
                                 @subscriptioncancelled
                                 <li class="nav-item">
                                     <a class="nav-link{{ return_if(on_page('account.subscription.resume.index'), ' active') }}"
-                                        href="{{ route('account.subscription.resume.index') }}">
+                                       href="{{ route('account.subscription.resume.index') }}">
                                         Resume subscription
                                     </a>
                                 </li>
                                 @endsubscriptioncancelled
                                 <li class="nav-item">
                                     <a class="nav-link{{ return_if(on_page('account.subscription.card.index'), ' active') }}"
-                                        href="{{ route('account.subscription.card.index') }}">
+                                       href="{{ route('account.subscription.card.index') }}">
                                         Update card
                                     </a>
                                 </li>
                                 @teamsubscription
                                 <li class="nav-item">
                                     <a class="nav-link{{ return_if(on_page('account.subscription.team.index'), ' active') }}"
-                                        href="{{ route('account.subscription.team.index') }}">
+                                       href="{{ route('account.subscription.team.index') }}">
                                         Manage team
                                     </a>
                                 </li>
@@ -130,10 +130,30 @@
                         @endnotpiggybacksubscription
                         @endsubscribed
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ return_if(on_page('account.sites.index'), ' active') }}"
+                           href="#navbar-sites" data-toggle="collapse" role="button"
+                           aria-expanded="false" aria-controls="navbar-sites">
+                            <i class="fa fa-sitemap" aria-hidden="true"></i>
+                            <span class="nav-link-text">Sites</span>
+                        </a>
+                        <!-- Site Links -->
+                        <div class="collapse" id="navbar-sites">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link{{ return_if(on_page('account.sites.index'), ' active') }}"
+                                       href="{{ route('account.sites.index') }}">
+                                        My Sites
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                     @teamsubscription
                     <li class="nav-item">
-                        <a class="nav-link{{ return_if(on_page('account.team.my-team'), ' active') }}" href="#navbar-forms" data-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="navbar-forms">
+                        <a class="nav-link{{ return_if(on_page('account.team.my-team'), ' active') }}"
+                           href="#navbar-forms" data-toggle="collapse" role="button"
+                           aria-expanded="false" aria-controls="navbar-forms">
                             <i class="fas fa-users"></i>
                             <span class="nav-link-text">Team</span>
                         </a>
@@ -141,7 +161,7 @@
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
                                     <a class="nav-link{{ return_if(on_page('account.team.i'), ' active') }}"
-                                        href="{{ route('account.team.my-team') }}">
+                                       href="{{ route('account.team.my-team') }}">
                                         <i class="fas fa-users-cog"></i>
                                         My team
                                     </a>
@@ -151,8 +171,9 @@
                     </li>
                     @endteamsubscription
                     <li class="nav-item">
-                        <a class="nav-link{{ return_if(on_page('developer.index'), ' active') }}" href="#navbar-dev" data-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="navbar-forms">
+                        <a class="nav-link{{ return_if(on_page('developer.index'), ' active') }}" href="#navbar-dev"
+                           data-toggle="collapse" role="button"
+                           aria-expanded="false" aria-controls="navbar-forms">
                             <i class="fas fa-code"></i>
                             <span class="nav-link-text">Developer</span>
                         </a>
@@ -160,7 +181,7 @@
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
                                     <a class="nav-link{{ return_if(on_page('developer.index'), ' active') }}"
-                                        href="{{ route('developer.index') }}">
+                                       href="{{ route('developer.index') }}">
                                         Developer panel
                                     </a>
                                 </li>
