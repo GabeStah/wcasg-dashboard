@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class SitesController extends Controller {
+  /**
+   * View all sites.
+   *
+   * @return Factory|View|string
+   */
   public function index() {
     try {
       $userId = Auth::id();
@@ -24,6 +29,49 @@ class SitesController extends Controller {
     }
   }
 
+  public function create() {
+    try {
+      return view('account.sites.create');
+    } catch (\Exception $ex) {
+      return $ex->getMessage();
+    }
+  }
+
+  public function store() {
+    try {
+      $userId = Auth::id();
+      $user = User::find($userId);
+
+      request()->validate([
+        'domain' => 'required'
+      ]);
+
+      $subscription = $user->subscription();
+      if (!$subscription || !$subscription->valid()) {
+        // Redirect with error
+        die('TODO: No subscription');
+      }
+
+      $site = new Site([
+        'active' => request('active') ? true : false,
+        'domain' => request('domain'),
+        'subscription_id' => $subscription
+      ]);
+
+      $site->save();
+
+      return view('account.sites.index');
+    } catch (\Exception $ex) {
+      return $ex->getMessage();
+    }
+  }
+
+  /**
+   * Edit a site.
+   *
+   * @param $id
+   * @return Factory|View|string
+   */
   public function edit($id) {
     try {
       $userId = Auth::id();
@@ -37,6 +85,8 @@ class SitesController extends Controller {
   }
 
   /**
+   * Update a site.
+   *
    * @param Request $request
    * @param $id
    * @return Factory|View|string

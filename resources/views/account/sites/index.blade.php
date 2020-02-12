@@ -6,10 +6,15 @@
             <div class="col">
                 <div class="card card-default">
                     <div class="card-header border-0">
-                        <h2 class="mb-0"> <i class="fas fa-sitemap"></i>My Sites</h2>
+                        <h2 class="mb-0"><i class="fas fa-sitemap"></i>My Sites</h2>
                     </div>
                     @if($sites->isEmpty())
-                        <h3 class="text-center">Add a site.</h3>
+                        <div class="mx-auto w-auto mb-4">
+                            <a href="{{ route('account.sites.create') }}">
+                                <button class="btn btn-primary w-auto">{{ __('account.site.add-new-button') }}</button>
+                            </a>
+                        </div>
+                    @elseif($sites->isEmpty())
                     @else
                         <div class="table-responsive">
                             <table class="table align-items-center table-flush">

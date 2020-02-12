@@ -11,6 +11,7 @@ class SubscriptionTableSeeder extends Seeder {
   public function run() {
     $faker = Faker\Factory::create();
     $userA = User::first();
+    $userB = User::all()->get(1);
     $localPlanA = Plan::all()->get(0);
     $localPlanB = Plan::all()->get(1);
 
@@ -39,7 +40,7 @@ class SubscriptionTableSeeder extends Seeder {
     $subscriptionA = $userA
       ->newSubscription('main', $planA->id)
       ->create($tokenA->id);
-    $subscriptionB = $userA
+    $subscriptionB = $userB
       ->newSubscription('secondary', $planB->id)
       ->create($tokenB->id);
 

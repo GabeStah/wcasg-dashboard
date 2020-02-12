@@ -300,6 +300,8 @@ Route::group(
     Route::group(['prefix' => '/sites', 'as' => 'sites.'], function () {
       // personal access token index
       Route::get('/', 'SitesController@index')->name('index');
+      Route::post('/', 'SitesController@store')->name('store');
+      Route::get('/create', 'SitesController@create')->name('create');
       Route::get('/{site}/edit', 'SitesController@edit')->name('edit');
       Route::put('/{site}', 'SitesController@update')->name('update');
     });

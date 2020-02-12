@@ -21,7 +21,6 @@ use Laravel\Cashier\Subscription;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property int $subscription_id
- * @property-read Subscription $subscription
  * @method static Builder|Site newModelQuery()
  * @method static Builder|Site newQuery()
  * @method static Builder|Site query()
@@ -36,6 +35,13 @@ use Laravel\Cashier\Subscription;
  */
 class Site extends Model {
   use HasToken;
+
+  /**
+   * The attributes that are mass assignable.
+   *
+   * @var array
+   */
+  protected $fillable = ['active', 'domain', 'subscription_id'];
 
   /**
    * The attributes that should be cast to native types.
