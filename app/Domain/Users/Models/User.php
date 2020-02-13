@@ -3,6 +3,7 @@
 namespace CreatyDev\Domain\Users\Models;
 
 use CreatyDev\Domain\Sites\Models\Site;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use CreatyDev\Solarix\Cashier\Subscription;
 use CreatyDev\Solarix\Traits\Billable;
@@ -101,6 +102,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable {
   use Notifiable,
+    CanResetPassword,
     HasConfirmationToken,
     HasRoles,
     HasPermissions,
