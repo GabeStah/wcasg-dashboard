@@ -8,7 +8,7 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
-use Laravel\Cashier\Subscription;
+use CreatyDev\Solarix\Cashier\Subscription;
 
 /**
  * CreatyDev\Domain\Sites\Models\Site

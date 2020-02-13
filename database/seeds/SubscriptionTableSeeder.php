@@ -5,7 +5,7 @@ use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Database\Seeder;
 use Faker\Generator;
-use Laravel\Cashier\SubscriptionBuilder;
+use CreatyDev\Solarix\Cashier\SubscriptionBuilder;
 
 class SubscriptionTableSeeder extends Seeder {
   public function run() {
