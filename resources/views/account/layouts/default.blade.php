@@ -63,18 +63,18 @@
                                 </nav>
                             </div>
                             <div class="col-lg-6 col-5 text-right">
-                                <a href="#" class="btn btn-sm btn-neutral">New</a>
+                                <a href="{{ route('account.sites.create') }}" class="btn btn-sm btn-neutral">New</a>
                                 <a href="#" class="btn btn-sm btn-neutral">Filters</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Page content -->
-            <div class="container-fluid mt--6">
-                {{-- <div class="row">
-                    
-                </div> --}}
+        </div>
+        <!-- Page content -->
+        <div class="container-fluid mt--6">
+            {{-- <div class="row">
+
+            </div> --}}
                 @yield('content')
             </div>
 
