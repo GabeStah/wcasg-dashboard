@@ -8,15 +8,12 @@
                     <div class="row d-flex align-items-center">
                         <div class="col-md-6">
                             <div class="left">
-                                <h3>Save weeks of time and build your Vue.js & Laravel SaaS app in minutes.</h3>
+                                <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sapien mauris, varius sed tortor in, scelerisque iaculis justo. Nullam molestie eleifend mauris. Nulla dignissim hendrerit est sed pellentesque. </h3>
                                     <p>
-                                        <strong>SaaSWeb provides the Ultimate starter kit for multi-tenant SaaS project on top of Laravel and Vue framework.</strong>
+                                        <strong>Sed eget lectus quis arcu aliquet facilisis vitae nec quam. Sed quam diam, bibendum eget dignissim a, ullamcorper sed lacus. Fusce eget magna elit. Suspendisse ac ipsum et nisl facilisis porttitor in tristique sem. Sed ullamcorper semper egestas.</strong>
                                     </p>
                                     <p>
-                                    SaaSWeb will help you rapidly build your Software as a Service application. Out of the box Authentication,
-                                    Subscriptions, Billing, Team management, Invoices, Support ticket, Notifications, User Profiles, landing page,
-                                    API, two-factor authentication, Statistics, Visitor log, Env editor, Admin Panel to manage Plans, Coupons, Roles,
-                                    Permissions and so much more !
+                                    Nam interdum tristique ante sit amet sagittis. Sed vestibulum ipsum a tortor congue iaculis. Nulla consequat sem id tortor luctus, sit amet tempus lorem eleifend. Sed viverra nec libero eu lobortis. Praesent sodales sagittis semper. Etiam elementum neque sit amet nulla tristique porta. Fusce dictum enim nec nisi tincidunt, non varius neque maximus. Nam id purus sit amet justo ullamcorper volutpat.
                                 </p>
                                 <a href="{{ route('register') }}" class="btn-1">Get Started</a>
                                 <a href="/docs" class="btn-2">View documention</a>
@@ -47,7 +44,7 @@
                         <div class="box">
                             <img src="{{ asset('saas/img/feature-1.png') }}" alt="feature-1">
                             <h3>Multi-tenancy</h3>
-                            <p>Saas web build with support for Multi-tenancy with single database, keeping tenant specific data separated for fully independent, everyone manages their own data and don’t see anyone else’s data
+                            <p>Etiam ac scelerisque justo. Integer arcu risus, posuere in ornare a, euismod non ex. Aenean nec tellus id sapien placerat mollis id quis sapien. 
                             </p>
                         </div>
                     </div>
@@ -56,7 +53,7 @@
                         <div class="box">
                             <img src="{{ asset('saas/img/feature-2.png') }}" alt="feature-1">
                             <h3>Build with Statistics</h3>
-                            <p>Build with Tracker for loging visitor information and save it into database, Discover where each visitor came from, how they interact with your app, and gain deeper insights into what drives them.</p>
+                            <p>Pellentesque dignissim mi et erat ultricies, quis sodales arcu vestibulum. In tincidunt facilisis congue. Mauris sollicitudin quam lectus, a aliquet elit consectetur eget. </p>
                         </div>
                     </div>
                     <!-- Box-3 -->
@@ -64,7 +61,7 @@
                         <div class="box">
                             <img src="{{ asset('saas/img/feature-3.png') }}" alt="feature-1">
                             <h3>Beautiful Design</h3>
-                            <p>Colorful, stylish, and fresh Design, Manage everything from your admin panel, no need to leave confortable place to go to create plan, Coupon etc ... do them on the fly</p>
+                            <p>Cras orci felis, rutrum a libero ut, tempor vehicula massa. Maecenas aliquam libero justo. Vivamus ullamcorper ornare tellus, ut ultrices nulla. </p>
                         </div>
                     </div>
                 </div>
@@ -134,17 +131,13 @@
                     <!-- Right -->
                     <div class="col-md-5">
                         <div class="right">
-                            <span>The features you need to bill like a pro</span>
-                            <h2>Best way to start your SaaS / 
-                                <br>Multi tenant app</h2>
+                            <span>Interdum et malesuada fames ac ante </span>
+                            <h2>Aliquam suscipit varius augue. 
+                                <br>Maximus mauris augue,</h2>
                             <p>
-                                SaaSWeb was created to be a lightweight alternative to Laravel Spark with some new cool features, It is a drop-in 
-                                subscription billing UI powered by Laravel, Stripe and Vue.js components. It allows you to 
-                                focus your time and energy on building
-                                your SaaS app rather than worrying about the complexities of the multi tenant and billing system.
+                                Vestibulum euismod consequat tincidunt. Integer ultricies neque at cursus mattis. Integer laoreet volutpat mollis. Donec porttitor rhoncus mauris, ut lobortis nulla laoreet a. Donec et eros pulvinar nisi pharetra faucibus. Sed ornare eu dui ut ornare. Sed commodo enim a gravida consectetur. 
                                 <br>
-                                Discover where each customer came from, how they interact with your marketing
-                                channels, and gain deeper insights into what drives them to purchase.</p>
+                                Vivamus ultricies malesuada ligula, sit amet consectetur justo sollicitudin sit amet. Pellentesque maximus, libero vitae pulvinar finibus, eros mi iaculis nibh, efficitur faucibus ante arcu a libero. Suspendisse vel porttitor quam. Ut at aliquam magna. In malesuada, leo eget iaculis tincidunt, ex magna sollicitudin mauris, id malesuada nunc mauris in risus.</p>
                             <a href="#0" class="btn-1">Get Started</a>
                         </div>
                     </div>
@@ -179,8 +172,8 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="box mb-30">
                             <img src="{{ asset('img/icons/access.png') }}" width="80" alt="benefits">
-                            <h3>Two-Factor Authentication</h3>
-                            <p>With 2FA, better protect both the user's credentials and the resources the user can access, enabled & disable 2FA</p>
+                            <h3>Mauris nec quam non</h3>
+                            <p>Cras orci felis, rutrum a libero ut, tempor vehicula massa. </p>
 
                         </div>
                     </div>
@@ -188,8 +181,8 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="box mb-30">
                             <img src="{{ asset('img/icons/plan.png') }}" width="80" alt="benefits">
-                            <h3>Subscriptions</h3>
-                            <p>Offer monthly and yearly plans with Stripe. Define plans, coupons directly on the admin panel</p>
+                            <h3>Mauris nec quam non</h3>
+                            <p>Cras orci felis, rutrum a libero ut, tempor vehicula massa. </p>
 
                         </div>
                     </div>
@@ -197,8 +190,8 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="box mb-30">
                             <img src="{{ asset('img/icons/payment.png') }}" width="80" alt="benefits">
-                            <h3>Teams / Team Billing</h3>
-                            <p>Create team plan on the admin panel, users will be able to add team members and assign different roles </p>
+                            <h3>Mauris nec quam non</h3>
+                            <p>Cras orci felis, rutrum a libero ut, tempor vehicula massa.  </p>
 
                         </div>
                     </div>
@@ -206,8 +199,8 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="box">
                             <img src="{{ asset('img/icons/megaphone.png') }}" width="80" alt="benefits">
-                            <h3>Notifications</h3>
-                            <p>Notification System which integrates with the default Laravel notification feature</p>
+                            <h3>Mauris nec quam non</h3>
+                            <p>Cras orci felis, rutrum a libero ut, tempor vehicula massa. </p>
 
                         </div>
                     </div>
@@ -215,8 +208,8 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="box">
                             <img src="{{ asset('img/icons/analysis.png') }}" width="80" alt="benefits">
-                            <h3>User Roles</h3>
-                            <p>Create role and Grant permissions based on roles, Give user or group access to a page or feature within the application.</p>
+                            <h3>Mauris nec quam non</h3>
+                            <p>Cras orci felis, rutrum a libero ut, tempor vehicula massa. </p>
 
                         </div>
                     </div>
@@ -224,8 +217,8 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="box">
                                 <img src="{{ asset('img/icons/api.png') }}" width="80" alt="benefits">
-                            <h3>Functional API</h3>
-                            <p>Ready-to-use API for your application. Generate API tokens and even grant specific abilities to tokens.</p>
+                            <h3>Mauris nec quam non</h3>
+                            <p>Cras orci felis, rutrum a libero ut, tempor vehicula massa. </p>
 
                         </div>
                     </div>
@@ -233,8 +226,8 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="box">
                             <img src="{{ asset('img/icons/password.png') }}" width="80" alt="benefits">
-                            <h3>User Impersonation</h3>
-                            <p>Administrator role can login as another user and resolve an issue or troubleshoot a bug.</p>
+                            <h3>Mauris nec quam non</h3>
+                            <p>Cras orci felis, rutrum a libero ut, tempor vehicula massa. </p>
 
                         </div>
                     </div>
@@ -242,8 +235,8 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="box">
                                 <img src="{{ asset('img/icons/pin.png') }}" width="80" alt="benefits">
-                            <h3>Visitor log</h3>
-                            <p>Log visitor information into database, Location information, region, country, browser, OS, city, zip, unique and non-unique visits based on IP and Allows log authenticated user info etc.</p>
+                            <h3>Mauris nec quam non</h3>
+                            <p>Cras orci felis, rutrum a libero ut, tempor vehicula massa. </p>
 
                         </div>
                     </div>
@@ -251,15 +244,15 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="box">
                                 <img src="{{ asset('img/icons/admin.png') }}" width="80" alt="benefits">
-                            <h3>Admin Panel</h3>
-                            <p>Ready-to-use user interface components that look great. Manage your users, Plans, Coupons, visitors log from your master dashboard – complete with metrics.</p>
+                            <h3>Mauris nec quam non</h3>
+                            <p>Cras orci felis, rutrum a libero ut, tempor vehicula massa. </p>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6">
                         <div class="box">
                             <img src="{{ asset('img/icons/debit-card.png') }}" width="80" alt="benefits">
-                            <h3>Payments</h3>
-                            <p>Monetise your application right now with a powerful billing system that uses Stripe.</p>
+                            <h3>Mauris nec quam non</h3>
+                            <p>Cras orci felis, rutrum a libero ut, tempor vehicula massa. </p>
 
                         </div>
                     </div>
@@ -267,8 +260,8 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="box">
                                 <img src="{{ asset('img/icons/bill.png') }}" width="80" alt="benefits">
-                            <h3>Landing Page</h3>
-                            <p>Launch your app with a beautiful, hand-crafted homepage and pricing page just like this one.</p>
+                            <h3>Mauris nec quam non</h3>
+                            <p>Cras orci felis, rutrum a libero ut, tempor vehicula massa. </p>
 
                         </div>
                     </div>
@@ -276,8 +269,8 @@
                     <div class="col-md-4 col-sm-6">
                         <div class="box">
                                 <img src="{{ asset('img/icons/timeline.png') }}" width="80" alt="benefits">
-                            <h3>New Features</h3>
-                            <p>Get access to all new features and updates, for one year, for free.</p>
+                            <h3>Mauris nec quam non</h3>
+                            <p>Cras orci felis, rutrum a libero ut, tempor vehicula massa. </p>
                         </div>
                     </div>
                 </div>
@@ -288,9 +281,9 @@
         <!-- ======== Start Get Started ======== -->
         <section class="get-started">
             <div class="container text-center">
-                <span>get started</span>
-                <h3>Get a head start on your Laravel SaaS app today</h3>
-                <a href="#0" class="btn-1">Get Started</a>
+                <span>ornare sit </span>
+                <h3>Praesent nisl dolor, suscipit eget laoreet in, iaculis in nunc</h3>
+                <a href="#0" class="btn-1">Ornare Sit</a>
 
             </div>
         </section>
@@ -307,37 +300,36 @@
                     <!-- Box-1 -->
                     <div class="box">
                         <img src="{{ asset('saas/img/testimonials/1.png') }}" alt="" class="m-auto">
-                        <h3>Jack Fritz</h3>
+                        <h3>John Doe</h3>
                         <span>Fullstack Devloper</span>
                         <p>
-                            Using SaaSWeb I was able to build the SAAS of my dreams. It was so easy to get started and customize.
+                             Sed eget lectus quis arcu aliquet facilisis vitae nec quam. Sed quam diam.
                         </p>
                     </div>
                     <!-- Box-1 -->
                     <div class="box">
                         <img src="{{ asset('saas/img/testimonials/2.png') }}" alt="" class="m-auto">
-                        <h3>Mohamed Moaz</h3>
+                        <h3>John Doez</h3>
                         <span>Developer</span>
                         <p>
-                            It's the best solution for creating the Software as a Service of your dreams.
+                             Sed eget lectus quis arcu aliquet facilisis vitae nec quam. Sed quam diam.
                         </p>
                     </div>
                     <!-- Box-1 -->
                     <div class="box">
                         <img src="{{ asset('saas/img/testimonials/3.png') }}" alt="" class="m-auto">
-                        <h3>Pascal Brin</h3>
+                        <h3>John Doe</h3>
                         <span>Developer</span>
                         <p>
-                            Creating a SaaS is now easier with SaaSWeb.
-                            I was able to save my development team hundreds of hours!
+                             Sed eget lectus quis arcu aliquet facilisis vitae nec quam. Sed quam diam
                         </p>
                     </div>
                     <div class="box">
                             <img src="{{ asset('saas/img/testimonials/4.png') }}" alt="" class="m-auto">
-                            <h3>Hector Mark</h3>
+                            <h3>John Doe</h3>
                             <span>Developer</span>
                             <p>
-                                    Everything worked perfectly. I was pleasantly surprised by how user-friendly the whole setup process was.
+                                     Sed eget lectus quis arcu aliquet facilisis vitae nec quam. Sed quam diam.
                             </p>
                         </div>
                 </div>
@@ -446,20 +438,20 @@
                                 <i class="fa fa-phone" aria-hidden="true"></i>
                                 <h4 class="d-inline-block">PHONE :
                                     <br>
-                                    <span>+17867497342 , +50937703581</span></h4>
+                                    <span>+16108888888 , +509999999</span></h4>
                             </div>
                             <!-- Info-2 -->
                             <div class="info d-flex align-items-start">
                                 <i class="fa fa-envelope" aria-hidden="true"></i>
                                 <h4 class="d-inline-block">EMAIL :
                                     <br>
-                                    <span>creatydev@gmail.com</span></h4>
+                                    <span>info@google.com</span></h4>
                             </div>
                             <!-- Info-3 -->
                             <div class="info d-flex align-items-start">
                                 <i class="fa fa-street-view" aria-hidden="true"></i>
                                 <h4 class="d-inline-block">ADDRESS :<br>
-                                    <span>6743 Saudi Arabia Street ,Ryadh, Bahri</span></h4>
+                                    <span>999 N Main, Real City CA 99999</span></h4>
                             </div>
                         </div>
                     </div>
