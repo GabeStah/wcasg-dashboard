@@ -7,32 +7,39 @@ use Illuminate\Support\Facades\Mail;
 use CreatyDev\App\Controllers\Controller;
 use CreatyDev\Domain\Account\Mail\Subscription\SubscriptionCancelled;
 
-class SubscriptionCancelController extends Controller
-{
-    /**
-     * Show cancel subscription form.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('account.subscription.cancel.index');
-    }
+class SubscriptionCancelController extends Controller {
+  /**
+   * Show cancel subscription form.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function index() {
+    return view('account.subscription.cancel.index');
+  }
 
-    /**
-     * Cancel user's active subscription.
-     *
-     * @param Request $request
-     * @return mixed
-     */
-    public function store(Request $request)
-    {
-        $request->user()->subscription('main')->cancel();
+  /**
+   * Cancel user's active subscription.
+   *
+   * @param Request $request
+   * @return mixed
+   */
+  public function store(Request $request) {
+    // TODO: Multi-subscription
+    $request
+      ->user()
+      ->subscription($request->user()->subscriptions->first()->name)
+      ->cancel();
 
-        // send email
-        Mail::to($request->user())->send(new SubscriptionCancelled());
+    //    $request
+    //      ->user()
+    //      ->subscription('main')
+    //      ->cancel();
 
-        return redirect()->route('account.index')
-            ->withSuccess('Your subscription has been cancelled.');
-    }
+    // send email
+    Mail::to($request->user())->send(new SubscriptionCancelled());
+
+    return redirect()
+      ->route('account.index')
+      ->withSuccess('Your subscription has been cancelled.');
+  }
 }

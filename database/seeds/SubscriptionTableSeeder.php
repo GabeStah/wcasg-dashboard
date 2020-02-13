@@ -35,13 +35,13 @@ class SubscriptionTableSeeder extends Seeder {
       ]
     ]);
 
-    $subscriptionC = new SubscriptionBuilder($userA, 'tertiary', $planA->id);
+    $subscriptionC = new SubscriptionBuilder($userA, $planA->id, $planA->id);
 
     $subscriptionA = $userA
-      ->newSubscription('main', $planA->id)
+      ->newSubscription($planA->id, $planA->id)
       ->create($tokenA->id);
     $subscriptionB = $userB
-      ->newSubscription('secondary', $planB->id)
+      ->newSubscription($planA->id, $planA->id)
       ->create($tokenB->id);
 
     //        $currentSub = $userA->subscription('main');

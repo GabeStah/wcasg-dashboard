@@ -27,7 +27,9 @@ class SubscriptionController extends Controller {
    */
   public function store(SubscriptionStoreRequest $request) {
     // TODO: Change 'main' default to plan name?
-    $subscription = $request->user()->newSubscription('main', $request->plan);
+    $subscription = $request
+      ->user()
+      ->newSubscription($request->plan, $request->plan);
     // $user = User::find(1);
 
     // $subscription = $request->user()->newSubscription('main', 'premium')->create($paymentMethod);

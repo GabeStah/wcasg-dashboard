@@ -21,9 +21,14 @@ class SitesController extends Controller {
       $userId = Auth::id();
       $user = User::find($userId);
 
+      $isSubscribed = $user->isSubscribed();
+
       $sites = $user->sites->sortBy('domain');
 
-      return view('account.sites.index', compact('sites'));
+      return view('account.sites.index', [
+        'sites' => $sites,
+        'isSubscribed' => $isSubscribed
+      ]);
     } catch (\Exception $ex) {
       return $ex->getMessage();
     }
@@ -46,8 +51,8 @@ class SitesController extends Controller {
         'domain' => 'required'
       ]);
 
-      $subscription = $user->subscription();
-      if (!$subscription || !$subscription->valid()) {
+      $subscription = $user->validSubscription();
+      if (!$subscription) {
         // Redirect with error
         die('TODO: No subscription');
       }
@@ -55,7 +60,7 @@ class SitesController extends Controller {
       $site = new Site([
         'active' => request('active') ? true : false,
         'domain' => request('domain'),
-        'subscription_id' => $subscription
+        'subscription_id' => $subscription->id
       ]);
 
       $site->save();
