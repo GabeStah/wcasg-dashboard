@@ -4,8 +4,10 @@
     <div class="card">
         <!-- Card header -->
         <div class="card-header">
-                <!-- Title -->
-                <h5 class="h3 mb-0">Update Card : <span><img src="{{ asset('cards/'.auth()->user()->card_brand.'.png') }}" width="45"/> ****** {{ auth()->user()->card_last_four }}</span></h5>
+            <!-- Title -->
+            <h5 class="h3 mb-0">Update Card : <span><i
+                        class="fab fa-{{ fa_icon_from_cc_brand(auth()->user()->card_brand ) }}"></i> **** {{ auth()->user()->card_last_four }}</span>
+            </h5>
         </div>
         <div class="card-body">
             <p class="card-subtitle mb-5">You can securely update your credit card information for future payments.</p>
