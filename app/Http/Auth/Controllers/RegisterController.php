@@ -9,9 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
-class RegisterController extends Controller
-{
-    /*
+class RegisterController extends Controller {
+  /*
     |--------------------------------------------------------------------------
     | Register Controller
     |--------------------------------------------------------------------------
@@ -22,78 +21,75 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+  use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/account/dashboard';
+  /**
+   * Where to redirect users after registration.
+   *
+   * @var string
+   */
+  protected $redirectTo = '/account/dashboard';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
+  /**
+   * Create a new controller instance.
+   *
+   * @return void
+   */
+  public function __construct() {
+    $this->middleware('guest');
+  }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'first_name' => 'required|string|max:30',
-            'last_name' => 'required|string|max:30',
-            'username' => 'nullable|string|max:30|unique:users',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-            'terms' => 'required'
-        ]);
-    }
+  /**
+   * Get a validator for an incoming registration request.
+   *
+   * @param  array $data
+   * @return \Illuminate\Contracts\Validation\Validator
+   */
+  protected function validator(array $data) {
+    return Validator::make($data, [
+      'first_name' => 'required|string|max:30',
+      'last_name' => 'required|string|max:30',
+      'username' => 'nullable|string|max:30|unique:users',
+      'email' => 'required|string|email|max:255|unique:users',
+      'password' => 'required|string|min:6|confirmed',
+      'terms' => 'required'
+    ]);
+  }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array $data
-     * @return \CreatyDev\Domain\Users\Models\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'],
-            'username' => $data['username'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'activated' => false,
-        ]);
-    }
+  /**
+   * Create a new user instance after a valid registration.
+   *
+   * @param array $data
+   * @return User
+   */
+  protected function create(array $data) {
+    return User::create([
+      'first_name' => $data['first_name'],
+      'last_name' => $data['last_name'],
+      'username' => $data['username'],
+      'email' => $data['email'],
+      'password' => bcrypt($data['password']),
+      'activated' => false
+    ]);
+  }
 
-    /**
-     * The user has been registered.
-     *
-     * @param Request $request
-     * @param  mixed $user
-     * @return mixed
-     */
-    protected function registered(Request $request, $user)
-    {
-        //log user out
-        $this->guard()->logout();
+  /**
+   * The user has been registered.
+   *
+   * @param Request $request
+   * @param  mixed $user
+   * @return mixed
+   */
+  protected function registered(Request $request, $user) {
+    //log user out
+    $this->guard()->logout();
 
-        //send user an activation email
-        event(new UserSignedUp($user));
+    //send user an activation email
+    event(new UserSignedUp($user));
 
-        //redirect user
-        return redirect($this->redirectPath())
-            ->withSuccess('Please check your email for an activation link');
-    }
+    //redirect user
+    return redirect($this->redirectPath())->withSuccess(
+      'Please check your email for an activation link'
+    );
+  }
 }

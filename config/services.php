@@ -1,8 +1,7 @@
 <?php
 
 return [
-
-    /*
+  /*
     |--------------------------------------------------------------------------
     | Third Party Services
     |--------------------------------------------------------------------------
@@ -14,28 +13,28 @@ return [
     |
     */
 
-    'mailgun' => [
-        'domain' => env('MAILGUN_DOMAIN'),
-        'secret' => env('MAILGUN_SECRET'),
-    ],
+  'mailgun' => [
+    'domain' => env('MAILGUN_DOMAIN'),
+    'secret' => env('MAILGUN_SECRET')
+  ],
 
-    'ses' => [
-        'key' => env('SES_KEY'),
-        'secret' => env('SES_SECRET'),
-        'region' => 'us-east-1',
-    ],
+  'ses' => [
+    'key' => env('SES_KEY'),
+    'secret' => env('SES_SECRET'),
+    'region' => 'us-east-1'
+  ],
 
-    'sparkpost' => [
-        'secret' => env('SPARKPOST_SECRET'),
-    ],
+  'sparkpost' => [
+    'secret' => env('SPARKPOST_SECRET')
+  ],
 
-    'stripe' => [
-        'model' => CreatyDev\Domain\Users\Models\User::class,
-        'key' => env('STRIPE_KEY'),
-        'secret' => env('STRIPE_SECRET'),
-    ],
+  'stripe' => [
+    'model' => CreatyDev\Domain\Users\Models\User::class,
+    'key' => env('STRIPE_KEY'),
+    'secret' => env('STRIPE_SECRET')
+  ],
 
-    'authy' => [
-        'secret' => env('AUTHY_SECRET'),
-    ],
+  'authy' => [
+    'secret' => env('AUTHY_SECRET')
+  ]
 ];
