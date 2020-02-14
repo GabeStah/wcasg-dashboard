@@ -132,7 +132,14 @@ class User extends Authenticatable {
     'phone',
     'password',
     'activated',
-    'profile_image'
+    'profile_image',
+    'company_name',
+    'address1',
+    'address2',
+    'city',
+    'state',
+    'country',
+    'postal_code'
   ];
 
   /**

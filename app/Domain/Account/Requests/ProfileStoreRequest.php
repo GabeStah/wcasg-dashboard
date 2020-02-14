@@ -25,7 +25,7 @@ class ProfileStoreRequest extends FormRequest {
     return [
       'first_name' => 'required|string|max:40',
       'last_name' => 'required|string|max:40',
-      'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+      'profile_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
       'username' => [
         'nullable',
         'string',
@@ -39,7 +39,14 @@ class ProfileStoreRequest extends FormRequest {
         'email',
         'max:255',
         Rule::unique('users', 'email')->ignore(auth()->id())
-      ]
+      ],
+      'company_name' => ['nullable', 'string', 'max:100'],
+      'address1' => ['nullable', 'string', 'max:100', 'required_with:address2'],
+      'address2' => ['nullable', 'string', 'max:100', 'different:address1'],
+      'city' => ['nullable', 'string', 'max:50'],
+      'state' => ['nullable', 'string', 'max:50'],
+      'country' => ['nullable', 'string', 'max:50'],
+      'postal_code' => ['nullable', 'string', 'max:20']
       //      'password' => ['required', new CurrentPassword()],
     ];
   }

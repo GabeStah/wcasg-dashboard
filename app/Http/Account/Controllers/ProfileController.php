@@ -38,7 +38,14 @@ class ProfileController extends Controller {
           'last_name',
           'username',
           'email',
-          'phone'
+          'phone',
+          'company_name',
+          'address1',
+          'address2',
+          'city',
+          'state',
+          'country',
+          'postal_code'
         ])
       );
 

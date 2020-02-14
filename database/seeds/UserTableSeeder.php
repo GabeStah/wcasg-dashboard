@@ -13,11 +13,9 @@ class UserTableSeeder extends Seeder {
       'first_name' => 'Gabe',
       'last_name' => 'Wyatt',
       'username' => 'gabestah',
-      'phone' => '555-555-1234',
       'email' => 'gabe@solarixdigital.com',
       'password' =>
         '$2y$10$uaVWUaJL27UHi//C0wE3/OOEinMp7qZ04HwQzjII73ML5dELZ.sOG',
-      'remember_token' => str_random(60),
       'activated' => true
     ]);
 
@@ -30,11 +28,9 @@ class UserTableSeeder extends Seeder {
       'first_name' => 'Kyle',
       'last_name' => 'Somerville',
       'username' => 'kyle',
-      'phone' => '555-555-1234',
       'email' => 'kyle@solarixdigital.com',
       'password' =>
         '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm',
-      'remember_token' => str_random(60),
       'activated' => true
     ]);
 
