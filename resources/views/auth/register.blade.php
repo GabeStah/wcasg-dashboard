@@ -11,92 +11,47 @@
                         <form method="POST" action="{{ route('register') }}">
                             {{ csrf_field() }}
 
-                            <div class="form-group row{{ $errors->has('first_name') ? ' has-error' : '' }}">
-                                <label for="first_name" class="col-md-4 control-label">First Name</label>
+                            @component('auth.text-field', ['field' => 'first_name', 'title' => 'First Name', 'required' => true])
+                            @endcomponent
 
-                                <div class="col-md-6">
-                                    <input id="first_name" type="text"
-                                           class="form-control{{ $errors->has('first_name') ? ' is-invalid' : '' }}"
-                                           name="first_name"
-                                           value="{{ old('first_name') }}" required autofocus>
+                            @component('auth.text-field', ['field' => 'last_name', 'title' => 'Last Name', 'required' => true])
+                            @endcomponent
 
-                                    @if ($errors->has('first_name'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('first_name') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
+                            @component('auth.text-field', ['field' => 'username', 'title' => 'Username', 'required' => true])
+                            @endcomponent
 
-                            <div class="form-group row{{ $errors->has('last_name') ? ' has-error' : '' }}">
-                                <label for="last_name" class="col-md-4 control-label">Last Name</label>
+                            @component('auth.text-field', ['field' => 'email', 'title' => 'Email', 'required' => true, 'type' => 'email'])
+                            @endcomponent
 
-                                <div class="col-md-6">
-                                    <input id="last_name" type="text"
-                                           class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}"
-                                           name="last_name"
-                                           value="{{ old('last_name') }}" required autofocus>
+                            @component('auth.text-field', ['field' => 'phone', 'title' => 'Phone'])
+                            @endcomponent
 
-                                    @if ($errors->has('last_name'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('last_name') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
+                            @component('auth.text-field', ['field' => 'company_name', 'title' => 'Company Name'])
+                            @endcomponent
 
-                            <div class="form-group row{{ $errors->has('username') ? ' has-error' : '' }}">
-                                <label for="username" class="col-md-4 control-label">Username</label>
+                            @component('auth.text-field', ['field' => 'address1', 'title' => 'Address'])
+                            @endcomponent
 
-                                <div class="col-md-6">
-                                    <input id="username" type="text"
-                                           class="form-control{{ $errors->has('username') ? ' is-invalid' : '' }}"
-                                           name="username"
-                                           value="{{ old('username') }}" required autofocus>
+                            @component('auth.text-field', ['field' => 'address2', 'title' => 'Address 2'])
+                            @endcomponent
 
-                                    @if ($errors->has('username'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('username') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
+                            @component('auth.text-field', ['field' => 'city', 'title' => 'City'])
+                            @endcomponent
 
-                            <div class="form-group row{{ $errors->has('email') ? ' has-error' : '' }}">
-                                <label for="email" class="col-md-4 control-label">E-Mail Address</label>
+                            @component('auth.text-field', ['field' => 'state', 'title' => 'State'])
+                            @endcomponent
 
-                                <div class="col-md-6">
-                                    <input id="email" type="email"
-                                           class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
-                                           name="email"
-                                           value="{{ old('email') }}" required>
+                            @component('auth.text-field', ['field' => 'postal_code', 'title' => 'Postal Code'])
+                            @endcomponent
 
-                                    @if ($errors->has('email'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('email') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
+                            @component('auth.text-field', ['field' => 'country', 'title' => 'Country', 'default' => 'United States'])
+                            @endcomponent
 
-                            <div class="form-group row{{ $errors->has('password') ? ' has-error' : '' }}">
-                                <label for="password" class="col-md-4 control-label">Password</label>
-
-                                <div class="col-md-6">
-                                    <input id="password" type="password"
-                                           class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                           name="password" required>
-
-                                    @if ($errors->has('password'))
-                                        <div class="invalid-feedback">
-                                            <strong>{{ $errors->first('password') }}</strong>
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
+                            @component('auth.text-field', ['field' => 'password', 'title' => 'Password', 'required' => true, 'type' => 'password'])
+                            @endcomponent
 
                             <div class="form-group row">
-                                <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+                                <label for="password-confirm" class="col-md-4 control-label">Confirm Password *</label>
 
                                 <div class="col-md-6">
                                     <input id="password-confirm" type="password" class="form-control"
@@ -111,7 +66,7 @@
                                                class="custom-control-input{{ $errors->has('terms') ? ' is-invalid' : '' }}"
                                                id="terms">
                                         <label class="custom-control-label" for="terms">
-                                            I accept the <a href="#" target="_blank">terms of service</a>
+                                            I accept the <a href="#" target="_blank">Terms of Service</a>
                                         </label>
 
                                         @if ($errors->has('terms'))

@@ -8,6 +8,7 @@ use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller {
   /*
@@ -46,14 +47,45 @@ class RegisterController extends Controller {
    * @return \Illuminate\Contracts\Validation\Validator
    */
   protected function validator(array $data) {
-    return Validator::make($data, [
-      'first_name' => 'required|string|max:30',
-      'last_name' => 'required|string|max:30',
-      'username' => 'nullable|string|max:30|unique:users',
-      'email' => 'required|string|email|max:255|unique:users',
-      'password' => 'required|string|min:6|confirmed',
+    $rules = [
+      'first_name' => 'required|string|max:40',
+      'last_name' => 'required|string|max:40',
+      //      'profile_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+      'username' => [
+        'nullable',
+        'string',
+        'max:30',
+        Rule::unique('users', 'username')->ignore(auth()->id())
+      ],
+      'phone' => ['nullable', 'string'],
+      'email' => [
+        'required',
+        'string',
+        'email',
+        'max:255',
+        Rule::unique('users', 'email')->ignore(auth()->id())
+      ],
+      'company_name' => ['nullable', 'string', 'max:100'],
+      'address1' => ['nullable', 'string', 'max:100', 'required_with:address2'],
+      'address2' => ['nullable', 'string', 'max:100', 'different:address1'],
+      'city' => ['nullable', 'string', 'max:50'],
+      'state' => ['nullable', 'string', 'max:50'],
+      'country' => ['nullable', 'string', 'max:50'],
+      'postal_code' => ['nullable', 'string', 'max:20'],
       'terms' => 'required'
-    ]);
+      //      'password' => ['required', new CurrentPassword()],
+    ];
+
+    return Validator::make($data, $rules);
+
+    //    return Validator::make($data, [
+    //      'first_name' => 'required|string|max:30',
+    //      'last_name' => 'required|string|max:30',
+    //      'username' => 'nullable|string|max:30|unique:users',
+    //      'email' => 'required|string|email|max:255|unique:users',
+    //      'password' => 'required|string|min:6|confirmed',
+    //      'terms' => 'required'
+    //    ]);
   }
 
   /**
@@ -68,8 +100,16 @@ class RegisterController extends Controller {
       'last_name' => $data['last_name'],
       'username' => $data['username'],
       'email' => $data['email'],
+      'phone' => $data['phone'],
       'password' => bcrypt($data['password']),
-      'activated' => false
+      'activated' => false,
+      'company_name' => $data['company_name'],
+      'address1' => $data['company_name'],
+      'address2' => $data['company_name'],
+      'city' => $data['company_name'],
+      'state' => $data['company_name'],
+      'postal_code' => $data['company_name'],
+      'country' => $data['company_name']
     ]);
   }
 

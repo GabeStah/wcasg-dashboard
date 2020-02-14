@@ -38,7 +38,7 @@ $factory->define(User::class, function (Faker $faker) {
     'address2' => $faker->secondaryAddress,
     'city' => $faker->city,
     'state' => $faker->state,
-    'country' => $faker->country,
-    'postal_code' => $faker->postcode
+    'postal_code' => $faker->postcode,
+    'country' => $faker->country
   ];
 });

@@ -31,19 +31,20 @@
                 </li>
 
             </ul>
-            @guest
+        @guest
             <!---- Modal login and register -->
-            <a href="#myModal" role="button" class="btn-1" data-toggle="modal">Login</a>
-            <!-- SImple login route -->
-            {{-- <a href="/login" role="button" class="btn-1">Login</a> --}}
+            {{--            <a href="#myModal" role="button" class="btn-1" data-toggle="modal">Login</a>--}}
+            <!-- Login route -->
+                <a href="{{ route('login') }}" role="button" class="btn-1">Login</a>
             @else
-            <div>
+                <div>
                 <span class="nav-item dropdown">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         
                         <span class="avatar rounded-circle">
-                            <img alt="Image placeholder" class="rounded-circle" width="50" src="{{ asset('storage'.auth()->user()->image) }}">
+                            <img alt="Image placeholder" class="rounded-circle" width="50"
+                                 src="{{ asset('storage'.auth()->user()->image) }}">
                         </span>
                     </a>
 
