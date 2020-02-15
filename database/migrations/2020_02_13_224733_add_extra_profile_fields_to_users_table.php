@@ -15,13 +15,13 @@ class AddExtraProfileFieldsToUsersTable extends Migration {
       $table->string('company_name', 100)->nullable();
       $table->string('address1', 100)->nullable();
       $table->string('address2', 100)->nullable();
-      $table->string('city', 50)->nullable();
-      $table->string('state', 50)->nullable();
+      $table->string('city', 100)->nullable();
+      $table->string('state', 100)->nullable();
       $table
-        ->string('country', 50)
+        ->string('country', 100)
         ->nullable()
         ->default('United States');
-      $table->string('postal_code', 20)->nullable();
+      $table->string('postal_code', 50)->nullable();
     });
   }
 

@@ -9,11 +9,6 @@ use Tests\TestCase;
 class ApiWidgetTest extends TestCase {
   use ResetDatabase;
 
-  /**
-   * A basic test example.
-   *
-   * @return void
-   */
   public function testEndpoint() {
     $response = $this->get('/api/widget');
 

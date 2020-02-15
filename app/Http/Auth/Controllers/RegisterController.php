@@ -68,10 +68,10 @@ class RegisterController extends Controller {
       'company_name' => ['nullable', 'string', 'max:100'],
       'address1' => ['nullable', 'string', 'max:100', 'required_with:address2'],
       'address2' => ['nullable', 'string', 'max:100', 'different:address1'],
-      'city' => ['nullable', 'string', 'max:50'],
-      'state' => ['nullable', 'string', 'max:50'],
-      'country' => ['nullable', 'string', 'max:50'],
-      'postal_code' => ['nullable', 'string', 'max:20'],
+      'city' => ['nullable', 'string', 'max:100'],
+      'state' => ['nullable', 'string', 'max:100'],
+      'country' => ['nullable', 'string', 'max:100'],
+      'postal_code' => ['nullable', 'string', 'max:50'],
       'terms' => 'required'
       //      'password' => ['required', new CurrentPassword()],
     ];

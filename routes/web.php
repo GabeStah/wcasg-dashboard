@@ -677,3 +677,18 @@ Route::get('/admin', function () {
 /**
  * Sample pages Routes
  */
+
+/**
+ * Statement Routes
+ */
+Route::group(
+  [
+    'namespace' => 'Statement\Controllers',
+    'prefix' => 'statement',
+    'as' => 'statement.'
+  ],
+  function () {
+    // Authentication Routes...
+    Route::get('/', 'StatementController@index')->name('index');
+  }
+);
