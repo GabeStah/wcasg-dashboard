@@ -27,23 +27,20 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\Permission whereUsable($value)
  * @mixin \Eloquent
  */
-class Permission extends Model
-{
-    use OrderableTrait;
+class Permission extends Model {
+  use OrderableTrait;
 
-    protected $fillable = [
-        'name',
-        'usable'
-    ];
+  protected $fillable = ['name', 'usable'];
 
-    /**
-     * The roles that belong to the permission.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'role_permissions')
-            ->withTimestamps();
-    }
+  /**
+   * The roles that belong to the permission.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+   */
+  public function roles() {
+    return $this->belongsToMany(
+      Role::class,
+      'role_permissions'
+    )->withTimestamps();
+  }
 }

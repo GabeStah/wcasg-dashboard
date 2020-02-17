@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 6.5.0 on 2020-02-06 01:22:35.
+ * Generated for Laravel 6.15.1 on 2020-02-17 07:25:19.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -724,6 +724,7 @@ namespace Illuminate\Support\Facades {
          * @param array $headers
          * @return void 
          * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+         * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
          * @static 
          */ 
         public static function abort($code, $message = '', $headers = [])
@@ -2452,6 +2453,7 @@ namespace Illuminate\Support\Facades {
          * @param string $name
          * @param callable $handler
          * @return void 
+         * @throws \InvalidArgumentException
          * @static 
          */ 
         public static function directive($name, $handler)
@@ -2742,6 +2744,20 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Dispatch a command to its appropriate handler after the current process.
+         *
+         * @param mixed $command
+         * @param mixed $handler
+         * @return void 
+         * @static 
+         */ 
+        public static function dispatchAfterResponse($command, $handler = null)
+        {
+                        /** @var \Illuminate\Bus\Dispatcher $instance */
+                        $instance->dispatchAfterResponse($command, $handler);
+        }
+        
+        /**
          * Set the pipes through which commands should be piped before dispatching.
          *
          * @param array $pipes
@@ -2810,6 +2826,48 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Assert if a job was dispatched after the response was sent based on a truth-test callback.
+         *
+         * @param string $command
+         * @param callable|int|null $callback
+         * @return void 
+         * @static 
+         */ 
+        public static function assertDispatchedAfterResponse($command, $callback = null)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        $instance->assertDispatchedAfterResponse($command, $callback);
+        }
+        
+        /**
+         * Assert if a job was pushed after the response was sent a number of times.
+         *
+         * @param string $command
+         * @param int $times
+         * @return void 
+         * @static 
+         */ 
+        public static function assertDispatchedAfterResponseTimes($command, $times = 1)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        $instance->assertDispatchedAfterResponseTimes($command, $times);
+        }
+        
+        /**
+         * Determine if a job was dispatched based on a truth-test callback.
+         *
+         * @param string $command
+         * @param callable|null $callback
+         * @return void 
+         * @static 
+         */ 
+        public static function assertNotDispatchedAfterResponse($command, $callback = null)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        $instance->assertNotDispatchedAfterResponse($command, $callback);
+        }
+        
+        /**
          * Get all of the jobs matching a truth-test callback.
          *
          * @param string $command
@@ -2824,6 +2882,20 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Get all of the jobs dispatched after the response was sent matching a truth-test callback.
+         *
+         * @param string $command
+         * @param callable|null $callback
+         * @return \Illuminate\Support\Collection 
+         * @static 
+         */ 
+        public static function dispatchedAfterResponse($command, $callback = null)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        return $instance->dispatchedAfterResponse($command, $callback);
+        }
+        
+        /**
          * Determine if there are any stored commands for a given class.
          *
          * @param string $command
@@ -2834,6 +2906,19 @@ namespace Illuminate\Support\Facades {
         {
                         /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
                         return $instance->hasDispatched($command);
+        }
+        
+        /**
+         * Determine if there are any stored commands for a given class.
+         *
+         * @param string $command
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasDispatchedAfterResponse($command)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\BusFake $instance */
+                        return $instance->hasDispatchedAfterResponse($command);
         }
          
     }
@@ -2883,6 +2968,18 @@ namespace Illuminate\Support\Facades {
         {
                         /** @var \Illuminate\Cache\CacheManager $instance */
                         return $instance->repository($store);
+        }
+        
+        /**
+         * Re-set the event dispatcher on all resolved cache repositories.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function refreshEventDispatcher()
+        {
+                        /** @var \Illuminate\Cache\CacheManager $instance */
+                        $instance->refreshEventDispatcher();
         }
         
         /**
@@ -3263,7 +3360,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the default cache time.
          *
-         * @return int 
+         * @return int|null 
          * @static 
          */ 
         public static function getDefaultCacheTime()
@@ -3295,6 +3392,18 @@ namespace Illuminate\Support\Facades {
         {
                         /** @var \Illuminate\Cache\Repository $instance */
                         return $instance->getStore();
+        }
+        
+        /**
+         * Get the event dispatcher instance.
+         *
+         * @return \Illuminate\Contracts\Events\Dispatcher 
+         * @static 
+         */ 
+        public static function getEventDispatcher()
+        {
+                        /** @var \Illuminate\Cache\Repository $instance */
+                        return $instance->getEventDispatcher();
         }
         
         /**
@@ -3705,7 +3814,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $key
          * @param mixed $default
-         * @param string $path
+         * @param string|null $path
          * @return \Symfony\Component\HttpFoundation\Cookie 
          * @static 
          */ 
@@ -4076,20 +4185,6 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Bind values to their parameters in the given statement.
-         *
-         * @param \PDOStatement $statement
-         * @param array $bindings
-         * @return void 
-         * @static 
-         */ 
-        public static function bindValues($statement, $bindings)
-        {
-                        /** @var \Illuminate\Database\MySqlConnection $instance */
-                        $instance->bindValues($statement, $bindings);
-        }
-        
-        /**
          * Set the query grammar to the default implementation.
          *
          * @return void 
@@ -4323,6 +4418,21 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Bind values to their parameters in the given statement.
+         *
+         * @param \PDOStatement $statement
+         * @param array $bindings
+         * @return void 
+         * @static 
+         */ 
+        public static function bindValues($statement, $bindings)
+        {
+            //Method inherited from \Illuminate\Database\Connection            
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
+                        $instance->bindValues($statement, $bindings);
+        }
+        
+        /**
          * Prepare the query bindings for execution.
          *
          * @param array $bindings
@@ -4462,6 +4572,19 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Get the current PDO connection parameter without executing any reconnect logic.
+         *
+         * @return \PDO|\Closure|null 
+         * @static 
+         */ 
+        public static function getRawPdo()
+        {
+            //Method inherited from \Illuminate\Database\Connection            
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
+                        return $instance->getRawPdo();
+        }
+        
+        /**
          * Get the current PDO connection used for reading.
          *
          * @return \PDO 
@@ -4472,6 +4595,19 @@ namespace Illuminate\Support\Facades {
             //Method inherited from \Illuminate\Database\Connection            
                         /** @var \Illuminate\Database\MySqlConnection $instance */
                         return $instance->getReadPdo();
+        }
+        
+        /**
+         * Get the current read PDO connection parameter without executing any reconnect logic.
+         *
+         * @return \PDO|\Closure|null 
+         * @static 
+         */ 
+        public static function getRawReadPdo()
+        {
+            //Method inherited from \Illuminate\Database\Connection            
+                        /** @var \Illuminate\Database\MySqlConnection $instance */
+                        return $instance->getRawReadPdo();
         }
         
         /**
@@ -4920,7 +5056,7 @@ namespace Illuminate\Support\Facades {
          * Register an event listener with the dispatcher.
          *
          * @param string|array $events
-         * @param mixed $listener
+         * @param \Closure|string $listener
          * @return void 
          * @static 
          */ 
@@ -4941,6 +5077,19 @@ namespace Illuminate\Support\Facades {
         {
                         /** @var \Illuminate\Events\Dispatcher $instance */
                         return $instance->hasListeners($eventName);
+        }
+        
+        /**
+         * Determine if the given event has any wildcard listeners.
+         *
+         * @param string $eventName
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasWildcardListeners($eventName)
+        {
+                        /** @var \Illuminate\Events\Dispatcher $instance */
+                        return $instance->hasWildcardListeners($eventName);
         }
         
         /**
@@ -5089,6 +5238,45 @@ namespace Illuminate\Support\Facades {
         {
                         /** @var \Illuminate\Events\Dispatcher $instance */
                         return $instance->setQueueResolver($resolver);
+        }
+        
+        /**
+         * Register a custom macro.
+         *
+         * @param string $name
+         * @param object|callable $macro
+         * @return void 
+         * @static 
+         */ 
+        public static function macro($name, $macro)
+        {
+                        \Illuminate\Events\Dispatcher::macro($name, $macro);
+        }
+        
+        /**
+         * Mix another object into the class.
+         *
+         * @param object $mixin
+         * @param bool $replace
+         * @return void 
+         * @throws \ReflectionException
+         * @static 
+         */ 
+        public static function mixin($mixin, $replace = true)
+        {
+                        \Illuminate\Events\Dispatcher::mixin($mixin, $replace);
+        }
+        
+        /**
+         * Checks if macro is registered.
+         *
+         * @param string $name
+         * @return bool 
+         * @static 
+         */ 
+        public static function hasMacro($name)
+        {
+                        return \Illuminate\Events\Dispatcher::hasMacro($name);
         }
         
         /**
@@ -5376,7 +5564,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Create a hard link to the target file or directory.
+         * Create a symlink to the target file or directory. On Windows, a hard link is created if the target is a file.
          *
          * @param string $target
          * @param string $link
@@ -5598,6 +5786,21 @@ namespace Illuminate\Support\Facades {
         {
                         /** @var \Illuminate\Filesystem\Filesystem $instance */
                         return $instance->directories($directory);
+        }
+        
+        /**
+         * Ensure a directory exists.
+         *
+         * @param string $path
+         * @param int $mode
+         * @param bool $recursive
+         * @return void 
+         * @static 
+         */ 
+        public static function ensureDirectoryExists($path, $mode = 493, $recursive = true)
+        {
+                        /** @var \Illuminate\Filesystem\Filesystem $instance */
+                        $instance->ensureDirectoryExists($path, $mode, $recursive);
         }
         
         /**
@@ -6499,7 +6702,7 @@ namespace Illuminate\Support\Facades {
          * Get a log channel instance.
          *
          * @param string|null $channel
-         * @return mixed 
+         * @return \Psr\Log\LoggerInterface 
          * @static 
          */ 
         public static function channel($channel = null)
@@ -6512,7 +6715,7 @@ namespace Illuminate\Support\Facades {
          * Get a log driver instance.
          *
          * @param string|null $driver
-         * @return mixed 
+         * @return \Psr\Log\LoggerInterface 
          * @static 
          */ 
         public static function driver($driver = null)
@@ -7754,6 +7957,20 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Assert if a job was pushed with an empty chain based on a truth-test callback.
+         *
+         * @param string $job
+         * @param callable|null $callback
+         * @return void 
+         * @static 
+         */ 
+        public static function assertPushedWithoutChain($job, $callback = null)
+        {
+                        /** @var \Illuminate\Support\Testing\Fakes\QueueFake $instance */
+                        $instance->assertPushedWithoutChain($job, $callback);
+        }
+        
+        /**
          * Determine if a job was pushed based on a truth-test callback.
          *
          * @param string $job
@@ -8731,7 +8948,7 @@ namespace Illuminate\Support\Facades {
          *
          * @param string|null $param
          * @param mixed $default
-         * @return \Illuminate\Routing\Route|object|string 
+         * @return \Illuminate\Routing\Route|object|string|null 
          * @static 
          */ 
         public static function route($param = null, $default = null)
@@ -8972,7 +9189,7 @@ namespace Illuminate\Support\Facades {
          * 
          * You should only list the reverse proxies that you manage directly.
          *
-         * @param array $proxies A list of trusted proxies
+         * @param array $proxies A list of trusted proxies, the string 'REMOTE_ADDR' will be replaced with $_SERVER['REMOTE_ADDR']
          * @param int $trustedHeaderSet A bit field of Request::HEADER_*, to set which headers to trust from your proxies
          * @throws \InvalidArgumentException When $trustedHeaderSet is invalid
          * @static 
@@ -9112,9 +9329,8 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Sets the Session.
+         * 
          *
-         * @param \Symfony\Component\HttpFoundation\SessionInterface $session The Session
          * @static 
          */ 
         public static function setSession($session)
@@ -9589,6 +9805,7 @@ namespace Illuminate\Support\Facades {
          *  * _format request attribute
          *  * $default
          *
+         * @see getPreferredFormat
          * @param string|null $default The default format
          * @return string|null The request format
          * @static 
@@ -9794,9 +10011,24 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Gets the preferred format for the response by inspecting, in the following order:
+         *   * the request format set using setRequestFormat
+         *   * the values of the Accept HTTP header
+         *   * the content type of the body of the request.
+         *
+         * @static 
+         */ 
+        public static function getPreferredFormat($default = 'html')
+        {
+            //Method inherited from \Symfony\Component\HttpFoundation\Request            
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->getPreferredFormat($default);
+        }
+        
+        /**
          * Returns the preferred language.
          *
-         * @param array $locales An array of ordered available locales
+         * @param string[] $locales An array of ordered available locales
          * @return string|null The preferred locale
          * @static 
          */ 
@@ -10240,14 +10472,30 @@ namespace Illuminate\Support\Facades {
          * Retrieve an input item from the request.
          *
          * @param string|null $key
-         * @param string|array|null $default
-         * @return string|array|null 
+         * @param mixed $default
+         * @return mixed 
          * @static 
          */ 
         public static function input($key = null, $default = null)
         {
                         /** @var \Illuminate\Http\Request $instance */
                         return $instance->input($key, $default);
+        }
+        
+        /**
+         * Retrieve input as a boolean value.
+         * 
+         * Returns true when value is "1", "true", "on", and "yes". Otherwise, returns false.
+         *
+         * @param string|null $key
+         * @param bool $default
+         * @return bool 
+         * @static 
+         */ 
+        public static function boolean($key = null, $default = false)
+        {
+                        /** @var \Illuminate\Http\Request $instance */
+                        return $instance->boolean($key, $default);
         }
         
         /**
@@ -10424,6 +10672,16 @@ namespace Illuminate\Support\Facades {
          *
          * @static 
          */ 
+        public static function validateWithBag($errorBag, $rules, $params = null)
+        {
+                        return \Illuminate\Http\Request::validateWithBag($errorBag, $rules, $params);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
         public static function hasValidSignature($absolute = true)
         {
                         return \Illuminate\Http\Request::hasValidSignature($absolute);
@@ -10480,7 +10738,7 @@ namespace Illuminate\Support\Facades {
         /**
          * Create a new response for a given view.
          *
-         * @param string $view
+         * @param string|array $view
          * @param array $data
          * @param int $status
          * @param array $headers
@@ -11704,6 +11962,18 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
+         * Get all of the view names for the database.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getAllViews()
+        {
+                        /** @var \Illuminate\Database\Schema\MySqlBuilder $instance */
+                        return $instance->getAllViews();
+        }
+        
+        /**
          * Set the default string length for migrations.
          *
          * @param int $length
@@ -11882,6 +12152,7 @@ namespace Illuminate\Support\Facades {
          * @param string $type
          * @return void 
          * @throws \Doctrine\DBAL\DBALException
+         * @throws \RuntimeException
          * @static 
          */ 
         public static function registerCustomDoctrineType($class, $name, $type)
@@ -12856,7 +13127,7 @@ namespace Illuminate\Support\Facades {
          * Store the uploaded file on the disk.
          *
          * @param string $path
-         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile $file
+         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $file
          * @param array $options
          * @return string|false 
          * @static 
@@ -12871,7 +13142,7 @@ namespace Illuminate\Support\Facades {
          * Store the uploaded file on the disk with a given name.
          *
          * @param string $path
-         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile $file
+         * @param \Illuminate\Http\File|\Illuminate\Http\UploadedFile|string $file
          * @param string $name
          * @param array $options
          * @return string|false 
@@ -13876,6 +14147,59 @@ namespace Illuminate\Support\Facades {
         /**
          * Get the evaluated view contents for the given view.
          *
+         * @param string|array $view
+         * @param array $data
+         * @param array $mergeData
+         * @return \Illuminate\Contracts\View\View|\Wpb\String_Blade_Compiler\StringView 
+         * @static 
+         */ 
+        public static function make($view, $data = [], $mergeData = [])
+        {
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
+                        return $instance->make($view, $data, $mergeData);
+        }
+        
+        /**
+         * Flush all of the section contents if done rendering.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushStateIfDoneRendering()
+        {
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
+                        $instance->flushStateIfDoneRendering();
+        }
+        
+        /**
+         * Flush all of the factory state like sections and stacks.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function flushState()
+        {
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
+                        $instance->flushState();
+        }
+        
+        /**
+         * Get the appropriate view engine for the given string key.
+         *
+         * @param string $stringkey
+         * @return \Illuminate\Contracts\View\Engine ['file', 'php', 'blade', 'stringblade'] in StringBladeServiceProvider:registerEngineResolver
+         * @throws \InvalidArgumentException
+         * @static 
+         */ 
+        public static function getEngineFromStringKey($stringkey)
+        {
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
+                        return $instance->getEngineFromStringKey($stringkey);
+        }
+        
+        /**
+         * Get the evaluated view contents for the given view.
+         *
          * @param string $path
          * @param \Illuminate\Contracts\Support\Arrayable|array $data
          * @param array $mergeData
@@ -13884,23 +14208,9 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function file($path, $data = [], $mergeData = [])
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->file($path, $data, $mergeData);
-        }
-        
-        /**
-         * Get the evaluated view contents for the given view.
-         *
-         * @param string $view
-         * @param \Illuminate\Contracts\Support\Arrayable|array $data
-         * @param array $mergeData
-         * @return \Illuminate\Contracts\View\View 
-         * @static 
-         */ 
-        public static function make($view, $data = [], $mergeData = [])
-        {
-                        /** @var \Illuminate\View\Factory $instance */
-                        return $instance->make($view, $data, $mergeData);
         }
         
         /**
@@ -13915,7 +14225,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function first($views, $data = [], $mergeData = [])
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->first($views, $data, $mergeData);
         }
         
@@ -13931,7 +14242,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function renderWhen($condition, $view, $data = [], $mergeData = [])
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->renderWhen($condition, $view, $data, $mergeData);
         }
         
@@ -13947,7 +14259,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function renderEach($view, $data, $iterator, $empty = 'raw|')
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->renderEach($view, $data, $iterator, $empty);
         }
         
@@ -13960,7 +14273,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function exists($view)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->exists($view);
         }
         
@@ -13974,7 +14288,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getEngineFromPath($path)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->getEngineFromPath($path);
         }
         
@@ -13988,7 +14303,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function share($key, $value = null)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->share($key, $value);
         }
         
@@ -14000,7 +14316,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function incrementRender()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->incrementRender();
         }
         
@@ -14012,7 +14329,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function decrementRender()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->decrementRender();
         }
         
@@ -14024,7 +14342,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function doneRendering()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->doneRendering();
         }
         
@@ -14037,7 +14356,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function addLocation($location)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->addLocation($location);
         }
         
@@ -14046,12 +14366,13 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $namespace
          * @param string|array $hints
-         * @return \Illuminate\View\Factory 
+         * @return \Wpb\String_Blade_Compiler\Factory 
          * @static 
          */ 
         public static function addNamespace($namespace, $hints)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->addNamespace($namespace, $hints);
         }
         
@@ -14060,12 +14381,13 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $namespace
          * @param string|array $hints
-         * @return \Illuminate\View\Factory 
+         * @return \Wpb\String_Blade_Compiler\Factory 
          * @static 
          */ 
         public static function prependNamespace($namespace, $hints)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->prependNamespace($namespace, $hints);
         }
         
@@ -14074,12 +14396,13 @@ namespace Illuminate\Support\Facades {
          *
          * @param string $namespace
          * @param string|array $hints
-         * @return \Illuminate\View\Factory 
+         * @return \Wpb\String_Blade_Compiler\Factory 
          * @static 
          */ 
         public static function replaceNamespace($namespace, $hints)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->replaceNamespace($namespace, $hints);
         }
         
@@ -14094,32 +14417,9 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function addExtension($extension, $engine, $resolver = null)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->addExtension($extension, $engine, $resolver);
-        }
-        
-        /**
-         * Flush all of the factory state like sections and stacks.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function flushState()
-        {
-                        /** @var \Illuminate\View\Factory $instance */
-                        $instance->flushState();
-        }
-        
-        /**
-         * Flush all of the section contents if done rendering.
-         *
-         * @return void 
-         * @static 
-         */ 
-        public static function flushStateIfDoneRendering()
-        {
-                        /** @var \Illuminate\View\Factory $instance */
-                        $instance->flushStateIfDoneRendering();
         }
         
         /**
@@ -14130,7 +14430,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getExtensions()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->getExtensions();
         }
         
@@ -14142,7 +14443,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getEngineResolver()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->getEngineResolver();
         }
         
@@ -14154,7 +14456,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getFinder()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->getFinder();
         }
         
@@ -14167,7 +14470,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function setFinder($finder)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->setFinder($finder);
         }
         
@@ -14179,7 +14483,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function flushFinderCache()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->flushFinderCache();
         }
         
@@ -14191,7 +14496,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getDispatcher()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->getDispatcher();
         }
         
@@ -14204,7 +14510,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function setDispatcher($events)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->setDispatcher($events);
         }
         
@@ -14216,7 +14523,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getContainer()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->getContainer();
         }
         
@@ -14229,7 +14537,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function setContainer($container)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->setContainer($container);
         }
         
@@ -14243,7 +14552,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function shared($key, $default = null)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->shared($key, $default);
         }
         
@@ -14255,7 +14565,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getShared()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->getShared();
         }
         
@@ -14269,7 +14580,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function macro($name, $macro)
         {
-                        \Illuminate\View\Factory::macro($name, $macro);
+            //Method inherited from \Illuminate\View\Factory            
+                        \Wpb\String_Blade_Compiler\Factory::macro($name, $macro);
         }
         
         /**
@@ -14283,7 +14595,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function mixin($mixin, $replace = true)
         {
-                        \Illuminate\View\Factory::mixin($mixin, $replace);
+            //Method inherited from \Illuminate\View\Factory            
+                        \Wpb\String_Blade_Compiler\Factory::mixin($mixin, $replace);
         }
         
         /**
@@ -14295,7 +14608,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function hasMacro($name)
         {
-                        return \Illuminate\View\Factory::hasMacro($name);
+            //Method inherited from \Illuminate\View\Factory            
+                        return \Wpb\String_Blade_Compiler\Factory::hasMacro($name);
         }
         
         /**
@@ -14308,7 +14622,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function startComponent($name, $data = [])
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->startComponent($name, $data);
         }
         
@@ -14322,7 +14637,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function startComponentFirst($names, $data = [])
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->startComponentFirst($names, $data);
         }
         
@@ -14334,7 +14650,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function renderComponent()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->renderComponent();
         }
         
@@ -14348,7 +14665,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function slot($name, $content = null)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->slot($name, $content);
         }
         
@@ -14360,7 +14678,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function endSlot()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->endSlot();
         }
         
@@ -14374,7 +14693,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function creator($views, $callback)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->creator($views, $callback);
         }
         
@@ -14387,7 +14707,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function composers($composers)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->composers($composers);
         }
         
@@ -14401,7 +14722,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function composer($views, $callback)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->composer($views, $callback);
         }
         
@@ -14414,7 +14736,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function callComposer($view)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->callComposer($view);
         }
         
@@ -14427,7 +14750,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function callCreator($view)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->callCreator($view);
         }
         
@@ -14441,7 +14765,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function startSection($section, $content = null)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->startSection($section, $content);
         }
         
@@ -14455,7 +14780,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function inject($section, $content)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->inject($section, $content);
         }
         
@@ -14467,7 +14793,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function yieldSection()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->yieldSection();
         }
         
@@ -14481,7 +14808,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function stopSection($overwrite = false)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->stopSection($overwrite);
         }
         
@@ -14494,7 +14822,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function appendSection()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->appendSection();
         }
         
@@ -14508,7 +14837,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function yieldContent($section, $default = '')
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->yieldContent($section, $default);
         }
         
@@ -14521,7 +14851,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function parentPlaceholder($section = '')
         {
-                        return \Illuminate\View\Factory::parentPlaceholder($section);
+            //Method inherited from \Illuminate\View\Factory            
+                        return \Wpb\String_Blade_Compiler\Factory::parentPlaceholder($section);
         }
         
         /**
@@ -14533,7 +14864,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function hasSection($name)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->hasSection($name);
         }
         
@@ -14547,7 +14879,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getSection($name, $default = null)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->getSection($name, $default);
         }
         
@@ -14559,7 +14892,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getSections()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->getSections();
         }
         
@@ -14571,7 +14905,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function flushSections()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->flushSections();
         }
         
@@ -14584,7 +14919,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function addLoop($data)
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->addLoop($data);
         }
         
@@ -14596,7 +14932,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function incrementLoopIndices()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->incrementLoopIndices();
         }
         
@@ -14608,7 +14945,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function popLoop()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->popLoop();
         }
         
@@ -14620,7 +14958,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getLastLoop()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->getLastLoop();
         }
         
@@ -14632,7 +14971,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function getLoopStack()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->getLoopStack();
         }
         
@@ -14646,7 +14986,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function startPush($section, $content = '')
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->startPush($section, $content);
         }
         
@@ -14659,7 +15000,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function stopPush()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->stopPush();
         }
         
@@ -14673,7 +15015,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function startPrepend($section, $content = '')
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->startPrepend($section, $content);
         }
         
@@ -14686,7 +15029,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function stopPrepend()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->stopPrepend();
         }
         
@@ -14700,7 +15044,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function yieldPushContent($section, $default = '')
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->yieldPushContent($section, $default);
         }
         
@@ -14712,7 +15057,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function flushStacks()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->flushStacks();
         }
         
@@ -14725,7 +15071,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function startTranslation($replacements = [])
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         $instance->startTranslation($replacements);
         }
         
@@ -14737,7 +15084,8 @@ namespace Illuminate\Support\Facades {
          */ 
         public static function renderTranslation()
         {
-                        /** @var \Illuminate\View\Factory $instance */
+            //Method inherited from \Illuminate\View\Factory            
+                        /** @var \Wpb\String_Blade_Compiler\Factory $instance */
                         return $instance->renderTranslation();
         }
          
@@ -15851,10 +16199,32 @@ namespace Facade\Ignition\Facades {
          *
          * @static 
          */ 
+        public static function registerFlareHandlers()
+        {
+                        /** @var \Facade\FlareClient\Flare $instance */
+                        return $instance->registerFlareHandlers();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
         public static function registerExceptionHandler()
         {
                         /** @var \Facade\FlareClient\Flare $instance */
                         return $instance->registerExceptionHandler();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function registerErrorHandler()
+        {
+                        /** @var \Facade\FlareClient\Flare $instance */
+                        return $instance->registerErrorHandler();
         }
         
         /**
@@ -15899,6 +16269,17 @@ namespace Facade\Ignition\Facades {
         {
                         /** @var \Facade\FlareClient\Flare $instance */
                         return $instance->handleException($throwable);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function handleError($code, $message, $file = '', $line = 0)
+        {
+                        /** @var \Facade\FlareClient\Flare $instance */
+                        return $instance->handleError($code, $message, $file, $line);
         }
         
         /**
@@ -16152,6 +16533,353 @@ namespace Sarfraznawaz2005\VisitLog\Facades {
  
 }
 
+namespace Wpb\String_Blade_Compiler\Facades { 
+
+    /**
+     * 
+     *
+     * @method static bool exists(string $view)
+     * @method static \Illuminate\Contracts\View\View file(string $path, array $data = [], array $mergeData = [])
+     * @method static \Illuminate\Contracts\View\View make(string $view, array $data = [], array $mergeData = [])
+     * @method static mixed share(array|string $key, $value = null)
+     * @method static array composer(array|string $views, \Closure|string $callback)
+     * @method static array creator(array|string $views, \Closure|string $callback)
+     * @method static \Illuminate\Contracts\View\Factory addNamespace(string $namespace, string|array $hints)
+     * @method static \Illuminate\Contracts\View\Factory replaceNamespace(string $namespace, string|array $hints)
+     * @see StringBladeCompiler
+     */ 
+    class StringBlade {
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function setViewData($viewData)
+        {
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        return $instance->setViewData($viewData);
+        }
+        
+        /**
+         * Compile the view at the given path.
+         *
+         * @param object $viewData
+         * @return void 
+         * @static 
+         */ 
+        public static function compile($viewData = null)
+        {
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->compile($viewData);
+        }
+        
+        /**
+         * Get the path to the compiled version of a view.
+         *
+         * @param string $path
+         * @return string 
+         * @static 
+         */ 
+        public static function getCompiledPath($viewData)
+        {
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        return $instance->getCompiledPath($viewData);
+        }
+        
+        /**
+         * Determine if the view at the given path is expired.
+         *
+         * @param object $viewData
+         * @return bool 
+         * @static 
+         */ 
+        public static function isExpired($viewData)
+        {
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        return $instance->isExpired($viewData);
+        }
+        
+        /**
+         * Sets the content tags used for the compiler.
+         *
+         * @deprecated This feature was removed from Laravel (https://github.com/laravel/framework/issues/17736)
+         * @param string $openTag
+         * @param string $closeTag
+         * @param bool $escaped
+         * @return void 
+         * @static 
+         */ 
+        public static function setRawTags($openTag, $closeTag, $escaped = true)
+        {
+            //Method inherited from \Wpb\String_Blade_Compiler\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->setRawTags($openTag, $closeTag, $escaped);
+        }
+        
+        /**
+         * Sets the content tags used for the compiler.
+         *
+         * @deprecated This feature was removed from Laravel (https://github.com/laravel/framework/issues/17736)
+         * @param string $openTag
+         * @param string $closeTag
+         * @param bool $escaped
+         * @return void 
+         * @static 
+         */ 
+        public static function setContentTags($openTag, $closeTag, $escaped = true)
+        {
+            //Method inherited from \Wpb\String_Blade_Compiler\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->setContentTags($openTag, $closeTag, $escaped);
+        }
+        
+        /**
+         * Sets the escape tags used for the compiler.
+         *
+         * @deprecated This feature was removed from Laravel (https://github.com/laravel/framework/issues/17736)
+         * @param string $openTag
+         * @param string $closeTag
+         * @param bool $escaped
+         * @return void 
+         * @static 
+         */ 
+        public static function setEscapeTags($openTag, $closeTag, $escaped = true)
+        {
+            //Method inherited from \Wpb\String_Blade_Compiler\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->setEscapeTags($openTag, $closeTag, $escaped);
+        }
+        
+        /**
+         * Enable/Disable force recompile of templates.
+         *
+         * @param bool $recompile
+         * @return void 
+         * @static 
+         */ 
+        public static function setForceTemplateRecompile($recompile = true)
+        {
+            //Method inherited from \Wpb\String_Blade_Compiler\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->setForceTemplateRecompile($recompile);
+        }
+        
+        /**
+         * Get the path currently being compiled.
+         *
+         * @return string 
+         * @static 
+         */ 
+        public static function getPath()
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        return $instance->getPath();
+        }
+        
+        /**
+         * Set the path currently being compiled.
+         *
+         * @param string $path
+         * @return void 
+         * @static 
+         */ 
+        public static function setPath($path)
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->setPath($path);
+        }
+        
+        /**
+         * Compile the given Blade template contents.
+         *
+         * @param string $value
+         * @return string 
+         * @static 
+         */ 
+        public static function compileString($value)
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        return $instance->compileString($value);
+        }
+        
+        /**
+         * Strip the parentheses from the given expression.
+         *
+         * @param string $expression
+         * @return string 
+         * @static 
+         */ 
+        public static function stripParentheses($expression)
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        return $instance->stripParentheses($expression);
+        }
+        
+        /**
+         * Register a custom Blade compiler.
+         *
+         * @param callable $compiler
+         * @return void 
+         * @static 
+         */ 
+        public static function extend($compiler)
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->extend($compiler);
+        }
+        
+        /**
+         * Get the extensions used by the compiler.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getExtensions()
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        return $instance->getExtensions();
+        }
+        
+        /**
+         * Register an "if" statement directive.
+         *
+         * @param string $name
+         * @param callable $callback
+         * @return void 
+         * @static 
+         */ 
+        public static function if($name, $callback)
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->if($name, $callback);
+        }
+        
+        /**
+         * Check the result of a condition.
+         *
+         * @param string $name
+         * @param array $parameters
+         * @return bool 
+         * @static 
+         */ 
+        public static function check($name, $parameters = null)
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        return $instance->check($name, $parameters);
+        }
+        
+        /**
+         * Register a component alias directive.
+         *
+         * @param string $path
+         * @param string|null $alias
+         * @return void 
+         * @static 
+         */ 
+        public static function component($path, $alias = null)
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->component($path, $alias);
+        }
+        
+        /**
+         * Register an include alias directive.
+         *
+         * @param string $path
+         * @param string|null $alias
+         * @return void 
+         * @static 
+         */ 
+        public static function include($path, $alias = null)
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->include($path, $alias);
+        }
+        
+        /**
+         * Register a handler for custom directives.
+         *
+         * @param string $name
+         * @param callable $handler
+         * @return void 
+         * @throws \InvalidArgumentException
+         * @static 
+         */ 
+        public static function directive($name, $handler)
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->directive($name, $handler);
+        }
+        
+        /**
+         * Get the list of custom directives.
+         *
+         * @return array 
+         * @static 
+         */ 
+        public static function getCustomDirectives()
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        return $instance->getCustomDirectives();
+        }
+        
+        /**
+         * Set the echo format to be used by the compiler.
+         *
+         * @param string $format
+         * @return void 
+         * @static 
+         */ 
+        public static function setEchoFormat($format)
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->setEchoFormat($format);
+        }
+        
+        /**
+         * Set the "echo" format to double encode entities.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function withDoubleEncoding()
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->withDoubleEncoding();
+        }
+        
+        /**
+         * Set the "echo" format to not double encode entities.
+         *
+         * @return void 
+         * @static 
+         */ 
+        public static function withoutDoubleEncoding()
+        {
+            //Method inherited from \Illuminate\View\Compilers\BladeCompiler            
+                        /** @var \Wpb\String_Blade_Compiler\Compilers\StringBladeCompiler $instance */
+                        $instance->withoutDoubleEncoding();
+        }
+         
+    }
+ 
+}
+
 
 namespace  { 
 
@@ -16283,6 +17011,22 @@ namespace  {
             {
                                 /** @var \Illuminate\Database\Eloquent\Builder $instance */
                                 return $instance->where($column, $operator, $value, $boolean);
+            }
+         
+            /**
+             * Add a basic where clause to the query, and return the first result.
+             *
+             * @param \Closure|string|array $column
+             * @param mixed $operator
+             * @param mixed $value
+             * @param string $boolean
+             * @return \Illuminate\Database\Eloquent\Model|static 
+             * @static 
+             */ 
+            public static function firstWhere($column, $operator = null, $value = null, $boolean = 'and')
+            {
+                                /** @var \Illuminate\Database\Eloquent\Builder $instance */
+                                return $instance->firstWhere($column, $operator, $value, $boolean);
             }
          
             /**
@@ -16496,7 +17240,7 @@ namespace  {
             /**
              * Execute the query as a "select" statement.
              *
-             * @param array $columns
+             * @param array|string $columns
              * @return \Illuminate\Database\Eloquent\Collection|static[] 
              * @static 
              */ 
@@ -16509,7 +17253,7 @@ namespace  {
             /**
              * Get the hydrated models without eager loading.
              *
-             * @param array $columns
+             * @param array|string $columns
              * @return \Illuminate\Database\Eloquent\Model[]|static[] 
              * @static 
              */ 
@@ -16561,7 +17305,7 @@ namespace  {
             /**
              * Paginate the given query.
              *
-             * @param int $perPage
+             * @param int|null $perPage
              * @param array $columns
              * @param string $pageName
              * @param int|null $page
@@ -16578,7 +17322,7 @@ namespace  {
             /**
              * Paginate the given query into a simple paginator.
              *
-             * @param int $perPage
+             * @param int|null $perPage
              * @param array $columns
              * @param string $pageName
              * @param int|null $page
@@ -16867,8 +17611,8 @@ namespace  {
              *
              * @param callable $callback
              * @param int $count
-             * @param string $column
-             * @param string $alias
+             * @param string|null $column
+             * @param string|null $alias
              * @return bool 
              * @static 
              */ 
@@ -16881,7 +17625,7 @@ namespace  {
             /**
              * Execute the query and get the first result.
              *
-             * @param array $columns
+             * @param array|string $columns
              * @return \Illuminate\Database\Eloquent\Model|object|static|null 
              * @static 
              */ 
@@ -16943,6 +17687,7 @@ namespace  {
              * @param string $boolean
              * @param \Closure|null $callback
              * @return \Illuminate\Database\Eloquent\Builder|static 
+             * @throws \RuntimeException
              * @static 
              */ 
             public static function has($relation, $operator = '>=', $count = 1, $boolean = 'and', $callback = null)
@@ -18055,6 +18800,7 @@ namespace  {
              * @param array $values
              * @param string $boolean
              * @return \Illuminate\Database\Query\Builder 
+             * @throws \InvalidArgumentException
              * @static 
              */ 
             public static function whereRowValues($columns, $operator, $values, $boolean = 'and')
@@ -19023,6 +19769,8 @@ namespace  {
     class Image extends \Intervention\Image\Facades\Image {}
 
     class VisitLog extends \Sarfraznawaz2005\VisitLog\Facades\VisitLog {}
+
+    class StringBlade extends \Wpb\String_Blade_Compiler\Facades\StringBlade {}
  
 }
 

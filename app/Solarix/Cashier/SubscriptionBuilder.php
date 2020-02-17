@@ -23,11 +23,13 @@ class SubscriptionBuilder extends CashierSubscriptionBuilder {
    * Create a new Stripe subscription.
    *
    * @param string|null $token
-   * @param array $options
+   * @param array       $options
+   * @param int|null    $planId
+   *
    * @return Subscription
    * @throws SubscriptionCreationFailed
    */
-  public function create($token = null, array $options = []) {
+  public function create($token = null, array $options = [], $planId = null) {
     $customer = $this->getStripeCustomer($token, $options);
 
     $subscription = $customer->subscriptions->create($this->buildPayload());
@@ -44,9 +46,6 @@ class SubscriptionBuilder extends CashierSubscriptionBuilder {
       $trialEndsAt = $this->trialExpires;
     }
 
-    // Get plan id
-    $plan = Plan::where('gateway_id', $this->plan)->first();
-
     return $this->owner->subscriptions()->create([
       'name' => $this->name,
       'stripe_id' => $subscription->id,
@@ -54,7 +53,9 @@ class SubscriptionBuilder extends CashierSubscriptionBuilder {
       'quantity' => $this->quantity,
       'trial_ends_at' => $trialEndsAt,
       'ends_at' => null,
-      'plan_id' => $plan->id
+      'plan_id' => !is_null($planId)
+        ? $planId
+        : Plan::where('gateway_id', $this->plan)->first()->id
     ]);
   }
 }

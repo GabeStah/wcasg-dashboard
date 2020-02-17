@@ -27,19 +27,14 @@ use CreatyDev\Domain\Users\Models\User;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Ticket\Models\Comment whereUserId($value)
  * @mixin \Eloquent
  */
-class Comment extends Model
-{
-    protected $fillable = [
-    'ticket_id', 'user_id', 'comment'
-    ];
+class Comment extends Model {
+  protected $fillable = ['ticket_id', 'user_id', 'comment'];
 
-    public function ticket()
-    {
-        return $this->belongsTo(Ticket::class);
-    }
+  public function ticket() {
+    return $this->belongsTo(Ticket::class);
+  }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+  public function user() {
+    return $this->belongsTo(User::class);
+  }
 }

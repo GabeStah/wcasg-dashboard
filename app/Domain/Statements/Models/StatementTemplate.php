@@ -5,6 +5,24 @@ namespace CreatyDev\Domain\Statements\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * CreatyDev\Domain\Statements\Models\StatementTemplate
+ *
+ * @property int                             $id
+ * @property string                          $content
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read int|null                   $statements_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Statements\Models\StatementTemplate newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Statements\Models\StatementTemplate newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Statements\Models\StatementTemplate query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Statements\Models\StatementTemplate whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Statements\Models\StatementTemplate whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Statements\Models\StatementTemplate whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Statements\Models\StatementTemplate whereUpdatedAt($value)
+ * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Statements\Models\Statement[] $statements
+ */
 class StatementTemplate extends Model {
   protected $fillable = ['content'];
 

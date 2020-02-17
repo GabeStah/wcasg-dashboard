@@ -3,35 +3,36 @@
 namespace CreatyDev\Domain\Sites\Models;
 
 use CreatyDev\App\Traits\Eloquent\Roles\HasToken;
-use CreatyDev\Http\Api\Controllers\Widget\WidgetController;
-use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
+use CreatyDev\Domain\Statements\Models\Statement;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use CreatyDev\Solarix\Cashier\Subscription;
 
 /**
  * CreatyDev\Domain\Sites\Models\Site
  *
- * @property boolean active
- * @property int $id
- * @property string $domain Root domain name + TLD.
- * @property bool Set by 'User'.  If 'true', allow incoming Widget requests to succeed, else fail.
- * @property string $token Unique identifier to be used in API requests.
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * @property int $subscription_id
- * @method static Builder|Site newModelQuery()
- * @method static Builder|Site newQuery()
- * @method static Builder|Site query()
- * @method static Builder|Site whereActive($value)
- * @method static Builder|Site whereCreatedAt($value)
- * @method static Builder|Site whereDomain($value)
- * @method static Builder|Site whereId($value)
- * @method static Builder|Site whereSubscriptionId($value)
- * @method static Builder|Site whereToken($value)
- * @method static Builder|Site whereUpdatedAt($value)
- * @mixin Eloquent
+ * @property int                                                $id
+ * @property string                                             $domain Root domain name + TLD.
+ * @property bool                                               $active Set by 'User'.  If 'true', allow incoming Widget
+ *           requests to succeed, else fail.
+ * @property string                                             $token  Unique identifier to be used in API requests.
+ * @property \Illuminate\Support\Carbon|null                    $created_at
+ * @property \Illuminate\Support\Carbon|null                    $updated_at
+ * @property int                                                $subscription_id
+ * @property-read \CreatyDev\Solarix\Cashier\Subscription       $subscription
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site whereActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site whereDomain($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site whereSubscriptionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site whereUpdatedAt($value)
+ * @mixin \Eloquent
+ * @property-read \CreatyDev\Domain\Statements\Models\Statement $statement
+ * @property-read int|null                                      $statements_count
  */
 class Site extends Model {
   use HasToken;
@@ -58,7 +59,9 @@ class Site extends Model {
    * @return array|false|int|string|null
    */
   public function getDomainHost() {
-    return parse_url($this->domain, PHP_URL_HOST);
+    return parse_url($this->domain, PHP_URL_HOST)
+      ? parse_url($this->domain, PHP_URL_HOST)
+      : $this->domain;
   }
 
   public function getWidgetScriptTag() {
@@ -91,6 +94,15 @@ class Site extends Model {
    */
   public function isActive() {
     return $this->active;
+  }
+
+  /**
+   * Get Statement associated with this Site.
+   *
+   * @return BelongsTo
+   */
+  public function statement() {
+    return $this->belongsTo(Statement::class);
   }
 
   /**

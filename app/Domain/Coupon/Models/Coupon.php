@@ -30,10 +30,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Coupon\Models\Coupon whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Coupon extends Model
-{
-    protected $fillable = [
-        'name', 'gateway_id', 'percent_off', 'duration', 'duration_in_months', 'currency'
-    ];
-
+class Coupon extends Model {
+  protected $fillable = [
+    'name',
+    'gateway_id',
+    'percent_off',
+    'duration',
+    'duration_in_months',
+    'currency'
+  ];
 }

@@ -25,7 +25,8 @@
         "pragmarx/countries": "*",
         "sarfraznawaz2005/visitlog": "^1.2",
         "unisharp/laravel-filemanager": "^1.8",
-        "wpb/string-blade-compiler": "^4.0.0"
+        "wpb/string-blade-compiler": "^4.0.0",
+        "staudenmeir/eloquent-has-many-deep": "^1.7"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",
@@ -65,6 +66,10 @@
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover"
+        ],
+        "post-update-cmd": [
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:models --write"
         ]
     },
     "config": {

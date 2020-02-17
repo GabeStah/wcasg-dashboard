@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use CreatyDev\Domain\Sites\Models\Site;
+use CreatyDev\Solarix\Cashier\Subscription;
 use Tests\ResetDatabase;
 use Tests\TestCase;
 
@@ -142,7 +143,12 @@ class ApiWidgetTest extends TestCase {
    * TODO: Implement proper Subscription.isValid query from complex Subscription model.
    */
   public function testValidTokenWithInactiveSite() {
-    $site = Site::first();
+    $subscription = factory(Subscription::class, 'complete')->make();
+    $site = factory(Site::class)->create([
+      'active' => true,
+      'subscription_id' => $subscription->id
+    ]);
+    //    $site = Site::first();
     // Verify sub is initially valid.
     self::assertTrue($site->subscription->valid());
     // Verify site is initially active.
@@ -155,7 +161,7 @@ class ApiWidgetTest extends TestCase {
     // Get valid token.
     $token = $site->token;
     $response = $this->withHeaders([
-      'origin' => 'localhost:5000'
+      'origin' => $site->domain
     ])->get("/api/widget?token={$token}");
 
     self::assertStringStartsWith('console.error', $response->content());

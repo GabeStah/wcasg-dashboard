@@ -26,30 +26,24 @@ use CreatyDev\Domain\Users\Models\User;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Teams\Models\Team whereUserId($value)
  * @mixin \Eloquent
  */
-class Team extends Model
-{
-    protected $fillable = [
-        'name'
-    ];
+class Team extends Model {
+  protected $fillable = ['name'];
 
-    /**
-     * Get user that owns of team.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function owner()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
+  /**
+   * Get user that owns of team.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+   */
+  public function owner() {
+    return $this->belongsTo(User::class, 'user_id');
+  }
 
-    /**
-     * Get users that belong to team.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'team_users')
-            ->withTimestamps();
-    }
+  /**
+   * Get users that belong to team.
+   *
+   * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+   */
+  public function users() {
+    return $this->belongsToMany(User::class, 'team_users')->withTimestamps();
+  }
 }

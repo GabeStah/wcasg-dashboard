@@ -25,21 +25,17 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\UserRole whereUserId($value)
  * @mixin \Eloquent
  */
-class UserRole extends Pivot
-{
-    protected $table = 'user_roles';
+class UserRole extends Pivot {
+  protected $table = 'user_roles';
 
-    protected $dates = [
-        'expires_at'
-    ];
+  protected $dates = ['expires_at'];
 
-    /**
-     * Return true if role is still valid.
-     *
-     * @return bool
-     */
-    public function isActive()
-    {
-        return Carbon::now()->lt($this->expires_at);
-    }
+  /**
+   * Return true if role is still valid.
+   *
+   * @return bool
+   */
+  public function isActive() {
+    return Carbon::now()->lt($this->expires_at);
+  }
 }

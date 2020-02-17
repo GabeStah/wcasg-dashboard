@@ -28,37 +28,30 @@ use CreatyDev\App\Tenant\Traits\ForTenants;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Projects\Models\Project withoutForTenants()
  * @mixin \Eloquent
  */
-class Project extends Model
-{
-    use Sluggable,
-        ForTenants;
+class Project extends Model {
+  use Sluggable, ForTenants;
 
-    protected $fillable = [
-        'name',
-        'slug'
+  protected $fillable = ['name', 'slug'];
+
+  /**
+   * Return the sluggable configuration array for this model.
+   *
+   * @return array
+   */
+  public function sluggable() {
+    return [
+      'slug' => [
+        'source' => 'name'
+      ]
     ];
+  }
 
-    /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'name'
-            ]
-        ];
-    }
-
-    /**
-     * Get the route key for the model.
-     *
-     * @return string
-     */
-    public function getRouteKeyName()
-    {
-        return 'slug';
-    }
+  /**
+   * Get the route key for the model.
+   *
+   * @return string
+   */
+  public function getRouteKeyName() {
+    return 'slug';
+  }
 }

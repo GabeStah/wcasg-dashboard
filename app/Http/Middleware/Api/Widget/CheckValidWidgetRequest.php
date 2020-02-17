@@ -50,7 +50,9 @@ class CheckValidWidgetRequest {
 
     // Check if current origin host matches site record domain host.
     $siteHost = $site->getDomainHost();
-    $originHost = parse_url($request->header('origin'), PHP_URL_HOST);
+    $originHost = parse_url($request->header('origin'), PHP_URL_HOST)
+      ? parse_url($request->header('origin'), PHP_URL_HOST)
+      : $request->header('origin');
     if ($siteHost !== $originHost) {
       //            $error = new InvalidOrigin();
       //            $error->setCorsOrigin(config('app.url'));

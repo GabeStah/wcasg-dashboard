@@ -3,6 +3,7 @@
 namespace CreatyDev\Domain\Users\Models;
 
 use CreatyDev\Domain\Sites\Models\Site;
+use CreatyDev\Domain\Statements\Models\Statement;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use CreatyDev\Solarix\Cashier\Subscription;
@@ -22,6 +23,7 @@ use CreatyDev\Domain\Users\Filters\UserFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
  * CreatyDev\Domain\Users\Models\User
@@ -43,6 +45,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property string|null $card_last_four
  * @property string|null $trial_ends_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property string|null $company_name
+ * @property string|null $address1
+ * @property string|null $address2
+ * @property string|null $city
+ * @property string|null $state
+ * @property string|null $country
+ * @property string|null $postal_code
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
  * @property-read int|null $clients_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Ticket\Models\Comment[] $comments
@@ -53,6 +62,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read mixed $image
  * @property-read string $name
  * @property-read mixed $plan
+ * @property-read mixed $statements
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Users\Models\Permission[] $permissions
@@ -63,6 +73,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Sites\Models\Site[] $sites
  * @property-read int|null $sites_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Solarix\Cashier\Subscription[] $subscriptions
  * @property-read int|null $subscriptions_count
  * @property-read \CreatyDev\Domain\Teams\Models\Team $team
  * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Teams\Models\Team[] $teams
@@ -80,8 +91,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User query()
  * @method static bool|null restore()
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereActivated($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereAddress1($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereAddress2($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereCardBrand($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereCardLastFour($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereCompanyName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereCountry($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereEmail($value)
@@ -90,8 +106,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereLastName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User wherePostalCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereProfileImage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereState($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereStripeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereTrialEndsAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereUpdatedAt($value)
@@ -110,7 +128,8 @@ class User extends Authenticatable {
     HasSubscriptions,
     SoftDeletes,
     HasTwoFactorAuthentication,
-    HasApiTokens;
+    HasApiTokens,
+    HasRelationships;
 
   /**
    * The attributes that should be appended to the model.
@@ -246,8 +265,6 @@ class User extends Authenticatable {
 
   /**
    * Get plans owned by the user.
-   *
-   * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
    */
   public function plans() {
     return $this->hasManyThrough(
@@ -262,8 +279,6 @@ class User extends Authenticatable {
 
   /**
    * Get sites owned by the user.
-   *
-   * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
    */
   public function sites() {
     return $this->hasManyThrough(
@@ -276,10 +291,25 @@ class User extends Authenticatable {
     )->orderBy('sites.created_at', 'desc');
   }
 
+  public function getStatementsAttribute() {
+    return $this->statements();
+  }
+
+  /**
+   * Get all Statements associated with User.
+   *
+   * @return \Illuminate\Support\Collection
+   */
+  public function statements() {
+    return Statement::join('sites', 'statements.id', '=', 'sites.statement_id')
+      ->join('subscriptions', 'sites.subscription_id', '=', 'subscriptions.id')
+      ->join('users', 'subscriptions.user_id', '=', 'users.id')
+      ->where('users.id', '=', $this->id)
+      ->get();
+  }
+
   /**
    * Get teams that user belongs to.
-   *
-   * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
    */
   public function teams() {
     return $this->belongsToMany(Team::class, 'team_users');
@@ -301,8 +331,6 @@ class User extends Authenticatable {
 
   /**
    * Get companies that user belongs to.
-   *
-   * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
    */
   public function companies() {
     return $this->belongsToMany(Company::class, 'company_users');

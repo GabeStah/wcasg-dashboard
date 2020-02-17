@@ -13,7 +13,6 @@ class CreateStatementsTable extends Migration {
   public function up() {
     Schema::create('statements', function (Blueprint $table) {
       $table->bigIncrements('id')->index();
-      $table->mediumText('content');
       $table->json('config')->nullable();
       $table->unsignedBigInteger('statement_template_id')->index();
       $table->timestamps();

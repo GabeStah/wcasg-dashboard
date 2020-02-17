@@ -6,53 +6,52 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class CreateSitesTable extends Migration {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up() {
-        Schema::create('sites', function (Blueprint $table) {
-            $table->bigIncrements('id');
+  /**
+   * Run the migrations.
+   *
+   * @return void
+   */
+  public function up() {
+    Schema::create('sites', function (Blueprint $table) {
+      $table->bigIncrements('id');
+      $table
+        ->string('domain')
+        ->index()
+        ->comment('Root domain name + TLD.');
 
-            $table
-                ->string('domain')
-                ->index()
-                ->comment('Root domain name + TLD.');
+      $table
+        ->boolean('active')
+        ->default(false)
+        ->comment(
+          "Set by 'User'.  If 'true', allow incoming Widget requests to succeed, else fail."
+        );
 
-            $table
-                ->boolean('active')
-                ->default(false)
-                ->comment(
-                    "Set by 'User'.  If 'true', allow incoming Widget requests to succeed, else fail."
-                );
+      $table
+        ->uuid('token')
+        ->unique()
+        ->index()
+        ->comment('Unique identifier to be used in API requests.');
 
-            $table
-                ->uuid('token')
-                ->unique()
-                ->index()
-                ->comment('Unique identifier to be used in API requests.');
+      $table->timestamps();
 
-            $table->timestamps();
+      // Associate with one subscription
+      $table
+        ->bigInteger('subscription_id')
+        ->unsigned()
+        ->index();
+      $table
+        ->foreign('subscription_id')
+        ->references('id')
+        ->on('subscriptions');
+    });
+  }
 
-            // Associate with one subscription
-            $table
-                ->bigInteger('subscription_id')
-                ->unsigned()
-                ->index();
-            $table
-                ->foreign('subscription_id')
-                ->references('id')
-                ->on('subscriptions');
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down() {
-        Schema::dropIfExists('sites');
-    }
+  /**
+   * Reverse the migrations.
+   *
+   * @return void
+   */
+  public function down() {
+    Schema::dropIfExists('sites');
+  }
 }

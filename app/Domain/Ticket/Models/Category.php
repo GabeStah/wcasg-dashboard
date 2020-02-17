@@ -22,12 +22,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Ticket\Models\Category whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-class Category extends Model
-{
-    protected $fillable = ['name'];
+class Category extends Model {
+  protected $fillable = ['name'];
 
-    public function tickets()
-    {
-        return $this->hasMany(Ticket::class);
-    }
+  public function tickets() {
+    return $this->hasMany(Ticket::class);
+  }
 }
