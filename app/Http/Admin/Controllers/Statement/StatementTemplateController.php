@@ -1,16 +1,25 @@
 <?php
 
-namespace CreatyDev\Http\Account\Controllers;
+namespace CreatyDev\Http\Admin\Controllers\Statement;
 
 use CreatyDev\App\Controllers\Controller;
+use CreatyDev\Domain\Coupon\Models\Coupon;
 use CreatyDev\Domain\Sites\Models\Site;
+use CreatyDev\Domain\Statements\Models\StatementTemplate;
 use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
+
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Stripe;
 
-class SitesController extends Controller {
+class StatementTemplateController extends Controller {
+  public function __construct() {
+    Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+  }
+
   /**
    * View all sites.
    *
@@ -18,17 +27,9 @@ class SitesController extends Controller {
    */
   public function index() {
     try {
-      $userId = Auth::id();
-      $user = User::find($userId);
+      $templates = StatementTemplate::all()->sortBy('updated_at');
 
-      $isSubscribed = $user->isSubscribed();
-
-      $sites = $user->sites->sortBy('domain');
-
-      return view('account.sites.index', [
-        'sites' => $sites,
-        'isSubscribed' => $isSubscribed
-      ]);
+      return view('admin.statement-templates.index', compact('templates'));
     } catch (\Exception $ex) {
       return $ex->getMessage();
     }
@@ -37,6 +38,20 @@ class SitesController extends Controller {
   public function create() {
     try {
       return view('account.sites.create');
+    } catch (\Exception $ex) {
+      return $ex->getMessage();
+    }
+  }
+
+  public function destroy($id) {
+    try {
+      $template = StatementTemplate::findOrFail($id);
+      $template->delete();
+      $templates = StatementTemplate::all()->sortBy('updated_at');
+      return view(
+        'admin.statement-templates.index',
+        compact('templates')
+      )->with('status', 'The Statement Template has been deleted.');
     } catch (\Exception $ex) {
       return $ex->getMessage();
     }
@@ -118,4 +133,47 @@ class SitesController extends Controller {
       return $ex->getMessage();
     }
   }
+
+  //  /**
+  //   * Update the specified resource in storage.
+  //   *
+  //   * @param  \Illuminate\Http\Request $request
+  //   * @param  \CreatyDev\Domain\Users\Models\Coupon $plan
+  //   * @return Response
+  //   */
+  //  public function update(Request $request, $id) {
+  //    // $this->authorize('update', Coupon::class);
+  //
+  //    // Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+  //
+  //    $this->validate($request, [
+  //      'name' => 'required',
+  //      'price' => 'required',
+  //      'interval' => 'required'
+  //    ]);
+  //
+  //    return redirect()
+  //      ->back()
+  //      ->with('status', 'Your plan has been updated.');
+  //  }
+  //
+  //  /**
+  //   * Remove the specified resource from storage.
+  //   *
+  //   * @param  \CreatyDev\Domain\Users\Models\Coupon $plan
+  //   * @return Response
+  //   */
+  //  public function destroy($id) {
+  //    $this->authorize('delete', Coupon::class);
+  //    $plan = Coupon::findOrFail($id);
+  //
+  //    $stripe_plan = \Stripe\Coupon::retrieve($plan->gateway_id);
+  //    $stripe_plan->delete();
+  //
+  //    // Delete the plan on the database
+  //    $plan->delete();
+  //    return redirect()
+  //      ->back()
+  //      ->with('status', 'Your plan has been deleted.');
+  //  }
 }

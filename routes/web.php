@@ -645,6 +645,32 @@ Route::group(
     Route::get('/logvisit', 'AdminDashboardController@visitlog')->name(
       'visitlog'
     );
+
+    /**
+     * Statement Template Namespace Routes
+     */
+    Route::group(
+      [
+        'middleware' => ['auth', 'role:admin'],
+        'namespace' => 'Statement'
+      ],
+      function () {
+        Route::resource('/statement-templates', 'StatementTemplateController');
+      }
+    );
+
+    /**
+     * Statement Namespace Routes
+     */
+    Route::group(
+      [
+        'middleware' => ['auth', 'role:admin'],
+        'namespace' => 'Statement'
+      ],
+      function () {
+        Route::resource('/statements', 'StatementController');
+      }
+    );
   }
 );
 
