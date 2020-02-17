@@ -4,12 +4,28 @@ namespace CreatyDev\Domain\Statements\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Statement
+ *
+ * TODO: Service / trait for statement ot rely on Template
+ * @see https://laracasts.com/series/laravel-6-from-scratch/episodes/39?autoplay=true
+ *
+ * @package CreatyDev\Domain\Statements\Models
+ */
 class Statement extends Model {
-  protected $fillable = ['config'];
+  protected $fillable = ['config', 'content', 'statement_template_id'];
 
-  public function __construct(array $attributes = []) {
+  public function __construct(
+    StatementTemplate $template,
+    array $attributes = []
+  ) {
     parent::__construct($attributes);
 
+    $this->template = $template;
+
+    //    $this->getContent();
+
+    // Fallback for missing relationship
     if (
       !isset($attributes['content']) &&
       isset($attributes['statement_template_id'])
@@ -20,16 +36,17 @@ class Statement extends Model {
     }
   }
 
-  public function setContent($value) {
-    dd($value);
-  }
-
-  public function getContent() {
+  public function getContentAttribute() {
     if (!isset($this->content)) {
-      $this->content = $this->template()->render();
+      //      $this->load('statement_template');
+      $this->content = $this->template->render();
     }
     return $this->content;
   }
+
+  //  public function setContentAttribute($value) {
+  //    $this->content = $value;
+  //  }
 
   public function render() {
     return $this->view()->render();

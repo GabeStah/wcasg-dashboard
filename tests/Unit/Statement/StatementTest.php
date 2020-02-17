@@ -39,8 +39,7 @@ class StatementTest extends TestCase {
   public function testStatementAndTemplateContentEqual() {
     $template = factory(StatementTemplate::class)->create();
     $templateContent = $template->content;
-    //    $content = factory(Statement::class)->make(['content' => $templateContent])
-    //      ->content;
+
     $content = factory(Statement::class)->create([
       'statement_template_id' => $template->id
     ])->content;

@@ -3,15 +3,16 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use CreatyDev\Domain\Statements\Models\Statement;
+use CreatyDev\Domain\Statements\Models\StatementTemplate;
 use Faker\Generator as Faker;
 use Wpb\String_Blade_Compiler\Facades\StringBlade;
 use Wpb\String_Blade_Compiler\Factory;
 use Wpb\String_Blade_Compiler\StringView;
 
 $factory->define(Statement::class, function (Faker $faker) {
-  $template = factory(
-    \CreatyDev\Domain\Statements\Models\StatementTemplate::class
-  )->create();
+  //    $template = factory(
+  //      \CreatyDev\Domain\Statements\Models\StatementTemplate::class
+  //    )->create();
 
   //  Factory::make($template->content)
 
@@ -31,6 +32,7 @@ $factory->define(Statement::class, function (Faker $faker) {
     //    'content' => view([
     //      'template' => $template->content
     //    ])->render(),
-    'statement_template_id' => $template->id
+    'statement_template_id' => factory(StatementTemplate::class)
+    //    'statement_template_id' => factory(StatementTemplate::class)
   ];
 });

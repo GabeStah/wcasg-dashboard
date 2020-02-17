@@ -1,5 +1,6 @@
 <?php
 
+use CreatyDev\Domain\Statements\Models\StatementTemplate;
 use Illuminate\Database\Seeder;
 
 class StatementSeeder extends Seeder {
@@ -10,5 +11,9 @@ class StatementSeeder extends Seeder {
    */
   public function run() {
     factory(\CreatyDev\Domain\Statements\Models\Statement::class, 5)->create();
+
+    //    $template = factory(
+    //      \CreatyDev\Domain\Statements\Models\StatementTemplate::class
+    //    )->create();
   }
 }
