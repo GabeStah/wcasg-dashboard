@@ -43,12 +43,23 @@ class Statement extends Model {
 
   protected $fillable = ['config', 'statement_template_id'];
 
+  public function getConfigAttribute() {
+    if (!isset($this->config)) {
+      $this->config = $this->statementTemplate->default_config;
+    }
+    return $this->config;
+  }
+
+  public function setConfigAttribute($value) {
+    $this->config = $value;
+  }
+
   public function getContentAttribute() {
     return $this->statementTemplate->content;
   }
 
-  public function render() {
-    return $this->view()->render();
+  public function render(Site $site = null) {
+    return $this->view($site)->render();
   }
 
   public function setSitesAttribute(Site $site) {
@@ -77,7 +88,19 @@ class Statement extends Model {
     )->orderBy('subscriptions.updated_at', 'desc');
   }
 
-  public function view() {
-    return view(['template' => $this->content], ['config' => $this->config]);
+  protected function view(Site $site = null) {
+    // Default to first Site
+    if (!$site) {
+      $site = $this->sites->first();
+    }
+    return view(
+      ['template' => $this->content],
+      [
+        'config' => $this->config,
+        'subscription' => $site ? $site->subscription : [],
+        'site' => $site ? $site : [],
+        'user' => $site ? $site->user() : []
+      ]
+    );
   }
 }

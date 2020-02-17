@@ -7,6 +7,7 @@ use CreatyDev\Domain\Statements\Models\Statement;
 use CreatyDev\Domain\Statements\Models\StatementTemplate;
 use CreatyDev\Domain\Users\Models\User;
 use CreatyDev\Solarix\Cashier\Subscription;
+use ErrorException;
 use Illuminate\Support\Facades\DB;
 use Mockery as m;
 use Tests\ResetDatabase;
@@ -53,24 +54,18 @@ class StatementTest extends TestCase {
     $this->assertEquals($statement->content, $templateContent);
   }
 
-  public function testStatementWithBasicConfig() {
+  public function testStatementWithoutSite() {
     $template = factory(StatementTemplate::class)->create([
       'content' => app('files')->get(__DIR__ . './templates/basic.html')
     ]);
 
     $statement = new Statement([
-      'config' => ['user' => ['name' => 'Bob Smith']],
       'statement_template_id' => $template->id
     ]);
     $statement->save();
-    $content = $statement->content;
-    $renderContent = $statement->render();
-
-    $this->assertNotEquals($content, $renderContent);
-    $this->assertStringContainsString(
-      '<title>Hello Bob Smith</title>',
-      $renderContent
-    );
+    $this->expectException(ErrorException::class);
+    $this->expectExceptionMessage('Undefined index: first_name');
+    $statement->render();
   }
 
   public function testStatementWithAdvancedConfig() {
@@ -81,17 +76,16 @@ class StatementTest extends TestCase {
     $site = Site::first();
 
     $statement = new Statement([
-      'config' => ['user' => ['username' => 'Bob Smith']],
       'statement_template_id' => $template->id
     ]);
     $statement->save();
     $statement->site = $site;
     $content = $statement->content;
-    $renderContent = $statement->render();
+    $renderContent = $statement->render($site);
 
     $this->assertNotEquals($content, $renderContent);
     $this->assertStringContainsString(
-      '<title>Hello Bob Smith</title>',
+      "<title>Hello {$site->user()->first_name} {$site->user()->last_name}</title>",
       $renderContent
     );
   }
@@ -104,7 +98,6 @@ class StatementTest extends TestCase {
     $site = Site::first();
 
     $statement = new Statement([
-      'config' => ['user' => ['name' => 'Bob Smith']],
       'statement_template_id' => $template->id
     ]);
     DB::enableQueryLog();
@@ -127,7 +120,6 @@ class StatementTest extends TestCase {
     ]);
 
     $statement = new Statement([
-      'config' => ['user' => ['username' => $user->username]],
       'statement_template_id' => $template->id
     ]);
 
@@ -138,7 +130,6 @@ class StatementTest extends TestCase {
       'statement_id' => $statement->id
     ]);
 
-    //    $statement->sites = $site;
     $this->assertNotEmpty($user->statements);
     $this->assertInstanceOf(Statement::class, $user->statements->first());
   }
@@ -155,7 +146,6 @@ class StatementTest extends TestCase {
     ]);
 
     $statement = new Statement([
-      'config' => ['user' => $user],
       'statement_template_id' => $template->id
     ]);
 
@@ -171,11 +161,51 @@ class StatementTest extends TestCase {
     $this->assertInstanceOf(Statement::class, $user->statements->first());
 
     $content = $statement->content;
-    $renderContent = $statement->render();
+    $renderContent = $statement->render($site);
 
     $this->assertNotEquals($content, $renderContent);
     $this->assertStringContainsString(
-      "<title>Hello {$user->username}</title>",
+      "<title>Hello {$user->first_name} {$user->last_name}</title>",
+      $renderContent
+    );
+  }
+
+  public function testIssetDirective() {
+    $subscription = factory(Subscription::class, 'complete')->make();
+    $user = $subscription->user;
+
+    // Initial
+    $this->assertEmpty($user->statements);
+
+    $template = factory(StatementTemplate::class)->create([
+      'content' => app('files')->get(__DIR__ . './templates/directive.html')
+    ]);
+
+    $statement = new Statement([
+      'config' => ['valid' => true],
+      'statement_template_id' => $template->id
+    ]);
+
+    $statement->save();
+
+    $site = factory(Site::class)->create([
+      'subscription_id' => $subscription->id,
+      'statement_id' => $statement->id
+    ]);
+
+    $this->assertNotEmpty($user->statements);
+    $this->assertInstanceOf(Statement::class, $user->statements->first());
+
+    $content = $statement->content;
+    $renderContent = $statement->render($site);
+
+    $this->assertStringContainsString(
+      '<p>Valid directive text.</p>',
+      $renderContent
+    );
+
+    $this->assertStringNotContainsString(
+      '<p>Invalid directive text.</p>',
       $renderContent
     );
   }

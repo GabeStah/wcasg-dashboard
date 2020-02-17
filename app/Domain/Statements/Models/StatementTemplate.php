@@ -24,6 +24,24 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Statements\Models\Statement[] $statements
  */
 class StatementTemplate extends Model {
+  /**
+   * Default values.
+   *
+   * @var array
+   */
+  protected $attributes = [
+    'default_config' => '{ "valid": true }'
+  ];
+
+  /**
+   * The attributes that should be cast to native types.
+   *
+   * @var array
+   */
+  protected $casts = [
+    'default_config' => 'array'
+  ];
+
   protected $fillable = ['content'];
 
   public function render() {

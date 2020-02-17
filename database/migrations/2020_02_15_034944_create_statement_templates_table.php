@@ -14,6 +14,7 @@ class CreateStatementTemplatesTable extends Migration {
     Schema::create('statement_templates', function (Blueprint $table) {
       $table->bigIncrements('id')->index();
       $table->mediumText('content');
+      $table->json('default_config')->nullable();
       $table->timestamps();
     });
   }

@@ -1,6 +1,6 @@
 <html>
   <head>
-    <title>Hello {{ $config['user']['username']}}</title>
+    <title>Hello {{ $user['first_name'] . ' ' . $user['last_name'] }}</title>
   </head>
   <body>
     <form action="example.net" method="POST">
@@ -8,6 +8,7 @@
       ><input type="text" id="username" /><label for="password">ratione</label
       ><input type="password" id="password" />
     </form>
+    <a href="http://www.{{ $site['domain'] }}">Your site</a>
     Rerum.<i>Omnis aspernatur natus quasi nisi.</i><i>Ipsam pariatur.</i>
   </body>
 </html>

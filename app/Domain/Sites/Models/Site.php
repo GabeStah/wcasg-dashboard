@@ -4,6 +4,7 @@ namespace CreatyDev\Domain\Sites\Models;
 
 use CreatyDev\App\Traits\Eloquent\Roles\HasToken;
 use CreatyDev\Domain\Statements\Models\Statement;
+use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use CreatyDev\Solarix\Cashier\Subscription;
@@ -111,9 +112,7 @@ class Site extends Model {
    * @return boolean
    */
   public function isSubscriptionActive() {
-    return $this->subscription()
-      ->first()
-      ->active();
+    return $this->subscription->active;
   }
 
   /**
@@ -122,9 +121,7 @@ class Site extends Model {
    * @return boolean
    */
   public function isSubscriptionValid() {
-    return $this->subscription()
-      ->first()
-      ->valid();
+    return $this->subscription->valid;
   }
 
   /**
@@ -146,10 +143,10 @@ class Site extends Model {
   /**
    * Get the User record.
    *
-   * @return mixed
+   * @return User
    */
   public function user() {
-    return $this->subscription()->user;
+    return $this->subscription->user;
   }
 
   public static function withSubscriptions() {
