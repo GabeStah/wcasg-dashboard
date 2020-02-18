@@ -34,6 +34,10 @@ use CreatyDev\Solarix\Cashier\Subscription;
  * @mixin \Eloquent
  * @property-read \CreatyDev\Domain\Statements\Models\Statement $statement
  * @property-read int|null                                      $statements_count
+ * @property string|null $name
+ * @property int|null $statement_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site whereStatementId($value)
  */
 class Site extends Model {
   use HasToken;
@@ -43,7 +47,7 @@ class Site extends Model {
    *
    * @var array
    */
-  protected $fillable = ['active', 'domain', 'subscription_id'];
+  protected $fillable = ['active', 'domain', 'name', 'subscription_id'];
 
   /**
    * The attributes that should be cast to native types.

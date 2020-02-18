@@ -26,6 +26,8 @@ class CreateSitesTable extends Migration {
           "Set by 'User'.  If 'true', allow incoming Widget requests to succeed, else fail."
         );
 
+      $table->string('name')->nullable();
+
       $table
         ->uuid('token')
         ->unique()

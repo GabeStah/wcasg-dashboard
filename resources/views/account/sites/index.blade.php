@@ -31,6 +31,7 @@
                                     <th id="header-domain" aria-label="Domain">Domain</th>
                                     <th id="header-status" aria-label="Status">Status</th>
                                     <th id="header-subscription" aria-label="Subscription">Subscription</th>
+                                    <th id="header-statement" aria-label="Statement">Statement</th>
                                     <th id="header-widget" aria-label="Widget">Widget</th>
                                 </tr>
                                 </thead>
@@ -51,39 +52,65 @@
                                         <td>
                                             <span class="badge badge-dot mr-4">
                                                 @if($site->active === true)
-{{--                                                    <div class="custom-control custom-switch">--}}
-{{--                                                        <input type="checkbox" class="custom-control-input" id="customSwitches">--}}
-{{--                                                        <label class="badge badge-info custom-control-label" for="customSwitches">Enabled</label>--}}
-{{--                                                    </div>--}}
-                                                    <span id="site-active-{{ $site->id }}" class="badge badge-info" data-pk="{{ $site->id }}" data-url="{{ route('account.sites.update', $site) }}" data-name="active">Enabled</span>
+                                                    {{--                                                    <div class="custom-control custom-switch">--}}
+                                                    {{--                                                        <input type="checkbox" class="custom-control-input" id="customSwitches">--}}
+                                                    {{--                                                        <label class="badge badge-info custom-control-label" for="customSwitches">Enabled</label>--}}
+                                                    {{--                                                    </div>--}}
+                                                    <span id="site-active-{{ $site->id }}" class="badge badge-info"
+                                                          data-pk="{{ $site->id }}"
+                                                          data-url="{{ route('account.sites.update', $site) }}"
+                                                          data-name="active">Enabled</span>
                                                 @else
-                                                    <span id="site-active-{{ $site->id }}" class="badge badge-danger" data-pk="{{ $site->id }}" data-url="{{ route('account.sites.update', $site) }}" data-name="active">Disabled</span>
+                                                    <span id="site-active-{{ $site->id }}" class="badge badge-danger"
+                                                          data-pk="{{ $site->id }}"
+                                                          data-url="{{ route('account.sites.update', $site) }}"
+                                                          data-name="active">Disabled</span>
                                                 @endif
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="badge badge-dot mr-4">
-                                                @if($site->subscription->valid())
-                                                    <a href="{{ route('account.subscription.invoice.index', $site->subscription) }}">
-                                                        <span class="badge badge-info">Active</span>
-                                                    </a>
-                                                @else
-                                                    <a href="{{ route('account.subscription.resume.index', $site->subscription) }}">
-                                                        <span class="badge badge-danger">Inactive</span>
-                                                    </a>
-                                                @endif
-                                            </span>
+                                            @if($site->subscription->valid())
+                                                <a href="{{ route('account.subscription.invoice.index', $site->subscription) }}">
+                                                    <button class="btn btn-outline-success mr-0"><i
+                                                            class="fa fa-receipt mr-1"></i>Active
+                                                    </button>
+                                                </a>
+                                            @else
+                                                <a href="{{ route('account.subscription.resume.index', $site->subscription) }}">
+                                                    <button class="btn btn-outline-warning mx-0"><i
+                                                            class="fa fa-receipt mr-1"></i>Inactive
+                                                    </button>
+                                                </a>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('account.sites.statement.show', $site->id) }}">
+                                                <button class="btn btn-outline-success mx-0"><i
+                                                        class="fa fa-search"></i>
+                                                </button>
+                                            </a>
+                                            <a href="{{ route('account.sites.statement.edit', $site->id) }}">
+                                                <button class="btn btn-outline-light mx-0"><i
+                                                        class="fa fa-edit"></i>
+                                                </button>
+                                            </a>
                                         </td>
                                         <td>
                                             <span class="badge badge-dot mr-4">
                                                 @if(!$site->subscription->valid())
-                                                    <span class="badge badge-danger">{{ __('account.subscription.invalid') }}</span>
+                                                    <span
+                                                        class="badge badge-danger">{{ __('account.subscription.invalid') }}</span>
                                                 @elseif(!$site->active)
-                                                    <span class="badge badge-warning">{{ __('account.site.must-be-active') }}</span>
+                                                    <span
+                                                        class="badge badge-warning">{{ __('account.site.must-be-active') }}</span>
                                                 @else
                                                     <form class="form-inline">
                                                       <div class="form-group">
-                                                        <input type="text" class="form-control" id="widget-snippet-{{ $site->id }}" aria-labelledby="header-widget" onfocus="this.select()" placeholder="Widget Snippet" value="{{ $site->getWidgetScriptTag() }}">
+                                                        <input type="text" class="form-control"
+                                                               id="widget-snippet-{{ $site->id }}"
+                                                               aria-labelledby="header-widget" onfocus="this.select()"
+                                                               placeholder="Widget Snippet"
+                                                               value="{{ $site->getWidgetScriptTag() }}">
                                                       </div>
                                                     </form>
                                                 @endif

@@ -12,6 +12,6 @@ class StatementSeeder extends Seeder {
    * @return void
    */
   public function run() {
-    factory(Statement::class, 5)->create();
+    //    factory(Statement::class, 5)->create();
   }
 }

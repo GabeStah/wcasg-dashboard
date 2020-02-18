@@ -5,6 +5,7 @@ namespace CreatyDev\Domain\Statements\Models;
 use CreatyDev\Domain\Sites\Models\Site;
 use CreatyDev\Solarix\Cashier\Subscription;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * CreatyDev\Domain\Statements\Models\Statement
@@ -43,23 +44,36 @@ class Statement extends Model {
 
   protected $fillable = ['config', 'statement_template_id'];
 
-  public function getConfigAttribute() {
-    if (!isset($this->config)) {
-      $this->config = $this->statementTemplate->default_config;
-    }
-    return $this->config;
-  }
+  /**
+   * The "booting" method of the model.
+   *
+   * @return void
+   */
+  public static function boot() {
+    parent::boot();
 
-  public function setConfigAttribute($value) {
-    $this->config = $value;
+    static::creating(function (Statement $statement) {
+      if (!isset($statement->config)) {
+        $statement->config = $statement->statementTemplate->default_config;
+      }
+    });
+
+    static::updating(function (Statement $statement) {
+      if (!isset($statement->config)) {
+        $statement->config = $statement->statementTemplate->default_config;
+      }
+    });
   }
 
   public function getContentAttribute() {
     return $this->statementTemplate->content;
   }
 
-  public function render(Site $site = null) {
-    return $this->view($site)->render();
+  public function render(
+    Site $site = null,
+    StatementTemplate $template = null
+  ) {
+    return $this->view($site, $template)->render();
   }
 
   public function setSitesAttribute(Site $site) {
@@ -68,6 +82,8 @@ class Statement extends Model {
 
   /**
    * Get sites using this statement.
+   *
+   * @return HasMany
    */
   public function sites() {
     return $this->hasMany(Site::class);
@@ -88,17 +104,33 @@ class Statement extends Model {
     )->orderBy('subscriptions.updated_at', 'desc');
   }
 
-  protected function view(Site $site = null) {
+  protected function view(
+    Site $site = null,
+    StatementTemplate $template = null
+  ) {
     // Default to first Site
     if (!$site) {
       $site = $this->sites->first();
     }
+
+    $content = $this->content;
+
+    if ($template) {
+      $content = $template->content;
+    }
+
+    $timestamp =
+      $this->updated_at > $this->statementTemplate->updated_at
+        ? $this->updated_at
+        : $this->statementTemplate->updated_at;
+
     return view(
-      ['template' => $this->content],
+      ['template' => $content],
       [
         'config' => $this->config,
-        'subscription' => $site ? $site->subscription : [],
         'site' => $site ? $site : [],
+        'subscription' => $site ? $site->subscription : [],
+        'timestamp' => $timestamp,
         'user' => $site ? $site->user() : []
       ]
     );

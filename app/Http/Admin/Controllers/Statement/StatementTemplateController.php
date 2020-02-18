@@ -3,177 +3,112 @@
 namespace CreatyDev\Http\Admin\Controllers\Statement;
 
 use CreatyDev\App\Controllers\Controller;
-use CreatyDev\Domain\Coupon\Models\Coupon;
+use CreatyDev\Domain\Setting;
 use CreatyDev\Domain\Sites\Models\Site;
 use CreatyDev\Domain\Statements\Models\StatementTemplate;
 use CreatyDev\Domain\Users\Models\User;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
-use Stripe;
 
 class StatementTemplateController extends Controller {
-  public function __construct() {
-    Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-  }
-
-  /**
-   * View all sites.
-   *
-   * @return Factory|View|string
-   */
   public function index() {
-    try {
-      $templates = StatementTemplate::all()->sortBy('updated_at');
+    $templates = StatementTemplate::with('sites')
+      ->get()
+      ->sortByDesc('updated_at');
 
-      return view('admin.statement-templates.index', compact('templates'));
-    } catch (\Exception $ex) {
-      return $ex->getMessage();
-    }
+    $settings = Setting::first();
+
+    return view('admin.statement-templates.index', [
+      'templates' => $templates,
+      'settings' => $settings
+    ]);
   }
 
   public function create() {
-    try {
-      return view('account.sites.create');
-    } catch (\Exception $ex) {
-      return $ex->getMessage();
-    }
+    $initial_content = app('files')->get(
+      resource_path('assets/templates/default.html')
+    );
+    return view('admin.statement-templates.create', [
+      'initial_content' => $initial_content
+    ]);
   }
 
   public function destroy($id) {
-    try {
-      $template = StatementTemplate::findOrFail($id);
-      $template->delete();
-      $templates = StatementTemplate::all()->sortBy('updated_at');
-      return view(
-        'admin.statement-templates.index',
-        compact('templates')
-      )->with('status', 'The Statement Template has been deleted.');
-    } catch (\Exception $ex) {
-      return $ex->getMessage();
-    }
+    $template = StatementTemplate::findOrFail($id);
+    $template->delete();
+    $templates = StatementTemplate::all()->sortByDesc('updated_at');
+    return redirect(
+      'admin.statement-templates.index',
+      compact('templates')
+    )->with('status', 'The template has been deleted.');
   }
 
-  public function store() {
-    try {
-      $userId = Auth::id();
-      $user = User::find($userId);
-
-      request()->validate([
-        'domain' => 'required'
-      ]);
-
-      $subscription = $user->validSubscription();
-      if (!$subscription) {
-        // Redirect with error
-        die('TODO: No subscription');
-      }
-
-      $site = new Site([
-        'active' => request('active') ? true : false,
-        'domain' => request('domain'),
-        'subscription_id' => $subscription->id
-      ]);
-
-      $site->save();
-
-      return view('account.sites.index', [
-        'sites' => $user->sites,
-        'isSubscribed' => $user->isSubscribed()
-      ]);
-    } catch (\Exception $ex) {
-      return $ex->getMessage();
-    }
-  }
-
-  /**
-   * Edit a site.
-   *
-   * @param $id
-   * @return Factory|View|string
-   */
   public function edit($id) {
-    try {
-      $userId = Auth::id();
-      $user = User::find($userId);
-      $site = Site::find($id);
+    $template = StatementTemplate::findOrFail($id);
 
-      return view('account.sites.edit', compact('site'));
-    } catch (\Exception $ex) {
-      return $ex->getMessage();
-    }
+    $settings = Setting::first();
+
+    return view('admin.statement-templates.edit', [
+      'template' => $template,
+      'settings' => $settings
+    ]);
   }
 
-  /**
-   * Update a site.
-   *
-   * @param Request $request
-   * @param $id
-   * @return Factory|View|string
-   */
-  public function update(Request $request, $id) {
-    try {
-      $userId = Auth::id();
-      $user = User::find($userId);
-      $site = Site::find($id);
+  public function show($id) {
+    $template = StatementTemplate::findOrFail($id);
 
-      $site->active = request('active') ? true : false;
+    return view('admin.statement-templates.show', compact('template'));
+  }
 
-      $site->domain = request('domain');
-      $site->save();
+  public function store(Request $request) {
+    $request->validate([
+      'content' => 'required',
+      'default_config' => 'required|json',
+      'name' => 'required'
+    ]);
 
-      return redirect()->route('account.sites.index', [
-        'sites' => $user->sites,
-        'isSubscribed' => $user->isSubscribed()
+    $template = StatementTemplate::create([
+      'content' => request('content'),
+      'default_config' => json_decode(request('default_config')),
+      'name' => request('name')
+    ]);
+
+    // Update default setting.
+    if (request('is_default')) {
+      Setting::first()->update([
+        'default_statement_template' => $template->id
       ]);
-    } catch (\Exception $ex) {
-      return $ex->getMessage();
     }
+
+    return redirect()
+      ->route('admin.statement-templates.show', $template->id)
+      ->with('status', 'Template created.');
   }
 
-  //  /**
-  //   * Update the specified resource in storage.
-  //   *
-  //   * @param  \Illuminate\Http\Request $request
-  //   * @param  \CreatyDev\Domain\Users\Models\Coupon $plan
-  //   * @return Response
-  //   */
-  //  public function update(Request $request, $id) {
-  //    // $this->authorize('update', Coupon::class);
-  //
-  //    // Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-  //
-  //    $this->validate($request, [
-  //      'name' => 'required',
-  //      'price' => 'required',
-  //      'interval' => 'required'
-  //    ]);
-  //
-  //    return redirect()
-  //      ->back()
-  //      ->with('status', 'Your plan has been updated.');
-  //  }
-  //
-  //  /**
-  //   * Remove the specified resource from storage.
-  //   *
-  //   * @param  \CreatyDev\Domain\Users\Models\Coupon $plan
-  //   * @return Response
-  //   */
-  //  public function destroy($id) {
-  //    $this->authorize('delete', Coupon::class);
-  //    $plan = Coupon::findOrFail($id);
-  //
-  //    $stripe_plan = \Stripe\Coupon::retrieve($plan->gateway_id);
-  //    $stripe_plan->delete();
-  //
-  //    // Delete the plan on the database
-  //    $plan->delete();
-  //    return redirect()
-  //      ->back()
-  //      ->with('status', 'Your plan has been deleted.');
-  //  }
+  public function update(Request $request, $id) {
+    $request->validate([
+      'content' => 'required',
+      'default_config' => 'required|json'
+    ]);
+
+    $template = StatementTemplate::findOrFail($id);
+
+    $template->update([
+      'content' => request('content'),
+      'default_config' => json_decode(request('default_config')),
+      'name' => request('name')
+    ]);
+
+    // Update default setting.
+    if (request('is_default')) {
+      Setting::first()->update([
+        'default_statement_template' => $id
+      ]);
+    }
+
+    return redirect()
+      ->route('admin.statement-templates.show', $id)
+      ->with('status', 'Template updated.');
+  }
 }

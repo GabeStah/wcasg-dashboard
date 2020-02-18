@@ -1,5 +1,7 @@
 <?php
 
+use CreatyDev\Domain\Setting;
+use CreatyDev\Domain\Statements\Models\StatementTemplate;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder {
@@ -15,5 +17,10 @@ class DatabaseSeeder extends Seeder {
     $this->call(UserTableSeeder::class);
     $this->call(SubscriptionTableSeeder::class);
     $this->call(StatementSeeder::class);
+
+    // Finalize
+    Setting::create([
+      'default_statement_template' => StatementTemplate::first()->id
+    ]);
   }
 }

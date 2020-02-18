@@ -304,6 +304,19 @@ Route::group(
       Route::get('/create', 'SitesController@create')->name('create');
       Route::get('/{site}/edit', 'SitesController@edit')->name('edit');
       Route::put('/{site}', 'SitesController@update')->name('update');
+
+      Route::group(
+        ['prefix' => '/{site}/statement', 'as' => 'statement.'],
+        function () {
+          Route::get('/', 'SitesController@statementShow')->name('show');
+          Route::put('/', 'SitesController@statementUpdate')->name('update');
+          Route::get('/edit', 'SitesController@statementEdit')->name('edit');
+          Route::get(
+            '/download/{type}',
+            'SitesController@statementDownload'
+          )->name('download');
+        }
+      );
     });
 
     /**
@@ -703,18 +716,3 @@ Route::get('/admin', function () {
 /**
  * Sample pages Routes
  */
-
-/**
- * Statement Routes
- */
-Route::group(
-  [
-    'namespace' => 'Statement\Controllers',
-    'prefix' => 'statement',
-    'as' => 'statement.'
-  ],
-  function () {
-    // Authentication Routes...
-    Route::get('/', 'StatementController@index')->name('index');
-  }
-);

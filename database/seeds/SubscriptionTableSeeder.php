@@ -40,10 +40,10 @@ class SubscriptionTableSeeder extends Seeder {
       'subscription_id' => $subscriptionB
     ]);
 
-    factory(Site::class, 3)->create(['subscription_id' => $subscriptionA]);
-    factory(Site::class, 3)->create(['subscription_id' => $subscriptionB]);
+    factory(Site::class, 5)->create(['subscription_id' => $subscriptionA]);
+    factory(Site::class, 5)->create(['subscription_id' => $subscriptionB]);
 
-    // Create 3 extras Subs with new users, plans, tokens
-    factory(Subscription::class, 'complete', 3)->make();
+    // Create 5 extras Subs with new users, plans, tokens
+    factory(Subscription::class, 'complete', 5)->make();
   }
 }
