@@ -2,19 +2,28 @@
 @section('title', 'Edit Accessibility Statement')
 @section('content')
   <div class="card card-default">
-    <div class="card-header border-0">
-      <h2 class="mb-0"><i class="fas fa-universal-access"></i>Edit Accessibility Statement</h2>
-    </div>
-    <div class="card-body">
-      <form action="{{ route('account.sites.statement.update', $statement->id) }}" method="POST"
-            class="form-horizontal offset-sm-2">
-        {{ csrf_field() }}
-        @method('PUT')
-
+    <form action="{{ route('account.sites.statement.update', $statement->id) }}" method="POST">
+      {{ csrf_field() }}
+      @method('PUT')
+      <div class="card-header border-0">
+        <h2 class="mb-0"><i class="fas fa-universal-access"></i>Edit Accessibility Statement</h2>
+        <div class="float-right btn-group" role="group" aria-label="User Actions">
+          <button type="submit"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title=""
+                  class="btn btn-outline-primary mx-1"
+                  data-original-title="Save Accessibility Statement">
+            <i class="fa fa-save"></i> Save
+          </button>
+        </div>
+      </div>
+      <div class="card-body">
         <div class="form-group row">
           <label class="col-md-3 col-form-label" for="template">Template</label>
           <div class="col-md-6" v-pre>
-            <select id="template" name="template" onchange="document.querySelector('#content').innerHTML = this.options[this.selectedIndex].getAttribute('data-content')">
+            <select id="template" name="template"
+                    onchange="document.querySelector('#content').innerHTML = this.options[this.selectedIndex].getAttribute('data-content')">
               @foreach ($templates as $template)
                 <option value="{{ $template['id'] }}"
                         data-content="{{ $template['content'] }}"
@@ -44,15 +53,7 @@
           <label class="col-md-3 col-form-label" for="content">Content</label>
           <div id="content" class="col-md-6" v-pre>{!! $content !!}</div>
         </div>
-
-        <div class="form-group row">
-          <div class="col-md-6 offset-md-4">
-            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i>
-              Update
-            </button>
-          </div>
-        </div>
-      </form>
-
-    </div>
+      </div>
+    </form>
+  </div>
 @endsection

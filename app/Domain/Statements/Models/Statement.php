@@ -4,6 +4,7 @@ namespace CreatyDev\Domain\Statements\Models;
 
 use CreatyDev\Domain\Sites\Models\Site;
 use CreatyDev\Solarix\Cashier\Subscription;
+use ErrorException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -124,15 +125,101 @@ class Statement extends Model {
         ? $this->updated_at
         : $this->statementTemplate->updated_at;
 
-    return view(
-      ['template' => $content],
-      [
-        'config' => $this->config,
-        'site' => $site ? $site : [],
-        'subscription' => $site ? $site->subscription : [],
-        'timestamp' => $timestamp,
-        'user' => $site ? $site->user() : []
-      ]
+    $replacements = [
+      'app' => '',
+      'config' => $this->config,
+      'site' => $site ? $site : [],
+      'subscription' => $site ? $site->subscription : [],
+      'timestamp' => $timestamp,
+      'user' => $site ? $site->user() : []
+    ];
+
+    // Replace all Blades
+    $content = preg_replace("~{{\r*\s*\n*(.+?)\r*\s*\n*}}~", '', $content);
+    $content = preg_replace_callback(
+      "~{%\r*\s*\n*(.+?)\r*\s*\n*%}~",
+      function ($matches) use ($replacements) {
+        try {
+          $match = $matches[1];
+          // Base object
+          if (strpos($match, '[') === false) {
+            return $replacements[$match];
+          }
+          // Get object name and key
+          foreach ($replacements as $key => $object) {
+            $success = preg_match("~{$key}\['(.+?)']~", $match, $innerMatches);
+            if ($success) {
+              if ($key === 'app') {
+                return config($innerMatches[1]);
+              } else {
+                if ($object[$innerMatches[1]] === false) {
+                  return 'false';
+                } elseif ($object[$innerMatches[1]] === true) {
+                  return 'true';
+                }
+                return $object[$innerMatches[1]];
+              }
+            }
+          }
+          return '';
+        } catch (ErrorException $e) {
+          // Ignore mismatches, assume poor configuration.
+          if (strpos($e->getMessage(), 'Undefined index')) {
+            return '';
+          }
+        }
+        return '';
+      },
+      $content
     );
+
+    // True: Check truthy value.
+    // False: Check falsy value.
+    // Null: Discard
+    $directives = [
+      'if' => true,
+      'unless' => false,
+      'isset' => true,
+      'empty' => false,
+      'php' => null,
+      'for' => null,
+      'foreach' => null,
+      'forelse' => null,
+      'while' => null
+    ];
+
+    // Replace dangerous Blade directives
+    foreach ($directives as $directive => $check) {
+      // override directives
+      $content = preg_replace_callback(
+        "~@{$directive}\((.+?)\)\r*\s*\n*(.+?)\r*\s*\n*@end{$directive}~s",
+        function ($matches) use ($check) {
+          try {
+            $value = $matches[1];
+            if ($value === 'true') {
+              $value = true;
+            } elseif ($value === 'false') {
+              $value = false;
+            }
+            $insert = $matches[2];
+            if ($check === null) {
+              return '';
+            } elseif (($check && $value) || (!$check && !$value)) {
+              return $insert;
+            }
+            return '';
+          } catch (ErrorException $e) {
+            // Ignore mismatches, assume poor configuration.
+            if (strpos($e->getMessage(), 'Undefined index')) {
+              return '';
+            }
+          }
+          return '';
+        },
+        $content
+      );
+    }
+
+    return view(['template' => $content]);
   }
 }

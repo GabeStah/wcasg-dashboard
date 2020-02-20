@@ -7,11 +7,10 @@ use CreatyDev\Solarix\Cashier\Subscription;
 use Tests\ResetDatabase;
 use Tests\TestCase;
 
-class ApiWidgetTest extends TestCase {
+class ApiStatementTest extends TestCase {
   use ResetDatabase;
-
   public function testEndpoint() {
-    $response = $this->get(route('api.widget.get'));
+    $response = $this->get(route('api.statement.get'));
 
     $response->assertStatus(200);
     self::assertStringStartsWith('console.error', $response->content());
@@ -19,7 +18,7 @@ class ApiWidgetTest extends TestCase {
   }
 
   public function testMissingOrigin() {
-    $response = $this->get(route('api.widget.get'));
+    $response = $this->get(route('api.statement.get'));
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
@@ -33,7 +32,7 @@ class ApiWidgetTest extends TestCase {
   public function testNotMissingOrigin() {
     $response = $this->withHeaders([
       'origin' => 'localhost:5000'
-    ])->get(route('api.widget.get'));
+    ])->get(route('api.statement.get'));
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
@@ -47,7 +46,7 @@ class ApiWidgetTest extends TestCase {
   public function testMissingToken() {
     $response = $this->withHeaders([
       'origin' => 'localhost:5000'
-    ])->get(route('api.widget.get'));
+    ])->get(route('api.statement.get'));
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
@@ -61,7 +60,7 @@ class ApiWidgetTest extends TestCase {
   public function testNotMissingToken() {
     $response = $this->withHeaders([
       'origin' => 'localhost:5000'
-    ])->get(route('api.widget.get') . '?token=123456');
+    ])->get(route('api.statement.get') . '?token=123456');
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
@@ -82,15 +81,42 @@ class ApiWidgetTest extends TestCase {
 
     $response = $this->withHeaders([
       'origin' => 'localhost:5000'
-    ])->get(route('api.widget.get') . "?token={$token}");
+    ])->get(route('api.statement.get') . "?token={$token}");
 
     self::assertStringStartsNotWith('console.error', $response->content());
-    $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
+    $response->assertHeader('content-type', 'text/html;charset=UTF-8');
 
     self::assertStringNotContainsStringIgnoringCase(
       __('error.api.invalid-token'),
       $response->content()
     );
+  }
+
+  public function testValidRequestResponse() {
+    $site = Site::first();
+    // Get valid token.
+    $token = $site->token;
+
+    // Verify sub is initially valid.
+    self::assertTrue($site->subscription->valid());
+
+    $response = $this->withHeaders([
+      'origin' => 'localhost:5000'
+    ])->get(route('api.statement.get') . "?token={$token}");
+
+    $responseContent = $response->content();
+
+    self::assertStringStartsNotWith('console.error', $responseContent);
+    $response->assertHeader('content-type', 'text/html;charset=UTF-8');
+
+    self::assertStringNotContainsStringIgnoringCase(
+      __('error.api.invalid-token'),
+      $responseContent
+    );
+
+    $statementContent = $site->statement->render($site);
+
+    self::assertEquals($statementContent, $responseContent);
   }
 
   public function testNotValidToken() {
@@ -99,7 +125,7 @@ class ApiWidgetTest extends TestCase {
 
     $response = $this->withHeaders([
       'origin' => 'localhost:5000'
-    ])->get(route('api.widget.get') . "?token={$token}");
+    ])->get(route('api.statement.get') . "?token={$token}");
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
@@ -130,7 +156,7 @@ class ApiWidgetTest extends TestCase {
     $token = $site->token;
     $response = $this->withHeaders([
       'origin' => 'localhost:5000'
-    ])->get(route('api.widget.get') . "?token={$token}");
+    ])->get(route('api.statement.get') . "?token={$token}");
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
@@ -166,7 +192,7 @@ class ApiWidgetTest extends TestCase {
     $token = $site->token;
     $response = $this->withHeaders([
       'origin' => $site->domain
-    ])->get(route('api.widget.get') . "?token={$token}");
+    ])->get(route('api.statement.get') . "?token={$token}");
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
@@ -184,7 +210,7 @@ class ApiWidgetTest extends TestCase {
     $response = $this->withHeaders([
       // Pass invalid (mismatched) origin
       'origin' => 'hocallost:5000'
-    ])->get(route('api.widget.get') . "?token={$token}");
+    ])->get(route('api.statement.get') . "?token={$token}");
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
@@ -199,7 +225,7 @@ class ApiWidgetTest extends TestCase {
     $response = $this->withHeaders([
       'Sec-Fetch-Site' => 'same-site',
       'Sec-Fetch-Mode' => 'cors'
-    ])->get(route('api.widget.get'));
+    ])->get(route('api.statement.get'));
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');

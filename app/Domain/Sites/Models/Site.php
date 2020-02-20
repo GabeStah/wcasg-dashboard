@@ -116,7 +116,7 @@ class Site extends Model {
    * @return boolean
    */
   public function isSubscriptionActive() {
-    return $this->subscription->active;
+    return $this->subscription->active();
   }
 
   /**
@@ -125,7 +125,7 @@ class Site extends Model {
    * @return boolean
    */
   public function isSubscriptionValid() {
-    return $this->subscription->valid;
+    return $this->subscription->valid();
   }
 
   /**

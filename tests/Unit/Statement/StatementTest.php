@@ -100,7 +100,7 @@ class StatementTest extends TestCase {
     $statement = new Statement([
       'statement_template_id' => $template->id
     ]);
-    DB::enableQueryLog();
+
     $statement->save();
     $statement->sites = $site;
     $subscriptions = $statement->subscriptions;

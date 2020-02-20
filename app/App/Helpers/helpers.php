@@ -6,12 +6,15 @@
  * Time: 1:30 AM
  */
 
+use LZCompressor\LZString;
+
 if (!function_exists('on_page')) {
   /**
    * Check's whether request url/route matches passed link
    *
-   * @param $link
+   * @param        $link
    * @param string $type
+   *
    * @return null
    */
   function on_page($link, $type = 'name') {
@@ -137,5 +140,23 @@ if (!function_exists('fa_icon_from_cc_brand')) {
       default:
         return 'credit-card';
     }
+  }
+}
+
+if (!function_exists('webpackify')) {
+  /**
+   * Generates UMD module export JavaScript string of named module and content.
+   *
+   * @param        $name
+   * @param string $content
+   * @param bool   $shouldCompress
+   *
+   * @return string
+   */
+  function webpackify($name, $content = '', $shouldCompress = true) {
+    if ($shouldCompress) {
+      $content = LZString::compressToBase64($content);
+    }
+    return "!function(e,t){'object'==typeof exports&&'object'==typeof module?module.exports=t():'function'==typeof define&&define.amd?define([],t):'object'==typeof exports?exports['{$name}']=t():e['{$name}']=t()}('undefined'!=typeof self?self:this,function(){return '{$content}'});";
   }
 }
