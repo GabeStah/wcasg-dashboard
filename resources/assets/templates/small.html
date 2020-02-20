@@ -1,21 +1,21 @@
-<h1>{{ $site['name'] ?? $site['domain'] }} Accessibility Statement</h1>
-<h2>Accessibility on {{ $site['domain'] }}</h2>
+<h1>{% site['name'] %} Accessibility Statement</h1>
+<h2>Accessibility on {% site['domain'] %}</h2>
 <p>
-  {{ $site['domain'] }} makes available the
-  <a href="{{ config('app.url') }}"
-    alt="{{ config('app.name') }} Widget"
-    title="{{ config('app.name') }} Widget">{{ config('app.name') }} Widget</a>
+  {% site['domain'] %} makes available the
+  <a href="{% app['app.url'] %}"
+     alt="{% app['app.name'] %} Widget"
+     title="{% app['app.name'] %} Widget">{% app['app.name'] %} Widget</a>
   that is powered by a dedicated accessibility server. The software allows
-  {{ $site['domain'] }} to improve its compliance with the Web Content
+  {% site['domain'] %} to improve its compliance with the Web Content
   Accessibility Guidelines (WCAG 2.1).
 </p>
 <h2>Here For You</h2>
 <p>
-  If you are experiencing difficulty with any content on {{ $site['domain']
-  }} or require assistance with any part of our site, please contact us
+  If you are experiencing difficulty with any content on {% site['domain']
+  %} or require assistance with any part of our site, please contact us
   during normal business hours as detailed below and we will be happy to
   assist.
 </p>
 <p>
-  Last Updated: {{ $timestamp }}.
+  Last Updated: {% timestamp %}.
 </p>
