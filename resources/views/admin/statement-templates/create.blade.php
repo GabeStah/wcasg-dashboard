@@ -21,7 +21,9 @@
           {!! csrf_field() !!}
 
           <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="name">Name</label>
+            <label class="col-md-3 col-form-label" for="name">Name
+              <info-icon :text="__('info.views.admin.StatementTemplate.columns.name')"/>
+            </label>
             <div class="col-md-6">
               <input type="text" id="name" name="name" class="form-control" placeholder="Enter Template Name">
 
@@ -31,7 +33,9 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="default_config">Default Config</label>
+            <label class="col-md-3 col-form-label" for="default_config">Default Config
+              <info-icon :text="__('info.views.admin.StatementTemplate.columns.default-config')"/>
+            </label>
             <div class="col-md-6">
               <textarea type="text" id="default_config" name="default_config" class="form-control"
                         placeholder="Enter Default Config" v-pre></textarea>

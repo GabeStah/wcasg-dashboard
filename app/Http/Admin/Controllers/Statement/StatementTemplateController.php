@@ -7,6 +7,7 @@ use CreatyDev\Domain\Setting;
 use CreatyDev\Domain\Sites\Models\Site;
 use CreatyDev\Domain\Statements\Models\StatementTemplate;
 use CreatyDev\Domain\Users\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ class StatementTemplateController extends Controller {
   public function index() {
     $templates = StatementTemplate::with('sites')
       ->get()
-      ->sortByDesc('updated_at');
+      ->sortBy('name');
 
     $settings = Setting::first();
 
@@ -35,13 +36,33 @@ class StatementTemplateController extends Controller {
   }
 
   public function destroy($id) {
-    $template = StatementTemplate::findOrFail($id);
-    $template->delete();
-    $templates = StatementTemplate::all()->sortByDesc('updated_at');
-    return redirect(
-      'admin.statement-templates.index',
-      compact('templates')
-    )->with('status', 'The template has been deleted.');
+    try {
+      $template = StatementTemplate::findOrFail($id);
+      $template->delete();
+
+      return redirect()
+        ->back()
+        ->with(
+          'success',
+          __('controller.admin.StatementTemplate.destroy.success')
+        );
+    } catch (QueryException $e) {
+      if (strpos($e->getMessage(), '.`settings`') === false) {
+        return redirect()
+          ->back()
+          ->with(
+            'error',
+            __('controller.admin.StatementTemplate.destroy.fail.in-use')
+          );
+      } else {
+        return redirect()
+          ->back()
+          ->with(
+            'error',
+            __('controller.admin.StatementTemplate.destroy.fail.is-default')
+          );
+      }
+    }
   }
 
   public function edit($id) {
@@ -83,7 +104,10 @@ class StatementTemplateController extends Controller {
 
     return redirect()
       ->route('admin.statement-templates.show', $template->id)
-      ->with('status', 'Template created.');
+      ->with(
+        'success',
+        __('controller.admin.StatementTemplate.create.success')
+      );
   }
 
   public function update(Request $request, $id) {
@@ -109,6 +133,9 @@ class StatementTemplateController extends Controller {
 
     return redirect()
       ->route('admin.statement-templates.show', $id)
-      ->with('status', 'Template updated.');
+      ->with(
+        'success',
+        __('controller.admin.StatementTemplate.update.success')
+      );
   }
 }

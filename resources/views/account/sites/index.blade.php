@@ -12,12 +12,20 @@
                         <div class="mx-auto w-auto mb-4">
                             <a href="{{ route('plans.index') }}">
                                 <button
-                                    class="btn btn-primary w-auto">{{ __('account.site.subscribe-to-add') }}</button>
+                                    class="btn btn-primary w-auto"
+                                    data-placement="top"
+                                    data-original-title="Subscribe to Add a Site"
+                                    data-toggle="tooltip"
+                                >{{ __('account.site.subscribe-to-add') }}</button>
                             </a>
                         </div>
                     @elseif($sites->isEmpty())
                         <div class="mx-auto w-auto mb-4">
-                            <a href="{{ route('account.sites.create') }}">
+                            <a href="{{ route('account.sites.create') }}"
+                               data-placement="top"
+                               data-original-title="Add a Site"
+                               data-toggle="tooltip"
+                            >
                                 <button class="btn btn-primary w-auto">{{ __('account.site.add-new-button') }}</button>
                             </a>
                         </div>
@@ -39,7 +47,11 @@
                                 @foreach($sites as $site)
                                     <tr>
                                         <td>
-                                            <a href="{{ route('account.sites.edit', $site) }}">
+                                            <a href="{{ route('account.sites.edit', $site) }}"
+                                               data-placement="top"
+                                               data-original-title="Edit Site"
+                                               data-toggle="tooltip"
+                                            >
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                         </td>
@@ -52,10 +64,6 @@
                                         <td>
                                             <span class="badge badge-dot mr-4">
                                                 @if($site->active === true)
-                                                    {{--                                                    <div class="custom-control custom-switch">--}}
-                                                    {{--                                                        <input type="checkbox" class="custom-control-input" id="customSwitches">--}}
-                                                    {{--                                                        <label class="badge badge-info custom-control-label" for="customSwitches">Enabled</label>--}}
-                                                    {{--                                                    </div>--}}
                                                     <span id="site-active-{{ $site->id }}" class="badge badge-info"
                                                           data-pk="{{ $site->id }}"
                                                           data-url="{{ route('account.sites.update', $site) }}"
@@ -84,14 +92,22 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <a href="{{ route('account.sites.statement.show', $site->id) }}">
+                                            <a href="{{ route('account.sites.statement.show', $site->id) }}"
+                                               data-placement="top"
+                                               data-original-title="View Site Accessibility Statement"
+                                               data-toggle="tooltip">
                                                 <button class="btn btn-outline-success mx-0"><i
-                                                        class="fa fa-search"></i>
+                                                        class="fa fa-search"
+                                                    ></i>
                                                 </button>
                                             </a>
-                                            <a href="{{ route('account.sites.statement.edit', $site->id) }}">
+                                            <a href="{{ route('account.sites.statement.edit', $site->id) }}"
+                                               data-placement="top"
+                                               data-original-title="Edit Site Accessibility Statement"
+                                               data-toggle="tooltip">
                                                 <button class="btn btn-outline-light mx-0"><i
-                                                        class="fa fa-edit"></i>
+                                                        class="fa fa-edit"
+                                                    ></i>
                                                 </button>
                                             </a>
                                         </td>
@@ -110,7 +126,11 @@
                                                                id="widget-snippet-{{ $site->id }}"
                                                                aria-labelledby="header-widget" onfocus="this.select()"
                                                                placeholder="Widget Snippet"
-                                                               value="{{ $site->getWidgetScriptTag() }}">
+                                                               value="{{ $site->getWidgetScriptTag() }}"
+                                                               data-placement="top"
+                                                               data-original-title="Copy and paste this line into your site's <head> section."
+                                                               data-toggle="tooltip"
+                                                        ></input>
                                                       </div>
                                                     </form>
                                                 @endif

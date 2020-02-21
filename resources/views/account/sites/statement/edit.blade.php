@@ -20,18 +20,13 @@
       </div>
       <div class="card-body">
         <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="template">Template <i class="fa fa-question-circle"
-                                                                            data-placement="top"
-                                                                            data-original-title="Edit Accessibility Statement"
-                                                                            data-toggle="tooltip"></i></label>
+          <label class="col-md-3 col-form-label" for="template">Template
+            <info-icon text="Parent template used for statement generation."/>
+          </label>
           <div class="col-md-6" v-pre>
             <select id="template" name="template"
                     onchange="document.querySelector('#content').innerHTML =
-              this.options[this.selectedIndex].getAttribute('data-content')"
-                    data-placement="top"
-                    data-original-title="Edit Accessibility Statement"
-                    data-toggle="tooltip"
-            >
+              this.options[this.selectedIndex].getAttribute('data-content')">
               @foreach ($templates as $template)
                 <option value="{{ $template['id'] }}"
                         data-content="{{ $template['content'] }}"
@@ -40,6 +35,7 @@
                 </option>
               @endforeach
             </select>
+            <info-icon text="Select to preview your statement based on the template."/>
             @if ($errors->has('template'))
               <span class="text-danger">{{ $errors->first('template') }}</span>
             @endif
@@ -47,7 +43,9 @@
         </div>
 
         <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="config">Config</label>
+          <label class="col-md-3 col-form-label" for="config">Config
+            <info-icon text="Adjust custom settings for this site's accessibility statement."/>
+          </label>
           <div class="col-md-6">
               <textarea type="text" id="config" name="config" class="form-control"
                         placeholder="Enter Config" v-pre>{{ json_encode($statement->config) }}</textarea>

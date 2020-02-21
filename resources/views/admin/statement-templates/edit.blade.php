@@ -22,7 +22,9 @@
           @method('PUT')
 
           <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="name">Name</label>
+            <label class="col-md-3 col-form-label" for="name">Name
+              <info-icon :text="__('info.views.admin.StatementTemplate.columns.name')"/>
+            </label>
             <div class="col-md-6">
               <input type="text" id="name" name="name" class="form-control" value="{{ $template->name }}"
                      placeholder="Enter Template Name">
@@ -33,7 +35,9 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="is_default">Is Default</label>
+            <label class="col-md-3 col-form-label" for="is_default">Is Default
+              <info-icon :text="__('info.views.admin.StatementTemplate.columns.is-default')"/>
+            </label>
             <div class="col-md-6">
               <input type="checkbox" id="is_default" name="is_default"
                      class="form-control" {{ $settings->default_statement_template === $template->id ? 'checked disabled' : '' }}>
@@ -43,7 +47,9 @@
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-md-3 col-form-label" for="default_config">Default Config</label>
+            <label class="col-md-3 col-form-label" for="default_config">Default Config
+              <info-icon :text="__('info.views.admin.StatementTemplate.columns.default-config')"/>
+            </label>
             <div class="col-md-6">
               <textarea type="text" id="default_config" name="default_config" class="form-control"
                         placeholder="Enter Default Config" v-pre>{{ json_encode($template->default_config) }}</textarea>

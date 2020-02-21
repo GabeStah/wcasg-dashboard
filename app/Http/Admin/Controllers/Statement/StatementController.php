@@ -30,7 +30,7 @@ class StatementController extends Controller {
     $statements = Statement::all()->sortBy('updated_at');
     return view('admin.statements.index', compact('statements'))->with(
       'status',
-      'The statement has been deleted.'
+      __('controller.admin.Statement.destroy.success')
     );
   }
 
@@ -79,7 +79,7 @@ class StatementController extends Controller {
     return view('account.sites.index', [
       'sites' => $user->sites,
       'isSubscribed' => $user->isSubscribed()
-    ]);
+    ])->with('success', __('controller.admin.Statement.create.success'));
   }
 
   public function update(Request $request, $id) {
@@ -91,12 +91,12 @@ class StatementController extends Controller {
     $statement = Statement::findOrFail($id);
 
     $statement->update([
-      'config' => request('config'),
+      'config' => json_decode(request('config')),
       'statement_template_id' => request('template')
     ]);
 
     return redirect()
       ->route('admin.statements.show', $id)
-      ->with('status', 'Statement updated.');
+      ->with('success', __('controller.admin.Statement.update.success'));
   }
 }

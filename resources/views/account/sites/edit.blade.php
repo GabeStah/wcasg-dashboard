@@ -38,34 +38,6 @@
               <label class="custom-control-label" for="active"></label>
             </div>
 
-
-            {{--                    <div class="btn-group btn-group-toggle" data-toggle="buttons">--}}
-            {{--                                                <label class="btn btn-secondary {{ $site->active ? 'active' : '' }}">--}}
-            {{--                        <label class="btn btn-secondary ">--}}
-            {{--                            <input type="radio" name="active" id="enabled" autocomplete="off" checked="{{ $site->active === true }}" value="true"> Enabled--}}
-            {{--                            <input type="radio" name="options" id="enabled" autocomplete="off" > Enabled--}}
-            {{--                        </label>--}}
-            {{--                        <label class="btn btn-secondary {{ !$site->active ? 'active' : '' }}">--}}
-            {{--                        <label class="btn btn-secondary ">--}}
-            {{--                            <input type="radio" name="active" id="disabled" autocomplete="off" checked={{ $site->active === false }} value="false"> Disabled--}}
-            {{--                            <input type="radio" name="options" id="disabled" autocomplete="off" > Disabled--}}
-            {{--                        </label>--}}
-            {{--                    </div>--}}
-            {{--                    @if ($errors->has('active'))--}}
-            {{--                        <div class="invalid-feedback">--}}
-            {{--                            <strong>{{ $errors->first('active') }}</strong>--}}
-            {{--                        </div>--}}
-            {{--                    @endif--}}
-            {{--                                <input id="active" type="text"--}}
-            {{--                                       class="form-control{{ $errors->has('active') ? ' is-invalid' : '' }}"--}}
-            {{--                                       name="active"--}}
-            {{--                                       value="{{ old('active', $site->active) }}" required autofocus>--}}
-
-            {{--                                @if ($errors->has('active'))--}}
-            {{--                                    <div class="invalid-feedback">--}}
-            {{--                                        <strong>{{ $errors->first('active') }}</strong>--}}
-            {{--                                    </div>--}}
-            {{--                                @endif--}}
           </div>
         </div>
 
@@ -79,4 +51,5 @@
       </form>
 
     </div>
+  </div>
 @endsection

@@ -73228,10 +73228,10 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function init(url) {
+function initTooltips() {
 
   /* ---------- Tooltip ---------- */
-  $('[rel="tooltip"],[data-rel="tooltip"]').tooltip({ "placement": "bottom", delay: { show: 400, hide: 200 } });
+  $('[rel="tooltip"],[data-rel="tooltip"],[data-toggle="tooltip"]').tooltip();
 
   /* ---------- Popover ---------- */
   $('[rel="popover"],[data-rel="popover"],[data-toggle="popover"]').popover();
@@ -73253,6 +73253,8 @@ $(function () {
       $('input[name="teams_limit"]').hide();
     }
   });
+
+  initTooltips();
 });
 
 /***/ })

@@ -222,4 +222,11 @@ class Statement extends Model {
 
     return view(['template' => $content]);
   }
+
+  /**
+   * @return StatementTemplate
+   */
+  public function template() {
+    return $this->statementTemplate;
+  }
 }

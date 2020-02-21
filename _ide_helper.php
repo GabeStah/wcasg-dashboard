@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 6.15.1 on 2020-02-20 14:11:39.
+ * Generated for Laravel 6.16.0 on 2020-02-21 13:57:11.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -7551,6 +7551,7 @@ namespace Illuminate\Support\Facades {
          * @param string $notification
          * @param callable|null $callback
          * @return void 
+         * @throws \Exception
          * @static 
          */ 
         public static function assertSentTo($notifiable, $notification, $callback = null)
@@ -7581,6 +7582,7 @@ namespace Illuminate\Support\Facades {
          * @param string $notification
          * @param callable|null $callback
          * @return void 
+         * @throws \Exception
          * @static 
          */ 
         public static function assertNotSentTo($notifiable, $notification, $callback = null)
@@ -16533,6 +16535,94 @@ namespace Sarfraznawaz2005\VisitLog\Facades {
  
 }
 
+namespace Spatie\BladeX\Facades { 
+
+    /**
+     * 
+     *
+     * @see \Spatie\BladeX\BladeX
+     */ 
+    class BladeX {
+        
+        /**
+         * 
+         *
+         * @param string|string[] $view
+         * @param string $tag
+         * @return null|\Spatie\BladeX\Component 
+         * @static 
+         */ 
+        public static function component($view, $tag = '')
+        {
+                        /** @var \Spatie\BladeX\BladeX $instance */
+                        return $instance->component($view, $tag);
+        }
+        
+        /**
+         * 
+         *
+         * @param string|string[] $viewDirectory
+         * @return \Spatie\BladeX\ComponentCollection|\Spatie\BladeX\Component[] 
+         * @static 
+         */ 
+        public static function components($viewDirectory)
+        {
+                        /** @var \Spatie\BladeX\BladeX $instance */
+                        return $instance->components($viewDirectory);
+        }
+        
+        /**
+         * 
+         *
+         * @return \Spatie\BladeX\Component[] 
+         * @static 
+         */ 
+        public static function registeredComponents()
+        {
+                        /** @var \Spatie\BladeX\BladeX $instance */
+                        return $instance->registeredComponents();
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function prefix($prefix = '')
+        {
+                        /** @var \Spatie\BladeX\BladeX $instance */
+                        return $instance->prefix($prefix);
+        }
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getPrefix()
+        {
+                        /** @var \Spatie\BladeX\BladeX $instance */
+                        return $instance->getPrefix();
+        }
+        
+        /**
+         * 
+         *
+         * @internal 
+         * @param string $viewDirectory
+         * @return \Spatie\BladeX\ComponentCollection|\Spatie\BladeX\Component[] 
+         * @static 
+         */ 
+        public static function registerComponents($viewDirectory)
+        {
+                        /** @var \Spatie\BladeX\BladeX $instance */
+                        return $instance->registerComponents($viewDirectory);
+        }
+         
+    }
+ 
+}
+
 namespace Wpb\String_Blade_Compiler\Facades { 
 
     /**
@@ -18942,6 +19032,20 @@ namespace  {
             }
          
             /**
+             * Add a raw groupBy clause to the query.
+             *
+             * @param string $sql
+             * @param array $bindings
+             * @return \Illuminate\Database\Query\Builder 
+             * @static 
+             */ 
+            public static function groupByRaw($sql, $bindings = [])
+            {
+                                /** @var \Illuminate\Database\Query\Builder $instance */
+                                return $instance->groupByRaw($sql, $bindings);
+            }
+         
+            /**
              * Add a "having" clause to the query.
              *
              * @param string $column
@@ -19769,6 +19873,8 @@ namespace  {
     class Image extends \Intervention\Image\Facades\Image {}
 
     class VisitLog extends \Sarfraznawaz2005\VisitLog\Facades\VisitLog {}
+
+    class BladeX extends \Spatie\BladeX\Facades\BladeX {}
 
     class StringBlade extends \Wpb\String_Blade_Compiler\Facades\StringBlade {}
  

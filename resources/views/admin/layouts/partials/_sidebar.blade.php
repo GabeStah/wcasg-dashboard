@@ -157,18 +157,18 @@
                     <i class="icon-plus"></i> Add Template
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link{{ return_if(on_page('admin.statements.index'), ' active') }}"
-                   href="{{ route('admin.statements.index') }}">
-                    <i class="fa fa-tags"></i>All Statements
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link{{ return_if(on_page('admin.statements.create'), ' active') }}"
-                   href="{{ route('admin.statements.create') }}">
-                    <i class="icon-plus"></i> Add Statement
-                </a>
-            </li>
+            {{--            <li class="nav-item">--}}
+            {{--                <a class="nav-link{{ return_if(on_page('admin.statements.index'), ' active') }}"--}}
+            {{--                   href="{{ route('admin.statements.index') }}">--}}
+            {{--                    <i class="fa fa-tags"></i>All Statements--}}
+            {{--                </a>--}}
+            {{--            </li>--}}
+            {{--            <li class="nav-item">--}}
+            {{--                <a class="nav-link{{ return_if(on_page('admin.statements.create'), ' active') }}"--}}
+            {{--                   href="{{ route('admin.statements.create') }}">--}}
+            {{--                    <i class="icon-plus"></i> Add Statement--}}
+            {{--                </a>--}}
+            {{--            </li>--}}
         </ul>
     </li>
     <li class="nav-item nav-dropdown">

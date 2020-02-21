@@ -125,7 +125,7 @@ class SitesController extends Controller {
 
     return redirect()
       ->route('account.sites.statement.show', $site->id)
-      ->with('status', 'Statement successfully updated.');
+      ->with('success', __('controller.account.Site.Statement.update.success'));
   }
 
   public function store() {
@@ -154,7 +154,7 @@ class SitesController extends Controller {
       return view('account.sites.index', [
         'sites' => $user->sites,
         'isSubscribed' => $user->isSubscribed()
-      ]);
+      ])->with('success', __('controller.account.Site.create.success'));
     } catch (\Exception $ex) {
       return $ex->getMessage();
     }
@@ -196,10 +196,12 @@ class SitesController extends Controller {
       $site->domain = request('domain');
       $site->save();
 
-      return redirect()->route('account.sites.index', [
-        'sites' => $user->sites,
-        'isSubscribed' => $user->isSubscribed()
-      ]);
+      return redirect()
+        ->route('account.sites.index', [
+          'sites' => $user->sites,
+          'isSubscribed' => $user->isSubscribed()
+        ])
+        ->with('success', __('controller.account.Site.update.success'));
     } catch (\Exception $ex) {
       return $ex->getMessage();
     }
