@@ -20,10 +20,18 @@
       </div>
       <div class="card-body">
         <div class="form-group row">
-          <label class="col-md-3 col-form-label" for="template">Template</label>
+          <label class="col-md-3 col-form-label" for="template">Template <i class="fa fa-question-circle"
+                                                                            data-placement="top"
+                                                                            data-original-title="Edit Accessibility Statement"
+                                                                            data-toggle="tooltip"></i></label>
           <div class="col-md-6" v-pre>
             <select id="template" name="template"
-                    onchange="document.querySelector('#content').innerHTML = this.options[this.selectedIndex].getAttribute('data-content')">
+                    onchange="document.querySelector('#content').innerHTML =
+              this.options[this.selectedIndex].getAttribute('data-content')"
+                    data-placement="top"
+                    data-original-title="Edit Accessibility Statement"
+                    data-toggle="tooltip"
+            >
               @foreach ($templates as $template)
                 <option value="{{ $template['id'] }}"
                         data-content="{{ $template['content'] }}"
