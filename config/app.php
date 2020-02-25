@@ -164,6 +164,7 @@ return [
     CreatyDev\App\Providers\PermissionsServiceProvider::class,
     CreatyDev\App\Providers\StripeServiceProvider::class,
     CreatyDev\App\Providers\BladeServiceProvider::class,
+    CreatyDev\App\Providers\Pa11yServiceProvider::class,
     CreatyDev\App\Providers\TwoFactorServiceProvider::class,
     CreatyDev\App\Providers\TenantServiceProvider::class,
     CreatyDev\App\Providers\UrlSchemeServiceProvider::class

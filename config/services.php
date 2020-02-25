@@ -36,5 +36,9 @@ return [
 
   'authy' => [
     'secret' => env('AUTHY_SECRET')
+  ],
+
+  'pa11y' => [
+    'endpoint' => env('PA11Y_WEBSERVICE_ENDPOINT')
   ]
 ];

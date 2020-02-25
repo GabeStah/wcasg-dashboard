@@ -13,6 +13,20 @@
 
 Route::group(
   [
+    'namespace' => 'Api\Controllers\Audit',
+    //    'middleware' => ['api.audit'],
+    'as' => 'api.audit.'
+  ],
+  function () {
+    Route::get('audit/{domain}', 'AuditController@get')->name('get');
+    Route::get('audit/{id}/results', 'AuditController@results')->name(
+      'results'
+    );
+  }
+);
+
+Route::group(
+  [
     'namespace' => 'Api\Controllers\Statement',
     'middleware' => ['api.statement'],
     'as' => 'api.statement.'
