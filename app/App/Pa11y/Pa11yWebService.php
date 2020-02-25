@@ -47,8 +47,8 @@ class Pa11yWebService implements Pa11y {
       );
     } catch (Exception $e) {
       return [
-        'message' => 'An error has occurred.  Unable to create task.',
-        'status' => '400'
+        'message' => $e->getMessage(),
+        'status' => $e->getCode() === 0 ? 404 : $e->getCode()
       ];
     }
   }
@@ -85,7 +85,7 @@ class Pa11yWebService implements Pa11y {
     } catch (RequestException $e) {
       return [
         'message' => $e->getMessage(),
-        'status' => $e->getCode()
+        'status' => $e->getCode() === 0 ? 404 : $e->getCode()
       ];
     }
   }
@@ -106,7 +106,7 @@ class Pa11yWebService implements Pa11y {
     } catch (RequestException $e) {
       return [
         'message' => $e->getMessage(),
-        'status' => $e->getCode()
+        'status' => $e->getCode() === 0 ? 404 : $e->getCode()
       ];
     }
   }
