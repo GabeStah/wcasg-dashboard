@@ -149,6 +149,25 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ return_if(on_page('account.audits.index'), ' active') }}"
+                           href="#navbar-audits" data-toggle="collapse" role="button"
+                           aria-expanded="false" aria-controls="navbar-audits">
+                            <i class="fa fa-sitemap" aria-hidden="true"></i>
+                            <span class="nav-link-text">Audits</span>
+                        </a>
+                        <!-- Site Links -->
+                        <div class="collapse" id="navbar-audits">
+                            <ul class="nav nav-sm flex-column">
+                                <li class="nav-item">
+                                    <a class="nav-link{{ return_if(on_page('account.audits.index'), ' active') }}"
+                                       href="{{ route('account.audits.index') }}">
+                                        My Audits
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                     @teamsubscription
                     <li class="nav-item">
                         <a class="nav-link{{ return_if(on_page('account.team.my-team'), ' active') }}"

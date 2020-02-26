@@ -295,10 +295,20 @@ Route::group(
     });
 
     /**
+     * Audits
+     */
+    Route::group(['prefix' => '/audits', 'as' => 'audits.'], function () {
+      Route::get('/', 'AuditsController@index')->name('index');
+      Route::post('/', 'AuditsController@store')->name('store');
+      Route::get('/create', 'AuditsController@create')->name('create');
+      Route::get('/{id}/edit', 'AuditsController@edit')->name('edit');
+      Route::put('/{id}', 'AuditsController@update')->name('update');
+    });
+
+    /**
      * Sites
      */
     Route::group(['prefix' => '/sites', 'as' => 'sites.'], function () {
-      // personal access token index
       Route::get('/', 'SitesController@index')->name('index');
       Route::post('/', 'SitesController@store')->name('store');
       Route::get('/create', 'SitesController@create')->name('create');

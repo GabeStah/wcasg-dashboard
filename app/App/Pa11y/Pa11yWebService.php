@@ -34,7 +34,7 @@ class Pa11yWebService implements Pa11y {
    */
   public function createTask(string $domain) {
     try {
-      return $this->client->request(
+      $response = $this->client->request(
         'POST',
         config('services.pa11y.endpoint') . 'tasks',
         [
@@ -45,6 +45,7 @@ class Pa11yWebService implements Pa11y {
           ]
         ]
       );
+      return $response;
     } catch (Exception $e) {
       return [
         'message' => $e->getMessage(),
@@ -92,7 +93,7 @@ class Pa11yWebService implements Pa11y {
 
   public function getTaskAllResults(string $id) {
     try {
-      return $this->client->request(
+      $response = $this->client->request(
         'GET',
         config('services.pa11y.endpoint') . "tasks/{$id}/results",
         [
@@ -103,6 +104,7 @@ class Pa11yWebService implements Pa11y {
           ]
         ]
       );
+      return $response;
     } catch (RequestException $e) {
       return [
         'message' => $e->getMessage(),
