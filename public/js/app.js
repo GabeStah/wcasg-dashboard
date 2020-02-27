@@ -79693,8 +79693,8 @@ module.exports = function listToStyles (parentId, list) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(180);
-__webpack_require__(206);
-module.exports = __webpack_require__(207);
+__webpack_require__(209);
+module.exports = __webpack_require__(210);
 
 
 /***/ }),
@@ -79705,7 +79705,6 @@ module.exports = __webpack_require__(207);
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_timeago__ = __webpack_require__(181);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_timeago___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_timeago__);
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -79721,12 +79720,12 @@ window.Vue = __webpack_require__(174);
 
 
 Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_timeago___default.a, {
-    name: 'timeago', // component name, `timeago` by default
-    locale: 'en-US',
-    locales: {
-        // you will need json-loader in webpack 1
-        'en-US': __webpack_require__(182)
-    }
+  name: 'timeago', // component name, `timeago` by default
+  locale: 'en-US',
+  locales: {
+    // you will need json-loader in webpack 1
+    'en-US': __webpack_require__(182)
+  }
 });
 
 /**
@@ -79734,6 +79733,24 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_timeago___default.a, {
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+/**
+ * Generates a psuedo-random hex string.
+ * @returns {string}
+ */
+window.generateHex = function () {
+  var length = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 36;
+
+  var minLength = 8;
+  var minValue = Math.pow(16, Math.min(length, minLength) - 1);
+  var maxValue = Math.pow(16, Math.min(length, minLength)) - 1;
+  var generated = Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
+  var output = generated.toString(16);
+  while (output.length < length) {
+    output = output + generateHex(length - minLength);
+  }
+  return output;
+};
 
 Vue.component('passport-clients', __webpack_require__(183));
 
@@ -79746,7 +79763,7 @@ Vue.component('notification', __webpack_require__(198));
 Vue.component('audit-results', __webpack_require__(203));
 
 var app = new Vue({
-    el: '#app'
+  el: '#app'
 });
 
 /***/ }),
@@ -82491,7 +82508,7 @@ var normalizeComponent = __webpack_require__(3)
 /* script */
 var __vue_script__ = __webpack_require__(204)
 /* template */
-var __vue_template__ = __webpack_require__(205)
+var __vue_template__ = __webpack_require__(208)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -82535,7 +82552,7 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(239);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__ = __webpack_require__(205);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(143);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
@@ -82582,14 +82599,46 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      error: null,
       isLoading: false,
       results: null,
+      token: null,
       url: ''
     };
   },
@@ -82597,49 +82646,84 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
   methods: {
     createAudit: function createAudit() {
       this.isLoading = true;
+      this.error = null;
 
-      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('/api/audit/create', { url: this.url }).then(function (response) {
-        return console.log(response);
+      if (this.token) {
+        this.leaveChannel('audit-' + this.token);
+      }
+      this.token = generateHex();
+      this.joinChannel('audit-' + this.token);
+
+      __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('/api/audit/create', { token: this.token, url: this.url }).then(function (response) {
+        console.log(response);
       });
 
       this.results = null;
       this.url = '';
-    }
-  },
-  mounted: function mounted() {
-    var _this = this;
+    },
+    leaveChannel: function leaveChannel(channelId) {
+      Echo.leaveChannel(channelId);
+    },
+    joinChannel: function joinChannel(channelId) {
+      var _this = this;
 
-    var channel = Echo.channel('audit');
-    channel.listen('.AuditCompleted', function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(_ref) {
-        var audit = _ref.audit;
-        var response;
-        return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/audit/' + audit.task_id + '/results', { url: _this.url });
+      var channel = Echo.channel(channelId);
 
-              case 2:
-                response = _context.sent;
+      channel.listen('.AuditCompleted', function () {
+        var _ref2 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee(_ref) {
+          var audit = _ref.audit;
+          var response;
+          return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.next = 2;
+                  return __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/audit/' + audit.task_id + '/results', { url: _this.url });
 
-                console.log(response.data);
-                _this.results = response.data.results;
-                _this.isLoading = false;
+                case 2:
+                  response = _context.sent;
 
-              case 6:
-              case 'end':
-                return _context.stop();
+
+                  _this.results = response.data.results;
+                  _this.isLoading = false;
+
+                case 5:
+                case 'end':
+                  return _context.stop();
+              }
             }
-          }
-        }, _callee, _this);
-      }));
+          }, _callee, _this);
+        }));
 
-      return function (_x) {
-        return _ref2.apply(this, arguments);
-      };
-    }());
+        return function (_x) {
+          return _ref2.apply(this, arguments);
+        };
+      }());
+
+      channel.listen('.AuditFailed', function () {
+        var _ref4 = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.mark(function _callee2(_ref3) {
+          var audit = _ref3.audit,
+              error = _ref3.error;
+          return __WEBPACK_IMPORTED_MODULE_0_babel_runtime_regenerator___default.a.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  _this.error = error;
+                  _this.isLoading = false;
+
+                case 2:
+                case 'end':
+                  return _context2.stop();
+              }
+            }
+          }, _callee2, _this);
+        }));
+
+        return function (_x2) {
+          return _ref4.apply(this, arguments);
+        };
+      }());
+    }
   }
 });
 
@@ -82647,188 +82731,11 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 /* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "features" }, [
-    _c("div", { staticClass: "row" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-7" }, [
-        _c("div", { staticClass: "row my-2" }, [
-          _c("div", { staticClass: "col-sm-12" }, [
-            _c("label", { attrs: { for: "url" } }, [_vm._v("Domain or URL")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.url,
-                  expression: "url"
-                }
-              ],
-              staticClass: "form-control",
-              attrs: {
-                id: "url",
-                name: "url",
-                type: "text",
-                placeholder: "Enter a domain or URL..."
-              },
-              domProps: { value: _vm.url },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.url = $event.target.value
-                }
-              }
-            })
-          ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-block btn-primary",
-            attrs: { disabled: _vm.isLoading },
-            on: { click: _vm.createAudit }
-          },
-          [
-            _vm.isLoading
-              ? _c("span", {
-                  staticClass: "spinner-border spinner-border-sm",
-                  attrs: { role: "status", "aria-hidden": "true" }
-                })
-              : _vm._e(),
-            _vm._v(" "),
-            _c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")]),
-            _vm._v(" "),
-            _vm.isLoading
-              ? _c("span", [_vm._v("Loading...")])
-              : _c("span", [_vm._v("Begin Audit")])
-          ]
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _vm.results
-      ? _c(
-          "div",
-          { staticClass: "row my-3" },
-          _vm._l(_vm.results, function(result) {
-            return _c("div", { staticClass: "col-md-6 d-flex p-2" }, [
-              _c("div", { staticClass: "box card-outline-primary" }, [
-                _c("h3", [_vm._v(_vm._s(result.code.split(".").join(" ")))]),
-                _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(result.message))]),
-                _vm._v(" "),
-                result.type === "notice"
-                  ? _c("span", { staticClass: "badge badge-info" }, [
-                      _vm._v(_vm._s(result.type))
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                result.type === "warning"
-                  ? _c("span", { staticClass: "badge badge-warning" }, [
-                      _vm._v(_vm._s(result.type))
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                result.type === "error"
-                  ? _c("span", { staticClass: "badge badge-danger" }, [
-                      _vm._v(_vm._s(result.type))
-                    ])
-                  : _vm._e()
-              ])
-            ])
-          }),
-          0
-        )
-      : _vm._e()
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-5" }, [
-      _c("div", { staticClass: "title" }, [
-        _c("h3", [_vm._v("Perform a Full Site Audit Now!")]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            "Nulla metus metus ullamcorper vel tincidunt sed euismod nibh Quisque volutpat"
-          )
-        ])
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-78e18446", module.exports)
-  }
-}
+module.exports = __webpack_require__(206);
+
 
 /***/ }),
 /* 206 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 207 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 208 */,
-/* 209 */,
-/* 210 */,
-/* 211 */,
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */,
-/* 218 */,
-/* 219 */,
-/* 220 */,
-/* 221 */,
-/* 222 */,
-/* 223 */,
-/* 224 */,
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */,
-/* 229 */,
-/* 230 */,
-/* 231 */,
-/* 232 */,
-/* 233 */,
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */,
-/* 239 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(240);
-
-
-/***/ }),
-/* 240 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -82853,7 +82760,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(241);
+module.exports = __webpack_require__(207);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -82869,7 +82776,7 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 241 */
+/* 207 */
 /***/ (function(module, exports) {
 
 /**
@@ -83600,6 +83507,162 @@ if (hadRuntime) {
   (function() { return this })() || Function("return this")()
 );
 
+
+/***/ }),
+/* 208 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "features" }, [
+    _c("div", { staticClass: "row" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-7" }, [
+        _c("div", { staticClass: "row my-2" }, [
+          _c("div", { staticClass: "col-sm-12" }, [
+            _c("label", { attrs: { for: "url" } }, [_vm._v("Domain or URL")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.url,
+                  expression: "url"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                id: "url",
+                name: "url",
+                type: "text",
+                placeholder: "Enter a domain or URL..."
+              },
+              domProps: { value: _vm.url },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.url = $event.target.value
+                }
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-block btn-primary",
+            attrs: { disabled: _vm.isLoading },
+            on: { click: _vm.createAudit }
+          },
+          [
+            _vm.isLoading
+              ? _c("span", {
+                  staticClass: "spinner-border spinner-border-sm",
+                  attrs: { role: "status", "aria-hidden": "true" }
+                })
+              : _vm._e(),
+            _vm._v(" "),
+            _c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")]),
+            _vm._v(" "),
+            _vm.isLoading
+              ? _c("span", [_vm._v("Loading...")])
+              : _c("span", [_vm._v("Begin Audit")])
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _vm.error && !_vm.isLoading
+      ? _c("div", { staticClass: "row my-3 justify-content-center" }, [
+          _c(
+            "div",
+            { staticClass: "alert alert-danger", attrs: { role: "alert" } },
+            [_vm._v("\n      " + _vm._s(_vm.error) + "\n    ")]
+          )
+        ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.results
+      ? _c(
+          "div",
+          { staticClass: "row my-3" },
+          _vm._l(_vm.results, function(result) {
+            return _c("div", { staticClass: "col-md-6 d-flex p-2" }, [
+              _c("div", { staticClass: "box card-outline-primary" }, [
+                _c("h3", [_vm._v(_vm._s(result.code.split(".").join(" ")))]),
+                _vm._v(" "),
+                _c("p", [_vm._v(_vm._s(result.message))]),
+                _vm._v(" "),
+                result.type === "notice"
+                  ? _c("span", { staticClass: "badge badge-info" }, [
+                      _vm._v(_vm._s(result.type))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                result.type === "warning"
+                  ? _c("span", { staticClass: "badge badge-warning" }, [
+                      _vm._v(_vm._s(result.type))
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                result.type === "error"
+                  ? _c("span", { staticClass: "badge badge-danger" }, [
+                      _vm._v(_vm._s(result.type))
+                    ])
+                  : _vm._e()
+              ])
+            ])
+          }),
+          0
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-md-5" }, [
+      _c("div", { staticClass: "title" }, [
+        _c("h3", [_vm._v("Perform a Full Site Audit Now!")]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "\n          Nulla metus metus ullamcorper vel tincidunt sed euismod nibh Quisque\n          volutpat\n        "
+          )
+        ])
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-78e18446", module.exports)
+  }
+}
+
+/***/ }),
+/* 209 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 210 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

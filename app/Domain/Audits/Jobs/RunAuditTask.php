@@ -3,6 +3,7 @@
 namespace CreatyDev\Domain\Audits\Jobs;
 
 use CreatyDev\App\Pa11y\Pa11y;
+use CreatyDev\Domain\Audits\Events\AuditFailed;
 use CreatyDev\Domain\Audits\Events\AuditTaskCreated;
 use CreatyDev\Domain\Audits\Events\AuditTaskStarted;
 use CreatyDev\Domain\Audits\Models\Audit;
@@ -60,6 +61,6 @@ class RunAuditTask implements ShouldQueue {
    * @return void
    */
   public function failed(Exception $exception) {
-    // Send user notification of failure, etc...
+    event(new AuditFailed($this->audit, $exception));
   }
 }

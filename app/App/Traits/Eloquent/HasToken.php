@@ -1,6 +1,6 @@
 <?php
 
-namespace CreatyDev\App\Traits\Eloquent\Roles;
+namespace CreatyDev\App\Traits\Eloquent;
 
 use Illuminate\Support\Str;
 
@@ -8,14 +8,13 @@ use Illuminate\Support\Str;
  * Generates a random token attribute on model creation.
  *
  * Trait HasToken
- * @package CreatyDev\App\Traits\Eloquent\Roles
  */
 trait HasToken {
-    public static function bootHasToken() {
-        static::creating(function ($model) {
-            if (!isset($model->attributes['token'])) {
-                $model->attributes['token'] = Str::random(36);
-            }
-        });
-    }
+  public static function bootHasToken() {
+    static::creating(function ($model) {
+      if (!isset($model->attributes['token'])) {
+        $model->attributes['token'] = bin2hex(random_bytes(18));
+      }
+    });
+  }
 }

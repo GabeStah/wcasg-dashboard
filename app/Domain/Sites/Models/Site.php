@@ -2,7 +2,7 @@
 
 namespace CreatyDev\Domain\Sites\Models;
 
-use CreatyDev\App\Traits\Eloquent\Roles\HasToken;
+use CreatyDev\App\Traits\Eloquent\HasToken;
 use CreatyDev\Domain\Statements\Models\Statement;
 use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Database\Eloquent\Model;

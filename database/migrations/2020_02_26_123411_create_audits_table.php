@@ -12,7 +12,10 @@ class CreateAuditsTable extends Migration {
    */
   public function up() {
     Schema::create('audits', function (Blueprint $table) {
-      $table->bigIncrements('id')->index();
+      $table
+        ->string('id', 36)
+        ->unique()
+        ->primary();
 
       $table->string('url')->index();
 

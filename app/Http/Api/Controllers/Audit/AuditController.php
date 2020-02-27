@@ -8,10 +8,11 @@ use CreatyDev\Domain\Audits\Events\AuditCreated;
 use CreatyDev\Domain\Audits\Events\AuditRequested;
 use CreatyDev\Domain\Audits\Models\Audit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class AuditController extends Controller {
   public function create(Request $request, Pa11y $pa11y) {
-    $audit = new Audit(['url' => request('url')]);
+    $audit = new Audit(['id' => request('token'), 'url' => request('url')]);
     $audit->saveOrFail();
 
     // Dispatch Audit creation event.

@@ -2,6 +2,7 @@
 
 namespace CreatyDev\Domain\Audits\Models;
 
+use CreatyDev\App\Traits\Eloquent\HasTokenId;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -25,5 +26,10 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  */
 class Audit extends Model {
-  protected $fillable = ['url', 'task_id', 'result_id'];
+  use HasTokenId;
+
+  public $incrementing = false;
+  protected $fillable = ['id', 'url', 'task_id', 'result_id'];
+  protected $keyType = 'string';
+  protected $primaryKey = 'id';
 }

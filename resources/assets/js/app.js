@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -14,12 +13,12 @@ window.Vue = require('vue');
 import VueTimeago from 'vue-timeago';
 
 Vue.use(VueTimeago, {
-    name: 'timeago', // component name, `timeago` by default
-    locale: 'en-US',
-    locales: {
-        // you will need json-loader in webpack 1
-        'en-US': require('vue-timeago/locales/en-US.json')
-    }
+  name: 'timeago', // component name, `timeago` by default
+  locale: 'en-US',
+  locales: {
+    // you will need json-loader in webpack 1
+    'en-US': require('vue-timeago/locales/en-US.json')
+  }
 });
 
 /**
@@ -28,32 +27,41 @@ Vue.use(VueTimeago, {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+/**
+ * Generates a psuedo-random hex string.
+ * @returns {string}
+ */
+window.generateHex = (length = 36) => {
+  let minLength = 8;
+  let minValue = Math.pow(16, Math.min(length, minLength) - 1);
+  let maxValue = Math.pow(16, Math.min(length, minLength)) - 1;
+  let generated = Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue;
+  let output = generated.toString(16);
+  while (output.length < length) {
+    output = output + generateHex(length - minLength);
+  }
+  return output;
+};
+
+Vue.component('passport-clients', require('./components/passport/Clients.vue'));
+
 Vue.component(
-    'passport-clients',
-    require('./components/passport/Clients.vue')
+  'passport-authorized-clients',
+  require('./components/passport/AuthorizedClients.vue')
 );
 
 Vue.component(
-    'passport-authorized-clients',
-    require('./components/passport/AuthorizedClients.vue')
+  'passport-personal-access-tokens',
+  require('./components/passport/PersonalAccessTokens.vue')
 );
 
 Vue.component(
-    'passport-personal-access-tokens',
-    require('./components/passport/PersonalAccessTokens.vue')
+  'notification',
+  require('./components/notifications/Notification.vue')
 );
 
-Vue.component(
-    'notification',
-    require('./components/notifications/Notification.vue')
-);
-
-Vue.component(
-  'audit-results',
-  require('./components/audit/AuditResults.vue')
-);
-
+Vue.component('audit-results', require('./components/audit/AuditResults.vue'));
 
 const app = new Vue({
-    el: '#app'
+  el: '#app'
 });

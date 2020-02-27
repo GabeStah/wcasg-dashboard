@@ -32,13 +32,4 @@ class AuditRequested {
       new GetAuditResults($audit)
     ])->dispatch($audit);
   }
-
-  /**
-   * Get the channels the event should broadcast on.
-   *
-   * @return Channel|array
-   */
-  public function broadcastOn() {
-    return new Channel('audit');
-  }
 }

@@ -4,9 +4,11 @@ namespace CreatyDev\Domain\Audits\Jobs;
 
 use CreatyDev\App\Pa11y\Pa11y;
 use CreatyDev\Domain\Audits\Events\AuditCompleted;
+use CreatyDev\Domain\Audits\Events\AuditFailed;
 use CreatyDev\Domain\Audits\Events\AuditTaskStarted;
 use CreatyDev\Domain\Audits\Models\Audit;
 use DateTime;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -57,7 +59,7 @@ class GetAuditResults implements ShouldQueue {
    * @return void
    */
   public function failed(Exception $exception) {
-    // Send user notification of failure, etc...
+    event(new AuditFailed($this->audit, $exception));
   }
 
   /**
