@@ -18,6 +18,9 @@
                     <a class="nav-link" href="{{ route('home') }}#slider">Home</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ route('audit.index') }}">Audit</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" href="#features">Features</a>
                 </li>
                 <li class="nav-item">

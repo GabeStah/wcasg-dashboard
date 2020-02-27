@@ -5,6 +5,7 @@ namespace CreatyDev\App\Pa11y;
 use Exception;
 use GuzzleHttp\Client;
 use CreatyDev\Domain\Users\Models\User;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Contracts\Support\Jsonable;
 
@@ -28,30 +29,24 @@ class Pa11yWebService implements Pa11y {
   /**
    * Generate a task for specified domain and standard.
    *
-   * @param string $domain
+   * @param string $url
    *
    * @return array|mixed
    */
-  public function createTask(string $domain) {
-    try {
-      $response = $this->client->request(
-        'POST',
-        config('services.pa11y.endpoint') . 'tasks',
-        [
-          'form_params' => [
-            'name' => 'Test Task',
-            'url' => $domain,
-            'standard' => 'WCAG2AA'
-          ]
+  public function createTask(string $url) {
+    $response = $this->client->request(
+      'POST',
+      config('services.pa11y.endpoint') . 'tasks',
+      [
+        'form_params' => [
+          'name' => 'Test Task',
+          'url' => $url,
+          'standard' => 'WCAG2AA'
         ]
-      );
-      return $response;
-    } catch (Exception $e) {
-      return [
-        'message' => $e->getMessage(),
-        'status' => $e->getCode() === 0 ? 404 : $e->getCode()
-      ];
-    }
+      ]
+    );
+
+    return json_decode($response->getBody());
   }
 
   public function getTasks() {
@@ -78,39 +73,33 @@ class Pa11yWebService implements Pa11y {
   }
 
   public function runTask(string $id) {
-    try {
-      return $this->client->request(
-        'POST',
-        config('services.pa11y.endpoint') . "tasks/{$id}/run"
-      );
-    } catch (RequestException $e) {
-      return [
-        'message' => $e->getMessage(),
-        'status' => $e->getCode() === 0 ? 404 : $e->getCode()
-      ];
-    }
+    $response = $this->client->request(
+      'POST',
+      config('services.pa11y.endpoint') . "tasks/{$id}/run"
+    );
+    return json_decode($response->getBody());
   }
 
   public function getTaskAllResults(string $id) {
-    try {
-      $response = $this->client->request(
-        'GET',
-        config('services.pa11y.endpoint') . "tasks/{$id}/results",
-        [
-          'query' => [
-            // 'from' => null,
-            // 'to' => null,
-            'full' => 'true'
-          ]
+    $response = $this->client->request(
+      'GET',
+      config('services.pa11y.endpoint') . "tasks/{$id}/results",
+      [
+        'query' => [
+          // 'from' => null,
+          // 'to' => null,
+          'full' => 'true'
         ]
-      );
-      return $response;
-    } catch (RequestException $e) {
-      return [
-        'message' => $e->getMessage(),
-        'status' => $e->getCode() === 0 ? 404 : $e->getCode()
-      ];
+      ]
+    );
+
+    if ($response->getStatusCode() !== 200) {
+      throw new ClientException('Task results could not be retrieved.');
     }
+
+    $results = json_decode($response->getBody());
+    // Return first element
+    return $results[0];
   }
 
   public function getTaskResult() {

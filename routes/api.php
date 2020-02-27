@@ -18,8 +18,7 @@ Route::group(
     'as' => 'api.audit.'
   ],
   function () {
-    Route::post('audit/create/{url}', 'AuditController@create')->name('create');
-    Route::get('audit/{url}', 'AuditController@get')->name('get');
+    Route::post('audit/create', 'AuditController@create')->name('create');
     Route::get('audit/{id}/results', 'AuditController@results')->name(
       'results'
     );

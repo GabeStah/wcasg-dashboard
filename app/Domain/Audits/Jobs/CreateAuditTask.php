@@ -3,17 +3,16 @@
 namespace CreatyDev\Domain\Audits\Jobs;
 
 use CreatyDev\App\Pa11y\Pa11y;
-use CreatyDev\Domain\Audits\Events\AuditCompleted;
-use CreatyDev\Domain\Audits\Events\AuditTaskStarted;
+use CreatyDev\Domain\Audits\Events\AuditTaskCreated;
 use CreatyDev\Domain\Audits\Models\Audit;
-use DateTime;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class GetAuditResults implements ShouldQueue {
+class CreateAuditTask implements ShouldQueue {
   use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
   protected $audit;
@@ -23,7 +22,14 @@ class GetAuditResults implements ShouldQueue {
    *
    * @var int
    */
-  public $timeout = 10;
+  public $timeout = 60;
+
+  /**
+   * The number of times the job may be attempted.
+   *
+   * @var int
+   */
+  public $tries = 3;
 
   /**
    * Create a new job instance.
@@ -38,16 +44,14 @@ class GetAuditResults implements ShouldQueue {
    * Execute the job.
    *
    * @param Pa11y $pa11y
+   * @see https://laravel.com/docs/6.x/queues#job-chaining
    *
    * @return void
    */
   public function handle(Pa11y $pa11y) {
-    $resultObject = $pa11y->getTaskAllResults($this->audit->task_id);
-
-    if (!$this->audit->result_id) {
-      $this->audit->update(['result_id' => $resultObject->id]);
-    }
-    event(new AuditCompleted($this->audit));
+    $taskObject = $pa11y->createTask($this->audit->url);
+    $this->audit->update(['task_id' => $taskObject->id]);
+    event(new AuditTaskCreated($this->audit));
   }
 
   /**
@@ -58,14 +62,5 @@ class GetAuditResults implements ShouldQueue {
    */
   public function failed(Exception $exception) {
     // Send user notification of failure, etc...
-  }
-
-  /**
-   * Determine the time at which the job should timeout.
-   *
-   * @return DateTime
-   */
-  public function retryUntil() {
-    return now()->addSeconds(60);
   }
 }

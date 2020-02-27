@@ -14,10 +14,7 @@ class CreateAuditsTable extends Migration {
     Schema::create('audits', function (Blueprint $table) {
       $table->bigIncrements('id')->index();
 
-      $table
-        ->string('url')
-        ->index()
-        ->nullable();
+      $table->string('url')->index();
 
       $table
         ->string('task_id')

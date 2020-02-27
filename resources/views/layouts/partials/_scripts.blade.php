@@ -14,7 +14,7 @@
     <!--End of Tawk.to Script-->
 <!-- Argon Scripts -->
 <!-- Core -->
-{{-- <script src="{{ asset('js/app.js') }}"></script> --}}
+<script src="{{ asset('js/app.js') }}"></script>
 
 <!-- ======== Java Script ======== -->
 <script src="{{ asset('saas/js/plugins/jquery-3.3.1.min.js') }}"></script>

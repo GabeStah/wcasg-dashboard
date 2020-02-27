@@ -1,5 +1,5 @@
 @extends('account.layouts.default')
-@section('title', 'My Audits')
+@section('title', 'My Audit')
 @section('content')
     <div class="container-fluid mt--6">
         <div class="row">

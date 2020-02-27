@@ -9,7 +9,7 @@ namespace CreatyDev\App\Pa11y;
  * @package CreatyDev\App\Pa11y
  */
 interface Pa11y {
-  public function createTask(string $domain);
+  public function createTask(string $url);
   public function getTasks();
 
   /**

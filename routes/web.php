@@ -104,6 +104,20 @@ Route::group(['namespace' => 'Home\Controllers'], function () {
 });
 
 /**
+ * Audit Routes
+ */
+Route::group(
+  [
+    'prefix' => '/audit',
+    'as' => 'audit.',
+    'namespace' => 'Audit\Controllers'
+  ],
+  function () {
+    Route::get('/', 'AuditController@index')->name('index');
+  }
+);
+
+/**
  * Plans Routes
  */
 Route::group(['namespace' => 'Subscription\Controllers'], function () {
@@ -295,7 +309,7 @@ Route::group(
     });
 
     /**
-     * Audits
+     * Audit
      */
     Route::group(['prefix' => '/audits', 'as' => 'audits.'], function () {
       Route::get('/', 'AuditsController@index')->name('index');

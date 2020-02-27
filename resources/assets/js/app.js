@@ -48,6 +48,12 @@ Vue.component(
     require('./components/notifications/Notification.vue')
 );
 
+Vue.component(
+  'audit-results',
+  require('./components/audit/AuditResults.vue')
+);
+
+
 const app = new Vue({
     el: '#app'
 });
