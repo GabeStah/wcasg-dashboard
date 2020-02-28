@@ -22,6 +22,5 @@ class ExecuteAudit {
    * @return void
    */
   public function handle(AuditTaskCreated $event) {
-    dump('listener:ExecuteAudit');
   }
 }

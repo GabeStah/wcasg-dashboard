@@ -14,7 +14,7 @@
 Route::group(
   [
     'namespace' => 'Api\Controllers\Audit',
-    //    'middleware' => ['api.audit'],
+    'middleware' => ['api.json'],
     'as' => 'api.audit.'
   ],
   function () {

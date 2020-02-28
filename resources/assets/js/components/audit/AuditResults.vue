@@ -69,6 +69,7 @@
 
 <script>
 import axios from 'axios';
+import isURL from 'validator/es/lib/isURL';
 
 export default {
   data() {
@@ -82,35 +83,31 @@ export default {
   },
   methods: {
     createAudit() {
-      this.isLoading = true;
-      this.error = null;
+      if (this.validate()) {
+        this.isLoading = true;
+        this.error = null;
 
-      if (this.token) {
-        this.leaveChannel(`audit-${this.token}`);
+        if (this.token) {
+          this.leaveChannel(`audit-${this.token}`);
+        }
+        this.token = generateHex();
+        this.joinChannel(`audit-${this.token}`);
+
+        axios
+          .post(`/api/audit/create`, { token: this.token, url: this.url })
+          .then(response => {
+            console.log(response);
+          });
+
+        this.results = null;
+        this.url = '';
       }
-      this.token = generateHex();
-      this.joinChannel(`audit-${this.token}`);
-
-      axios
-        .post(`/api/audit/create`, { token: this.token, url: this.url })
-        .then(response => {
-          console.log(response);
-        });
-
-      this.results = null;
-      this.url = '';
-    },
-    leaveChannel(channelId) {
-      Echo.leaveChannel(channelId);
     },
     joinChannel(channelId) {
       const channel = Echo.channel(channelId);
 
       channel.listen('.AuditCompleted', async ({ audit }) => {
-        const response = await axios.get(
-          `/api/audit/${audit.task_id}/results`,
-          { url: this.url }
-        );
+        const response = await axios.get(`/api/audit/${audit.task_id}/results`);
 
         this.results = response.data.results;
         this.isLoading = false;
@@ -120,6 +117,16 @@ export default {
         this.error = error;
         this.isLoading = false;
       });
+    },
+    leaveChannel(channelId) {
+      Echo.leaveChannel(channelId);
+    },
+    validate() {
+      if (!isURL(this.url)) {
+        this.error = 'Please enter a valid URL or domain.';
+        return false;
+      }
+      return true;
     }
   }
 };

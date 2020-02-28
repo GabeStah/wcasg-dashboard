@@ -52,6 +52,7 @@
         "simple-line-icons": "^2.4.1",
         "tempusdominus-bootstrap-4": "^5.0.1",
         "toastr": "^2.1.4",
+        "validator": "^12.2.0",
         "vue-router": "^3.0.1",
         "vue-scrollto": "^2.13.0",
         "vue-strap": "github:wffranco/vue-strap",
