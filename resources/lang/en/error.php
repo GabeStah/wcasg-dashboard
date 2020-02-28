@@ -5,6 +5,7 @@ return [
     'invalid-origin' => 'Request origin is invalid.',
     'inactive-site' =>
       'This site is currently marked inactive. Please contact an administrator.',
+    'invalid-site' => 'Site is invalid.',
     'invalid-subscription' =>
       'The subscription associated with this site is disabled or invalid.',
     'invalid-token' => 'Token parameter is invalid.',

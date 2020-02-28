@@ -60,7 +60,8 @@ Vue.component(
   require('./components/notifications/Notification.vue')
 );
 
-Vue.component('audit-results', require('./components/audit/AuditResults.vue'));
+Vue.component('audit-account', require('./components/audit/account/Index.vue'));
+Vue.component('audit-public', require('./components/audit/public/Index.vue'));
 
 const app = new Vue({
   el: '#app'

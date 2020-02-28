@@ -14,14 +14,12 @@
 Route::group(
   [
     'namespace' => 'Api\Controllers\Audit',
-    'middleware' => ['api.json'],
+    'middleware' => ['api.json', 'api.audit'],
     'as' => 'api.audit.'
   ],
   function () {
     Route::post('audit/create', 'AuditController@create')->name('create');
-    Route::get('audit/{id}/results', 'AuditController@results')->name(
-      'results'
-    );
+    Route::get('audit/{id}', 'AuditController@get')->name('get');
   }
 );
 

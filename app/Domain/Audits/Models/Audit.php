@@ -29,7 +29,14 @@ class Audit extends Model {
   use HasTokenId;
 
   public $incrementing = false;
-  protected $fillable = ['id', 'url', 'task_id', 'result_id'];
+  protected $fillable = [
+    'id',
+    'result_id',
+    'site_id',
+    'task_id',
+    'url',
+    'user_id'
+  ];
   protected $keyType = 'string';
   protected $primaryKey = 'id';
 }

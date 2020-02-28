@@ -9,7 +9,7 @@
                 <div class="line"></div>
             </div>
 
-            <audit-results></audit-results>
+            <audit-public></audit-public>
         </div>
     </div>
 </section>

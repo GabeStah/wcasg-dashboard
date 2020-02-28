@@ -43,15 +43,17 @@ class Kernel extends HttpKernel {
 
     'api' => ['throttle:60,1', 'bindings'],
 
-    'api.json' => [
-      \CreatyDev\Http\Middleware\Api\RespondAsJson::class,
+    'api.audit' => [
+      \CreatyDev\Http\Middleware\Api\Audit\CheckValidAuditRequest::class
+    ],
+
+    'api.json' => [\CreatyDev\Http\Middleware\Api\RespondAsJson::class],
+
+    'api.statement' => [
+      \CreatyDev\Http\Middleware\Api\Widget\CheckValidStatementRequest::class,
       // Throttle requests, 30 max attempts over 5 minute decay
       'throttle:30,5',
       'bindings'
-    ],
-
-    'api.statement' => [
-      \CreatyDev\Http\Middleware\Api\Widget\CheckValidStatementRequest::class
     ],
 
     'api.widget' => [

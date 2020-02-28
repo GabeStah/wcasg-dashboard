@@ -153,18 +153,26 @@
                         <a class="nav-link {{ return_if(on_page('account.audits.index'), ' active') }}"
                            href="#navbar-audits" data-toggle="collapse" role="button"
                            aria-expanded="false" aria-controls="navbar-audits">
-                            <i class="fa fa-sitemap" aria-hidden="true"></i>
+                            <i class="fa fa-compress-arrows-alt" aria-hidden="true"></i>
                             <span class="nav-link-text">Audits</span>
                         </a>
-                        <!-- Site Links -->
+                        <!-- Audit Links -->
                         <div class="collapse" id="navbar-audits">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('account.audits.index'), ' active') }}"
-                                       href="{{ route('account.audits.index') }}">
-                                        My Audits
+                                    <a class="nav-link{{ return_if(on_page('account.audits.create'), ' active') }}"
+                                       href="{{ route('account.audits.create') }}">
+                                        <i class="far fa-plus-square"></i>
+                                        New Audit
                                     </a>
                                 </li>
+{{--                                <li class="nav-item">--}}
+{{--                                    <a class="nav-link{{ return_if(on_page('account.audits.index'), ' active') }}"--}}
+{{--                                       href="{{ route('account.audits.index') }}">--}}
+{{--                                        <i class="fa fa-compress-arrows-alt"></i>--}}
+{{--                                        My Audits--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
                             </ul>
                         </div>
                     </li>

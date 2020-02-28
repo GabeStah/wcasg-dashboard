@@ -14,17 +14,7 @@ use Illuminate\Http\Request;
 
 class AuditController extends Controller {
   public function create(Request $request, Pa11y $pa11y) {
-    if ($request->getContentType() === 'json') {
-      $url = $request->json('url');
-    } else {
-      $url = request('url');
-    }
-
-    $audit = new Audit(['url' => $url]);
-    // Use passed token as id, otherwise dynamically generate on creation.
-    if (request('token')) {
-      $audit->id = request('token');
-    }
+    $audit = new Audit($request->get('params'));
     $audit->saveOrFail();
 
     // Dispatch Audit creation event.
@@ -45,7 +35,7 @@ class AuditController extends Controller {
     return response()->json();
   }
 
-  public function results(Request $request, Pa11y $pa11y) {
+  public function get(Request $request, Pa11y $pa11y) {
     return response()->json($pa11y->getTaskAllResults(request('id')));
   }
 }

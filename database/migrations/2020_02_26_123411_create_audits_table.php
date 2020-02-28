@@ -30,6 +30,26 @@ class CreateAuditsTable extends Migration {
         ->nullable();
 
       $table->timestamps();
+
+      $table
+        ->unsignedBigInteger('user_id')
+        ->index()
+        ->nullable(true);
+
+      $table
+        ->foreign('user_id')
+        ->references('id')
+        ->on('users');
+
+      $table
+        ->unsignedBigInteger('site_id')
+        ->index()
+        ->nullable(true);
+
+      $table
+        ->foreign('site_id')
+        ->references('id')
+        ->on('sites');
     });
   }
 

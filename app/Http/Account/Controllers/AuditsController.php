@@ -28,4 +28,10 @@ class AuditsController extends Controller {
       return $ex->getMessage();
     }
   }
+
+  public function create() {
+    $user = auth()->user();
+    $sites = $user->sites;
+    return view('account.audits.create', ['sites' => $sites]);
+  }
 }

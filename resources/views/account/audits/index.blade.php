@@ -6,7 +6,7 @@
             <div class="col">
                 <div class="card card-default">
                     <div class="card-header border-0">
-                        <h2 class="mb-0"><i class="fas fa-sitemap"></i>My Audits</h2>
+                        <h2 class="mb-0"><i class="fas fa-compress-arrows-alt"></i>My Audits</h2>
                     </div>
                     <div class="mx-auto w-auto mb-4">
                         <form method="POST" action="{{ route('api.audit.get', $project) }}">
