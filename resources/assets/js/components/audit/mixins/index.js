@@ -28,9 +28,6 @@ export const auditMixin = {
             site_id: type === 'site' && this.selectedSite ? this.selectedSite.id : null,
             token: this.token,
             url: this.url
-          })
-          .then(response => {
-            console.log(response);
           });
 
         this.results = null;
@@ -41,9 +38,9 @@ export const auditMixin = {
       const channel = Echo.channel(channelId);
 
       channel.listen('.AuditCompleted', async ({ audit }) => {
-        const response = await axios.get(`/api/audit/${audit.task_id}`);
+        const response = await axios.get(`/api/audit/${audit.id}`);
 
-        this.results = response.data.results;
+        this.results = response.data.original.results;
         this.isLoading = false;
       });
 

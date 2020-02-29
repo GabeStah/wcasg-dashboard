@@ -2,6 +2,11 @@
 
 return [
   'api' => [
+    'audit' => [
+      'incomplete' => 'Audit is incomplete.  Please check back soon.',
+      'invalid' => 'Audit is invalid.',
+      'running' => 'Audit is still processing.  Please wait.'
+    ],
     'invalid-origin' => 'Request origin is invalid.',
     'inactive-site' =>
       'This site is currently marked inactive. Please contact an administrator.',

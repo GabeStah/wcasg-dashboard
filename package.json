@@ -22,6 +22,7 @@
         "ide:helper:generate": "php artisan ide-helper:generate",
         "ide:helper:models": "php artisan ide-helper:models --write",
         "serve:local:site": "serve tests/sites",
+        "staging:supervisor:update": "sudo supervisorctl update && sudo supervisorctl start laravel-worker:*",
         "prod": "npm run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },

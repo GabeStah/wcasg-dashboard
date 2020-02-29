@@ -16,8 +16,6 @@ class RespondAsJson {
   public function handle(Request $request, Closure $next) {
     $request->headers->set('Accept', 'application/json');
 
-    $response = response()->json($next($request));
-
-    return $response->original;
+    return response()->json($next($request), 200, [], JSON_PRETTY_PRINT);
   }
 }

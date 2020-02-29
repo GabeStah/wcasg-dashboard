@@ -4,7 +4,6 @@ namespace CreatyDev\Domain\Audits\Jobs;
 
 use CreatyDev\App\Pa11y\Pa11y;
 use CreatyDev\Domain\Audits\Events\AuditFailed;
-use CreatyDev\Domain\Audits\Events\AuditTaskCreated;
 use CreatyDev\Domain\Audits\Events\AuditTaskStarted;
 use CreatyDev\Domain\Audits\Models\Audit;
 use Exception;

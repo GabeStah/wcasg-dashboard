@@ -3,7 +3,7 @@
 namespace CreatyDev\Http\Middleware\Api\Audit;
 
 use Closure;
-use CreatyDev\App\Exceptions\Api\Widget\InvalidSite;
+use CreatyDev\App\Exceptions\Api\Site\InvalidSite;
 use CreatyDev\Domain\Sites\Models\Site;
 use Illuminate\Http\Request;
 
@@ -19,30 +19,30 @@ class CheckValidAuditRequest {
     $params = [];
 
     // Check for valid site_id
-    if ($request->getContentType() === 'json') {
+    if ($request->getContentType() === 'json' && $request->json('site_id')) {
       $params['site_id'] = $request->json('site_id');
-    } else {
+    } elseif (request('site_id')) {
       $params['site_id'] = request('site_id');
     }
 
     $site = null;
 
-    if ($params['site_id']) {
+    if (isset($params['site_id'])) {
       $site = Site::find($params['site_id']);
     }
 
-    if ($params['site_id'] && !$site) {
+    if (isset($params['site_id']) && !$site) {
       throw new InvalidSite();
     }
 
     // TODO: Check for active subscription related to site?
     // Assign user_id
-    if ($params['site_id'] && $site) {
+    if (isset($params['site_id']) && $site) {
       $params['user_id'] = $site->user()->id;
     }
 
     // If site, get url
-    if ($params['site_id'] && $site) {
+    if (isset($params['site_id']) && $site) {
       $params['url'] = $site->domain;
     } elseif ($request->getContentType() === 'json') {
       $params['url'] = $request->json('url');
