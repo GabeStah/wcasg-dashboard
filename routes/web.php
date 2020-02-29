@@ -114,6 +114,7 @@ Route::group(
   ],
   function () {
     Route::get('/', 'AuditController@index')->name('index');
+    Route::get('/{id}', 'AuditController@get')->name('get');
   }
 );
 

@@ -4,6 +4,7 @@ import isURL from 'validator/es/lib/isURL';
 export const auditMixin = {
   data() {
     return {
+      audit: null,
       error: null,
       isLoading: false,
       results: null,
@@ -14,6 +15,7 @@ export const auditMixin = {
   methods: {
     createAudit(type = 'url') {
       if (this.validate(type)) {
+        this.audit = null;
         this.isLoading = true;
         this.error = null;
 
@@ -38,6 +40,7 @@ export const auditMixin = {
       const channel = Echo.channel(channelId);
 
       channel.listen('.AuditCompleted', async ({ audit }) => {
+        this.audit = audit;
         const response = await axios.get(`/api/audit/${audit.id}`);
 
         this.results = response.data.original.results;

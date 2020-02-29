@@ -62,7 +62,8 @@ Vue.component(
 
 Vue.component('audit-account', require('./components/audit/account/Index.vue'));
 Vue.component('audit-public', require('./components/audit/public/Index.vue'));
+Vue.component('audit-results', require('./components/audit/partials/Results.vue'));
 
 const app = new Vue({
-  el: '#app'
+  el: '#app',
 });

@@ -43,7 +43,7 @@
       </div>
     </div>
     <error :error="error" :is-loading="isLoading"></error>
-    <audit-results :results="results"></audit-results>
+    <audit-results :audit="audit" :results="results"></audit-results>
   </div>
 </template>
 
