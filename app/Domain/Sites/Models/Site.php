@@ -14,7 +14,7 @@ use CreatyDev\Solarix\Cashier\Subscription;
  *
  * @property int                                                $id
  * @property string                                             $domain Root domain name + TLD.
- * @property bool                                               $active Set by 'User'.  If 'true', allow incoming Widget
+ * @property bool                                               $active Set by 'User'.  If 'true', allow incoming WidgetException
  *           requests to succeed, else fail.
  * @property string                                             $token  Unique identifier to be used in API requests.
  * @property \Illuminate\Support\Carbon|null                    $created_at

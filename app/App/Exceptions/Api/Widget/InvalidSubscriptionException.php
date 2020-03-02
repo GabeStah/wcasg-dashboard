@@ -2,11 +2,11 @@
 
 namespace CreatyDev\App\Exceptions\Api\Widget;
 
-use CreatyDev\App\Exceptions\Api\Widget;
+use CreatyDev\App\Exceptions\Api\WidgetException;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
-class InvalidToken extends Widget {
+class InvalidSubscriptionException extends WidgetException {
   public $message;
 
   public function __construct(
@@ -15,7 +15,7 @@ class InvalidToken extends Widget {
     Throwable $previous = null
   ) {
     parent::__construct($message, $code, $previous);
-    $this->message = __('error.api.invalid-token');
+    $this->message = __('error.api.invalid-subscription');
   }
 
   /**

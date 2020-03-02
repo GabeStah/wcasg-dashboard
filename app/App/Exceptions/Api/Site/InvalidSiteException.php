@@ -1,12 +1,12 @@
 <?php
 
-namespace CreatyDev\App\Exceptions\Api\Audit;
+namespace CreatyDev\App\Exceptions\Api\Site;
 
-use CreatyDev\App\Exceptions\Api;
+use CreatyDev\App\Exceptions\ApiException;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
-class RunningAudit extends Api {
+class InvalidSiteException extends ApiException {
   public $message;
 
   public function __construct(
@@ -15,7 +15,7 @@ class RunningAudit extends Api {
     Throwable $previous = null
   ) {
     parent::__construct($message, $code, $previous);
-    $this->message = __('error.api.audit.running');
+    $this->message = __('error.api.invalid-site');
   }
 
   /**

@@ -3,7 +3,7 @@
 namespace CreatyDev\Http\Middleware\Api\Audit;
 
 use Closure;
-use CreatyDev\App\Exceptions\Api\Site\InvalidSite;
+use CreatyDev\App\Exceptions\Api\Site\InvalidSiteException;
 use CreatyDev\Domain\Sites\Models\Site;
 use Illuminate\Http\Request;
 
@@ -13,7 +13,7 @@ class CheckValidAuditRequest {
    * @param Closure $next
    *
    * @return mixed
-   * @throws InvalidSite
+   * @throws InvalidSiteException
    */
   public function handle(Request $request, Closure $next) {
     $params = [];
@@ -32,7 +32,7 @@ class CheckValidAuditRequest {
     }
 
     if (isset($params['site_id']) && !$site) {
-      throw new InvalidSite();
+      throw new InvalidSiteException();
     }
 
     // TODO: Check for active subscription related to site?

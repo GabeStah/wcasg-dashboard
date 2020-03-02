@@ -2,11 +2,11 @@
 
 namespace CreatyDev\App\Exceptions\Api\Widget;
 
-use CreatyDev\App\Exceptions\Api\Widget;
+use CreatyDev\App\Exceptions\Api\WidgetException;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
-class InactiveSite extends Widget {
+class InactiveSiteException extends WidgetException {
   public $message;
 
   public function __construct(

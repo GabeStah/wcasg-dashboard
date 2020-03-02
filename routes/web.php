@@ -1,4 +1,6 @@
 <?php
+
+use CreatyDev\Http\Middleware\Audit\ValidateAuditResultsRequest;
 use FontLib\Table\Type\name;
 
 /*
@@ -114,7 +116,9 @@ Route::group(
   ],
   function () {
     Route::get('/', 'AuditController@index')->name('index');
-    Route::get('/{id}', 'AuditController@get')->name('get');
+    Route::get('/{id}', 'AuditController@get')
+      ->name('get')
+      ->middleware(ValidateAuditResultsRequest::class);
   }
 );
 

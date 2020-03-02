@@ -4,6 +4,7 @@
 <section class="d-flex align-items-center" id="audit">
     <div class="container">
         <div class="content">
+            @isset($results)
             <div class="heading text-center">
                 <h2>Accessibility Audit</h2>
                 <h3>
@@ -13,6 +14,7 @@
             </div>
 
             <audit-results :results="{{ json_encode($results) }}"></audit-results>
+            @endisset
         </div>
     </div>
 </section>

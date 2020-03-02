@@ -2,11 +2,11 @@
 
 namespace CreatyDev\App\Exceptions\Api\Widget;
 
-use CreatyDev\App\Exceptions\Api\Widget;
+use CreatyDev\App\Exceptions\Api\WidgetException;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 
-class MissingToken extends Widget {
+class InvalidTokenException extends WidgetException {
   public $message;
 
   public function __construct(
@@ -15,11 +15,11 @@ class MissingToken extends Widget {
     Throwable $previous = null
   ) {
     parent::__construct($message, $code, $previous);
-    $this->message = __('error.api.missing-token');
+    $this->message = __('error.api.invalid-token');
   }
 
   /**
-   * Token is missing.
+   * Token parameter invalid.
    * Render the exception as an HTTP response.
    *
    * @param  Request  $request

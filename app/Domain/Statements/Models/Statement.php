@@ -141,7 +141,7 @@ class Statement extends Model {
       function ($matches) use ($replacements) {
         try {
           $match = $matches[1];
-          // Base object
+          // BaseException object
           if (strpos($match, '[') === false) {
             return $replacements[$match];
           }

@@ -3,6 +3,7 @@
 return [
   'api' => [
     'audit' => [
+      'expired' => 'Audit has expired.',
       'incomplete' => 'Audit is incomplete.  Please check back soon.',
       'invalid' => 'Audit is invalid.',
       'running' => 'Audit is still processing.  Please wait.'

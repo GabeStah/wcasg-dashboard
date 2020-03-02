@@ -11,6 +11,8 @@
 |
 */
 
+use CreatyDev\Http\Middleware\Audit\ValidateAuditResultsRequest;
+
 Route::group(
   [
     'namespace' => 'Api\Controllers\Audit',
@@ -19,7 +21,9 @@ Route::group(
   ],
   function () {
     Route::post('audit/create', 'AuditController@create')->name('create');
-    Route::get('audit/{id}', 'AuditController@get')->name('get');
+    Route::get('audit/{id}', 'AuditController@get')
+      ->name('get')
+      ->middleware([ValidateAuditResultsRequest::class]);
   }
 );
 

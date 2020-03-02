@@ -3,12 +3,12 @@
 namespace CreatyDev\Http\Middleware\Api\Widget;
 
 use Closure;
-use CreatyDev\App\Exceptions\Api\Widget\InactiveSite;
-use CreatyDev\App\Exceptions\Api\Widget\InvalidOrigin;
-use CreatyDev\App\Exceptions\Api\Widget\InvalidSubscription;
-use CreatyDev\App\Exceptions\Api\Widget\InvalidToken;
-use CreatyDev\App\Exceptions\Api\Widget\MissingOrigin;
-use CreatyDev\App\Exceptions\Api\Widget\MissingToken;
+use CreatyDev\App\Exceptions\Api\Widget\InactiveSiteException;
+use CreatyDev\App\Exceptions\Api\Widget\InvalidOriginException;
+use CreatyDev\App\Exceptions\Api\Widget\InvalidSubscriptionException;
+use CreatyDev\App\Exceptions\Api\Widget\InvalidTokenException;
+use CreatyDev\App\Exceptions\Api\Widget\MissingOriginException;
+use CreatyDev\App\Exceptions\Api\Widget\MissingTokenException;
 use CreatyDev\Domain\Sites\Models\Site;
 use Illuminate\Http\Request;
 
@@ -18,18 +18,19 @@ class CheckValidWidgetRequest {
    *
    * @param Request $request
    * @param Closure $next
+   *
    * @return mixed
-   * @throws InvalidToken
-   * @throws MissingOrigin
-   * @throws MissingToken
-   * @throws InvalidOrigin
-   * @throws InvalidSubscription
-   * @throws InactiveSite
+   * @throws InvalidTokenException
+   * @throws MissingOriginException
+   * @throws MissingTokenException
+   * @throws InvalidOriginException
+   * @throws InvalidSubscriptionException
+   * @throws InactiveSiteException
    */
   public function handle($request, Closure $next) {
     // Check for 'origin' header.
     if (!$request->hasHeader('origin')) {
-      throw new MissingOrigin();
+      throw new MissingOriginException();
     }
 
     // Check if 'token' is valid.
@@ -37,7 +38,7 @@ class CheckValidWidgetRequest {
 
     // Check if 'token' query string is missing.
     if (!$token) {
-      throw new MissingToken();
+      throw new MissingTokenException();
     }
 
     // Find site record with matching token.
@@ -45,7 +46,7 @@ class CheckValidWidgetRequest {
 
     // Check if no site found.
     if (!$site) {
-      throw new InvalidToken();
+      throw new InvalidTokenException();
     }
 
     // Check if current origin host matches site record domain host.
@@ -54,19 +55,17 @@ class CheckValidWidgetRequest {
       ? parse_url($request->header('origin'), PHP_URL_HOST)
       : $request->header('origin');
     if ($siteHost !== $originHost) {
-      //            $error = new InvalidOrigin();
-      //            $error->setCorsOrigin(config('app.url'));
-      throw new InvalidOrigin();
+      throw new InvalidOriginException();
     }
 
     // Check for active site.
     if (!$site->isActive()) {
-      throw new InactiveSite();
+      throw new InactiveSiteException();
     }
 
     // Check for valid subscription associated with site.
     if (!$site->isSubscriptionValid()) {
-      throw new InvalidSubscription();
+      throw new InvalidSubscriptionException();
     }
 
     $request->attributes->add(['site_id' => $site->id]);

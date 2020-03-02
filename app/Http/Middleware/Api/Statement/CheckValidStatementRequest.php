@@ -3,10 +3,10 @@
 namespace CreatyDev\Http\Middleware\Api\Widget;
 
 use Closure;
-use CreatyDev\App\Exceptions\Api\Widget\InactiveSite;
-use CreatyDev\App\Exceptions\Api\Widget\InvalidSubscription;
-use CreatyDev\App\Exceptions\Api\Widget\InvalidToken;
-use CreatyDev\App\Exceptions\Api\Widget\MissingToken;
+use CreatyDev\App\Exceptions\Api\Widget\InactiveSiteException;
+use CreatyDev\App\Exceptions\Api\Widget\InvalidSubscriptionException;
+use CreatyDev\App\Exceptions\Api\Widget\InvalidTokenException;
+use CreatyDev\App\Exceptions\Api\Widget\MissingTokenException;
 use CreatyDev\Domain\Sites\Models\Site;
 use Illuminate\Http\Request;
 
@@ -16,11 +16,12 @@ class CheckValidStatementRequest {
    *
    * @param Request $request
    * @param Closure $next
+   *
    * @return mixed
-   * @throws InvalidToken
-   * @throws MissingToken
-   * @throws InvalidSubscription
-   * @throws InactiveSite
+   * @throws InvalidTokenException
+   * @throws MissingTokenException
+   * @throws InvalidSubscriptionException
+   * @throws InactiveSiteException
    */
   public function handle($request, Closure $next) {
     // Check if 'token' is valid.
@@ -28,7 +29,7 @@ class CheckValidStatementRequest {
 
     // Check if 'token' query string is missing.
     if (!$token) {
-      throw new MissingToken();
+      throw new MissingTokenException();
     }
 
     // Find site record with matching token.
@@ -36,17 +37,17 @@ class CheckValidStatementRequest {
 
     // Check if no site found.
     if (!$site) {
-      throw new InvalidToken();
+      throw new InvalidTokenException();
     }
 
     // Check for active site.
     if (!$site->isActive()) {
-      throw new InactiveSite();
+      throw new InactiveSiteException();
     }
 
     // Check for valid subscription associated with site.
     if (!$site->isSubscriptionValid()) {
-      throw new InvalidSubscription();
+      throw new InvalidSubscriptionException();
     }
 
     $request->attributes->add(['site_id' => $site->id]);

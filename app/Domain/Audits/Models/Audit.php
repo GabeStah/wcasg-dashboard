@@ -2,6 +2,7 @@
 
 namespace CreatyDev\Domain\Audits\Models;
 
+use Carbon\Carbon;
 use CreatyDev\App\Traits\Eloquent\HasTokenId;
 use Illuminate\Database\Eloquent\Model;
 
@@ -39,4 +40,27 @@ class Audit extends Model {
   ];
   protected $keyType = 'string';
   protected $primaryKey = 'id';
+
+  /**
+   * The "booting" method of the model.
+   *
+   * @return void
+   */
+  public static function boot() {
+    parent::boot();
+
+    static::creating(function (Audit $audit) {
+      // Apply expiration timestamp
+      if (!isset($audit->expired_at)) {
+        $audit->expired_at = Carbon::now()->addDays(
+          config('audit.public_result_expiration_days')
+        );
+      }
+    });
+  }
+
+  public function results() {
+    $pa11y = resolve('CreatyDev\App\Pa11y\Pa11y');
+    return $pa11y->getTaskAllResults($this->task_id);
+  }
 }

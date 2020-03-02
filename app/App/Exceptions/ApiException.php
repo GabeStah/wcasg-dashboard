@@ -7,7 +7,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class Api extends Exception {
+class ApiException extends Exception {
   protected $message = 'API request has failed.';
   public $headers;
 

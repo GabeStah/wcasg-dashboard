@@ -12,7 +12,8 @@
         <header class="header-global">
             @include('layouts.partials._navigation')
         </header>
-            @yield('content')
+        @include('layouts.partials.errors._errors')
+        @yield('content')
     </div>
 
     @include('layouts.partials.footer')

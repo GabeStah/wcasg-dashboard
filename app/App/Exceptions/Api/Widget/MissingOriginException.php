@@ -2,11 +2,12 @@
 
 namespace CreatyDev\App\Exceptions\Api\Widget;
 
-use CreatyDev\App\Exceptions\Api\Widget;
+use CreatyDev\App\Exceptions\Api\WidgetException;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Throwable;
 
-class InvalidSubscription extends Widget {
+class MissingOriginException extends WidgetException {
   public $message;
 
   public function __construct(
@@ -15,18 +16,17 @@ class InvalidSubscription extends Widget {
     Throwable $previous = null
   ) {
     parent::__construct($message, $code, $previous);
-    $this->message = __('error.api.invalid-subscription');
+    $this->message = __('error.api.missing-origin');
   }
 
   /**
-   * Token parameter invalid.
-   * Render the exception as an HTTP response.
+   * Origin missing.
+   * Render the exception as a script response.
    *
-   * @param  Request  $request
+   * @param Request $request
    * @return Response
    */
   public function render($request) {
-    $this->setCorsOrigin($request->header('origin'));
     return parent::render($request);
   }
 }

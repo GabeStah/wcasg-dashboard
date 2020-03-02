@@ -3,9 +3,6 @@
 namespace CreatyDev\Http\Api\Controllers\Audit;
 
 use CreatyDev\App\Controllers\Controller;
-use CreatyDev\App\Exceptions\Api\Audit\IncompleteAudit;
-use CreatyDev\App\Exceptions\Api\Audit\RunningAudit;
-use CreatyDev\App\Exceptions\Api\Audit\InvalidAudit;
 use CreatyDev\App\Pa11y\Pa11y;
 use CreatyDev\Domain\Audits\Events\AuditCreated;
 use CreatyDev\Domain\Audits\Events\AuditRequested;
@@ -38,23 +35,7 @@ class AuditController extends Controller {
     return response()->json();
   }
 
-  public function get(Request $request, Pa11y $pa11y) {
-    $audit = Audit::find(request('id'));
-
-    if (!$audit) {
-      throw new InvalidAudit();
-    }
-
-    // Task not assigned.
-    if (!$audit->task_id) {
-      throw new IncompleteAudit();
-    }
-
-    // Task assigned by no result
-    if (!$audit->result_id && $audit->task_id) {
-      throw new RunningAudit();
-    }
-
+  public function get(Request $request, Audit $audit, Pa11y $pa11y) {
     return response()->json($pa11y->getTaskAllResults($audit->task_id));
   }
 }
