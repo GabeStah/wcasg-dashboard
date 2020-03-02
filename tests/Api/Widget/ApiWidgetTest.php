@@ -61,7 +61,7 @@ class ApiWidgetTest extends TestCase {
   public function testNotMissingToken() {
     $response = $this->withHeaders([
       'origin' => 'localhost:5000'
-    ])->get(route('api.widget.get') . '?token=123456');
+    ])->get(route('api.widget.get', ['token' => '123456']));
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
@@ -82,7 +82,7 @@ class ApiWidgetTest extends TestCase {
 
     $response = $this->withHeaders([
       'origin' => 'localhost:5000'
-    ])->get(route('api.widget.get') . "?token={$token}");
+    ])->get(route('api.widget.get', ['token' => $token]));
 
     self::assertStringStartsNotWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
@@ -99,7 +99,7 @@ class ApiWidgetTest extends TestCase {
 
     $response = $this->withHeaders([
       'origin' => 'localhost:5000'
-    ])->get(route('api.widget.get') . "?token={$token}");
+    ])->get(route('api.widget.get', ['token' => $token]));
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
@@ -130,7 +130,7 @@ class ApiWidgetTest extends TestCase {
     $token = $site->token;
     $response = $this->withHeaders([
       'origin' => 'localhost:5000'
-    ])->get(route('api.widget.get') . "?token={$token}");
+    ])->get(route('api.widget.get', ['token' => $token]));
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
@@ -166,7 +166,7 @@ class ApiWidgetTest extends TestCase {
     $token = $site->token;
     $response = $this->withHeaders([
       'origin' => $site->domain
-    ])->get(route('api.widget.get') . "?token={$token}");
+    ])->get(route('api.widget.get', ['token' => $token]));
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
@@ -184,7 +184,7 @@ class ApiWidgetTest extends TestCase {
     $response = $this->withHeaders([
       // Pass invalid (mismatched) origin
       'origin' => 'hocallost:5000'
-    ])->get(route('api.widget.get') . "?token={$token}");
+    ])->get(route('api.widget.get', ['token' => $token]));
 
     self::assertStringStartsWith('console.error', $response->content());
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');

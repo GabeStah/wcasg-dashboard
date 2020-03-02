@@ -2,30 +2,26 @@
 
 namespace CreatyDev\App\Exceptions\Api\Site;
 
-use CreatyDev\App\Exceptions\ApiException;
-use Illuminate\Http\Response;
-use Illuminate\Http\Request;
+use CreatyDev\App\Exceptions\BaseException;
+use Illuminate\Contracts\View\View;
 
-class InvalidSiteException extends ApiException {
-  public $message;
-
+class InvalidSiteException extends BaseException {
   public function __construct(
-    $message = '',
-    $code = 0,
+    $message = null,
+    View $view = null,
+    $code = null,
     Throwable $previous = null
   ) {
-    parent::__construct($message, $code, $previous);
-    $this->message = __('error.api.invalid-site');
-  }
+    parent::__construct($message, $view, $code, $previous);
 
-  /**
-   * Token parameter invalid.
-   * Render the exception as an HTTP response.
-   *
-   * @param  Request  $request
-   * @return Response
-   */
-  public function render($request) {
-    return parent::render($request);
+    if (isset($code)) {
+      $this->code = $code;
+    }
+
+    $this->message = __('error.api.invalid-site');
+
+    if (isset($view)) {
+      $this->view = $view;
+    }
   }
 }

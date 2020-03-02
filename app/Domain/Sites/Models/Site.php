@@ -73,7 +73,7 @@ class Site extends Model {
     $url = action('Api\Controllers\Widget\WidgetController@get');
     $token = $this->token;
 
-    return "<script crossorigin='anonymous' src='{$url}?token={$token}'></script>";
+    return "<script crossorigin='anonymous' src='{$url}/{$token}'></script>";
   }
 
   public function activate() {

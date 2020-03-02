@@ -2,6 +2,8 @@
 
 namespace CreatyDev\App\Exceptions;
 
+use CreatyDev\App\Api\ApiResponse;
+use CreatyDev\App\Traits\Api\ApiRequestable;
 use Exception;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -11,19 +13,30 @@ use Illuminate\Http\Response;
 use Throwable;
 
 class BaseException extends Exception {
+  use ApiRequestable;
+
+  protected $code = 1;
   protected $message = 'Oops, something went wrong.';
-  public $headers;
-  public $view;
+  protected $headers = [];
+  protected $view = null;
 
   public function __construct(
+    $message = null,
     View $view = null,
-    $message = '',
-    $code = 0,
+    $code = null,
     Throwable $previous = null
   ) {
     parent::__construct($message, $code, $previous);
-    $this->message = $message ? $message : $this->message;
-    $this->view = $view;
+
+    if (isset($code)) {
+      $this->code = $code;
+    }
+    if (isset($message)) {
+      $this->message = $message;
+    }
+    if (isset($view)) {
+      $this->view = $view;
+    }
   }
 
   /**
@@ -32,17 +45,13 @@ class BaseException extends Exception {
    *
    * @param  Request  $request
    *
-   * @return Factory|JsonResponse|Response|\Illuminate\View\View
+   * @return ApiResponse|Factory|JsonResponse|Response|\Illuminate\View\View
    */
-  public function render($request) {
-    if ($this->view) {
+  public function render(Request $request) {
+    if ($this->view && !$this->isApiRequest($request)) {
       return $this->view->withErrors([$this->message]);
     } else {
-      return response()->json(
-        $this->getMessage(),
-        200,
-        $this->headers ? $this->headers : []
-      );
+      return new ApiResponse(null, 500, null, $this);
     }
   }
 }

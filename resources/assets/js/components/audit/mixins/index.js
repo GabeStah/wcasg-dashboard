@@ -43,7 +43,7 @@ export const auditMixin = {
         this.audit = audit;
         const response = await axios.get(`/api/audit/${audit.id}`);
 
-        this.results = response.data.original.results;
+        this.results = response.data.data.results;
         this.isLoading = false;
       });
 

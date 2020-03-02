@@ -2,6 +2,7 @@
 
 namespace CreatyDev\Http\Api\Controllers\Audit;
 
+use CreatyDev\App\Api\ApiResponse;
 use CreatyDev\App\Controllers\Controller;
 use CreatyDev\App\Pa11y\Pa11y;
 use CreatyDev\Domain\Audits\Events\AuditCreated;
@@ -32,10 +33,12 @@ class AuditController extends Controller {
 
       return response()->json($pa11y->getTaskAllResults($audit->task_id));
     }
-    return response()->json();
+    return new ApiResponse();
+    //    return response()->json();
   }
 
   public function get(Request $request, Audit $audit, Pa11y $pa11y) {
-    return response()->json($pa11y->getTaskAllResults($audit->task_id));
+    return new ApiResponse($pa11y->getTaskAllResults($audit->task_id));
+    //    return response()->json($pa11y->getTaskAllResults($audit->task_id));
   }
 }

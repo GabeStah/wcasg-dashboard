@@ -8,13 +8,23 @@ use Throwable;
 
 class IncompleteAuditException extends BaseException {
   public function __construct(
+    $message = null,
     View $view = null,
-    $message = '',
-    $code = 0,
+    $code = null,
     Throwable $previous = null
   ) {
-    parent::__construct($view, $message, $code, $previous);
+    parent::__construct($message, $view, $code, $previous);
+
+    if (isset($code)) {
+      $this->code = $code;
+    }
+
     $this->message = __('error.api.audit.incomplete');
-    $this->view = $view ? $view : view('audit.show');
+
+    if (isset($view)) {
+      $this->view = $view;
+    } else {
+      $this->view = view('audit.show');
+    }
   }
 }

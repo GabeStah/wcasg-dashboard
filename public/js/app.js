@@ -79935,7 +79935,7 @@ var auditMixin = {
                   response = _context.sent;
 
 
-                  _this.results = response.data.original.results;
+                  _this.results = response.data.data.results;
                   _this.isLoading = false;
 
                 case 6:

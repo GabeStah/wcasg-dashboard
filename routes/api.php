@@ -16,7 +16,7 @@ use CreatyDev\Http\Middleware\Audit\ValidateAuditResultsRequest;
 Route::group(
   [
     'namespace' => 'Api\Controllers\Audit',
-    'middleware' => ['api.json', 'api.audit'],
+    'middleware' => ['api.audit'],
     'as' => 'api.audit.'
   ],
   function () {
@@ -45,7 +45,7 @@ Route::group(
     'as' => 'api.widget.'
   ],
   function () {
-    Route::get('widget', 'WidgetController@get')->name('get');
+    Route::get('widget/{token}', 'WidgetController@get')->name('get');
   }
 );
 

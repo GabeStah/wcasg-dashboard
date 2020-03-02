@@ -34,7 +34,7 @@ class CheckValidWidgetRequest {
     }
 
     // Check if 'token' is valid.
-    $token = $request->get('token');
+    $token = request('token');
 
     // Check if 'token' query string is missing.
     if (!$token) {
