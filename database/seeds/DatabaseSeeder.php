@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder {
     $this->call(UserTableSeeder::class);
     $this->call(SubscriptionTableSeeder::class);
     $this->call(StatementSeeder::class);
+    $this->call(ExtensionSeeder::class);
 
     // Finalize
     Setting::create([

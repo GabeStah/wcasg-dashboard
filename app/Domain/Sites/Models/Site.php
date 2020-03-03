@@ -3,6 +3,7 @@
 namespace CreatyDev\Domain\Sites\Models;
 
 use CreatyDev\App\Traits\Eloquent\HasToken;
+use CreatyDev\Domain\Extensions\Models\Extension;
 use CreatyDev\Domain\Statements\Models\Statement;
 use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -70,10 +71,12 @@ class Site extends Model {
   }
 
   public function getWidgetScriptTag() {
-    $url = action('Api\Controllers\Widget\WidgetController@get');
     $token = $this->token;
+    $url = action('Api\Controllers\Widget\WidgetController@get', [
+      'token' => $token
+    ]);
 
-    return "<script crossorigin='anonymous' src='{$url}/{$token}'></script>";
+    return "<script crossorigin='anonymous' src='{$url}'></script>";
   }
 
   public function activate() {
@@ -90,6 +93,13 @@ class Site extends Model {
       $this->save();
     }
     return true;
+  }
+
+  public function extensions() {
+    return $this->belongsToMany(
+      Extension::class,
+      'extension_site'
+    )->withTimestamps();
   }
 
   /**

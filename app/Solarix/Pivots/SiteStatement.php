@@ -39,13 +39,6 @@ class SiteStatement extends Pivot {
    * The the Audio Files the user has from their subscribed podcasts.
    */
   public function subscriptions() {
-    return $this->hasManyThrough(
-      Subscription::class, // The model to access to
-      Site::class // The intermediate table that connects the User with the Podcast.
-      //      'user_id', // The column of the intermediate table that connects to this model by its ID.
-      //      'podcast_id', // The column of the intermediate table that connects the Podcast by its ID.
-      //      'id', // The column that connects this model with the intermediate model table.
-      //      'podcast_id' // The column of the Audio Files table that ties it to the Podcast.
-    );
+    return $this->hasManyThrough(Subscription::class, Site::class);
   }
 }

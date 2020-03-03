@@ -31,14 +31,12 @@ class AuditController extends Controller {
       RunAuditTask::dispatchNow($audit);
       GetAuditResults::dispatchNow($audit);
 
-      return response()->json($pa11y->getTaskAllResults($audit->task_id));
+      return new ApiResponse($pa11y->getTaskAllResults($audit->task_id));
     }
     return new ApiResponse();
-    //    return response()->json();
   }
 
   public function get(Request $request, Audit $audit, Pa11y $pa11y) {
     return new ApiResponse($pa11y->getTaskAllResults($audit->task_id));
-    //    return response()->json($pa11y->getTaskAllResults($audit->task_id));
   }
 }
