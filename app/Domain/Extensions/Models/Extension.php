@@ -6,6 +6,16 @@ use CreatyDev\Domain\Sites\Models\Site;
 use Illuminate\Database\Eloquent\Model;
 
 class Extension extends Model {
+  /**
+   * The attributes that should be cast to native types.
+   *
+   * @var array
+   */
+  protected $casts = [
+    'enabled' => 'boolean',
+    'imported' => 'boolean'
+  ];
+
   protected $fillable = ['description', 'enabled', 'imported', 'name'];
 
   public function actions() {
@@ -23,9 +33,8 @@ class Extension extends Model {
   }
 
   public function sites() {
-    return $this->belongsToMany(
-      Site::class,
-      'extension_site'
-    )->withTimestamps();
+    return $this->belongsToMany(Site::class, 'extension_site')
+      ->withPivot('enabled_at')
+      ->withTimestamps();
   }
 }

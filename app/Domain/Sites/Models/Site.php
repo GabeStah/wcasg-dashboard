@@ -96,10 +96,9 @@ class Site extends Model {
   }
 
   public function extensions() {
-    return $this->belongsToMany(
-      Extension::class,
-      'extension_site'
-    )->withTimestamps();
+    return $this->belongsToMany(Extension::class, 'extension_site')
+      ->withPivot('enabled_at')
+      ->withTimestamps();
   }
 
   /**

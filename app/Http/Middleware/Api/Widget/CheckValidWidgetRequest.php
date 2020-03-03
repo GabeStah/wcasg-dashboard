@@ -9,12 +9,14 @@ use CreatyDev\App\Exceptions\Api\Widget\InvalidSubscriptionException;
 use CreatyDev\App\Exceptions\Api\Widget\InvalidTokenException;
 use CreatyDev\App\Exceptions\Api\Widget\MissingOriginException;
 use CreatyDev\App\Exceptions\Api\Widget\MissingTokenException;
+use CreatyDev\App\Traits\Api\AllowWidgetAdminToken;
 use CreatyDev\Domain\Sites\Models\Site;
 use Illuminate\Http\Request;
 
 class CheckValidWidgetRequest {
+  use AllowWidgetAdminToken;
   /**
-   * Check if 'token' parameter is valid.
+   * Handle all Widget request validation.
    *
    * @param Request $request
    * @param Closure $next
@@ -41,8 +43,15 @@ class CheckValidWidgetRequest {
       throw new MissingTokenException();
     }
 
-    // Find site record with matching token.
-    $site = Site::whereToken($token)->first();
+    $site = null;
+
+    if ($this->hasAdminToken()) {
+      // Bypass token check, get first site.
+      $site = Site::first();
+    } else {
+      // Find site record with matching token.
+      $site = Site::whereToken($token)->first();
+    }
 
     // Check if no site found.
     if (!$site) {
@@ -68,7 +77,7 @@ class CheckValidWidgetRequest {
       throw new InvalidSubscriptionException();
     }
 
-    $request->attributes->add(['site_id' => $site->id]);
+    app()->instance(Site::class, $site);
 
     // All checks passed.
     return $next($request);

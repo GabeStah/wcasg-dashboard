@@ -3,29 +3,18 @@
 namespace CreatyDev\Http\Api\Controllers\Widget;
 
 use CreatyDev\App\Controllers\Controller;
+use CreatyDev\App\Traits\Api\HasWidgetPayload;
 use CreatyDev\Domain\Sites\Models\Site;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Blade;
-use LZCompressor\LZString;
-use Storage;
 
 class WidgetController extends Controller {
-  public function get(Request $request) {
+  use HasWidgetPayload;
+
+  public function get(Request $request, Site $site) {
     $response = new Response();
 
-    // Get base Widget script file from storage.
-    $contents = Storage::disk('widget')->get(config('widget.base.filename'));
-
-    $siteId = $request->get('site_id');
-    $site = Site::findOrFail($siteId);
-
-    $statementContent = $site->statement->render($site);
-
-    $statementCompressed = webpackify(
-      'WcasgAccessibilityStatement',
-      $statementContent
-    );
+    $payload = $this->getPayload($site);
 
     // All validation Middleware passed, allow response
     $response->withHeaders([
@@ -34,8 +23,6 @@ class WidgetController extends Controller {
     ]);
 
     // Respond with javascript content.
-    return $response->setContent(
-      $statementContent ? $statementCompressed . $contents : $contents
-    );
+    return $response->setContent($payload);
   }
 }
