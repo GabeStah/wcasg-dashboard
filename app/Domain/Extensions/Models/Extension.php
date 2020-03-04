@@ -34,6 +34,7 @@ class Extension extends Model {
 
   public function sites() {
     return $this->belongsToMany(Site::class, 'extension_site')
+      ->with(['predicates', 'actions'])
       ->withPivot('enabled_at')
       ->withTimestamps();
   }

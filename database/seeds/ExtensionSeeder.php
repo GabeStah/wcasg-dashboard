@@ -1,7 +1,9 @@
 <?php
 
 use Carbon\Carbon;
+use CreatyDev\Domain\Extensions\Models\Action;
 use CreatyDev\Domain\Extensions\Models\Extension;
+use CreatyDev\Domain\Extensions\Models\Predicate;
 use CreatyDev\Domain\Sites\Models\Site;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Seeder;
@@ -48,6 +50,26 @@ class ExtensionSeeder extends Seeder {
           $site
             ->extensions()
             ->attach($extension->id, ['enabled_at' => Carbon::now()]);
+        }
+      }
+    }
+
+    $this->createExtensions();
+  }
+
+  private function createExtensions() {
+    for ($i = 0; $i <= 5; $i++) {
+      $extension = factory(Extension::class)->create();
+      $extension->actions()->save(factory(Action::class)->make());
+      $extension->predicates()->save(factory(Predicate::class)->make());
+
+      // Randomly enable for sites
+      $sites = Site::all();
+      foreach ($sites as $site) {
+        if (rand(0, 1)) {
+          $site->extensions()->attach($extension->id, [
+            'enabled_at' => rand(0, 1) ? null : Carbon::now()
+          ]);
         }
       }
     }
