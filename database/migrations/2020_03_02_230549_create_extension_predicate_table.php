@@ -20,14 +20,16 @@ class CreateExtensionPredicateTable extends Migration {
       $table
         ->foreign('extension_id')
         ->references('id')
-        ->on('extensions');
+        ->on('extensions')
+        ->onDelete('cascade');
 
       $table->unsignedBigInteger('predicate_id')->index();
 
       $table
         ->foreign('predicate_id')
         ->references('id')
-        ->on('predicates');
+        ->on('predicates')
+        ->onDelete('cascade');
     });
   }
 

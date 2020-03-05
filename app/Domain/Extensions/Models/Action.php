@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use LZCompressor\LZString;
 
 class Action extends Model {
-  protected $fillable = ['function'];
+  protected $fillable = ['function', 'name'];
 
   /**
    * The "booting" method of the model.

@@ -43,6 +43,20 @@ class ExtensionSeeder extends Seeder {
         }
       }
 
+      if (isset($importedExtension->action)) {
+        if (is_array($importedExtension->action)) {
+          foreach ($importedExtension->action as $importedAction) {
+            $extension->actions()->create([
+              'name' => $importedAction->name
+            ]);
+          }
+        } else {
+          $extension->actions()->create([
+            'name' => $importedExtension->action->name
+          ]);
+        }
+      }
+
       // Randomly enable for sites
       $sites = Site::all();
       foreach ($sites as $site) {

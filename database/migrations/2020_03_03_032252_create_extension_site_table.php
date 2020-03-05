@@ -23,14 +23,16 @@ class CreateExtensionSiteTable extends Migration {
       $table
         ->foreign('extension_id')
         ->references('id')
-        ->on('extensions');
+        ->on('extensions')
+        ->onDelete('cascade');
 
       $table->unsignedBigInteger('site_id')->index();
 
       $table
         ->foreign('site_id')
         ->references('id')
-        ->on('sites');
+        ->on('sites')
+        ->onDelete('cascade');
     });
   }
 

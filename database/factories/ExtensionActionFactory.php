@@ -14,6 +14,7 @@ $factory->define(Action::class, function (Faker $faker) {
   $content = Storage::disk('extensions')->get($file);
 
   return [
-    'function' => $content
+    'function' => $content,
+    'name' => basename($file, '.js')
   ];
 });

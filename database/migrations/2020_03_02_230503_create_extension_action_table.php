@@ -20,14 +20,16 @@ class CreateExtensionActionTable extends Migration {
       $table
         ->foreign('extension_id')
         ->references('id')
-        ->on('extensions');
+        ->on('extensions')
+        ->onDelete('cascade');
 
       $table->unsignedBigInteger('action_id')->index();
 
       $table
         ->foreign('action_id')
         ->references('id')
-        ->on('actions');
+        ->on('actions')
+        ->onDelete('cascade');
     });
   }
 

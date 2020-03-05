@@ -16,10 +16,6 @@ use Tests\TestCase;
 class StatementTest extends TestCase {
   use ResetDatabase;
 
-  protected function tearDown(): void {
-    m::close();
-  }
-
   public function testViewReplacementFunctional() {
     $view = view(
       [
