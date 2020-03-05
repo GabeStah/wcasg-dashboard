@@ -8,7 +8,6 @@ use CreatyDev\Domain\Extensions\Models\Predicate;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 $factory->define(Predicate::class, function (Faker $faker) {
   $file = array_random(Storage::disk('extensions')->files('predicates'));
@@ -16,6 +15,6 @@ $factory->define(Predicate::class, function (Faker $faker) {
 
   return [
     'function' => $content,
-    'name' => Str::studly($faker->company)
+    'name' => basename($file, '.js')
   ];
 });

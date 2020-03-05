@@ -22,9 +22,6 @@ $factory->define(Plan::class, function (Faker $faker) {
   $price = $faker->numberBetween(0, 500);
   $trialPeriod = $faker->numberBetween(0, 28);
 
-  // TODO: Delete existing products/plans/subs on init
-  // see: https://stripe.com/docs/api/service_products/list
-
   $stripePlan = \Stripe\Plan::create([
     'amount' => $price,
     'interval' => $faker->randomElement(['day', 'week', 'month', 'year']),

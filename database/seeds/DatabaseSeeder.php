@@ -11,6 +11,7 @@ class DatabaseSeeder extends Seeder {
    * @return void
    */
   public function run() {
+    $this->call(StripeReset::class);
     $this->call(PlanTableSeeder::class);
     $this->call(RoleTableSeeder::class);
     $this->call(CategoryTableSeeder::class);

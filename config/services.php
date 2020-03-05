@@ -31,7 +31,8 @@ return [
   'stripe' => [
     'model' => CreatyDev\Domain\Users\Models\User::class,
     'key' => env('STRIPE_KEY'),
-    'secret' => env('STRIPE_SECRET')
+    'secret' => env('STRIPE_SECRET'),
+    'reset_on_seed' => env('STRIPE_RESET_ON_SEED', false)
   ],
 
   'authy' => [
