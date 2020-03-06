@@ -39,6 +39,7 @@
                                     <th id="header-domain" aria-label="Domain">Domain</th>
                                     <th id="header-status" aria-label="Status">Status</th>
                                     <th id="header-subscription" aria-label="Subscription">Subscription</th>
+                                    <th id="header-extensions" aria-label="Extensions">Extensions</th>
                                     <th id="header-statement" aria-label="Statement">Statement</th>
                                     <th id="header-widget" aria-label="Widget">Widget</th>
                                 </tr>
@@ -90,6 +91,13 @@
                                                     </button>
                                                 </a>
                                             @endif
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('account.sites.extensions.index', $site) }}">
+                                                <button class="btn btn-outline-info mx-0"><i
+                                                        class="fa fa-puzzle-piece mr-1"></i>Extensions
+                                                </button>
+                                            </a>
                                         </td>
                                         <td>
                                             <a href="{{ route('account.sites.statement.show', $site->id) }}"
