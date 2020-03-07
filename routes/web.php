@@ -338,7 +338,7 @@ Route::group(
         ['prefix' => '/{site}/extensions', 'as' => 'extensions.'],
         function () {
           Route::get('/', 'SiteExtensionsController@index')->name('index');
-          //          Route::put('/', 'SitesController@statementUpdate')->name('update');
+          Route::put('/', 'SiteExtensionsController@update')->name('update');
           //          Route::get('/edit', 'SitesController@statementEdit')->name('edit');
           //          Route::get(
           //            '/download/{type}',

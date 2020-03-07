@@ -1,3 +1,4 @@
+@include('layouts.partials._ace')
 @extends('account.layouts.default')
 @section('title', 'Site Extensions')
 @section('content')
@@ -30,20 +31,22 @@
                                 <a href="#" class="btn btn-primary">Go somewhere</a>
                                 @foreach($extension->predicates as $predicate)
                                     @if($predicate->function)
+{{--                                        <form action="{{ route('account.sites.extensions.update', ['site' => $site->id, $site, $extensions, $predicate]) }}" method="post">--}}
+{{--                                        <form action="{{ route('account.sites.extensions.update', ['site' => $site->id]) }}" method="POST">--}}
+{{--                                            @csrf--}}
+{{--                                            @method('PUT')--}}
                                     <div class="form-group row">
                                         <label class="col-md-3 col-form-label" for="predicate">Predicate: {{ $predicate->name }}</label>
                                         <div class="col-md-6">
-                                            <pre class="prism-live no-whitespace-normalization language-javascript"><code class="language-javascript">{{ LZCompressor\LZString::decompressFromBase64($predicate->function) }}</code></pre>
-    {{--                                        <textarea id="action" name="action" class="form-control custom-editor" style="min-height: 600px;"--}}
-    {{--                                                  placeholder="Enter Action" v-pre>{{ LZCompressor\LZString::decompressFromBase64($action->function) }}</textarea>--}}
-
-                                            <textarea class="prism-live language-javascript">{{ LZCompressor\LZString::decompressFromBase64($predicate->function) }}</textarea>
+                                            <div id="editor" class="editor">{{ LZCompressor\LZString::decompressFromBase64($predicate->function) }}</div>
 
                                             @if ($errors->has('predicate'))
                                                 <span class="text-danger">{{ $errors->first('predicate') }}</span>
                                             @endif
                                         </div>
                                     </div>
+{{--                                            <button type="submit">Save</button>--}}
+{{--                                        </form>--}}
                                     @endif
                                 @endforeach
                                 @foreach($extension->actions as $action)
@@ -51,9 +54,7 @@
                                         <div class="form-group row">
                                             <label class="col-md-3 col-form-label" for="action">Action: {{ $action->name }}</label>
                                             <div class="col-md-6">
-                                                <pre class="prism-live no-whitespace-normalization language-javascript"><code class="language-javascript">{{ LZCompressor\LZString::decompressFromBase64($action->function) }}</code></pre>
-                                                {{--                                        <textarea id="action" name="action" class="form-control custom-editor" style="min-height: 600px;"--}}
-                                                {{--                                                  placeholder="Enter Action" v-pre>{{ LZCompressor\LZString::decompressFromBase64($action->function) }}</textarea>--}}
+                                                <div id="editor" class="editor">{{ LZCompressor\LZString::decompressFromBase64($action->function) }}</div>
 
                                                 @if ($errors->has('action'))
                                                     <span class="text-danger">{{ $errors->first('action') }}</span>
@@ -145,4 +146,4 @@
         </div>
     </div>
 @endsection
-@include('layouts.partials._prismjs')
+{{--@include('layouts.partials._prismjs')--}}
