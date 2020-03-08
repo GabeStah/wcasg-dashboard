@@ -25,6 +25,12 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Audits\Models\Audit whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Audits\Models\Audit whereUrl($value)
  * @mixin \Eloquent
+ * @property string|null $expired_at
+ * @property int|null $user_id
+ * @property int|null $site_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Audits\Models\Audit whereExpiredAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Audits\Models\Audit whereSiteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Audits\Models\Audit whereUserId($value)
  */
 class Audit extends Model {
   use HasTokenId;

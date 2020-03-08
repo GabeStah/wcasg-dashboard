@@ -7,8 +7,7 @@ use CreatyDev\Domain\Users\Models\User;
 use Exception;
 use Faker\Generator as Faker;
 use Illuminate\Console\Command;
-use Laravel\Cashier\Cashier;
-use Stripe\Token;
+use Stripe\PaymentMethod;
 
 class CreateUserSubscription extends Command {
   private $maxChargeAmount = 50;
@@ -19,14 +18,14 @@ class CreateUserSubscription extends Command {
    *
    * @var string
    */
-  protected $signature = 'stripe:create-user-subscription {user_id?} {amount=50} {--C|card=fake : Card type to use (fake, prepaid)}';
+  protected $signature = 'stripe:create-user-subscription {user?} {amount=50} {--C|card=fake : Card type to use (fake, prepaid)}';
 
   /**
    * The console command description.
    *
    * @var string
    */
-  protected $description = 'Create a new Stripe Plan with {amount} cost, then assign to {user_id} as new Subscription';
+  protected $description = 'Create a new Stripe Plan with {amount} cost, then assign to {user} as new Subscription';
 
   /**
    * Create a new command instance.
@@ -49,17 +48,41 @@ class CreateUserSubscription extends Command {
     try {
       $user = null;
       // Check user argument.
-      if (!$this->argument('user_id')) {
+      if (!$this->argument('user')) {
         $user = factory(User::class)->create();
-        $this->info("No 'user_id' specified.");
+        $this->info("No 'user' specified.");
         $this->info(
           "Creating new user of id {$user->id} and email {$user->email}."
         );
+      } elseif (!is_numeric($this->argument('user'))) {
+        $user = User::whereEmail($this->argument('user'))->first();
+        if (!$user) {
+          if (
+            $this->confirm(
+              "Could not find existing User with specified email of {$this->argument(
+                'user'
+              )}.  Would you like to create new User record with randomized data, using that email address?"
+            )
+          ) {
+            $user = factory(User::class)->create([
+              'email' => $this->argument('user')
+            ]);
+            $this->info(
+              "Creating new user of id {$user->id} and email {$user->email}."
+            );
+          } else {
+            throw new Exception(
+              "Could not find User with email of {$this->argument(
+                'user'
+              )}, aborting."
+            );
+          }
+        }
       } else {
-        $user = User::findOrFail($this->argument('user_id'));
+        $user = User::findOrFail($this->argument('user'));
         $this->info(
-          "Found user with email {$user->email} matching 'user_id' {$this->argument(
-            'user_id'
+          "Found user with email {$user->email} matching 'user' {$this->argument(
+            'user'
           )}."
         );
       }
@@ -85,12 +108,14 @@ class CreateUserSubscription extends Command {
         );
       }
 
-      $token = null;
+      $paymentMethod = null;
       if ($cardType === 'fake') {
-        $token = Token::create(factory(Token::class)->raw());
+        $paymentMethod = PaymentMethod::create(
+          factory(PaymentMethod::class)->raw()
+        );
       } elseif ($cardType === 'prepaid') {
-        $token = Token::create(
-          factory(Token::class)->raw([
+        $paymentMethod = PaymentMethod::create(
+          factory(PaymentMethod::class)->raw([
             'card' => [
               'number' => config('solarix.cc.prepaid.number'),
               'exp_month' => config('solarix.cc.prepaid.month'),
@@ -101,8 +126,8 @@ class CreateUserSubscription extends Command {
         );
       }
 
-      if (!$token) {
-        throw new Exception('Valid token could not be generated.');
+      if (!$paymentMethod) {
+        throw new Exception('Valid PaymentMethod could not be generated.');
       }
 
       $planName = $faker->words(3, true);
@@ -131,21 +156,15 @@ class CreateUserSubscription extends Command {
         'trial_period_days' => 14
       ]);
 
-      if ($user->hasStripeId()) {
-        $this->info(
-          "Using User's existing Stripe Customer ID: {$user->stripe_id}"
-        );
-      } else {
-        $this->warn('User is not registered as Stripe Customer.  Generating.');
-        $customer = $user->createStripeCustomer();
-        $this->info("User's Stripe Customer ID generated: {$customer->id}");
-      }
+      $customer = $user->createOrGetStripeCustomer();
+
+      $this->info("Associating with User's Stripe Customer id {$customer->id}");
 
       $subscription = $user
-        ->newSubscription($gateway_id, $gateway_id)
-        ->create($token->id, [], $plan->id);
+        ->newSubscription($gateway_id, $stripePlan->id)
+        ->create($paymentMethod);
 
-      dd($subscription);
+      $this->info('New subscription created and assigned to user.');
     } catch (Exception $exception) {
       $this->error($exception->getMessage());
     }

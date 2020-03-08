@@ -49,6 +49,8 @@ use Laravel\Cashier\Subscription as CashierSubscription;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription whereUserId($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription incomplete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription pastDue()
  */
 class Subscription extends CashierSubscription {
   /**

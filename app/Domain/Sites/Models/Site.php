@@ -39,6 +39,8 @@ use CreatyDev\Solarix\Cashier\Subscription;
  * @property int|null $statement_id
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site whereStatementId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Extensions\Models\Extension[] $extensions
+ * @property-read int|null $extensions_count
  */
 class Site extends Model {
   use HasToken;

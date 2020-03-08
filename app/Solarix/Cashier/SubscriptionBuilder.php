@@ -2,9 +2,11 @@
 
 namespace CreatyDev\Solarix\Cashier;
 
-use CreatyDev\Domain\Subscriptions\Models\Plan;
-use Laravel\Cashier\Exceptions\SubscriptionCreationFailed;
+use Laravel\Cashier\Exceptions\PaymentActionRequired;
+use Laravel\Cashier\Exceptions\PaymentFailure;
+use Laravel\Cashier\Payment;
 use Laravel\Cashier\SubscriptionBuilder as CashierSubscriptionBuilder;
+use Stripe\PaymentMethod;
 
 /**
  * TODO: Potentially implement service provider extension of Cashier\Subscription model
@@ -22,23 +24,20 @@ class SubscriptionBuilder extends CashierSubscriptionBuilder {
   /**
    * Create a new Stripe subscription.
    *
-   * @param string|null $token
-   * @param array       $options
-   * @param int|null    $planId
+   * @param PaymentMethod|string|null $paymentMethod
+   * @param array                             $options
    *
-   * @return Subscription
-   * @throws SubscriptionCreationFailed
+   * @return \Laravel\Cashier\Subscription
+   * @throws PaymentActionRequired
+   * @throws PaymentFailure
    */
-  public function create($token = null, array $options = [], $planId = null) {
-    $customer = $this->getStripeCustomer($token, $options);
+  public function create($paymentMethod = null, array $options = []) {
+    $customer = $this->getStripeCustomer($paymentMethod, $options);
 
-    $subscription = $customer->subscriptions->create($this->buildPayload());
-
-    if (in_array($subscription->status, ['incomplete', 'incomplete_expired'])) {
-      $subscription->cancel();
-
-      throw SubscriptionCreationFailed::incomplete($subscription);
-    }
+    /** @var \Stripe\Subscription $stripeSubscription */
+    $stripeSubscription = $customer->subscriptions->create(
+      $this->buildPayload()
+    );
 
     if ($this->skipTrial) {
       $trialEndsAt = null;
@@ -46,16 +45,22 @@ class SubscriptionBuilder extends CashierSubscriptionBuilder {
       $trialEndsAt = $this->trialExpires;
     }
 
-    return $this->owner->subscriptions()->create([
+    $subscription = $this->owner->subscriptions()->create([
       'name' => $this->name,
-      'stripe_id' => $subscription->id,
+      'stripe_id' => $stripeSubscription->id,
+      'stripe_status' => $stripeSubscription->status,
       'stripe_plan' => $this->plan,
       'quantity' => $this->quantity,
       'trial_ends_at' => $trialEndsAt,
-      'ends_at' => null,
-      'plan_id' => !is_null($planId)
-        ? $planId
-        : Plan::where('gateway_id', $this->plan)->first()->id
+      'ends_at' => null
     ]);
+
+    if ($subscription->incomplete()) {
+      (new Payment(
+        $stripeSubscription->latest_invoice->payment_intent
+      ))->validate();
+    }
+
+    return $subscription;
   }
 }

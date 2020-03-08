@@ -5,9 +5,7 @@ use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Domain\Users\Models\User;
 use CreatyDev\Solarix\Cashier\Subscription;
 use Illuminate\Database\Seeder;
-use Faker\Generator;
-use CreatyDev\Solarix\Cashier\SubscriptionBuilder;
-use Stripe\Token;
+use Stripe\PaymentMethod;
 
 class SubscriptionTableSeeder extends Seeder {
   public function run() {
@@ -17,15 +15,19 @@ class SubscriptionTableSeeder extends Seeder {
     $planA = Plan::all()->get(0);
     $planB = Plan::all()->get(1);
 
-    $tokenA = Token::create(factory(Token::class)->raw());
-    $tokenB = Token::create(factory(Token::class)->raw());
+    $paymentMethodA = PaymentMethod::create(
+      factory(PaymentMethod::class)->raw()
+    );
+    $paymentMethodB = PaymentMethod::create(
+      factory(PaymentMethod::class)->raw()
+    );
 
     $subscriptionA = $userA
       ->newSubscription($planA->gateway_id, $planA->gateway_id)
-      ->create($tokenA->id, [], $planA->id);
+      ->create($paymentMethodA);
     $subscriptionB = $userB
       ->newSubscription($planB->gateway_id, $planB->gateway_id)
-      ->create($tokenB->id, [], $planB->id);
+      ->create($paymentMethodB);
 
     // Create Sites
     factory(Site::class, 1)->create([
