@@ -6,9 +6,61 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Cashier\Billable as CashierBillable;
 use CreatyDev\Solarix\Cashier\Subscription;
 use CreatyDev\Solarix\Cashier\SubscriptionBuilder;
+use Stripe\Customer as StripeCustomer;
 
 trait Billable {
   use CashierBillable;
+
+  /**
+   * Create a Stripe customer for the given model.
+   *
+   * @param  array  $options
+   * @return StripeCustomer
+   */
+  public function createAsStripeCustomer(array $options = []) {
+    $options = array_key_exists('email', $options)
+      ? $options
+      : array_merge($options, ['email' => $this->email]);
+
+    // Merge with customer options.
+    $options = array_merge($this->customerOptions(), $options);
+
+    // Here we will create the customer instance on Stripe and store the ID of the
+    // user from Stripe. This ID will correspond with the Stripe user instances
+    // and allow us to retrieve users from Stripe later when we need to work.
+    $customer = StripeCustomer::create($options, $this->stripeOptions());
+
+    $this->stripe_id = $customer->id;
+
+    $this->save();
+
+    return $customer;
+  }
+
+  /**
+   * Get User-specific options for Stripe Customer API.
+   *
+   * @return array
+   */
+  public function customerOptions() {
+    return [
+      'address' => [
+        'line1' => $this->address1,
+        'line2' => $this->address2,
+        'country' => $this->country,
+        'city' => $this->city,
+        'postal_code' => $this->postal_code,
+        'state' => $this->state
+      ],
+      'email' => $this->email,
+      'name' => $this->name,
+      'phone' => $this->phone,
+      'metadata' => [
+        'username' => $this->username,
+        'company_name' => $this->company_name
+      ]
+    ];
+  }
 
   /**
    * Begin creating a new subscription.

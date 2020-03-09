@@ -28,6 +28,6 @@ $factory->define(User::class, function (Faker $faker) {
     'city' => $faker->city,
     'state' => $faker->state,
     'postal_code' => $faker->postcode,
-    'country' => $faker->country
+    'country' => $faker->countryISOAlpha3
   ];
 });
