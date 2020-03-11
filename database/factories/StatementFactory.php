@@ -1,5 +1,7 @@
 <?php
 
+namespace database\factories\StatementFactory;
+
 /** @var Factory $factory */
 
 use CreatyDev\Domain\Statements\Models\Statement;

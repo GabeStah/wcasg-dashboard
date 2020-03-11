@@ -1,5 +1,7 @@
 <?php
 
+namespace database\factories\SiteFactory;
+
 /** @var Factory $factory */
 
 use CreatyDev\Domain;

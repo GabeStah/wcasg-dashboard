@@ -1,5 +1,7 @@
 <?php
 
+namespace database\factories\TokenFactory;
+
 /** @var Factory $factory */
 
 use CreatyDev\Domain;

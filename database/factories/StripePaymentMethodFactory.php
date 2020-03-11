@@ -1,5 +1,7 @@
 <?php
 
+namespace database\factories\StripePaymentMethodFactory;
+
 /** @var Factory $factory */
 
 use Faker\Generator as Faker;

@@ -1,5 +1,7 @@
 <?php
 
+namespace database\factories\SubscriptionFactory;
+
 /** @var Factory $factory */
 
 use CreatyDev\Domain\Subscriptions\Models\Plan;
@@ -10,6 +12,7 @@ use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Str;
 use Stripe\PaymentMethod;
 use Stripe\Stripe;
+use Stripe\Plan as StripePlan;
 
 $factory->defineAs(Subscription::class, 'complete', function (Faker $faker) {
   if (!Str::contains(Stripe::$apiKey, '_test_')) {
@@ -21,8 +24,18 @@ $factory->defineAs(Subscription::class, 'complete', function (Faker $faker) {
   // User
   $user = factory(User::class)->create();
 
+  // Stripe plan
+  $stripePlan = StripePlan::create(factory(StripePlan::class)->make());
+
   // Plan
-  $plan = factory(Plan::class)->create();
+  $plan = factory(Plan::class)->create([
+    'name' => $stripePlan->id,
+    'gateway_id' => $stripePlan->id,
+    'price' => $stripePlan->amount,
+    'interval' => $stripePlan->interval,
+    'active' => $stripePlan->active,
+    'trial_period_days' => $stripePlan->trial_period_days
+  ]);
 
   // PaymentMethod
   $paymentMethod = PaymentMethod::create(factory(PaymentMethod::class)->raw());
