@@ -672,6 +672,16 @@ Route::group(
     });
 
     /**
+     * Product Namespace Routes
+     */
+    Route::group(['namespace' => 'Product'], function () {
+      /**
+       * Plans Resource Routes
+       */
+      Route::resource('/products', 'ProductController');
+    });
+
+    /**
      * Coupon Namespace Routes
      */
     Route::group(['namespace' => 'Coupon'], function () {

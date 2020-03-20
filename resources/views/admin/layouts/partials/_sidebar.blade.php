@@ -85,6 +85,26 @@
             </li>
         </ul>
     </li>
+    <!-- Products -->
+    <li class="nav-item nav-dropdown">
+        <a class="nav-link nav-dropdown-toggle" href="#">
+            <i class="fa fa-cart-arrow-down"></i> Manage Products
+        </a>
+        <ul class="nav-dropdown-items">
+            <li class="nav-item">
+                <a class="nav-link{{ return_if(on_page('admin.products.index'), ' active') }}"
+                   href="{{ route('admin.products.index') }}">
+                    <i class="fa fa-shopping-cart"></i>All Products
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{{ return_if(on_page('admin.products.create'), ' active') }}"
+                   href="{{ route('admin.products.create') }}">
+                    <i class="fa fa-cart-plus"></i> Add Product
+                </a>
+            </li>
+        </ul>
+    </li>
     <!-- Plans -->
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#">
