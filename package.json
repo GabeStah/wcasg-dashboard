@@ -9,7 +9,7 @@
         "artisan:queue:work": "php artisan queue:work",
         "dev": "npm run development",
         "dev:db:mongo:ssh-tunnel": "ssh -L 4433:localhost:27017 root@167.172.199.242 -f -N",
-        "dev:webservice:start": "cd ../audit/pa11y-webservice-laravel && yarn run start",
+        "dev:webservice:start": "cd ../pa11y-webservice-laravel && yarn run start",
         "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "db:dev": "docker-compose -f mysql.docker-compose.yml up",
         "db:dev:detached": "docker-compose -f mysql.docker-compose.yml up -d",
