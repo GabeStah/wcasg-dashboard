@@ -20,19 +20,39 @@
             <form action="{{ route('admin.plans.store') }}" method="POST" class="form-horizontal offset-sm-2">
                     {!! csrf_field() !!}
                 <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Plan name</label>
+                    <label class="col-md-3 col-form-label" for="hf-nickname">Name</label>
                     <div class="col-md-6">
-                        <input type="text" id="name" name="name" class="form-control"
-                            placeholder="Enter Plan name.."
-                            value="{{ old('name') }}">
+                        <input type="text" id="nickname" name="nickname" class="form-control"
+                               placeholder="Enter Plan Name"
+                               value="{{ old('nickname') }}">
 
-                            @if ($errors->has('name'))
-                                <span class="text-danger">{{ $errors->first('name') }}</span>
-                            @endif
+                        @if ($errors->has('nickname'))
+                            <span class="text-danger">{{ $errors->first('nickname') }}</span>
+                        @endif
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Plan Price</label>
+                    <label class="col-md-3 col-form-label" for="hf-product_id">Product</label>
+                    <div class="col-md-6">
+                        <select id="product_id" name="product_id">
+                            @foreach ($products as $product)
+                                <option value="{{ $product->id }}"
+                                        data-content="{{ $product->name }}">
+                                    {{ $product->name }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        @if ($errors->has('product_id'))
+                            <span class="text-danger">{{ $errors->first('product_id') }}</span>
+                        @endif
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label" for="hf-name">Price</label>
                     <div class="col-md-6">
                         <input type="text" id="price" name="price" class="form-control"
                                placeholder="Enter Plan price.."
@@ -44,7 +64,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Plan Trial</label>
+                    <label class="col-md-3 col-form-label" for="hf-name">Trial</label>
                     <div class="col-md-6">
                         <input type="number" id="trial" name="trial" class="form-control"
                                placeholder="Enter Plan Trial Duration (Days)"

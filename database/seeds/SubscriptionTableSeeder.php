@@ -23,10 +23,10 @@ class SubscriptionTableSeeder extends Seeder {
     );
 
     $subscriptionA = $userA
-      ->newSubscription($planA->gateway_id, $planA->gateway_id)
+      ->newSubscription($planA->id, $planA->id)
       ->create($paymentMethodA);
     $subscriptionB = $userB
-      ->newSubscription($planB->gateway_id, $planB->gateway_id)
+      ->newSubscription($planB->id, $planB->id)
       ->create($paymentMethodB);
 
     // Create Sites

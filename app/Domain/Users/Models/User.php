@@ -271,9 +271,9 @@ class User extends Authenticatable {
       Plan::class,
       Subscription::class,
       'user_id',
-      'gateway_id',
       'id',
-      'stripe_plan'
+      'id',
+      'plan_id'
     )->orderBy('subscriptions.created_at', 'desc');
   }
 

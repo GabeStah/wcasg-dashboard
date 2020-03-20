@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use Stripe\PaymentMethod;
 use Stripe\Stripe;
 use Stripe\Plan as StripePlan;
+use Stripe\Product as StripeProduct;
 
 $factory->defineAs(Subscription::class, 'complete', function (Faker $faker) {
   if (!Str::contains(Stripe::$apiKey, '_test_')) {
@@ -24,26 +25,31 @@ $factory->defineAs(Subscription::class, 'complete', function (Faker $faker) {
   // User
   $user = factory(User::class)->create();
 
-  // Stripe plan
-  $stripePlan = StripePlan::create(factory(StripePlan::class)->make());
+  // Product
+  $stripeProduct = StripeProduct::create(factory(StripeProduct::class)->make());
+
+  //  // Stripe plan
+  //  $stripePlan = StripePlan::create(
+  //    factory(StripePlan::class)->make(['product' => $stripeProduct->id])
+  //  );
 
   // Plan
   $plan = factory(Plan::class)->create([
-    'name' => $stripePlan->id,
-    'gateway_id' => $stripePlan->id,
-    'price' => $stripePlan->amount,
-    'interval' => $stripePlan->interval,
-    'active' => $stripePlan->active,
-    'trial_period_days' => $stripePlan->trial_period_days
+    'product_id' => $stripeProduct
+    //    'name' => $stripePlan->nickname,
+    //    'stripe_plan_id' => $stripePlan->id,
+    //
+    //    'price' => $stripePlan->amount,
+    //    'interval' => $stripePlan->interval,
+    //    'active' => $stripePlan->active,
+    //    'trial_period_days' => $stripePlan->trial_period_days
   ]);
 
   // PaymentMethod
   $paymentMethod = PaymentMethod::create(factory(PaymentMethod::class)->raw());
 
   // create Sub
-  $sub = $user
-    ->newSubscription($plan->gateway_id, $plan->gateway_id)
-    ->create($paymentMethod);
+  $sub = $user->newSubscription($plan->id, $plan->id)->create($paymentMethod);
 
   // Return attributes to use in-memory ->make()
   return $sub->getAttributes();

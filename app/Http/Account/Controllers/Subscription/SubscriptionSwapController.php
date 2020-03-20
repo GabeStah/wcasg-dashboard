@@ -34,7 +34,7 @@ class SubscriptionSwapController extends Controller {
   public function store(SubscriptionSwapStoreRequest $request) {
     $user = $request->user();
 
-    $plan = Plan::where('gateway_id', $request->plan)->first();
+    $plan = Plan::findOrFail($request->plan);
 
     if ($this->downgradesFromTeamPlan($user, $plan)) {
       //todo: uncomment lines below and create event to email each user on the team
@@ -48,10 +48,8 @@ class SubscriptionSwapController extends Controller {
     }
 
     // TODO: Multi-subscription
-    $user
-      ->subscription($user->subscriptions->first()->name)
-      ->swap($plan->gateway_id);
-    //        $user->subscription('main')->swap($plan->gateway_id);
+    $user->subscription($user->subscriptions->first()->name)->swap($plan->id);
+    //        $user->subscription('main')->swap($plan->stripe_plan_id);
 
     // send mail to user
     Mail::to($user)->send(new SubscriptionSwapped());

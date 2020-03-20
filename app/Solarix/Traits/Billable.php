@@ -104,7 +104,7 @@ trait Billable {
       return $subscription->valid();
     }
 
-    return $subscription->valid() && $subscription->stripe_plan === $plan;
+    return $subscription->valid() && $subscription->plan_id === $plan;
   }
 
   /**

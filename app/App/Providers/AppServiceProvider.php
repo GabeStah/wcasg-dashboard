@@ -2,6 +2,8 @@
 
 namespace CreatyDev\App\Providers;
 
+use CreatyDev\Domain\Subscriptions\Models\Plan;
+use CreatyDev\Domain\Subscriptions\Observers\PlanObserver;
 use Illuminate\Support\ServiceProvider;
 use CreatyDev\Domain\Users\Models\Role;
 use CreatyDev\Domain\Users\Observers\RoleObserver;
@@ -17,6 +19,7 @@ class AppServiceProvider extends ServiceProvider {
     //model observers
     //        Category::observe(CategoryObserver::class);
     //        Tag::observe(TagObserver::class);
+    Plan::observe(PlanObserver::class);
     Role::observe(RoleObserver::class);
     // Register components
     BladeX::component('components.*');

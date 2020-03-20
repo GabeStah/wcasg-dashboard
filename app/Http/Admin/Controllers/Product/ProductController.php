@@ -15,8 +15,10 @@ class ProductController extends Controller {
     $this->authorize('manage', 'product');
 
     try {
-      $products = Stripe\Product::all();
+      $products = Stripe\Product::all(['limit' => 10]);
+
       return view('admin.products.index', compact('products'));
+      //      }
     } catch (Stripe\Error\Api $e) {
       return json_decode($e, false);
     }
@@ -67,7 +69,7 @@ class ProductController extends Controller {
       $products = Stripe\Product::all();
 
       return view('admin.products.index', compact('products'))->with(
-        'status',
+        'success',
         'Your product has been created.'
       );
     } catch (Stripe\Error\Api $e) {
@@ -98,10 +100,9 @@ class ProductController extends Controller {
 
       $products = Stripe\Product::all();
 
-      return view('admin.products.index', compact('products'))->with(
-        'status',
-        'Your product has been updated.'
-      );
+      return redirect()
+        ->route('admin.products.index', compact('products'))
+        ->with('success', 'Your product has been updated.');
     } catch (Stripe\Error\Api $e) {
       return json_decode($e, false);
     }

@@ -32,14 +32,14 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                        <label class="col-md-3 col-form-label" for="hf-name">Coupon Code</label>
+                        <label class="col-md-3 col-form-label" for="hf-plan_id">Coupon Code</label>
                         <div class="col-md-6">
-                            <input type="text" id="code_id" name="gateway_id" class="form-control"
+                            <input type="text" id="plan_id" name="plan_id" class="form-control"
                                 placeholder="Exp: 25OFF"
-                                value="{{ old('gateway_id') }}" required>
+                                value="{{ old('plan_id') }}" required>
     
-                                @if ($errors->has('gateway_id'))
-                                    <span class="text-danger">{{ $errors->first('gateway_id') }}</span>
+                                @if ($errors->has('plan_id'))
+                                    <span class="text-danger">{{ $errors->first('plan_id') }}</span>
                                 @endif
                         </div>
                     </div>

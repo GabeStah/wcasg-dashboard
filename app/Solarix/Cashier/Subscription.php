@@ -12,7 +12,7 @@ use Laravel\Cashier\Subscription as CashierSubscription;
  * @property string                                   $name
  * @property string                                   $stripe_id
  * @property string                                   $stripe_status
- * @property string                                   $stripe_plan
+ * @property string                                   $stripe_plan_id
  * @property int                                      $quantity
  * @property \Illuminate\Support\Carbon|null          $trial_ends_at
  * @property \Illuminate\Support\Carbon|null          $ends_at

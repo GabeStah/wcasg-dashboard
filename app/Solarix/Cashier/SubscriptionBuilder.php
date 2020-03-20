@@ -46,10 +46,10 @@ class SubscriptionBuilder extends CashierSubscriptionBuilder {
     }
 
     $subscription = $this->owner->subscriptions()->create([
+      'id' => $stripeSubscription->id,
+      'plan_id' => $this->plan,
       'name' => $this->name,
-      'stripe_id' => $stripeSubscription->id,
       'stripe_status' => $stripeSubscription->status,
-      'stripe_plan' => $this->plan,
       'quantity' => $this->quantity,
       'trial_ends_at' => $trialEndsAt,
       'ends_at' => null

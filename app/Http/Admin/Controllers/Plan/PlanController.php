@@ -37,7 +37,9 @@ class PlanController extends Controller {
   public function create() {
     $this->authorize('create', Plan::class);
 
-    return view('admin.plans.create');
+    $products = Stripe\Product::all();
+
+    return view('admin.plans.create', compact('products'));
   }
 
   /**
@@ -50,39 +52,33 @@ class PlanController extends Controller {
     $this->authorize('create', Plan::class);
 
     $this->validate($request, [
-      'name' => 'required',
-      'price' => 'required',
+      'nickname' => 'required',
+      'amount' => 'required',
       'interval' => 'required'
     ]);
-    // Generate pla slug from plan name
-    $slug = str_replace(' ', '-', $request->input('name'));
-    $gateway_id = str_replace(' ', '_', $request->input('name'));
     $team_enable = !empty($request->input('teams_limit')) ? 1 : 0;
     $teams_limit = !empty($request->input('teams_limit'))
       ? $request->input('teams_limit')
       : null;
-    $price = (float) $request->input('price') * 100;
+    $amount = (float) $request->input('amount') * 100;
 
-    \Stripe\Plan::create([
-      'amount' => $price,
-      'interval' => $request->input('interval'),
-      'product' => [
-        'name' => $request->input('name')
-      ],
-      'currency' => 'usd',
-      'id' => $gateway_id,
-      'trial_period_days' => $request->input('trial')
-    ]);
+    //    $stripePlan = \Stripe\Plan::create([
+    //      'amount' => $price,
+    //      'interval' => $request->input('interval'),
+    //      'product' => $request->get('stripe_product_id'),
+    //      'currency' => 'usd',
+    //      'trial_period_days' => $request->input('trial'),
+    //      'nickname' => $request->input('name')
+    //    ]);
 
     $plan = new Plan([
-      'name' => $request->input('name'),
-      'gateway_id' => $gateway_id,
-      'price' => $request->input('price'),
+      'product_id' => $request->input('product_id'),
+      'amount' => $amount,
+      'nickname' => $request->input('nickname'),
       'interval' => $request->input('interval'),
       'teams_enabled' => $team_enable,
       'teams_limit' => $teams_limit,
       'active' => 1,
-      'slug' => $slug,
       'trial_period_days' => $request->input('trial')
     ]);
 
@@ -131,42 +127,39 @@ class PlanController extends Controller {
 
     $this->validate($request, [
       'name' => 'required',
-      'price' => 'required',
+      'amount' => 'required',
       'interval' => 'required'
     ]);
 
     $plan = Plan::findOrFail($id);
-    // Generate plan slug from plan name
-    $slug = str_replace(' ', '-', $request->input('name'));
-    $gateway_id = str_replace(' ', '_', $request->input('name'));
+
     $team_enable = !empty($request->input('teams_limit')) ? 1 : 0;
     $teams_limit = !empty($request->input('teams_limit'))
       ? $request->input('teams_limit')
       : null;
-    $price = (float) $request->input('price') * 100;
+    $amount = (float) $request->input('amount') * 100;
     // Delete the plan on stripe
-    $stripe_plan = \Stripe\Plan::retrieve($plan->gateway_id);
+    $stripe_plan = \Stripe\Plan::retrieve($plan->stripe_plan_id);
     $stripe_plan->delete();
     // Recrete a new plan on stripe
-    \Stripe\Plan::create([
-      'amount' => $price,
-      'interval' => $request->input('interval'),
-      'product' => [
-        'name' => $request->input('name')
-      ],
-      'currency' => 'usd',
-      'id' => $gateway_id,
-      'trial_period_days' => $request->input('trial')
-    ]);
+    //    \Stripe\Plan::create([
+    //      'amount' => $price,
+    //      'interval' => $request->input('interval'),
+    //      'product' => [
+    //        'name' => $request->input('name')
+    //      ],
+    //      'currency' => 'usd',
+    //      'id' => $stripe_plan_id,
+    //      'trial_period_days' => $request->input('trial')
+    //    ]);
 
-    $plan->name = $request->input('name');
-    $plan->gateway_id = $gateway_id;
-    $plan->price = $request->input('price');
+    $plan->product_id = $request->input('product_id');
+    $plan->nickname = $request->input('name');
+    $plan->amount = $amount;
     $plan->interval = $request->input('interval');
     $plan->teams_enabled = $team_enable;
     $plan->teams_limit = $teams_limit;
     $plan->active = 1;
-    $plan->slug = $slug;
     $plan->trial_period_days = $request->input('trial');
     $plan->save();
 
@@ -185,7 +178,7 @@ class PlanController extends Controller {
     $this->authorize('delete', Plan::class);
     $plan = Plan::findOrFail($id);
 
-    $stripe_plan = \Stripe\Plan::retrieve($plan->gateway_id);
+    $stripe_plan = \Stripe\Plan::retrieve($plan->id);
     $stripe_plan->delete();
 
     // Delete the plan on the database

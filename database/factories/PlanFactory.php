@@ -9,25 +9,19 @@ use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Plan::class, function (Faker $faker) {
-  $planName = $faker->words(3, true);
   $teamEnable = $faker->boolean;
-
-  $slug = str_replace(' ', '-', $planName);
-  $gateway_id = str_replace(' ', '_', $planName);
-  $team_enable = $teamEnable;
   $teams_limit = $teamEnable ? $faker->numberBetween(0, 5) : 0;
-  $price = $faker->numberBetween(0, 500);
+  $amount = $faker->numberBetween(0, 2500);
   $trialPeriod = $faker->numberBetween(0, 28);
 
   return [
-    'name' => $faker->word,
-    'gateway_id' => $gateway_id,
-    'price' => $price,
+    'amount' => $amount,
+    'currency' => 'usd',
     'interval' => $faker->randomElement(['day', 'week', 'month', 'year']),
-    'teams_enabled' => $team_enable,
-    'teams_limit' => $teams_limit,
+    'nickname' => $faker->word,
     'active' => 1,
-    'slug' => $slug,
+    'teams_enabled' => $teamEnable,
+    'teams_limit' => $teams_limit,
     'trial_period_days' => $trialPeriod
   ];
 });

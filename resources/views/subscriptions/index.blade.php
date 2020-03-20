@@ -20,10 +20,10 @@
                                             class="form-control custom-select{{ $errors->has('plan') ? ' is-invalid' : '' }}"
                                             required>
                                         @foreach($plans as $plan)
-                                            <option value="{{ $plan->gateway_id }}"
-                                                    {{ request('plan') === $plan->slug ||
-                                                    old('plan') === $plan->gateway_id ? 'selected' : '' }}>
-                                                {{ $plan->name }} (${{ $plan->price }})
+                                            <option value="{{ $plan->id }}"
+                                                    {{ request('plan') === $plan->id ||
+                                                    old('plan') === $plan->id ? 'selected' : '' }}>
+                                                {{ $plan->name }} (${{ $plan->amount }})
                                             </option>
                                         @endforeach
                                     </select>
