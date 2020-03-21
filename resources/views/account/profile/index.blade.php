@@ -9,40 +9,7 @@
             <form method="POST" action="{{ route('account.profile.store') }}" enctype="multipart/form-data">
                 {{ csrf_field() }}
 
-                @component('account.profile.text-field', ['field' => 'first_name', 'title' => 'First Name', 'required' => true])
-                @endcomponent
-
-                @component('account.profile.text-field', ['field' => 'last_name', 'title' => 'Last Name', 'required' => true])
-                @endcomponent
-
-                @component('account.profile.text-field', ['field' => 'username', 'title' => 'Username', 'required' => true])
-                @endcomponent
-
-                @component('account.profile.text-field', ['field' => 'email', 'title' => 'Email', 'required' => true])
-                @endcomponent
-
-                @component('account.profile.text-field', ['field' => 'phone', 'title' => 'Phone'])
-                @endcomponent
-
-                @component('account.profile.text-field', ['field' => 'company_name', 'title' => 'Company Name'])
-                @endcomponent
-
-                @component('account.profile.text-field', ['field' => 'address1', 'title' => 'Address'])
-                @endcomponent
-
-                @component('account.profile.text-field', ['field' => 'address2', 'title' => 'Address 2'])
-                @endcomponent
-
-                @component('account.profile.text-field', ['field' => 'city', 'title' => 'City'])
-                @endcomponent
-
-                @component('account.profile.text-field', ['field' => 'state', 'title' => 'State'])
-                @endcomponent
-
-                @component('account.profile.text-field', ['field' => 'postal_code', 'title' => 'Postal Code'])
-                @endcomponent
-
-                @component('account.profile.text-field', ['field' => 'country', 'title' => 'Country'])
+                @component('components.form.row-list', ['data' => auth()->user(), 'rows' => $rows])
                 @endcomponent
 
                 <div class="form-group row {{ $errors->has('profile_image') ? ' has-error' : '' }}">

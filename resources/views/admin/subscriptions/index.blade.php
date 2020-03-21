@@ -32,7 +32,7 @@
                         <tr>
                             <td>{{ $subscription->user_id }}</td>
                             {{-- <td>{{ $plan->slug }}</td> --}}
-                            <td>{{ $subscription->stripe_plan }}</td>
+                            <td>{{ $subscription->plan_id }}</td>
                             <td>{{ $subscription->trial_ends_at }}</td>
                             {{-- <td>{{ $plan->trial_period_days }}</td> --}}
                             <td>

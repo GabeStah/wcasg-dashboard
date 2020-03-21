@@ -9,10 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * CreatyDev\Domain\Subscriptions\Models\Plan
  *
- * @property int $id
+ * @property string $id
  * @property string $name
  * @property string $slug
- * @property string $gateway_id
  * @property string $interval
  * @property float $price
  * @property int $active
@@ -44,41 +43,53 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  */
 class Plan extends Model {
-  use Sluggable;
-
-  protected $fillable = [
-    'name',
-    'slug',
-    'gateway_id',
-    'price',
-    'active',
-    'teams_enabled',
-    'teams_limit',
-    'trial_period_days',
-    'interval'
+  /**
+   * Default values.
+   *
+   * @var array
+   */
+  public $attributes = [
+    'active' => true,
+    'currency' => 'usd',
+    'interval' => 'month'
   ];
 
   /**
-   * Return the sluggable configuration array for this model.
+   * Type cast attributes.
    *
-   * @return array
+   * @var array
    */
-  public function sluggable() {
-    return [
-      'slug' => [
-        'source' => 'name'
-      ]
-    ];
-  }
+  public $casts = [
+    'active' => 'boolean',
+    'teams_enabled' => 'boolean'
+  ];
+
+  protected $fillable = [
+    'id',
+    'product_id',
+    'amount',
+    'currency',
+    'interval',
+    'nickname',
+    'active',
+    'teams_enabled',
+    'teams_limit',
+    'trial_period_days'
+  ];
 
   /**
-   * Get the route key for the model.
+   * Indicates if the IDs are auto-incrementing.
    *
-   * @return string
+   * @var bool
    */
-  public function getRouteKeyName() {
-    return 'slug';
-  }
+  public $incrementing = false;
+
+  /**
+   * The "type" of the primary ID.
+   *
+   * @var string
+   */
+  protected $keyType = 'string';
 
   /**
    * Check if plan is for teams.

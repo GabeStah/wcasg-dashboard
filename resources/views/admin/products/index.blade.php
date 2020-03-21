@@ -15,7 +15,6 @@
                 <table class="table table-responsive-sm table-striped">
                     <thead>
                         <tr>
-                            <th>Id</th>
                             <th>Name</th>
                             <th>Statement Descriptor</th>
                             <th>Description</th>
@@ -27,7 +26,6 @@
                     <tbody>
                         @foreach ($products as $product )
                         <tr>
-                            <td>{{ $product->id }}</td>
                             <td>{{ $product->name }}</td>
                             <td>{{ $product->statement_descriptor }}</td>
                             <td>{{ $product->description }}</td>

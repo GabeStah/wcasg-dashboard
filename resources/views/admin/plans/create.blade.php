@@ -9,7 +9,7 @@
     <div class="card">
         <div class="card-header">
             <strong>Create a Plan</strong> 
-            <span class="center"> Plan will automaticaly create on the fly to the stripe dashboard </span>
+            <span class="center"> {{ __('admin.plan.stripe_mention') }} </span>
         </div>
         @if (session('status'))
         <div class="alert alert-success">
@@ -19,58 +19,10 @@
         <div class="card-body">
             <form action="{{ route('admin.plans.store') }}" method="POST" class="form-horizontal offset-sm-2">
                     {!! csrf_field() !!}
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Plan name</label>
-                    <div class="col-md-6">
-                        <input type="text" id="name" name="name" class="form-control"
-                            placeholder="Enter Plan name.."
-                            value="{{ old('name') }}">
 
-                            @if ($errors->has('name'))
-                                <span class="text-danger">{{ $errors->first('name') }}</span>
-                            @endif
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Plan Price</label>
-                    <div class="col-md-6">
-                        <input type="text" id="price" name="price" class="form-control"
-                               placeholder="Enter Plan price.."
-                               value="{{ old('name') }}">
+                @component('components.form.row-list', ['rows' => $rows])
+                @endcomponent
 
-                        @if ($errors->has('price'))
-                            <span class="text-danger">{{ $errors->first('price') }}</span>
-                        @endif
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Plan Trial</label>
-                    <div class="col-md-6">
-                        <input type="number" id="trial" name="trial" class="form-control"
-                               placeholder="Enter Plan Trial Duration (Days)"
-                               value="{{ old('trial') }}">
-
-                        @if ($errors->has('trial'))
-                            <span class="text-danger">{{ $errors->first('trial') }}</span>
-                        @endif
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Plan interval</label>
-                    <div class="col-md-6">
-                        <select id="interval" type="" class="form-control" name="interval">
-                                <option value="">Select Interval</option>
-                                <option value="day">Daily</option>
-                                <option value="week">Weekly</option>
-                                <option value="month">Monthly</option>
-                                <option value="year">Yearly</option>
-                            </select>
-
-                            @if ($errors->has('interval'))
-                                <span class="text-danger">{{ $errors->first('interval') }}</span>
-                            @endif
-                    </div>
-                </div>
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="hf-name">Teams Plan</label>
                     <div class="col-md-6">

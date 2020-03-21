@@ -2118,7 +2118,7 @@
     </g>
     <g fill="rgb(169,183,198)" font-family="'Segoe UI'" transform="matrix(1,0,0,1,20,20) translate(265,1354)" stroke="rgb(169,183,198)">
       <image x="2" y="2" clip-path="url(#clipPath53)" width="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAkElEQVR4XmNgGBRg&#13;&#10;1ooNZ9AxWHz5hv/48BAwABmgaEDno2ummgHoTkbHBA1ABmS5ABngNWDG0jWqM2fO&#13;&#10;ZJ2xZIPWzBUb+0nywsxVm+VmL9+wByjwGUSD+LNWbJwANx0KcLpg1rINu1FMBvJB&#13;&#10;LkFWDFaHx4BPaAZ8WrVqFRtMET4MMwDDBQh7iADYwgBdDT4AAGfhc4BqN1NhAAAA&#13;&#10;AElFTkSuQmCC" height="16" preserveAspectRatio="none"/>
-      <text x="21" xml:space="preserve" y="15" clip-path="url(#clipPath53)" font-weight="bold" stroke="none">gateway_id</text>
+      <text x="21" xml:space="preserve" y="15" clip-path="url(#clipPath53)" font-weight="bold" stroke="none">stripe_plan_id</text>
     </g>
     <g fill="rgb(120,120,120)" font-family="'Segoe UI'" transform="matrix(1,0,0,1,20,20) translate(458,1376)" stroke="rgb(120,120,120)">
       <text x="3" xml:space="preserve" y="15" clip-path="url(#clipPath17)" stroke="none">double(8,2)</text>
@@ -2532,7 +2532,7 @@
     </g>
     <g fill="rgb(169,183,198)" font-family="'Segoe UI'" transform="matrix(1,0,0,1,20,20) translate(2474.1864,171)" stroke="rgb(169,183,198)">
       <image x="2" y="2" clip-path="url(#clipPath132)" width="16" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAkElEQVR4XmNgGBRg&#13;&#10;1ooNZ9AxWHz5hv/48BAwABmgaEDno2ummgHoTkbHBA1ABmS5ABngNWDG0jWqM2fO&#13;&#10;ZJ2xZIPWzBUb+0nywsxVm+VmL9+wByjwGUSD+LNWbJwANx0KcLpg1rINu1FMBvJB&#13;&#10;LkFWDFaHx4BPaAZ8WrVqFRtMET4MMwDDBQh7iADYwgBdDT4AAGfhc4BqN1NhAAAA&#13;&#10;AElFTkSuQmCC" height="16" preserveAspectRatio="none"/>
-      <text x="21" xml:space="preserve" y="15" clip-path="url(#clipPath132)" font-weight="bold" stroke="none">gateway_id</text>
+      <text x="21" xml:space="preserve" y="15" clip-path="url(#clipPath132)" font-weight="bold" stroke="none">stripe_plan_id</text>
     </g>
     <g fill="rgb(120,120,120)" font-family="'Segoe UI'" transform="matrix(1,0,0,1,20,20) translate(2541.1864,193)" stroke="rgb(120,120,120)">
       <text x="3" xml:space="preserve" y="15" clip-path="url(#clipPath255)" stroke="none">enum('day', 'week', 'month', 'year')</text>

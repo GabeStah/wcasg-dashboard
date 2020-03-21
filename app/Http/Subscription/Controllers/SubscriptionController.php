@@ -2,20 +2,19 @@
 
 namespace CreatyDev\Http\Subscription\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use CreatyDev\App\Controllers\Controller;
-use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Domain\Subscriptions\Requests\SubscriptionStoreRequest;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class SubscriptionController extends Controller {
   /**
    * Display a listing of the resource.
    *
-   * @return \Illuminate\Http\Response
+   * @return Factory|Response|View
    */
   public function index() {
-    // $user = Auth::user();
     return view('subscriptions.index');
   }
 
@@ -23,16 +22,12 @@ class SubscriptionController extends Controller {
    * Store a newly created resource in storage.
    *
    * @param SubscriptionStoreRequest $request
-   * @return \Illuminate\Http\Response
+   * @return Response
    */
   public function store(SubscriptionStoreRequest $request) {
-    // TODO: Change 'main' default to plan name?
     $subscription = $request
       ->user()
-      ->newSubscription($request->plan, $request->plan);
-    // $user = User::find(1);
-
-    // $subscription = $request->user()->newSubscription('main', 'premium')->create($paymentMethod);
+      ->newSubscription($request->plan->nickname, $request->plan->id);
 
     if ($request->has('coupon')) {
       $subscription->withCoupon($request->coupon);

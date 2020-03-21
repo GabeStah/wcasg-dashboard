@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property int $id
  * @property string $name
- * @property string $gateway_id
+ * @property string $stripe_plan_id
  * @property float $percent_off
  * @property string $duration
  * @property int|null $duration_in_months
@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\Model;
 class Coupon extends Model {
   protected $fillable = [
     'name',
-    'gateway_id',
+    'plan_id',
     'percent_off',
     'duration',
     'duration_in_months',

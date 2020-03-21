@@ -29,7 +29,7 @@
                         <tr>
                             <td>{{ $coupon->name }}</td>
                             <td><span class="badge badge-info">{{ $coupon->percent_off }}</span> </td>
-                            <td><span class="badge badge-success" style="font-size:14px">{{ $coupon->gateway_id }}</span> </td>
+                            <td><span class="badge badge-success" style="font-size:14px">{{ $coupon->plan_id }}</span> </td>
                             <td>{{ $coupon->duration }}</td>
                             <td>{{ $coupon->created_at->diffForHumans() }}</td>
                             {{-- <td>

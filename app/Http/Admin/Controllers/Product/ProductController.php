@@ -15,8 +15,10 @@ class ProductController extends Controller {
     $this->authorize('manage', 'product');
 
     try {
-      $products = Stripe\Product::all();
+      $products = Stripe\Product::all(['limit' => 10]);
+
       return view('admin.products.index', compact('products'));
+      //      }
     } catch (Stripe\Error\Api $e) {
       return json_decode($e, false);
     }
@@ -26,7 +28,30 @@ class ProductController extends Controller {
     $this->authorize('manage', 'product');
 
     try {
-      return view('admin.products.create');
+      $rows = [
+        [
+          'field' => 'name',
+          'title' => 'Name*',
+          'required' => true
+        ],
+        [
+          'field' => 'unit_label',
+          'title' => 'Unit Label*',
+          'required' => true,
+          'info_text' => __('admin.product.unit_label')
+        ],
+        [
+          'field' => 'description',
+          'title' => 'Description'
+        ],
+        [
+          'field' => 'statement_descriptor',
+          'title' => 'Statement Descriptor',
+          'info_text' => __('admin.product.statement_descriptor')
+        ]
+      ];
+
+      return view('admin.products.create', compact('rows'));
     } catch (Stripe\Error\Api $e) {
       return json_decode($e, false);
     }
@@ -37,7 +62,34 @@ class ProductController extends Controller {
 
     try {
       $product = Stripe\Product::retrieve($id);
-      return view('admin.products.edit', compact('product'));
+
+      $rows = [
+        [
+          'field' => 'name',
+          'title' => 'Name*',
+          'required' => true
+        ],
+        [
+          'field' => 'unit_label',
+          'title' => 'Unit Label*',
+          'required' => true,
+          'info_text' => __('admin.product.unit_label')
+        ],
+        [
+          'field' => 'description',
+          'title' => 'Description'
+        ],
+        [
+          'field' => 'statement_descriptor',
+          'title' => 'Statement Descriptor',
+          'info_text' => __('admin.product.statement_descriptor')
+        ]
+      ];
+
+      return view('admin.products.edit', [
+        'rows' => $rows,
+        'product' => $product
+      ]);
     } catch (Stripe\Error\Api $e) {
       return json_decode($e, false);
     }
@@ -48,26 +100,18 @@ class ProductController extends Controller {
 
     try {
       $params = $request->validate([
-        'name' => 'required|alpha|max:100',
-        'unit_label' => 'required|alpha|max:100',
+        'name' => 'required|max:100',
+        'unit_label' => 'required|max:100',
         'statement_descriptor' => 'max:22',
         'description' => 'max:255'
       ]);
-
-      if (!$params['statement_descriptor']) {
-        $params['statement_descriptor'] = '';
-      }
-
-      if (!$params['description']) {
-        $params['description'] = '';
-      }
 
       Stripe\Product::create($params);
 
       $products = Stripe\Product::all();
 
       return view('admin.products.index', compact('products'))->with(
-        'status',
+        'success',
         'Your product has been created.'
       );
     } catch (Stripe\Error\Api $e) {
@@ -80,8 +124,8 @@ class ProductController extends Controller {
 
     try {
       $params = $request->validate([
-        'name' => 'required|alpha|max:100',
-        'unit_label' => 'required|alpha|max:100',
+        'name' => 'required|max:100',
+        'unit_label' => 'required|max:100',
         'statement_descriptor' => 'max:22',
         'description' => 'max:255'
       ]);
@@ -98,10 +142,9 @@ class ProductController extends Controller {
 
       $products = Stripe\Product::all();
 
-      return view('admin.products.index', compact('products'))->with(
-        'status',
-        'Your product has been updated.'
-      );
+      return redirect()
+        ->route('admin.products.index', compact('products'))
+        ->with('success', 'Your product has been updated.');
     } catch (Stripe\Error\Api $e) {
       return json_decode($e, false);
     }

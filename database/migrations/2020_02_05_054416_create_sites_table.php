@@ -38,13 +38,14 @@ class CreateSitesTable extends Migration {
 
       // Associate with one subscription
       $table
-        ->bigInteger('subscription_id')
-        ->unsigned()
-        ->index();
+        ->string('subscription_id', 50)
+        ->index()
+        ->nullable(true);
       $table
         ->foreign('subscription_id')
         ->references('id')
-        ->on('subscriptions');
+        ->on('subscriptions')
+        ->onDelete('set null');
     });
   }
 

@@ -51,7 +51,7 @@ class CouponController extends Controller {
     $this->validate($request, [
       'name' => 'required',
       'percent_off' => 'required',
-      'gateway_id' => 'required',
+      'plan_id' => 'required',
       'duration' => 'required'
     ]);
 
@@ -67,7 +67,7 @@ class CouponController extends Controller {
       'percent_off' => $percent_off,
       'duration' => $request->input('duration'),
       'duration_in_months' => $duration_in_months,
-      'id' => $request->input('gateway_id')
+      'id' => $request->input('plan_id')
     ]);
 
     $coupon = new Coupon([
@@ -75,7 +75,7 @@ class CouponController extends Controller {
       'percent_off' => $percent_off,
       'duration' => $request->input('duration'),
       'duration_in_months' => $duration_in_months,
-      'gateway_id' => $request->input('gateway_id')
+      'plan_id' => $request->input('plan_id')
     ]);
 
     $coupon->save();
@@ -130,29 +130,29 @@ class CouponController extends Controller {
     $plan = Coupon::findOrFail($id);
     // Generate pla slug from plan name
     $slug = str_replace(' ', '-', $request->input('name'));
-    $gateway_id = str_replace(' ', '_', $request->input('name'));
+    $stripe_plan_id = str_replace(' ', '_', $request->input('name'));
     $team_enable = !empty($request->input('teams_limit')) ? 1 : 0;
     $teams_limit = !empty($request->input('teams_limit'))
       ? $request->input('teams_limit')
       : null;
-    $price = (float) $request->input('price') * 100;
+    $amount = $request->input('amount');
     // Delete the plan on stripe
-    $stripe_plan = \Stripe\Coupon::retrieve($plan->gateway_id);
+    $stripe_plan = \Stripe\Coupon::retrieve($plan->id);
     $stripe_plan->delete();
     // Recrete a new plan on stripe
     \Stripe\Coupon::create([
-      'amount' => $price,
+      'amount' => $amount,
       'interval' => $request->input('interval'),
       'product' => [
         'name' => $request->input('name')
       ],
       'currency' => 'usd',
-      'id' => $gateway_id,
+      'id' => $plan->id,
       'trial_period_days' => $request->input('trial')
     ]);
 
     $plan->name = $request->input('name');
-    $plan->gateway_id = $gateway_id;
+    $plan->plan_id = $plan->id;
     $plan->price = $request->input('price');
     $plan->interval = $request->input('interval');
     $plan->teams_enabled = $team_enable;
@@ -177,7 +177,7 @@ class CouponController extends Controller {
     $this->authorize('delete', Coupon::class);
     $plan = Coupon::findOrFail($id);
 
-    $stripe_plan = \Stripe\Coupon::retrieve($plan->gateway_id);
+    $stripe_plan = \Stripe\Coupon::retrieve($plan->id);
     $stripe_plan->delete();
 
     // Delete the plan on the database

@@ -12,8 +12,9 @@ class SubscriptionTableSeeder extends Seeder {
     // Create subs for first 2 Users.
     $userA = User::first();
     $userB = User::all()->get(1);
-    $planA = Plan::all()->get(0);
-    $planB = Plan::all()->get(1);
+    $plans = Plan::take(2)->get();
+    $planA = $plans[0];
+    $planB = $plans[1];
 
     $paymentMethodA = PaymentMethod::create(
       factory(PaymentMethod::class)->raw()
@@ -23,20 +24,20 @@ class SubscriptionTableSeeder extends Seeder {
     );
 
     $subscriptionA = $userA
-      ->newSubscription($planA->gateway_id, $planA->gateway_id)
+      ->newSubscription($planA->nickname, $planA->id)
       ->create($paymentMethodA);
     $subscriptionB = $userB
-      ->newSubscription($planB->gateway_id, $planB->gateway_id)
+      ->newSubscription($planB->nickname, $planB->id)
       ->create($paymentMethodB);
 
     // Create Sites
-    factory(Site::class, 1)->create([
+    factory(Site::class)->create([
       'domain' => 'localhost:84',
       'active' => true,
       'subscription_id' => $subscriptionA
     ]);
 
-    factory(Site::class, 1)->create([
+    factory(Site::class)->create([
       'domain' => '10.0.75.1:5000',
       'active' => true,
       'subscription_id' => $subscriptionB

@@ -19,18 +19,18 @@ class StripeReset extends Seeder {
           'Attempting to reset non-test Stripe data.  Aborting.'
         );
       }
-      $plans = Plan::all();
-      foreach ($plans as $plan) {
+      $plans = Plan::all(['limit' => 100]);
+      foreach ($plans->autoPagingIterator() as $plan) {
         Plan::retrieve($plan->id)->delete();
       }
 
-      $products = Product::all(['type' => 'service']);
-      foreach ($products as $product) {
+      $products = Product::all(['limit' => 100, 'type' => 'service']);
+      foreach ($products->autoPagingIterator() as $product) {
         Product::retrieve($product->id)->delete();
       }
 
-      $subs = Subscription::all();
-      foreach ($subs as $sub) {
+      $subs = Subscription::all(['limit' => 100]);
+      foreach ($subs->autoPagingIterator() as $sub) {
         Subscription::retrieve($sub->id)->delete();
       }
     } catch (Api $e) {

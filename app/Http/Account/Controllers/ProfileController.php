@@ -2,13 +2,14 @@
 
 namespace CreatyDev\Http\Account\Controllers;
 
-use Illuminate\Http\Request;
-use CreatyDev\App\Traits\UploadTrait;
-use CreatyDev\Domain\Users\Models\User;
 use CreatyDev\App\Controllers\Controller;
+use CreatyDev\App\Traits\UploadTrait;
 use CreatyDev\Domain\Account\Requests\ProfileStoreRequest;
+use CreatyDev\Domain\Users\Models\User;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class ProfileController extends Controller {
   use UploadTrait;
@@ -16,10 +17,34 @@ class ProfileController extends Controller {
   /**
    * Show the user profile view.
    *
-   * @return Response
+   * @return Factory|Response|View
    */
   public function index() {
-    return view('account.profile.index');
+    $rows = [
+      ['field' => 'first_name', 'title' => 'First Name', 'required' => true],
+      ['field' => 'last_name', 'title' => 'Last Name', 'required' => true],
+      ['field' => 'username', 'title' => 'Username', 'required' => true],
+      [
+        'field' => 'email',
+        'title' => 'Email',
+        'required' => true,
+        'type' => 'email'
+      ],
+      ['field' => 'phone', 'title' => 'Phone'],
+      ['field' => 'company_name', 'title' => 'Company Name'],
+      ['field' => 'address1', 'title' => 'Address'],
+      ['field' => 'address2', 'title' => 'Address 2'],
+      ['field' => 'city', 'title' => 'City'],
+      ['field' => 'state', 'title' => 'State'],
+      ['field' => 'postal_code', 'title' => 'Postal Code'],
+      [
+        'field' => 'country',
+        'title' => 'Country',
+        'default' => 'United States'
+      ]
+    ];
+
+    return view('account.profile.index', compact('rows'));
   }
 
   /**

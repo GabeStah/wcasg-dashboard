@@ -130,30 +130,19 @@ class CreateUserSubscription extends Command {
         throw new Exception('Valid PaymentMethod could not be generated.');
       }
 
-      $planName = $faker->words(3, true);
-      $slug = str_replace(' ', '-', $planName);
-      $gateway_id = str_replace(' ', '_', $planName);
-      $stripePlan = \Stripe\Plan::create([
-        'amount' => $amount,
-        'interval' => 'month',
-        'product' => [
-          'name' => $planName
-        ],
-        'currency' => 'usd',
-        'id' => $gateway_id,
-        'trial_period_days' => 14
-      ]);
+      $stripeProduct = \Stripe\Product::all(['limit' => 1]);
+
+      if (
+        !$stripeProduct ||
+        (is_array($stripeProduct->data) && count($stripeProduct->data) === 0)
+      ) {
+        throw new Exception(
+          'No valid Products found to add Plan to.  Please add a Stripe Product.'
+        );
+      }
 
       $plan = factory(Plan::class)->create([
-        'name' => $planName,
-        'gateway_id' => $gateway_id,
-        'price' => $amount,
-        'interval' => 'month',
-        'teams_enabled' => false,
-        'teams_limit' => 0,
-        'active' => 1,
-        'slug' => $slug,
-        'trial_period_days' => 14
+        'product_id' => $stripeProduct->data->id
       ]);
 
       $customer = $user->createOrGetStripeCustomer();
@@ -161,7 +150,7 @@ class CreateUserSubscription extends Command {
       $this->info("Associating with User's Stripe Customer id {$customer->id}");
 
       $subscription = $user
-        ->newSubscription($gateway_id, $stripePlan->id)
+        ->newSubscription($plan->nickname, $plan->id)
         ->create($paymentMethod);
 
       $this->info('New subscription created and assigned to user.');
