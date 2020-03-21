@@ -34,12 +34,16 @@ class CreateSubscriptionsTable extends Migration {
       $table
         ->foreign('plan_id')
         ->references('id')
-        ->on('plans');
+        ->on('plans')
+        // Delete subscription when plan deleted.
+        ->onDelete('cascade');
 
       $table
         ->foreign('user_id')
         ->references('id')
-        ->on('users');
+        ->on('users')
+        // Delete subscription when user deleted.
+        ->onDelete('cascade');
     });
   }
 
