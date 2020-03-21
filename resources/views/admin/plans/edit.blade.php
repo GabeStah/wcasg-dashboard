@@ -19,6 +19,10 @@
             <form action="{{ route('admin.plans.update', $plan->id) }}" method="POST" class="form-horizontal offset-sm-2">
                     {!! csrf_field() !!}
                     @method('PUT')
+
+                @component('components.form.row-list', ['data' => $plan, 'rows' => $rows])
+                @endcomponent
+
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="hf-name">Plan name</label>
                     <div class="col-md-6">

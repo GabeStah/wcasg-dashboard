@@ -11,43 +11,22 @@
                         <form method="POST" action="{{ route('register') }}">
                             {{ csrf_field() }}
 
-                            @component('auth.text-field', ['field' => 'first_name', 'title' => 'First Name', 'required' => true])
-                            @endcomponent
-
-                            @component('auth.text-field', ['field' => 'last_name', 'title' => 'Last Name', 'required' => true])
-                            @endcomponent
-
-                            @component('auth.text-field', ['field' => 'username', 'title' => 'Username', 'required' => true])
-                            @endcomponent
-
-                            @component('auth.text-field', ['field' => 'email', 'title' => 'Email', 'required' => true, 'type' => 'email'])
-                            @endcomponent
-
-                            @component('auth.text-field', ['field' => 'phone', 'title' => 'Phone'])
-                            @endcomponent
-
-                            @component('auth.text-field', ['field' => 'company_name', 'title' => 'Company Name'])
-                            @endcomponent
-
-                            @component('auth.text-field', ['field' => 'address1', 'title' => 'Address'])
-                            @endcomponent
-
-                            @component('auth.text-field', ['field' => 'address2', 'title' => 'Address 2'])
-                            @endcomponent
-
-                            @component('auth.text-field', ['field' => 'city', 'title' => 'City'])
-                            @endcomponent
-
-                            @component('auth.text-field', ['field' => 'state', 'title' => 'State'])
-                            @endcomponent
-
-                            @component('auth.text-field', ['field' => 'postal_code', 'title' => 'Postal Code'])
-                            @endcomponent
-
-                            @component('auth.text-field', ['field' => 'country', 'title' => 'Country', 'default' => 'United States'])
-                            @endcomponent
-
-                            @component('auth.text-field', ['field' => 'password', 'title' => 'Password', 'required' => true, 'type' => 'password'])
+                            <!-- Controller is provided through vendor lib, so row data must be defined here. -->
+                            @component('components.form.row-list', ['rows' => [
+                                ['field' => 'first_name', 'title' => 'First Name', 'required' => true],
+                                ['field' => 'last_name', 'title' => 'Last Name', 'required' => true],
+                                ['field' => 'username', 'title' => 'Username', 'required' => true],
+                                ['field' => 'email', 'title' => 'Email', 'required' => true, 'type' => 'email'],
+                                ['field' => 'phone', 'title' => 'Phone'],
+                                ['field' => 'company_name', 'title' => 'Company Name'],
+                                ['field' => 'address1', 'title' => 'Address'],
+                                ['field' => 'address2', 'title' => 'Address 2'],
+                                ['field' => 'city', 'title' => 'City'],
+                                ['field' => 'state', 'title' => 'State'],
+                                ['field' => 'postal_code', 'title' => 'Postal Code'],
+                                ['field' => 'country', 'title' => 'Country', 'default' => 'United States'],
+                                ['field' => 'password', 'title' => 'Password', 'required' => true, 'type' => 'password']
+                            ]])
                             @endcomponent
 
                             <div class="form-group row">

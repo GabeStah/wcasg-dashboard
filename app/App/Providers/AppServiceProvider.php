@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider {
     Plan::observe(PlanObserver::class);
     Role::observe(RoleObserver::class);
     // Register components
-    BladeX::component('components.*');
+    BladeX::component('components.info-icon')->tag('info-icon');
   }
 
   /**

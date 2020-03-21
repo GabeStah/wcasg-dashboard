@@ -19,7 +19,31 @@ class ProfileController extends Controller {
    * @return Response
    */
   public function index() {
-    return view('account.profile.index');
+    $rows = [
+      ['field' => 'first_name', 'title' => 'First Name', 'required' => true],
+      ['field' => 'last_name', 'title' => 'Last Name', 'required' => true],
+      ['field' => 'username', 'title' => 'Username', 'required' => true],
+      [
+        'field' => 'email',
+        'title' => 'Email',
+        'required' => true,
+        'type' => 'email'
+      ],
+      ['field' => 'phone', 'title' => 'Phone'],
+      ['field' => 'company_name', 'title' => 'Company Name'],
+      ['field' => 'address1', 'title' => 'Address'],
+      ['field' => 'address2', 'title' => 'Address 2'],
+      ['field' => 'city', 'title' => 'City'],
+      ['field' => 'state', 'title' => 'State'],
+      ['field' => 'postal_code', 'title' => 'Postal Code'],
+      [
+        'field' => 'country',
+        'title' => 'Country',
+        'default' => 'United States'
+      ]
+    ];
+
+    return view('account.profile.index', compact('rows'));
   }
 
   /**
