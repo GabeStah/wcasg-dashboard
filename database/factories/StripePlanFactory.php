@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(StripePlan::class, function (Faker $faker) {
   $nickname = $faker->words(3, true);
-  //  $stripe_plan_id = str_replace(' ', '_', $planName);
   $amount = $faker->numberBetween(0, 2500);
   $trialPeriod = $faker->numberBetween(0, 28);
 

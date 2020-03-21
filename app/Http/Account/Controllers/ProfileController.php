@@ -2,13 +2,14 @@
 
 namespace CreatyDev\Http\Account\Controllers;
 
-use Illuminate\Http\Request;
-use CreatyDev\App\Traits\UploadTrait;
-use CreatyDev\Domain\Users\Models\User;
 use CreatyDev\App\Controllers\Controller;
+use CreatyDev\App\Traits\UploadTrait;
 use CreatyDev\Domain\Account\Requests\ProfileStoreRequest;
+use CreatyDev\Domain\Users\Models\User;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Response;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class ProfileController extends Controller {
   use UploadTrait;
@@ -16,7 +17,7 @@ class ProfileController extends Controller {
   /**
    * Show the user profile view.
    *
-   * @return Response
+   * @return Factory|Response|View
    */
   public function index() {
     $rows = [

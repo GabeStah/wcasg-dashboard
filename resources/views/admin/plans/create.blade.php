@@ -9,7 +9,7 @@
     <div class="card">
         <div class="card-header">
             <strong>Create a Plan</strong> 
-            <span class="center"> Plan will automaticaly create on the fly to the stripe dashboard </span>
+            <span class="center"> {{ __('admin.plan.stripe_mention') }} </span>
         </div>
         @if (session('status'))
         <div class="alert alert-success">
@@ -19,78 +19,10 @@
         <div class="card-body">
             <form action="{{ route('admin.plans.store') }}" method="POST" class="form-horizontal offset-sm-2">
                     {!! csrf_field() !!}
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-nickname">Name</label>
-                    <div class="col-md-6">
-                        <input type="text" id="nickname" name="nickname" class="form-control"
-                               placeholder="Enter Plan Name"
-                               value="{{ old('nickname') }}">
 
-                        @if ($errors->has('nickname'))
-                            <span class="text-danger">{{ $errors->first('nickname') }}</span>
-                        @endif
-                    </div>
-                </div>
+                @component('components.form.row-list', ['rows' => $rows])
+                @endcomponent
 
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-product_id">Product</label>
-                    <div class="col-md-6">
-                        <select id="product_id" name="product_id">
-                            @foreach ($products as $product)
-                                <option value="{{ $product->id }}"
-                                        data-content="{{ $product->name }}">
-                                    {{ $product->name }}
-                                </option>
-                            @endforeach
-                        </select>
-
-                        @if ($errors->has('product_id'))
-                            <span class="text-danger">{{ $errors->first('product_id') }}</span>
-                        @endif
-                    </div>
-                </div>
-
-
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Price</label>
-                    <div class="col-md-6">
-                        <input type="text" id="price" name="price" class="form-control"
-                               placeholder="Enter Plan price.."
-                               value="{{ old('name') }}">
-
-                        @if ($errors->has('price'))
-                            <span class="text-danger">{{ $errors->first('price') }}</span>
-                        @endif
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Trial</label>
-                    <div class="col-md-6">
-                        <input type="number" id="trial" name="trial" class="form-control"
-                               placeholder="Enter Plan Trial Duration (Days)"
-                               value="{{ old('trial') }}">
-
-                        @if ($errors->has('trial'))
-                            <span class="text-danger">{{ $errors->first('trial') }}</span>
-                        @endif
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Plan interval</label>
-                    <div class="col-md-6">
-                        <select id="interval" type="" class="form-control" name="interval">
-                                <option value="">Select Interval</option>
-                                <option value="day">Daily</option>
-                                <option value="week">Weekly</option>
-                                <option value="month">Monthly</option>
-                                <option value="year">Yearly</option>
-                            </select>
-
-                            @if ($errors->has('interval'))
-                                <span class="text-danger">{{ $errors->first('interval') }}</span>
-                            @endif
-                    </div>
-                </div>
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="hf-name">Teams Plan</label>
                     <div class="col-md-6">

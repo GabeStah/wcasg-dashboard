@@ -53,6 +53,8 @@ use Laravel\Cashier\Subscription as CashierSubscription;
  * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription pastDue()
  */
 class Subscription extends CashierSubscription {
+  public $incrementing = false;
+  public $keyType = 'string';
   /**
    * Enforce table name.
    */

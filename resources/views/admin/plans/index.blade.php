@@ -16,11 +16,11 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            {{-- <th>Slug</th> --}}
+                            <th>Product</th>
                             <th>Interval</th>
-                            <th>Price</th>
-                            {{-- <th>Trial Day</th> --}}
-                            <th>plan type</th>
+                            <th>Amount</th>
+                            <th>Trial Period Days</th>
+                            <th>Type</th>
                             <th>Team limit</th>
                             <th>Date</th>
                             <th>Status</th>
@@ -30,13 +30,13 @@
                     <tbody>
                         @foreach ($plans as $plan )
                         <tr>
-                            <td>{{ $plan->name }}</td>
-                            {{-- <td>{{ $plan->slug }}</td> --}}
+                            <td>{{ $plan->nickname }}</td>
+                            <td><a href="{{ route('admin.products.edit', $plan->product_id) }}">{{ $products[$plan->product_id]->name }}</a></td>
                             <td>{{ $plan->interval }}</td>
-                            <td>{{ $plan->price }}</td>
-                            {{-- <td>{{ $plan->trial_period_days }}</td> --}}
+                            <td>${{ (float) ($plan->amount / 100) }}</td>
+                             <td>{{ $plan->trial_period_days }}</td>
                             <td>
-                                @if ($plan->teams_enabled === 1)
+                                @if ($plan->teams_enabled)
                                 <span class="badge badge-success"> Team Plan</span>
                                 @else
                                 <span class="badge badge-info"> Normal plan</span>
@@ -45,7 +45,7 @@
                             <td>{{ $plan->teams_limit }}</td>
                             <td>{{ $plan->created_at->diffForHumans() }}</td>
                             <td>
-                                @if ($plan->active === 1)
+                                @if ($plan->active)
                                 <span class="badge badge-success"> Active</span>
                                 @else
                                 <span class="badge badge-danger"> Inactive</span>
@@ -53,11 +53,11 @@
                             </td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="User Actions">
-                                    <a href="{{ URL::to('admin/plans/' . $plan->id . '/edit') }}" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary" data-original-title="Edit"><i class="fa fa-edit "></i></a>
+                                    <a href="{{ route('admin.plans.edit', $plan->id) }}" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary" data-original-title="Edit"><i class="fa fa-edit "></i></a>
                                     <form action="{{ route('admin.plans.destroy', $plan->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger" type="submit"><i class="fa fa-trash-o "></i></b>
+                                        <button class="btn btn-danger" type="submit"><i class="fa fa-trash-o "></i></button>
                                     </form>
                                 </div>
                             </td>

@@ -130,9 +130,6 @@ class CreateUserSubscription extends Command {
         throw new Exception('Valid PaymentMethod could not be generated.');
       }
 
-      $planName = $faker->words(3, true);
-      $slug = str_replace(' ', '-', $planName);
-
       $stripeProduct = \Stripe\Product::all(['limit' => 1]);
 
       if (
@@ -144,25 +141,8 @@ class CreateUserSubscription extends Command {
         );
       }
 
-      $stripePlan = \Stripe\Plan::create([
-        'amount' => $amount,
-        'interval' => 'month',
-        'product' => $stripeProduct->data[0]->id,
-        'currency' => 'usd',
-        'trial_period_days' => 14,
-        'nickname' => $planName
-      ]);
-
       $plan = factory(Plan::class)->create([
-        'name' => $planName,
-        'id' => $stripePlan->id,
-        'price' => $amount,
-        'interval' => 'month',
-        'teams_enabled' => false,
-        'teams_limit' => 0,
-        'active' => 1,
-        'slug' => $slug,
-        'trial_period_days' => 14
+        'product_id' => $stripeProduct->data->id
       ]);
 
       $customer = $user->createOrGetStripeCustomer();
@@ -170,7 +150,7 @@ class CreateUserSubscription extends Command {
       $this->info("Associating with User's Stripe Customer id {$customer->id}");
 
       $subscription = $user
-        ->newSubscription($stripePlan->id, $stripePlan->id)
+        ->newSubscription($plan->nickname, $plan->id)
         ->create($paymentMethod);
 
       $this->info('New subscription created and assigned to user.');

@@ -44,18 +44,25 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Plan extends Model {
   /**
-   * Indicates if the IDs are auto-incrementing.
+   * Default values.
    *
-   * @var bool
+   * @var array
    */
-  public $incrementing = false;
+  public $attributes = [
+    'active' => true,
+    'currency' => 'usd',
+    'interval' => 'month'
+  ];
 
   /**
-   * The "type" of the auto-incrementing ID.
+   * Type cast attributes.
    *
-   * @var string
+   * @var array
    */
-  protected $keyType = 'string';
+  public $casts = [
+    'active' => 'boolean',
+    'teams_enabled' => 'boolean'
+  ];
 
   protected $fillable = [
     'id',
@@ -69,6 +76,20 @@ class Plan extends Model {
     'teams_limit',
     'trial_period_days'
   ];
+
+  /**
+   * Indicates if the IDs are auto-incrementing.
+   *
+   * @var bool
+   */
+  public $incrementing = false;
+
+  /**
+   * The "type" of the primary ID.
+   *
+   * @var string
+   */
+  protected $keyType = 'string';
 
   /**
    * Check if plan is for teams.

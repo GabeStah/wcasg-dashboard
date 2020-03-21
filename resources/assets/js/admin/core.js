@@ -148,13 +148,13 @@ function initTooltips() {
 
 $(function () {
   // $('input[name="teams_limit"]').hide();
-  if ($('input[name="checkbox"]').prop('checked')) {
+  if ($('input[name="teams_enabled"]').prop('checked')) {
       $('input[name="teams_limit"]').show();
   } else {
       $('input[name="teams_limit"]').hide();
   }
   //show it when the checkbox is clicked
-  $('input[name="checkbox"]').on('click', function () {
+  $('input[name="teams_enabled"]').on('click', function () {
     if ($(this).prop('checked')) {
       $('input[name="teams_limit"]').fadeIn();
     } else {

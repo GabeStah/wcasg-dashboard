@@ -14,16 +14,25 @@
         ])
         @endcomponent
         @break
-      @default
-      @component('components.form.input', [
-          'label' => $label ?? null,
-          'field' => $field ?? null,
+      @case('select')
+        @component('components.form.select', [
           'data' => $data ?? null,
-          'required' => $required ?? null,
-          'errors' => $errors ?? null,
-          'placeholder' => $placeholder ?? null
-      ])
-      @endcomponent
+          'default' => $default ?? null,
+          'field' => $field ?? null,
+          'options' => $options ?? null
+        ])
+        @endcomponent
+        @break
+      @default
+        @component('components.form.input', [
+            'label' => $label ?? null,
+            'field' => $field ?? null,
+            'data' => $data ?? null,
+            'required' => $required ?? null,
+            'errors' => $errors ?? null,
+            'placeholder' => $placeholder ?? null
+        ])
+        @endcomponent
     @endswitch
 
     @if ($errors->has($field))

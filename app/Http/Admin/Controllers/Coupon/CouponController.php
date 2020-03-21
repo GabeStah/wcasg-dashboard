@@ -135,24 +135,24 @@ class CouponController extends Controller {
     $teams_limit = !empty($request->input('teams_limit'))
       ? $request->input('teams_limit')
       : null;
-    $price = (float) $request->input('price') * 100;
+    $amount = $request->input('amount');
     // Delete the plan on stripe
     $stripe_plan = \Stripe\Coupon::retrieve($plan->id);
     $stripe_plan->delete();
     // Recrete a new plan on stripe
     \Stripe\Coupon::create([
-      'amount' => $price,
+      'amount' => $amount,
       'interval' => $request->input('interval'),
       'product' => [
         'name' => $request->input('name')
       ],
       'currency' => 'usd',
-      'id' => $plan_id,
+      'id' => $plan->id,
       'trial_period_days' => $request->input('trial')
     ]);
 
     $plan->name = $request->input('name');
-    $plan->plan_id = $plan_id;
+    $plan->plan_id = $plan->id;
     $plan->price = $request->input('price');
     $plan->interval = $request->input('interval');
     $plan->teams_enabled = $team_enable;

@@ -9,7 +9,7 @@
     <div class="card">
         <div class="card-header">
             <strong>Create a Plan</strong> 
-            <span class="center"> Plan will automaticaly create on the fly to the stripe dashboard </span>
+            <span class="center"> {{ __('admin.plan.stripe_mention') }} </span>
         </div>
         @if (session('status'))
         <div class="alert alert-success">

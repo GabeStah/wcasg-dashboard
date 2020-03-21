@@ -19,7 +19,7 @@ $factory->define(Plan::class, function (Faker $faker) {
     'currency' => 'usd',
     'interval' => $faker->randomElement(['day', 'week', 'month', 'year']),
     'nickname' => $faker->word,
-    'active' => 1,
+    'active' => true,
     'teams_enabled' => $teamEnable,
     'teams_limit' => $teams_limit,
     'trial_period_days' => $trialPeriod
