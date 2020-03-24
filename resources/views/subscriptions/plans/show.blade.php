@@ -10,7 +10,7 @@
                     </h1>
 
                     <div class="card-body">
-                        <h5 class="card-title">{{ $plan->name }}</h5>
+                        <h5 class="card-title">{{ $plan->nickname }}</h5>
 
                         <a class="btn btn-primary" href="{{ route('subscription.index', ['plan' => $plan]) }}">Subscribe</a>
                     </div><!-- /.card-body -->

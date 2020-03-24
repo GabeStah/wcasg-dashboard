@@ -6,9 +6,9 @@ use CreatyDev\App\Traits\Eloquent\HasToken;
 use CreatyDev\Domain\Extensions\Models\Extension;
 use CreatyDev\Domain\Statements\Models\Statement;
 use CreatyDev\Domain\Users\Models\User;
+use CreatyDev\Solarix\Cashier\Subscription;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use CreatyDev\Solarix\Cashier\Subscription;
 
 /**
  * CreatyDev\Domain\Sites\Models\Site

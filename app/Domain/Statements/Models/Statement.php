@@ -45,27 +45,6 @@ class Statement extends Model {
 
   protected $fillable = ['config', 'statement_template_id'];
 
-  /**
-   * The "booting" method of the model.
-   *
-   * @return void
-   */
-  public static function boot() {
-    parent::boot();
-
-    static::creating(function (Statement $statement) {
-      if (!isset($statement->config)) {
-        $statement->config = $statement->statementTemplate->default_config;
-      }
-    });
-
-    static::updating(function (Statement $statement) {
-      if (!isset($statement->config)) {
-        $statement->config = $statement->statementTemplate->default_config;
-      }
-    });
-  }
-
   public function getContentAttribute() {
     return $this->statementTemplate->content;
   }

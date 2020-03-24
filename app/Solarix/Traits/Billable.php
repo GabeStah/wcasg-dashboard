@@ -93,7 +93,7 @@ trait Billable {
    * @param string|null $plan
    * @return bool
    */
-  public function subscribed($subscription = 'default', $plan = null) {
+  public function subscribed($subscription, $plan = null) {
     $subscription = $this->subscription($subscription);
 
     if (is_null($subscription)) {
@@ -108,18 +108,18 @@ trait Billable {
   }
 
   /**
-   * Get a subscription instance by name.
+   * Get a subscription instance by id.
    *
    * @param string $subscription
    * @return Subscription|null
    */
-  public function subscription($subscription = 'default') {
+  public function subscription($subscription) {
     return $this->subscriptions
       ->sortByDesc(function ($value) {
         return $value->created_at->getTimestamp();
       })
       ->first(function ($value) use ($subscription) {
-        return $value->name === $subscription;
+        return $value->id === $subscription;
       });
   }
 

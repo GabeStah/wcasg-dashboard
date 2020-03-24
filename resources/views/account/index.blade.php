@@ -18,7 +18,7 @@
                 @notpiggybacksubscription
                     <div class="list-group-item">
                         <h4>Plan</h4>
-                        <p>{{  auth()->user()->plan->name }}</p>
+                        <p>{{  auth()->user()->plan->nickname }}</p>
                     </div>
                 @endnotpiggybacksubscription
             @endsubscribed

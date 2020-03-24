@@ -51,9 +51,11 @@ trait HasWidgetPayload {
    * @return string
    */
   protected function getStatementPayload(Site $site) {
-    $content = $site->statement->render($site);
-    if ($content) {
-      return webpackify('WcasgAccessibilityStatement', $content);
+    if ($site->statement) {
+      $content = $site->statement->render($site);
+      if ($content) {
+        return webpackify('WcasgAccessibilityStatement', $content);
+      }
     }
   }
 

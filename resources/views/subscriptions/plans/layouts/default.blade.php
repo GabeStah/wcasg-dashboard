@@ -17,7 +17,7 @@
                         </h2>
 
                         <div class="card-body">
-                            <h5 class="card-title">{{ $plan->name }}</h5>
+                            <h5 class="card-title">{{ $plan->nickname }}</h5>
 
                             <a class="btn btn-link" href="{{ route('plans.show', $plan) }}">
                                 Details

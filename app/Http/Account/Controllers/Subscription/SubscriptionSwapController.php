@@ -48,7 +48,7 @@ class SubscriptionSwapController extends Controller {
     }
 
     // TODO: Multi-subscription
-    $user->subscription($user->subscriptions->first()->name)->swap($plan->id);
+    $user->subscription($user->subscriptions->first()->id)->swap($plan->id);
     //        $user->subscription('main')->swap($plan->stripe_plan_id);
 
     // send mail to user

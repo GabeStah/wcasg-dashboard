@@ -22,11 +22,11 @@
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="hf-name">Plan name</label>
                     <div class="col-md-6">
-                        <input type="text" id="name" name="name" class="form-control" value="{{ $plan->name }}"
+                        <input type="text" id="nickname" name="nickname" class="form-control" value="{{ $plan->nickname }}"
                             placeholder="Enter Plan name..">
 
-                            @if ($errors->has('name'))
-                                <span class="text-danger">{{ $errors->first('name') }}</span>
+                            @if ($errors->has('nickname'))
+                                <span class="text-danger">{{ $errors->first('nickname') }}</span>
                             @endif
                     </div>
                 </div>

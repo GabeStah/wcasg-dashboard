@@ -151,7 +151,7 @@ class CouponController extends Controller {
       'trial_period_days' => $request->input('trial')
     ]);
 
-    $plan->name = $request->input('name');
+    $plan->nickname = $request->input('name');
     $plan->plan_id = $plan->id;
     $plan->price = $request->input('price');
     $plan->interval = $request->input('interval');

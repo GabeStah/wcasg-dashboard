@@ -24,7 +24,7 @@
                 @endcomponent
 
                 <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Teams Plan</label>
+                    <label class="col-md-3 col-form-label" for="hf-nickname">Teams Plan</label>
                     <div class="col-md-6">
                         <div class="row">
                         <div class="col-md-3">

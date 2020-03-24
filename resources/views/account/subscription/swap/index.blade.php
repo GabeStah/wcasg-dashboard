@@ -6,7 +6,7 @@
         <div class="card-body">
             <h4 class="card-title">Swap subscription - Upgrading or Downgrading plan</h4>
             <p class="card-subtitle mb-2">
-                You are currently on the <strong>{{ auth()->user()->plan->name }}</strong> plan, at a rate of:
+                You are currently on the <strong>{{ auth()->user()->plan->nickname }}</strong> plan, at a rate of:
                 <strong>({{ config('settings.cashier.currency.symbol') }}{{ auth()->user()->plan->price }})</strong>
             </p>
 
@@ -25,7 +25,7 @@
                                 <option value="{{ $plan->id }}"
                                         {{ request('plan') === $plan->id ||
                                         old('plan') === $plan->id ? 'selected' : '' }}>
-                                    {{ $plan->name }} (${{ $plan->price }})
+                                    {{ $plan->nickname }} (${{ $plan->price }})
                                 </option>
                             @endforeach
                         </select>

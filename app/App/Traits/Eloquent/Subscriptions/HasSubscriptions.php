@@ -82,7 +82,7 @@ trait HasSubscriptions {
     //    return optional($this->subscription('main'))->cancelled();
     // TODO: Multi-subscription
     return optional(
-      $this->subscription($this->subscriptions->first()->name)
+      $this->subscription($this->subscriptions->first()->id)
     )->cancelled();
   }
 

@@ -23,7 +23,7 @@
                                             <option value="{{ $plan->id }}"
                                                     {{ request('plan') === $plan->id ||
                                                     old('plan') === $plan->id ? 'selected' : '' }}>
-                                                {{ $plan->name }} (${{ $plan->amount }})
+                                                {{ $plan->nickname }} (${{ $plan->amount }})
                                             </option>
                                         @endforeach
                                     </select>

@@ -27,7 +27,7 @@ class SubscriptionResumeController extends Controller {
     // TODO: Multi-subscription
     $request
       ->user()
-      ->subscription($request->user()->subscriptions->first()->name)
+      ->subscription($request->user()->subscriptions->first()->id)
       ->resume();
 
     //    $request

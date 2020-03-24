@@ -48,6 +48,10 @@ class SubscriptionBuilder extends CashierSubscriptionBuilder {
     $subscription = $this->owner->subscriptions()->create([
       'id' => $stripeSubscription->id,
       'plan_id' => $this->plan,
+      // Support Laravel Cashier built-in lookup.
+      'stripe_id' => $stripeSubscription->id,
+      // Support Laravel Cashier built-in lookup.
+      'stripe_plan' => $this->plan,
       'name' => $this->name,
       'stripe_status' => $stripeSubscription->status,
       'quantity' => $this->quantity,
