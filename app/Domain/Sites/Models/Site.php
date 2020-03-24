@@ -78,7 +78,7 @@ class Site extends Model {
       'token' => $token
     ]);
 
-    return "<script crossorigin='anonymous' src='{$url}'></script>";
+    return "<script crossorigin='anonymous' defer src='{$url}'></script>";
   }
 
   public function activate() {
