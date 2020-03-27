@@ -142,7 +142,7 @@ class CreateUserSubscription extends Command {
       }
 
       $plan = factory(Plan::class)->create([
-        'product_id' => $stripeProduct->data->id
+        'product_id' => $stripeProduct->data[0]->id
       ]);
 
       $customer = $user->createOrGetStripeCustomer();
