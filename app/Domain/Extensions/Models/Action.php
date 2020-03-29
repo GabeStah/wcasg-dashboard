@@ -38,7 +38,14 @@ class Action extends Model {
 
     static::creating(function (Action $action) {
       if (isset($action->function)) {
-        $action->function = LZString::compressToBase64($action->function);
+        // Check if already encoded
+        $decompressed = LZString::decompressFromBase64($action->function);
+        $recompressed = LZString::compressToBase64($decompressed);
+
+        if ($recompressed !== $action->function) {
+          // Original is not base64, compress
+          $action->function = LZString::compressToBase64($action->function);
+        }
       }
     });
   }

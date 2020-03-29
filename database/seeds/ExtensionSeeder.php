@@ -33,12 +33,14 @@ class ExtensionSeeder extends Seeder {
         if (is_array($importedExtension->predicate)) {
           foreach ($importedExtension->predicate as $importedPredicate) {
             $extension->predicates()->create([
-              'name' => $importedPredicate->name
+              'name' => $importedPredicate->name,
+              'function' => $importedPredicate->fn
             ]);
           }
         } else {
           $extension->predicates()->create([
-            'name' => $importedExtension->predicate->name
+            'name' => $importedExtension->predicate->name,
+            'function' => $importedExtension->predicate->fn
           ]);
         }
       }
@@ -47,25 +49,27 @@ class ExtensionSeeder extends Seeder {
         if (is_array($importedExtension->action)) {
           foreach ($importedExtension->action as $importedAction) {
             $extension->actions()->create([
-              'name' => $importedAction->name
+              'name' => $importedAction->name,
+              'function' => $importedAction->fn
             ]);
           }
         } else {
           $extension->actions()->create([
-            'name' => $importedExtension->action->name
+            'name' => $importedExtension->action->name,
+            'function' => $importedExtension->action->fn
           ]);
         }
       }
 
-      // Randomly enable for sites
-      $sites = Site::all();
-      foreach ($sites as $site) {
-        if (rand(0, 1)) {
-          $site
-            ->extensions()
-            ->attach($extension->id, ['enabled_at' => Carbon::now()]);
-        }
-      }
+      //            // Randomly enable for sites
+      //            $sites = Site::all();
+      //            foreach ($sites as $site) {
+      //              if (rand(0, 1)) {
+      //                $site
+      //                  ->extensions()
+      //                  ->attach($extension->id, ['enabled_at' => Carbon::now()]);
+      //              }
+      //            }
     }
 
     $this->createExtensions();
@@ -77,15 +81,15 @@ class ExtensionSeeder extends Seeder {
       $extension->actions()->save(factory(Action::class)->make());
       $extension->predicates()->save(factory(Predicate::class)->make());
 
-      // Randomly enable for sites
-      $sites = Site::all();
-      foreach ($sites as $site) {
-        if (rand(0, 1)) {
-          $site->extensions()->attach($extension->id, [
-            'enabled_at' => rand(0, 1) ? null : Carbon::now()
-          ]);
-        }
-      }
+      //      // Randomly enable for sites
+      //      $sites = Site::all();
+      //      foreach ($sites as $site) {
+      //        if (rand(0, 1)) {
+      //          $site->extensions()->attach($extension->id, [
+      //            'enabled_at' => rand(0, 1) ? null : Carbon::now()
+      //          ]);
+      //        }
+      //      }
     }
   }
 }

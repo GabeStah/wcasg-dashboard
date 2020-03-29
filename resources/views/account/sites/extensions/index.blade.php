@@ -24,6 +24,11 @@
                         <div class="card">
                             <div class="card-header" data-toggle="collapse" data-target="#extension-body-{{ $extension->id }}" aria-controls="extension-body-{{ $extension->id }}" aria-expanded="false">
                                 {{ $extension->name }}
+                                @if($extension->imported)
+                                    <span class="badge badge-primary">Built-In</span>
+                                @else
+                                    <span class="badge badge-secondary">Custom</span>
+                                @endif
                             </div>
                             <div id="extension-body-{{ $extension->id }}" class="card-body collapse multi-collapse">
                                 <h5 class="card-title">Special title treatment</h5>
@@ -38,7 +43,7 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 col-form-label" for="predicate">Predicate: {{ $predicate->name }}</label>
                                         <div class="col-md-6">
-                                            <div id="editor" class="editor">{{ LZCompressor\LZString::decompressFromBase64($predicate->function) }}</div>
+                                            <div id="editor" class="editor {{ $extension->imported ? 'read-only' : '' }}">{{ LZCompressor\LZString::decompressFromBase64($predicate->function) }}</div>
 
                                             @if ($errors->has('predicate'))
                                                 <span class="text-danger">{{ $errors->first('predicate') }}</span>
@@ -54,7 +59,7 @@
                                         <div class="form-group row">
                                             <label class="col-md-3 col-form-label" for="action">Action: {{ $action->name }}</label>
                                             <div class="col-md-6">
-                                                <div id="editor" class="editor">{{ LZCompressor\LZString::decompressFromBase64($action->function) }}</div>
+                                                <div id="editor" class="editor {{ $extension->imported ? 'read-only' : '' }}">{{ LZCompressor\LZString::decompressFromBase64($action->function) }}</div>
 
                                                 @if ($errors->has('action'))
                                                     <span class="text-danger">{{ $errors->first('action') }}</span>

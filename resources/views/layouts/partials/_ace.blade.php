@@ -6,6 +6,9 @@
     editors.forEach(function(elem) {
       var editor = ace.edit(elem);
       editor.setTheme("ace/theme/chrome");
+      if (elem.classList.contains('read-only')) {
+        editor.setReadOnly(true);
+      }
       editor.getSession().setMode("ace/mode/javascript");
       editor.setShowFoldWidgets(true);
     });

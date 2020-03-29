@@ -38,7 +38,16 @@ class Predicate extends Model {
 
     static::creating(function (Predicate $predicate) {
       if (isset($predicate->function)) {
-        $predicate->function = LZString::compressToBase64($predicate->function);
+        // Check if already encoded
+        $decompressed = LZString::decompressFromBase64($predicate->function);
+        $recompressed = LZString::compressToBase64($decompressed);
+
+        if ($recompressed !== $predicate->function) {
+          // Original is not base64, compress
+          $predicate->function = LZString::compressToBase64(
+            $predicate->function
+          );
+        }
       }
     });
   }

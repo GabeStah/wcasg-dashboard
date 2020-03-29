@@ -3,6 +3,7 @@
 namespace CreatyDev\Domain\Extensions\Models;
 
 use CreatyDev\Domain\Sites\Models\Site;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -58,6 +59,14 @@ class Extension extends Model {
       Predicate::class,
       'extension_predicate'
     )->withTimestamps();
+  }
+
+  public function scopeEnabled(Builder $query) {
+    return $query->where('enabled', 1);
+  }
+
+  public function scopeImported(Builder $query) {
+    return $query->where('imported', 1);
   }
 
   public function sites() {

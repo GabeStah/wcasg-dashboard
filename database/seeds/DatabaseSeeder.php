@@ -12,13 +12,13 @@ class DatabaseSeeder extends Seeder {
    */
   public function run() {
     $this->call(StripeReset::class);
+    $this->call(ExtensionSeeder::class);
     $this->call(PlanTableSeeder::class);
     $this->call(RoleTableSeeder::class);
     $this->call(CategoryTableSeeder::class);
     $this->call(UserTableSeeder::class);
     $this->call(SubscriptionTableSeeder::class);
     $this->call(StatementSeeder::class);
-    $this->call(ExtensionSeeder::class);
 
     // Finalize
     Setting::create([
