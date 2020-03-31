@@ -29,6 +29,21 @@ Route::group(
 
 Route::group(
   [
+    'namespace' => 'Api\Controllers\Extension',
+    'middleware' => ['auth:api', 'api.extension'],
+    'as' => 'api.extension.'
+  ],
+  function () {
+    Route::post('extension/create', 'ExtensionController@create')->name(
+      'create'
+    );
+    Route::get('extension', 'ExtensionController@get')->name('get');
+    Route::post('extension', 'ExtensionController@update')->name('update');
+  }
+);
+
+Route::group(
+  [
     'namespace' => 'Api\Controllers\Statement',
     'middleware' => ['api.statement'],
     'as' => 'api.statement.'

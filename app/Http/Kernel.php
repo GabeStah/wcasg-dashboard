@@ -33,7 +33,8 @@ class Kernel extends HttpKernel {
       // \Illuminate\Session\Middleware\AuthenticateSession::class,
       \Illuminate\View\Middleware\ShareErrorsFromSession::class,
       \CreatyDev\Http\Middleware\VerifyCsrfToken::class,
-      \CreatyDev\Http\Middleware\Admin\Impersonate::class
+      \CreatyDev\Http\Middleware\Admin\Impersonate::class,
+      \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class
     ],
 
     'tenant' => [
@@ -46,6 +47,8 @@ class Kernel extends HttpKernel {
     'api.audit' => [
       \CreatyDev\Http\Middleware\Api\Audit\CheckValidAuditRequest::class
     ],
+
+    'api.extension' => ['throttle:30,5', 'bindings'],
 
     'api.json' => [\CreatyDev\Http\Middleware\Api\RespondAsJson::class],
 

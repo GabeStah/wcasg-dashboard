@@ -64,6 +64,11 @@ Vue.component('audit-account', require('./components/audit/account/Index.vue'));
 Vue.component('audit-public', require('./components/audit/public/Index.vue'));
 Vue.component('audit-results', require('./components/audit/partials/Results.vue'));
 
+Vue.component('extension-account', require('./components/extension/account/Index.vue'));
+
+Vue.component('info-icon', require('./components/partials/InfoIcon.vue'));
+
 const app = new Vue({
   el: '#app',
+  whitespace: 'condense'
 });

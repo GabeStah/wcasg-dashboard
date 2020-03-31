@@ -10,6 +10,8 @@ use CreatyDev\Domain\Statements\Observers\StatementTemplateObserver;
 use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Domain\Subscriptions\Observers\PlanObserver;
 use CreatyDev\Domain\Sites\Observers\SiteObserver;
+use CreatyDev\Domain\Users\Models\User;
+use CreatyDev\Domain\Users\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 use CreatyDev\Domain\Users\Models\Role;
 use CreatyDev\Domain\Users\Observers\RoleObserver;
@@ -30,6 +32,7 @@ class AppServiceProvider extends ServiceProvider {
     Site::observe(SiteObserver::class);
     Statement::observe(StatementObserver::class);
     StatementTemplate::observe(StatementTemplateObserver::class);
+    User::observe(UserObserver::class);
     // Register components
     BladeX::component('components.info-icon')->tag('info-icon');
   }
