@@ -4,13 +4,13 @@
     <div class="card">
 
         <div class="card-body">
-            <h4 class="card-title">Swap subscription - Upgrading or Downgrading plan</h4>
-            <p class="card-subtitle mb-2">
+            <h2 class="card-title">Swap subscription - Upgrading or Downgrading plan</h2>
+            <p class="card-subtitle mb-2 pl-md-4 pl-lg-6">
                 You are currently on the <strong>{{ auth()->user()->plan->nickname }}</strong> plan, at a rate of:
                 <strong>({{ config('settings.cashier.currency.symbol') }}{{ auth()->user()->plan->price }})</strong>
             </p>
 
-            <form method="POST" action="{{ route('account.subscription.swap.store') }}">
+            <form method="POST" action="{{ route('account.subscription.swap.store') }}" class="pl-md-4 pl-lg-6">
                 {{ csrf_field() }}
 
                 <div class="form-group row{{ $errors->has('plan') ? ' has-error' : '' }}">

@@ -3,9 +3,9 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Change Password</h4>
+            <h2 class="card-title">Change Password</h2>
 
-            <form method="POST" action="{{ route('account.password.store') }}">
+            <form method="POST" action="{{ route('account.password.store') }}" class="pl-md-4 pl-lg-6">
                 {{ csrf_field() }}
 
                 <div class="form-group row{{ $errors->has('current_password') ? ' has-error' : '' }}">

@@ -14,7 +14,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Edit role</h4>
+            <h2 class="card-title">Edit role</h2>
             @if(!$role->parent_id && ($role->children->count()))
                 <p class="card-subtitle">
                     You can only update the details field of this role

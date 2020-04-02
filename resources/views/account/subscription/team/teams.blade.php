@@ -4,7 +4,7 @@
 <div class="card">
 
     <div class="card-body">
-        <h4 class="card-title">My teams</h4>
+        <h2 class="card-title">My teams</h2>
 
         <ul class="list-group list-group-flush list my--3">
             @forelse ($team_users as $team_user )

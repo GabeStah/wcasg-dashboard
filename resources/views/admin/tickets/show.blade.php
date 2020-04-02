@@ -5,7 +5,7 @@
 @endsection
 
 @section('admin.content')
-<div class="container-fluid mt--6">
+<div class="container-fluid">
         @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}

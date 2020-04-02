@@ -7,7 +7,7 @@
                 <!-- Title -->
                 <h5 class="h3 mb-0"><i class="fas fa-exclamation-circle text-warning"></i> Deactivate Account</h5>
         </div>
-        <div class="card-body">
+        <div class="card-body pl-md-4 pl-lg-6">
 
             <form method="POST" action="{{ route('account.deactivate.store') }}">
                 {{ csrf_field() }}

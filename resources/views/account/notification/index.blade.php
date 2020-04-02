@@ -1,17 +1,17 @@
 @extends('account.layouts.default')
 @section('title', 'My Notifications')
 @section('content')
-<div class="container-fluid mt--6">
+<div class="container-fluid">
     <div class="row">
         <div class="col">
             <div class="card card-default">
                 <div class="card-header border-0">
-                    <h2 class="mb-0"> <i class="fas fa-bell"></i> My NotificationS
+                    <h2 class="mb-0"> <i class="fas fa-bell"></i> My Notifications
                         
                     </h2>
                 </div>
                 @if($notifications->isEmpty())
-                <h3 class="text-center">You have not yet any Notification.</h3>
+                <h3 class="text-center">You have no unread notifications.</h3>
                 @else
                 <div class="table-responsive">
                     <table class="table align-items-center table-flush">

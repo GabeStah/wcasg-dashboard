@@ -6,7 +6,7 @@
             <div class="col-sm-8 offset-sm-2">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Create new company</h4>
+                        <h2 class="card-title">Create new company</h2>
 
                         <form method="POST" action="{{ route('account.companies.store') }}">
                             {{ csrf_field() }}

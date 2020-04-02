@@ -3,28 +3,32 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Account Overview</h4>
-        </div>
-        <div class="list-group list-group-flush">
-            <div class="list-group-item">
-                <h4>Name</h4>
-                <p>{{ auth()->user()->name }}</p>
-            </div>
-            <div class="list-group-item">
-                <h4>Email Address</h4>
-                <p>{{ auth()->user()->email }}</p>
-            </div>
-            @subscribed
-                @notpiggybacksubscription
-                    <div class="list-group-item">
-                        <h4>Plan</h4>
-                        <p>{{  auth()->user()->plan->nickname }}</p>
-                    </div>
-                @endnotpiggybacksubscription
-            @endsubscribed
-            <div class="list-group-item">
-                <h4>Joined</h4>
-                <p>{{ auth()->user()->created_at->diffForHumans() }}</p>
+            <h2 class="card-title">Account Overview</h2>
+            <div class="pl-md-4 pl-lg-6">
+
+                <div class="row py-3">
+                    <div class="col-md-4">Name</div>
+                    <div class="col-md-8 text-sm text-gray">{{ auth()->user()->name }}</div>
+                </div>
+
+                <div class="row py-3">
+                    <div class="col-md-4">Email Address</div>
+                    <div class="col-md-8 text-sm text-gray">{{ auth()->user()->name }}</div>
+                </div>
+
+                @subscribed
+                    @notpiggybacksubscription
+                        <div class="row py-3">
+                            <div class="col-md-4">Plan</div>
+                            <div class="col-md-8 text-sm text-gray">{{ auth()->user()->plan->nickname }}</div>
+                        </div>
+                    @endnotpiggybacksubscription
+                @endsubscribed
+
+                <div class="row py-3">
+                    <div class="col-md-4">Joined</div>
+                    <div class="col-md-8 text-sm text-gray">{{ auth()->user()->created_at->diffForHumans() }}</div>
+                </div>
             </div>
         </div>
     </div>

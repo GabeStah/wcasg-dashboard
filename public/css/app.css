@@ -12177,3 +12177,11 @@ button.toast-close-button {
   width: 100%;
 }
 
+.card-header i {
+  margin: 0 5px;
+}
+
+.list-group {
+  padding-left: inherit;
+}
+

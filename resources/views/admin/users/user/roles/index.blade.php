@@ -38,7 +38,7 @@
             <div class="clearfix">
                 <div class="card mb-2">
                     <div class="card-body">
-                        <h4 class="card-title">{{ $role->name }}</h4>
+                        <h2 class="card-title">{{ $role->name }}</h2>
                         @if($role->roleable->expires_at)
                             <p>
                                 {{ $role->roleable->expires_at->toDayDateTimeString() }}

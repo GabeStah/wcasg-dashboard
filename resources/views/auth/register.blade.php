@@ -6,7 +6,7 @@
             <div class="col-md-8 offset-md-2">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Sign Up</h4>
+                        <h2 class="card-title">Sign Up</h2>
                         <div>@include('layouts.partials.alerts._alerts')</div>
                         <form method="POST" action="{{ route('register') }}">
                             {{ csrf_field() }}

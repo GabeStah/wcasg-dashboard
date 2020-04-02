@@ -3,10 +3,10 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Two Factor Authentication</h4>
+            <h2 class="card-title">Two Factor Authentication</h2>
 
             @if(auth()->user()->twoFactorEnabled())
-                <form method="POST" action="{{ route('account.twofactor.destroy') }}">
+                <form method="POST" action="{{ route('account.twofactor.destroy') }}" class="pl-md-4 pl-lg-6">
                     {{ csrf_field() }}
                     {{ method_field('DELETE') }}
 
@@ -19,7 +19,7 @@
                     </div>
                 </form>
             @elseif(auth()->user()->twoFactorPendingVerification())
-                <form method="POST" action="{{ route('account.twofactor.verify') }}">
+                <form method="POST" action="{{ route('account.twofactor.verify') }}" class="pl-md-4 pl-lg-6">
                     {{ csrf_field() }}
 
                     <div class="form-group row{{ $errors->has('token') ? ' has-error' : '' }}">

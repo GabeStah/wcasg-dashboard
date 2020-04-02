@@ -4,9 +4,9 @@
     <div class="card">
 
         <div class="card-body">
-            <h4 class="card-title">Profile</h4>
+            <h2 class="card-title">Profile</h2>
 
-            <form method="POST" action="{{ route('account.profile.store') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('account.profile.store') }}" enctype="multipart/form-data" class="pl-md-4 pl-lg-6">
                 {{ csrf_field() }}
 
                 @component('components.form.row-list', ['data' => auth()->user(), 'rows' => $rows])

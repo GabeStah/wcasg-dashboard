@@ -1,7 +1,7 @@
 @extends('account.layouts.default')
 @section('title', 'Accessibility Statements')
 @section('content')
-  <div class="container-fluid mt--6">
+  <div class="container-fluid">
     <div class="row">
       <div class="col">
         <div class="card card-default">

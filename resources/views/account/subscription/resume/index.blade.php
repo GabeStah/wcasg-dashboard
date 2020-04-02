@@ -4,7 +4,7 @@
     <div class="card">
 
         <div class="card-body">
-            <h4 class="card-title">Resume Subscription</h4>
+            <h2 class="card-title">Resume Subscription</h2>
             <p>Confirm to resume your subscription.</p>
 
             <form method="POST" action="{{ route('account.subscription.resume.store') }}">

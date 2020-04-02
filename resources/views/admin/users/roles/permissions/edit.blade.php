@@ -14,7 +14,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Edit permission</h4>
+            <h2 class="card-title">Edit permission</h2>
 
             <form class="my-1" action="{{ route('admin.permissions.update', $permission) }}" method="post">
                 {{ csrf_field() }}

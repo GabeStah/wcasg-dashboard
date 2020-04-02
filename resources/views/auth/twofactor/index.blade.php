@@ -6,7 +6,7 @@
             <div class="col-md-8 offset-md-2">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Two Factor Authentication</h4>
+                        <h2 class="card-title">Two Factor Authentication</h2>
                         <form method="POST" action="{{ route('login.twofactor.verify') }}">
                             {{ csrf_field() }}
 

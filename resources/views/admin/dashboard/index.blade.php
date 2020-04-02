@@ -7,7 +7,7 @@
 @section('admin.stats')
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Admin Dashboard</h4>
+            <h2 class="card-title">Admin Dashboard</h2>
             My dashboard
                 <stripe-ballance></stripe-ballance>
         </div>

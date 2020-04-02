@@ -6,7 +6,7 @@
             <div class="col-sm-8 offset-sm-2">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Create new project</h4>
+                        <h2 class="card-title">Create new project</h2>
 
                         <form method="POST" action="{{ route('tenant.projects.store') }}">
                             {{ csrf_field() }}

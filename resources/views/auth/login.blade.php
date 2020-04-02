@@ -6,7 +6,7 @@
             <div class="col-md-8 offset-md-2">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Login</h4>
+                        <h2 class="card-title">Login</h2>
                         <br>
                         <div>@include('layouts.partials.alerts._alerts')</div>
                         <form method="POST" action="{{ route('login') }}">

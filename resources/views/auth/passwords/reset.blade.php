@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                             <div>@include('layouts.partials.alerts._alerts')</div>
-                        <h4 class="card-title">Reset Password</h4>
+                        <h2 class="card-title">Reset Password</h2>
 
                         <form method="POST" action="{{ route('password.request') }}">
                             {{ csrf_field() }}

@@ -6,7 +6,7 @@
             <div class="col-md-8 offset-md-2">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Resend Activation Token</h4>
+                        <h2 class="card-title">Resend Activation Token</h2>
 
                         <form method="POST" action="{{ route('activation.resend.store') }}">
                             {{ csrf_field() }}

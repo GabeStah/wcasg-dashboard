@@ -5,7 +5,7 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Companies</h4>
+                        <h2 class="card-title">Companies</h2>
                         <div class="card-subtitle">
                             A list of companies you own or are part of.
                         </div>

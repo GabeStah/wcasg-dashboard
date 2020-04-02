@@ -6,7 +6,7 @@
             <div class="col-sm-12">
                 <div class="card mb-3">
                     <div class="card-body">
-                        <h4 class="card-title">{{ config('app.name') }} Dashboard</h4>
+                        <h2 class="card-title">{{ config('app.name') }} Dashboard</h2>
                     </div>
                 </div><!-- /.card -->
 

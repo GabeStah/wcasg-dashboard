@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body">
                             <div>@include('layouts.partials.alerts._alerts')</div>
-                        <h4 class="card-title">Reset Password</h4>
+                        <h2 class="card-title">Reset Password</h2>
 
                         @if (session('status'))
                             <div class="alert alert-success">

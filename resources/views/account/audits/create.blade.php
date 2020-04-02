@@ -1,7 +1,7 @@
 @extends('account.layouts.default')
 @section('title', 'Perform an Accessibility Audit')
 @section('content')
-  <div class="container-fluid mt--6">
+  <div class="container-fluid">
     <div class="card">
       <!-- Card header -->
       <div class="card-header">

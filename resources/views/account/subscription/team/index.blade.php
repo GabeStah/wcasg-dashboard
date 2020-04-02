@@ -4,7 +4,7 @@
     <div class="card">
 
         <div class="card-body">
-            <h4 class="card-title">Manage team</h4>
+            <h2 class="card-title">Manage team</h2>
 
             <form method="POST" action="{{ route('account.subscription.team.update') }}">
                 {{ csrf_field() }}

@@ -14,7 +14,7 @@
 
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Add new role</h4>
+            <h2 class="card-title">Add new role</h2>
 
             <form action="{{ route('admin.roles.store') }}" method="post">
                 {{ csrf_field() }}

@@ -10,7 +10,7 @@
 @section('admin.content')
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">
+            <h2 class="card-title">
                 Impersonate a User
             </h4>
 

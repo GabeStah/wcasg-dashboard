@@ -1,9 +1,9 @@
 <template>
     <div class="card card-body border-0">
-        <h4 class="card-title">
+        <h2 class="card-title">
             <i class="icon-bubbles"></i>
             Comments <span class="text-muted" v-if="meta.total">{{ meta.total }}</span>
-        </h4>
+        </h2>
 
         <a id="commentsWrapper"></a>
         <form action="#" @submit.prevent="store" v-if="allowed">

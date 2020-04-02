@@ -7,7 +7,7 @@
                 <!-- Title -->
                 <h5 class="h3 mb-0"> Cancel subscription</h5>
         </div>
-        <div class="card-body">
+        <div class="card-body pl-md-4 pl-lg-6">
             <p class="card-subtitle mb-4">You can cancel your subscription Here !</p>
 
             <form method="POST" action="{{ route('account.subscription.cancel.store') }}">
