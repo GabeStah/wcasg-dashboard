@@ -1,7 +1,7 @@
 <!-- ======== Start Navbar ======== -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('saas/img/logo.png') }}" alt="logo"></a>
+        <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('img/logo.png') }}" alt="logo" class="w-50"></a>
         <button
             class="navbar-toggler"
             type="button"
@@ -81,9 +81,9 @@
                         </a>
 
                         <!-- Developer Link -->
-                        <a class="dropdown-item" href="{{ route('developer.index') }}">
-                            Developer Panel
-                        </a>
+{{--                        <a class="dropdown-item" href="{{ route('developer.index') }}">--}}
+{{--                            Developer Panel--}}
+{{--                        </a>--}}
                         <div class="dropdown-divider"></div>
 
                         <a class="dropdown-item" href="{{ route('logout') }}"

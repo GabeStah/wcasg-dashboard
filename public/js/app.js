@@ -86067,12 +86067,8 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
  */
 
 __webpack_require__(147);
-var swal = __webpack_require__(196);
-// window.swal = swal;
-// import Axios from 'axios'
 
 window.Vue = __webpack_require__(177);
-// window.axios = Axios
 
 
 
@@ -86130,6 +86126,8 @@ var app = new Vue({
   whitespace: 'condense'
 });
 
+// For confirmation popups.
+var swal = __webpack_require__(196);
 var confirmation = jQuery('[data-confirmation]');
 if (confirmation && confirmation.length > 0) {
   confirmation.on('click', function () {
@@ -90852,6 +90850,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       wrap_line_length: 120
     }), 1);
 
+    this.editor.setShowPrintMargin(false);
     this.editor.getSession().setMode('ace/mode/' + lang);
     this.editor.setTheme('ace/theme/' + theme);
 

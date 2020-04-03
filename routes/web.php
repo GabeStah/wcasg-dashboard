@@ -333,6 +333,7 @@ Route::group(
       Route::get('/create', 'SitesController@create')->name('create');
       Route::get('/{site}/edit', 'SitesController@edit')->name('edit');
       Route::put('/{site}', 'SitesController@update')->name('update');
+      Route::delete('/{site}', 'SitesController@delete')->name('delete');
 
       Route::group(
         ['prefix' => '/{site}/extensions', 'as' => 'extensions.'],

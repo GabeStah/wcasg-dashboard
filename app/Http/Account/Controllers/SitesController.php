@@ -179,6 +179,31 @@ class SitesController extends Controller {
   }
 
   /**
+   * Delete a site.
+   *
+   * @param $id
+   * @return Factory|View|string
+   */
+  public function delete($id) {
+    try {
+      $userId = Auth::id();
+      $user = User::find($userId);
+      $site = $user->sites()->findOrFail($id);
+
+      $site->delete();
+
+      return redirect()
+        ->route('account.sites.index', [
+          'sites' => $user->sites,
+          'isSubscribed' => $user->isSubscribed()
+        ])
+        ->with('success', __('controller.account.Site.destroy.success'));
+    } catch (\Exception $ex) {
+      return $ex->getMessage();
+    }
+  }
+
+  /**
    * Update a site.
    *
    * @param Request $request

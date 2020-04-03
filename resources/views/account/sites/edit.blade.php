@@ -50,6 +50,24 @@
         </div>
       </form>
 
+      <form method="POST" action="{{ route('account.sites.delete', $site) }}" class="mt--2">
+        @csrf
+        @method('DELETE')
+
+        <div class="form-group row">
+          <div class="col-md-6 offset-md-4">
+            <button type="submit" class="btn btn-danger btn-sm"
+                    data-confirmation
+                    data-confirmation-title="Delete Site: {{ $site->domain }}"
+                    data-confirmation-text="You are about to delete {{ $site->domain }}. This change is irreversible. Are you sure?"
+                    data-confirmation-icon="error"
+                    data-confirmation-yes="Yes"
+                    data-confirmation-no="No"
+            >Delete Site</button>
+          </div>
+        </div>
+      </form>
+
     </div>
   </div>
 @endsection

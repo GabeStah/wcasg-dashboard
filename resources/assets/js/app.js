@@ -5,12 +5,8 @@
  */
 
 require('./bootstrap');
-const swal = require('sweetalert');
-// window.swal = swal;
-// import Axios from 'axios'
 
 window.Vue = require('vue');
-// window.axios = Axios
 
 import VueTimeago from 'vue-timeago';
 
@@ -76,6 +72,8 @@ const app = new Vue({
 });
 
 
+// For confirmation popups.
+const swal = require('sweetalert');
 const confirmation = jQuery('[data-confirmation]');
 if (confirmation && confirmation.length > 0) {
   confirmation.on('click', async function(e) {

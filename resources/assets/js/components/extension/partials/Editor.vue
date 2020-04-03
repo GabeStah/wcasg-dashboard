@@ -35,6 +35,7 @@ export default {
       1
     );
 
+    this.editor.setShowPrintMargin(false);
     this.editor.getSession().setMode(`ace/mode/${lang}`);
     this.editor.setTheme(`ace/theme/${theme}`);
 

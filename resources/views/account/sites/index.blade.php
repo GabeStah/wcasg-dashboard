@@ -5,8 +5,13 @@
         <div class="row">
             <div class="col">
                 <div class="card card-default">
-                    <div class="card-header border-0">
-                        <h2 class="mb-0"><i class="fas fa-sitemap"></i>My Sites</h2>
+                    <div class="card-header border-0 d-flex">
+                        <div class="flex-fill">
+                            <h2 class="mb-0"><i class="fas fa-sitemap"></i>My Sites</h2>
+                        </div>
+                        <a href="{{ route('account.sites.create') }}">
+                            <button class="btn btn-primary">{{ __('account.site.add_new_button') }}</button>
+                        </a>
                     </div>
                     @if(!$isSubscribed ?? '')
                         <div class="mx-auto w-auto mb-4">
@@ -35,13 +40,13 @@
                                 <thead class="thead-light">
                                 <tr>
                                     <th id="header-edit" aria-label="Edit"></th>
-                                    <th id="header-date" aria-label="Date">Date</th>
                                     <th id="header-domain" aria-label="Domain">Domain</th>
+                                    <th id="header-date" aria-label="Date">Date Added</th>
                                     <th id="header-status" aria-label="Status">Status</th>
                                     <th id="header-subscription" aria-label="Subscription">Subscription</th>
                                     <th id="header-extensions" aria-label="Extensions">Extensions</th>
-                                    <th id="header-statement" aria-label="Statement">Statement</th>
-                                    <th id="header-widget" aria-label="Widget">Widget</th>
+                                    <th id="header-statement" aria-label="Statement">Accessibility Statement</th>
+                                    <th id="header-widget" aria-label="Widget">Insert Widget Code <info-icon :text="__('account.site.widget_info')"/></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -57,10 +62,10 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <h5>{{ $site->created_at->toFormattedDateString() }}</h5>
+                                            {{ $site->domain }}
                                         </td>
                                         <td>
-                                            {{ $site->domain }}
+                                            <h5>{{ $site->created_at->toFormattedDateString() }}</h5>
                                         </td>
                                         <td>
                                             <span class="badge badge-dot mr-4">
@@ -120,29 +125,22 @@
                                             </a>
                                         </td>
                                         <td>
-                                            <span class="badge badge-dot mr-4">
-                                                @if(!$site->subscription->valid())
-                                                    <span
-                                                        class="badge badge-danger">{{ __('account.subscription.invalid') }}</span>
-                                                @elseif(!$site->active)
-                                                    <span
-                                                        class="badge badge-warning">{{ __('account.site.must_be_active') }}</span>
-                                                @else
-                                                    <form class="form-inline">
-                                                      <div class="form-group">
-                                                        <input type="text" class="form-control"
-                                                               id="widget-snippet-{{ $site->id }}"
-                                                               aria-labelledby="header-widget" onfocus="this.select()"
-                                                               placeholder="Widget Snippet"
-                                                               value="{{ $site->getWidgetScriptTag() }}"
-                                                               data-placement="top"
-                                                               data-original-title="Copy and paste this line into your site's <head> section."
-                                                               data-toggle="tooltip"
-                                                        ></input>
-                                                      </div>
-                                                    </form>
-                                                @endif
-                                            </span>
+                                            @if(!$site->subscription->valid())
+                                                <span
+                                                    class="badge badge-danger">{{ __('account.subscription.invalid') }}</span>
+                                            @elseif(!$site->active)
+                                                <span
+                                                    class="badge badge-warning">{{ __('account.site.must_be_active') }}</span>
+                                            @else
+                                                <textarea type="text" class="form-control" style="font-size: smaller;"
+                                                       id="widget-snippet-{{ $site->id }}"
+                                                       aria-labelledby="header-widget" onfocus="this.select()"
+                                                       placeholder="Widget Snippet"
+                                                       data-placement="top"
+                                                       data-original-title="{{ __('account.site.widget_info') }}"
+                                                       data-toggle="tooltip"
+                                                >{{ $site->getWidgetScriptTag() }}</textarea>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

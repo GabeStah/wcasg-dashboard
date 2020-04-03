@@ -9,9 +9,10 @@ return [
   'extension' => [
     'action' =>
       'The action function is executed when the site passes all assertion checks.',
-    'add_new_button' => 'Add a New Extension',
+    'add_new_button' => 'Add New Extension',
     'assertion' =>
       'All assertion functions must return true for actions to fire.',
+    'back' => 'Back to Sites',
     'must_be_active' => 'This extension must be active.',
     'subscribe_to_add' => 'Subscribe now to create a custom extension!',
     'type' => [
@@ -62,9 +63,10 @@ return [
     ]
   ],
   'site' => [
-    'add_new_button' => 'Add a New Site',
+    'add_new_button' => 'Add New Site',
     'must_be_active' => 'This site must be active.',
-    'subscribe_to_add' => 'Subscribe now to create a site!'
+    'subscribe_to_add' => 'Subscribe now to create a site!',
+    'widget_info' => "Copy and paste this line into your site's <head> section."
   ],
   'subscription' => [
     'invalid' => 'An active subscription is required.'
