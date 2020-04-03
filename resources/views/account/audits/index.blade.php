@@ -21,7 +21,7 @@
                                data-original-title="Perform an Audit"
                                data-toggle="tooltip"
                             >
-                                <button class="btn btn-primary w-auto">{{ __('account.audit.perform-button') }}</button>
+                                <button class="btn btn-primary w-auto">{{ __('account.audit.perform_button') }}</button>
                             </a>
                         </div>
                     @else

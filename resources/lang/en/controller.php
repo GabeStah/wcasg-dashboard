@@ -44,9 +44,9 @@ return [
       'destroy' => [
         'success' => 'The template has been deleted.',
         'fail' => [
-          'is-default' =>
+          'is_default' =>
             'Cannot delete default template.  Assign default to a different template and try again.',
-          'in-use' => 'Cannot delete a template currently in use.'
+          'in_use' => 'Cannot delete a template currently in use.'
         ]
       ],
       'update' => [

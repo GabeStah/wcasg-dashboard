@@ -16,7 +16,7 @@
                                     data-placement="top"
                                     data-original-title="Subscribe to Add a Site"
                                     data-toggle="tooltip"
-                                >{{ __('account.site.subscribe-to-add') }}</button>
+                                >{{ __('account.site.subscribe_to_add') }}</button>
                             </a>
                         </div>
                     @elseif($sites->isEmpty())
@@ -26,7 +26,7 @@
                                data-original-title="Add a Site"
                                data-toggle="tooltip"
                             >
-                                <button class="btn btn-primary w-auto">{{ __('account.site.add-new-button') }}</button>
+                                <button class="btn btn-primary w-auto">{{ __('account.site.add_new_button') }}</button>
                             </a>
                         </div>
                     @else
@@ -126,7 +126,7 @@
                                                         class="badge badge-danger">{{ __('account.subscription.invalid') }}</span>
                                                 @elseif(!$site->active)
                                                     <span
-                                                        class="badge badge-warning">{{ __('account.site.must-be-active') }}</span>
+                                                        class="badge badge-warning">{{ __('account.site.must_be_active') }}</span>
                                                 @else
                                                     <form class="form-inline">
                                                       <div class="form-group">

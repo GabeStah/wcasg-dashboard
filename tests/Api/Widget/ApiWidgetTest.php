@@ -25,7 +25,7 @@ class ApiWidgetTest extends TestCase {
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
 
     self::assertStringContainsStringIgnoringCase(
-      __('error.api.missing-origin'),
+      __('error.api.missing_origin'),
       $response->content()
     );
   }
@@ -39,7 +39,7 @@ class ApiWidgetTest extends TestCase {
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
 
     self::assertStringNotContainsStringIgnoringCase(
-      __('error.api.missing-origin'),
+      __('error.api.missing_origin'),
       $response->content()
     );
   }
@@ -53,7 +53,7 @@ class ApiWidgetTest extends TestCase {
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
 
     self::assertStringContainsStringIgnoringCase(
-      __('error.api.missing-token'),
+      __('error.api.missing_token'),
       $response->content()
     );
   }
@@ -67,7 +67,7 @@ class ApiWidgetTest extends TestCase {
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
 
     self::assertStringNotContainsStringIgnoringCase(
-      __('error.api.missing-token'),
+      __('error.api.missing_token'),
       $response->content()
     );
   }
@@ -88,7 +88,7 @@ class ApiWidgetTest extends TestCase {
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
 
     self::assertStringNotContainsStringIgnoringCase(
-      __('error.api.invalid-token'),
+      __('error.api.invalid_token'),
       $response->content()
     );
   }
@@ -105,7 +105,7 @@ class ApiWidgetTest extends TestCase {
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
 
     self::assertStringContainsStringIgnoringCase(
-      __('error.api.invalid-token'),
+      __('error.api.invalid_token'),
       $response->content()
     );
   }
@@ -136,7 +136,7 @@ class ApiWidgetTest extends TestCase {
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
 
     self::assertStringContainsStringIgnoringCase(
-      __('error.api.invalid-subscription'),
+      __('error.api.invalid_subscription'),
       $response->content()
     );
   }
@@ -172,7 +172,7 @@ class ApiWidgetTest extends TestCase {
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
 
     self::assertStringContainsStringIgnoringCase(
-      __('error.api.inactive-site'),
+      __('error.api.inactive_site'),
       $response->content()
     );
   }
@@ -190,7 +190,7 @@ class ApiWidgetTest extends TestCase {
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
 
     self::assertStringContainsStringIgnoringCase(
-      __('error.api.invalid-origin'),
+      __('error.api.invalid_origin'),
       $response->content()
     );
   }
@@ -205,7 +205,7 @@ class ApiWidgetTest extends TestCase {
     $response->assertHeader('content-type', 'text/javascript;charset=UTF-8');
 
     self::assertStringNotContainsStringIgnoringCase(
-      __('error.api.invalid-origin'),
+      __('error.api.invalid_origin'),
       $response->content()
     );
   }

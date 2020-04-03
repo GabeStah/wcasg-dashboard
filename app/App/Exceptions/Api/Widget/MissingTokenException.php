@@ -15,7 +15,7 @@ class MissingTokenException extends WidgetException {
     Throwable $previous = null
   ) {
     parent::__construct($message, $code, $previous);
-    $this->message = __('error.api.missing-token');
+    $this->message = __('error.api.missing_token');
   }
 
   /**

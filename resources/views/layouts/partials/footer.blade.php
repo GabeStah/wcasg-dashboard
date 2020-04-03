@@ -1,7 +1,7 @@
 <!-- ======== Start Footer ======== -->
 <footer class="footer">
     <div class="container text-center">
-        <img src="{{ asset('saas/img/logo-white.png') }}" alt="">
+        <img src="{{ asset('img/logo.png') }}" alt="WCASG Logo" class="w-25">
         <p>© 2019 CreatyDev. All rights reserved.</p>
     </div>
 </footer>
@@ -11,7 +11,7 @@
         <div class="modal-dialog modal-full" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                        <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('saas/img/logo.png') }}" width="160" alt="logo"></a>
+                        <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('img/logo.png') }}" width="160" alt="logo"></a>
                         <div>@include('layouts.partials.alerts._alerts')</div>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">X</span>

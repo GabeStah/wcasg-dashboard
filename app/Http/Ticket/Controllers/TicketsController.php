@@ -2,6 +2,7 @@
 
 namespace CreatyDev\Http\Ticket\Controllers;
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -9,112 +10,113 @@ use CreatyDev\App\Controllers\Controller;
 use CreatyDev\Domain\Ticket\Models\Ticket;
 use CreatyDev\Domain\Ticket\Mail\SendTicket;
 use CreatyDev\Domain\Ticket\Models\Category;
+use Illuminate\Validation\ValidationException;
 
-class TicketsController extends Controller
-{
+class TicketsController extends Controller {
+  public function __construct() {
+    $this->middleware('auth');
+  }
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+  /**
+   * Display a listing of the resource.
+   *
+   * @return Response
+   */
+  public function index() {
+    $tickets = Ticket::paginate(10);
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $tickets = Ticket::paginate(10);
+    return view('admin.tickets.index', compact('tickets'));
+  }
 
-        return view('admin.tickets.index', compact('tickets'));
-    }
+  /**
+   * Show the form for creating a new resource.
+   *
+   * @return Response
+   */
+  public function create() {
+    $categories = Category::all();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $categories = Category::all();
+    return view('tickets.create', compact('categories'));
+  }
 
-        return view('tickets.create', compact('categories'));
-    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param Request    $request
+   * @param SendTicket $mailer
+   *
+   * @return Response
+   * @throws ValidationException
+   */
+  public function store(Request $request, SendTicket $mailer) {
+    $this->validate($request, [
+      'title' => 'required',
+      'category' => 'required',
+      'priority' => 'required',
+      'message' => 'required'
+    ]);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request, SendTicket $mailer)
-    {
-        $this->validate($request, [
-            'title' => 'required',
-            'category' => 'required',
-            'priority' => 'required',
-            'message' => 'required'
-        ]);
+    $ticket = new Ticket([
+      'title' => $request->input('title'),
+      'user_id' => Auth::user()->id,
+      'ticket_id' => strtoupper(Str::random(10)),
+      'category_id' => $request->input('category'),
+      'priority' => $request->input('priority'),
+      'message' => $request->input('message'),
+      'status' => 'Open'
+    ]);
 
-        $ticket = new Ticket([
-            'title' => $request->input('title'),
-            'user_id' => Auth::user()->id,
-            'ticket_id' => strtoupper(Str::random(10)),
-            'category_id' => $request->input('category'),
-            'priority' => $request->input('priority'),
-            'message' => $request->input('message'),
-            'status' => "Open"
-        ]);
+    $ticket->save();
 
-        $ticket->save();
+    $mailer->sendTicketInformation(Auth::user(), $ticket);
 
-        $mailer->sendTicketInformation(Auth::user(), $ticket);
+    return redirect()
+      ->route('tickets.show', compact('ticket'))
+      ->with(
+        'status',
+        "A ticket with ID: #$ticket->ticket_id has been opened."
+      );
+  }
 
-        return redirect()->back()->with("status", "A ticket with ID: #$ticket->ticket_id has been opened.");
-    }
+  public function userTickets() {
+    $categories = Category::all();
+    $tickets = Ticket::where('user_id', Auth::user()->id)->paginate(10);
 
-    public function userTickets()
-    {
-        $categories = Category::all();
-        $tickets = Ticket::where('user_id', Auth::user()->id)->paginate(10);
+    return view('tickets.user_tickets', compact('tickets', 'categories'));
+  }
 
-        return view('tickets.user_tickets', compact('tickets', 'categories'));
-    }
+  /**
+   * Display the specified resource.
+   *
+   * @param  int  $id
+   * @return Response
+   */
+  public function show($ticket_id) {
+    $ticket = Ticket::where('ticket_id', $ticket_id)->firstOrFail();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($ticket_id)
-    {
-        $ticket = Ticket::where('ticket_id', $ticket_id)->firstOrFail();
+    return view('tickets.show', compact('ticket'));
+  }
 
-        return view('tickets.show', compact('ticket'));
-    }
+  // Show single ticket on admin panel
+  public function adminshow($ticket_id) {
+    $ticket = Ticket::where('ticket_id', $ticket_id)->firstOrFail();
 
-    // Show single ticket on admin panel
-    public function adminshow($ticket_id)
-    {
-        $ticket = Ticket::where('ticket_id', $ticket_id)->firstOrFail();
+    return view('admin.tickets.show', compact('ticket'));
+  }
 
-        return view('admin.tickets.show', compact('ticket'));
-    }
+  public function close($ticket_id, SendTicket $mailer) {
+    $ticket = Ticket::where('ticket_id', $ticket_id)->firstOrFail();
 
-    public function close($ticket_id, SendTicket $mailer)
-    {
-        $ticket = Ticket::where('ticket_id', $ticket_id)->firstOrFail();
+    $ticket->status = 'Closed';
 
-        $ticket->status = "Closed";
+    $ticket->save();
 
-        $ticket->save();
+    $ticketOwner = $ticket->user;
 
-        $ticketOwner = $ticket->user;
+    $mailer->sendTicketStatusNotification($ticketOwner, $ticket);
 
-        $mailer->sendTicketStatusNotification($ticketOwner, $ticket);
-
-        return redirect()->back()->with("status", "The ticket has been closed.");
-    }
+    return redirect()
+      ->back()
+      ->with('status', 'The ticket has been closed.');
+  }
 }

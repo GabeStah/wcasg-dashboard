@@ -35,6 +35,21 @@ if (!function_exists('on_page')) {
   }
 }
 
+if (!function_exists('current_route_group')) {
+  /**
+   * Retrieves current route group name.
+   *
+   * @param int $level
+   *
+   * @return mixed
+   */
+  function current_route_group($level = 0) {
+    $routeName = Illuminate\Support\Facades\Route::current()->getName();
+    $levels = explode('.', $routeName);
+    return $levels[$level] ?? $levels[0];
+  }
+}
+
 if (!function_exists('exists_in_filter_key')) {
   /**
    * Appends passed value if condition is true

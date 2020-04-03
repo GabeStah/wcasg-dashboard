@@ -52,14 +52,14 @@ class StatementTemplateController extends Controller {
           ->back()
           ->with(
             'error',
-            __('controller.admin.StatementTemplate.destroy.fail.in-use')
+            __('controller.admin.StatementTemplate.destroy.fail.in_use')
           );
       } else {
         return redirect()
           ->back()
           ->with(
             'error',
-            __('controller.admin.StatementTemplate.destroy.fail.is-default')
+            __('controller.admin.StatementTemplate.destroy.fail.is_default')
           );
       }
     }

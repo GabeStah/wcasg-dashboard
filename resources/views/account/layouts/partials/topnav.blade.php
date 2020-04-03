@@ -16,53 +16,53 @@
                     <li class="nav-item dropdown">
                         <notification></notification>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            <i class="ni ni-ungroup"></i>
-                        </a>
-                        <div
-                            class="dropdown-menu dropdown-menu-lg dropdown-menu-dark bg-default dropdown-menu-right">
-                            <div class="row shortcuts px-4">
-                                <a href="#!" class="col-4 shortcut-item">
-                                    <span class="shortcut-media avatar rounded-circle bg-gradient-red">
-                                        <i class="ni ni-calendar-grid-58"></i>
-                                    </span>
-                                    <small>Calendar</small>
-                                </a>
-                                <a href="#!" class="col-4 shortcut-item">
-                                    <span class="shortcut-media avatar rounded-circle bg-gradient-orange">
-                                        <i class="ni ni-email-83"></i>
-                                    </span>
-                                    <small>Email</small>
-                                </a>
-                                <a href="#!" class="col-4 shortcut-item">
-                                    <span class="shortcut-media avatar rounded-circle bg-gradient-info">
-                                        <i class="ni ni-credit-card"></i>
-                                    </span>
-                                    <small>Payments</small>
-                                </a>
-                                <a href="#!" class="col-4 shortcut-item">
-                                    <span class="shortcut-media avatar rounded-circle bg-gradient-green">
-                                        <i class="ni ni-books"></i>
-                                    </span>
-                                    <small>Reports</small>
-                                </a>
-                                <a href="#!" class="col-4 shortcut-item">
-                                    <span class="shortcut-media avatar rounded-circle bg-gradient-purple">
-                                        <i class="ni ni-pin-3"></i>
-                                    </span>
-                                    <small>Maps</small>
-                                </a>
-                                <a href="#!" class="col-4 shortcut-item">
-                                    <span class="shortcut-media avatar rounded-circle bg-gradient-yellow">
-                                        <i class="ni ni-basket"></i>
-                                    </span>
-                                    <small>Shop</small>
-                                </a>
-                            </div>
-                        </div>
-                    </li>
+{{--                    <li class="nav-item dropdown">--}}
+{{--                        <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"--}}
+{{--                            aria-expanded="false">--}}
+{{--                            <i class="ni ni-ungroup"></i>--}}
+{{--                        </a>--}}
+{{--                        <div--}}
+{{--                            class="dropdown-menu dropdown-menu-lg dropdown-menu-dark bg-default dropdown-menu-right">--}}
+{{--                            <div class="row shortcuts px-4">--}}
+{{--                                <a href="#!" class="col-4 shortcut-item">--}}
+{{--                                    <span class="shortcut-media avatar rounded-circle bg-gradient-red">--}}
+{{--                                        <i class="ni ni-calendar-grid-58"></i>--}}
+{{--                                    </span>--}}
+{{--                                    <small>Calendar</small>--}}
+{{--                                </a>--}}
+{{--                                <a href="#!" class="col-4 shortcut-item">--}}
+{{--                                    <span class="shortcut-media avatar rounded-circle bg-gradient-orange">--}}
+{{--                                        <i class="ni ni-email-83"></i>--}}
+{{--                                    </span>--}}
+{{--                                    <small>Email</small>--}}
+{{--                                </a>--}}
+{{--                                <a href="#!" class="col-4 shortcut-item">--}}
+{{--                                    <span class="shortcut-media avatar rounded-circle bg-gradient-info">--}}
+{{--                                        <i class="ni ni-credit-card"></i>--}}
+{{--                                    </span>--}}
+{{--                                    <small>Payments</small>--}}
+{{--                                </a>--}}
+{{--                                <a href="#!" class="col-4 shortcut-item">--}}
+{{--                                    <span class="shortcut-media avatar rounded-circle bg-gradient-green">--}}
+{{--                                        <i class="ni ni-books"></i>--}}
+{{--                                    </span>--}}
+{{--                                    <small>Reports</small>--}}
+{{--                                </a>--}}
+{{--                                <a href="#!" class="col-4 shortcut-item">--}}
+{{--                                    <span class="shortcut-media avatar rounded-circle bg-gradient-purple">--}}
+{{--                                        <i class="ni ni-pin-3"></i>--}}
+{{--                                    </span>--}}
+{{--                                    <small>Maps</small>--}}
+{{--                                </a>--}}
+{{--                                <a href="#!" class="col-4 shortcut-item">--}}
+{{--                                    <span class="shortcut-media avatar rounded-circle bg-gradient-yellow">--}}
+{{--                                        <i class="ni ni-basket"></i>--}}
+{{--                                    </span>--}}
+{{--                                    <small>Shop</small>--}}
+{{--                                </a>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </li>--}}
                 </ul>
                 <ul class="navbar-nav align-items-center ml-auto ml-md-0">
                     <li class="nav-item dropdown">
@@ -70,10 +70,10 @@
                             aria-haspopup="true" aria-expanded="false">
                             <div class="media align-items-center">
                                 <span class="avatar avatar-sm rounded-circle">
-                                    <img alt="Image placeholder" src="{{ asset(auth()->user()->image) }}">
+                                    <img alt="User Avatar" src="{{ asset(auth()->user()->image) }}">
                                 </span>
                                 <div class="media-body ml-2 d-none d-lg-block">
-                                    <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->first_name }}</span>
+                                    <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->name }}</span>
                                 </div>
                             </div>
                         </a>

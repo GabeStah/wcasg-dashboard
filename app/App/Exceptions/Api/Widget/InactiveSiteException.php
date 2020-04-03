@@ -15,7 +15,7 @@ class InactiveSiteException extends WidgetException {
     Throwable $previous = null
   ) {
     parent::__construct($message, $code, $previous);
-    $this->message = __('error.api.inactive-site');
+    $this->message = __('error.api.inactive_site');
   }
 
   /**

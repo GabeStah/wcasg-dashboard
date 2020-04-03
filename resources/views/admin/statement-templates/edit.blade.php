@@ -36,7 +36,7 @@
           </div>
           <div class="form-group row">
             <label class="col-md-3 col-form-label" for="is_default">Is Default
-              <info-icon :text="__('info.views.admin.StatementTemplate.columns.is-default')"/>
+              <info-icon :text="__('info.views.admin.StatementTemplate.columns.is_default')"/>
             </label>
             <div class="col-md-6">
               <input type="checkbox" id="is_default" name="is_default"

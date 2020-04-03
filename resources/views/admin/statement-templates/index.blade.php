@@ -25,7 +25,7 @@
               </th>
               <th aria-label="Default">Is Default
                 <info-icon
-                    :text="__('info.views.admin.StatementTemplate.columns.is-default')"/>
+                    :text="__('info.views.admin.StatementTemplate.columns.is_default')"/>
               </th>
               <th aria-label="Updated At">Last Updated</th>
               <th aria-label="Actions">Actions

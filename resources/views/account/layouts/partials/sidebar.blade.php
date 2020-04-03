@@ -3,7 +3,7 @@
         <!-- Brand -->
         <div class="sidenav-header d-flex align-items-center">
             <a class="navbar-brand" href="{{ route('home') }}">
-                <img src="{{ asset('assets/img/brand/blue.png') }}" class="navbar-brand-img" alt="...">
+                <img src="{{ asset('img/logo.png') }}" class="navbar-brand-img" alt="...">
             </a>
             <div class="ml-auto">
                 <!-- Sidenav toggler -->
@@ -23,237 +23,108 @@
                 <!-- Nav items -->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link {{ return_if(on_page('account.dashboard'), ' active') }}"
+                        <a class="nav-link {{ return_if(current_route_group(1) === 'dashboard', ' active') }}"
                             href="{{ route('account.dashboard') }}">
                             <i class="fas fa-tachometer-alt"></i>
-                            <span class="nav-link-text">Dashboards</span>
+                            <span class="nav-link-text">{{ __('account.sidebar.dashboard.header') }}</span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ return_if(on_page('account.index') or on_page('account.profile.index') or on_page('account.password.index') or on_page('account.deactivate.index') or on_page('account.twofactor.index') , ' active') }}" href="#navbar-examples" data-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="navbar-examples">
+                            aria-expanded="{{ (on_page('account.index') or on_page('account.profile.index') or on_page('account.password.index') or on_page('account.deactivate.index') or on_page('account.twofactor.index')) ? 'true' : 'false' }}" aria-controls="navbar-examples">
                             <i class="fas fa-user"></i>
-                            <span class="nav-link-text">Account</span>
+                            <span class="nav-link-text">{{ __('account.sidebar.account.header') }}</span>
                         </a>
-                        <div class="collapse" id="navbar-examples">
+                        <div class="collapse {{ return_if(on_page('account.index') or on_page('account.profile.index') or on_page('account.password.index') or on_page('account.deactivate.index') or on_page('account.twofactor.index') , 'show') }}" id="navbar-examples">
                             <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('account.index') }}">
-                                        Account overview
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link"
-                                        href="{{ route('account.profile.index') }}">
-                                        Profile
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('account.password.index'), ' active') }}"
-                                        href="{{ route('account.password.index') }}">
-                                        Change password
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('account.deactivate.index'), ' active') }}"
-                                        href="{{ route('account.deactivate.index') }}">
-                                        Deactivate account
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('account.twofactor.index'), ' active') }}"
-                                        href="{{ route('account.twofactor.index') }}">
-                                        {{-- <i class="fas fa-lock"></i> --}}
-                                        Two factor authentication
-                                    </a>
-                                </li>
+                                @component('components.sidebar.nav-item', [
+                                  'active' => on_page('account.index'),
+                                  'href' => route('account.index'),
+                                  'text' => __('account.sidebar.account.items.overview')
+                                ])
+                                @endcomponent
+                                @component('components.sidebar.nav-item', [
+                                  'active' => on_page('account.profile.index'),
+                                  'href' => route('account.profile.index'),
+                                  'text' => __('account.sidebar.account.items.profile')
+                                ])
+                                @endcomponent
+                                @component('components.sidebar.nav-item', [
+                                  'active' => on_page('account.password.index'),
+                                  'href' => route('account.password.index'),
+                                  'text' => __('account.sidebar.account.items.change_password')
+                                ])
+                                @endcomponent
+                                @component('components.sidebar.nav-item', [
+                                  'active' => on_page('account.deactivate.index'),
+                                  'href' => route('account.deactivate.index'),
+                                  'text' => __('account.sidebar.account.items.deactivate')
+                                ])
+                                @endcomponent
                             </ul>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ return_if(on_page('account.subscription.swap.index') or on_page('account.subscription.cancel.index') or on_page('account.subscription.invoice.index') or on_page('account.subscription.card.index') or on_page('account.subscription.team.index'), ' active') }}" href="#navbar-components" data-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="navbar-components">
-                            {{-- <i class="ni ni-ui-04 text-info"></i> --}}
+                        <a class="nav-link {{ return_if(current_route_group(1) === 'subscription', ' active') }}" href="#navbar-components" data-toggle="collapse" role="button"
+                            aria-expanded="{{ current_route_group(1) === 'subscription' ? 'true' : 'false' }}" aria-controls="navbar-components">
                             <i class="fa fa-credit-card" aria-hidden="true"></i>
-                            <span class="nav-link-text">Subscription</span>
+                            <span class="nav-link-text">{{ __('account.sidebar.subscription.header') }}</span>
                         </a>
                         @subscribed
                         @notpiggybacksubscription
-                        <!-- Subscription Links -->
-                        <div class="collapse" id="navbar-components">
-                            <ul class="nav nav-sm flex-column">
-                                @subscriptionnotcancelled
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('account.subscription.swap.index'), ' active') }}"
-                                        href="{{ route('account.subscription.swap.index') }}">
-                                        Change plan
-                                    </a>
-                                </li>
-{{--                                <li class="nav-item">--}}
-{{--                                    <a class="nav-link{{ return_if(on_page('account.subscription.cancel.index'), ' active') }}"--}}
-{{--                                        href="{{ route('account.subscription.cancel.index') }}">--}}
-{{--                                        Cancel subscription--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('account.subscription.invoice.index'), ' active') }}"
-                                       href="/account/subscription/invoice/invoices">
-                                        Invoices
-                                    </a>
-                                </li>
-                                @endsubscriptionnotcancelled
+                            <!-- Subscription Links -->
+                            <div class="collapse {{ current_route_group(1) === 'subscription' ? 'show' : '' }}" id="navbar-components">
+                                <ul class="nav nav-sm flex-column">
 
-                                @subscriptioncancelled
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('account.subscription.resume.index'), ' active') }}"
-                                       href="{{ route('account.subscription.resume.index') }}">
-                                        Resume subscription
-                                    </a>
-                                </li>
-                                @endsubscriptioncancelled
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('account.subscription.card.index'), ' active') }}"
-                                       href="{{ route('account.subscription.card.index') }}">
-                                        Update card
-                                    </a>
-                                </li>
-                                @teamsubscription
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('account.subscription.team.index'), ' active') }}"
-                                       href="{{ route('account.subscription.team.index') }}">
-                                        Manage team
-                                    </a>
-                                </li>
-                                @endteamsubscription
-                            </ul>
-                        </div>
+                                    @subscriptionnotcancelled
+                                        @component('components.sidebar.nav-item', [
+                                          'active' => on_page('account.subscription.swap.index'),
+                                          'href' => route('account.subscription.swap.index'),
+                                          'text' => __('account.sidebar.subscription.items.change_plan')
+                                        ])
+                                        @endcomponent
+                                        @component('components.sidebar.nav-item', [
+                                          'active' => on_page('account.subscription.invoice.index'),
+                                          'href' => route('account.subscription.invoice.index'),
+                                          'text' => __('account.sidebar.subscription.items.invoices')
+                                        ])
+                                        @endcomponent
+                                    @endsubscriptionnotcancelled
+
+                                    @subscriptioncancelled
+                                        @component('components.sidebar.nav-item', [
+                                          'active' => on_page('account.subscription.resume.index'),
+                                          'href' => route('account.subscription.resume.index'),
+                                          'text' => __('account.sidebar.subscription.items.resume')
+                                        ])
+                                        @endcomponent
+                                    @endsubscriptioncancelled
+
+                                    @component('components.sidebar.nav-item', [
+                                      'active' => on_page('account.subscription.card.index'),
+                                      'href' => route('account.subscription.card.index'),
+                                      'text' => __('account.sidebar.subscription.items.update_card')
+                                    ])
+                                    @endcomponent
+                                </ul>
+                            </div>
                         @endnotpiggybacksubscription
                         @endsubscribed
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ return_if(on_page('account.sites.index'), ' active') }}"
-                           href="#navbar-sites" data-toggle="collapse" role="button"
-                           aria-expanded="false" aria-controls="navbar-sites">
+                        <a class="nav-link {{ return_if(current_route_group(1) === 'sites', ' active') }}"
+                           href="{{ route('account.sites.index') }}" role="button" aria-controls="navbar-sites">
                             <i class="fa fa-sitemap" aria-hidden="true"></i>
-                            <span class="nav-link-text">Sites</span>
+                            <span class="nav-link-text">{{ __('account.sidebar.sites.header') }}</span>
                         </a>
-                        <!-- Site Links -->
-                        <div class="collapse" id="navbar-sites">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('account.sites.index'), ' active') }}"
-                                       href="{{ route('account.sites.index') }}">
-                                        My Sites
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ return_if(on_page('account.audits.index'), ' active') }}"
-                           href="#navbar-audits" data-toggle="collapse" role="button"
-                           aria-expanded="false" aria-controls="navbar-audits">
+                        <a class="nav-link {{ return_if(current_route_group(1) === 'audits', ' active') }}"
+                           href="{{ route('account.audits.create') }}" role="button" aria-controls="navbar-audits">
                             <i class="fa fa-compress-arrows-alt" aria-hidden="true"></i>
-                            <span class="nav-link-text">Audits</span>
+                            <span class="nav-link-text">{{ __('account.sidebar.audits.header') }}</span>
                         </a>
-                        <!-- Audit Links -->
-                        <div class="collapse" id="navbar-audits">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('account.audits.create'), ' active') }}"
-                                       href="{{ route('account.audits.create') }}">
-                                        <i class="far fa-plus-square"></i>
-                                        New Audit
-                                    </a>
-                                </li>
-{{--                                <li class="nav-item">--}}
-{{--                                    <a class="nav-link{{ return_if(on_page('account.audits.index'), ' active') }}"--}}
-{{--                                       href="{{ route('account.audits.index') }}">--}}
-{{--                                        <i class="fa fa-compress-arrows-alt"></i>--}}
-{{--                                        My Audits--}}
-{{--                                    </a>--}}
-{{--                                </li>--}}
-                            </ul>
-                        </div>
                     </li>
-                    @teamsubscription
-                    <li class="nav-item">
-                        <a class="nav-link{{ return_if(on_page('account.team.my-team'), ' active') }}"
-                           href="#navbar-forms" data-toggle="collapse" role="button"
-                           aria-expanded="false" aria-controls="navbar-forms">
-                            <i class="fas fa-users"></i>
-                            <span class="nav-link-text">Team</span>
-                        </a>
-                        <div class="collapse" id="navbar-forms">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('account.team.i'), ' active') }}"
-                                       href="{{ route('account.team.my-team') }}">
-                                        <i class="fas fa-users-cog"></i>
-                                        My team
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    @endteamsubscription
-                    <li class="nav-item">
-                        <a class="nav-link{{ return_if(on_page('developer.index'), ' active') }}" href="#navbar-dev"
-                           data-toggle="collapse" role="button"
-                           aria-expanded="false" aria-controls="navbar-forms">
-                            <i class="fas fa-code"></i>
-                            <span class="nav-link-text">Developer</span>
-                        </a>
-                        <div class="collapse" id="navbar-dev">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('developer.index'), ' active') }}"
-                                       href="{{ route('developer.index') }}">
-                                        Developer panel
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    {{-- Example Resources companies for tenant, uncomment if you want to test --}}
-                    {{-- <li class="nav-item">
-                        <a class="nav-link" href="#navbar-tables" data-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="navbar-tables">
-                            <i class="fas fa-building"></i>
-                            <span class="nav-link-text">Companies</span>
-                        </a>
-                        <div class="collapse" id="navbar-tables">
-                            <ul class="nav nav-sm flex-column">
-                                @foreach($user_companies as $company)
-                                <li class="nav-item">
-                                    <a href="{{ route('tenant.dashboard', $company) }}"
-                                        class="nav-link">{{ $company->name }}
-                                    </a>
-                                </li>
-                                @endforeach
-                                <li class="nav-item">
-                                    <!-- Create New Company Link -->
-                                    <a class="nav-link" href="{{ route('account.companies.create') }}">
-                                        New company
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <!-- View All Link -->
-                                    <a class="nav-link" href="{{ route('account.companies.index') }}">
-                                        View all
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li> --}}
-                    {{-- Example project using istenant trait --}}
-                    {{-- <li class="nav-item">
-                        <a class="nav-link {{ return_if(on_page('tenant.projects.index'), ' active') }}"
-                            href="{{ route('tenant.projects.index') }}">
-                            <i class="fas fa-store"></i>
-                            <span class="nav-link-text">Projects</span>
-                        </a>
-                    </li> --}}
                     @notsubscribed
                     <li class="nav-item">
                         <a class="nav-link {{ return_if(on_page('plans.index') or on_page('plans.teams.index'), ' active') }}" href="#navbar-plans" data-toggle="collapse" role="button"
@@ -282,59 +153,17 @@
                     </li>
                     @endnotsubscribed
                     <li class="nav-item">
-                        <a class="nav-link{{ return_if(on_page('ticket.index') or on_page('ticket.create'), ' active') }}" href="#navbar-tickets" data-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="navbar-forms">
+                        <a class="nav-link{{ return_if(current_route_group(1) === 'ticket', ' active') }}" href="{{ route('ticket.index') }}" role="button"
+                            aria-controls="navbar-forms">
                             <i class="fas fa-ticket-alt"></i>
-                            <span class="nav-link-text">Tickets</span>
+                            <span class="nav-link-text">{{ __('account.sidebar.tickets.header') }}</span>
                         </a>
-                        <div class="collapse" id="navbar-tickets">
-                            <ul class="nav nav-sm flex-column">
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('ticket.index'), ' active') }}"
-                                        href="{{ route('ticket.index') }}">
-                                        <i class="fas fa-clipboard-check"></i>
-                                        My tickets
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('ticket.create'), ' active') }}"
-                                        href="{{ route('ticket.create') }}">
-                                        <i class="far fa-plus-square"></i>
-                                        New ticket
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link{{ return_if(on_page('account.tokens.index'), ' active') }}" href="#navbar-maps" data-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="navbar-maps">
-                            <i class="fas fa-plug"></i>
-                            <span class="nav-link-text">API</span>
-                        </a>
-                        <div class="collapse" id="navbar-maps">
-                            <ul class="nav nav-sm flex-column">
-                                <a class="nav-link{{ return_if(on_page('account.tokens.index'), ' active') }}"
-                                    href="{{ route('account.tokens.index') }}">
-                                    API tokens
-                                </a>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link{{ return_if(on_page('account.mynotification.index'), ' active') }}" href="#navbar-notifications" data-toggle="collapse" role="button"
-                            aria-expanded="false" aria-controls="navbar-notifications">
+                        <a class="nav-link{{ return_if(on_page('account.mynotification.index'), ' active') }}" href="{{ route('account.mynotification.index') }}" role="button" aria-controls="navbar-notifications">
                             <i class="fas fa-bell"></i>
-                            <span class="nav-link-text">Notification</span>
+                            <span class="nav-link-text">{{ __('account.sidebar.notifications.header') }}</span>
                         </a>
-                        <div class="collapse" id="navbar-notifications">
-                            <ul class="nav nav-sm flex-column">
-                                <a class="nav-link{{ return_if(on_page('account.mynotification.index'), ' active') }}"
-                                    href="{{ route('account.mynotification.index') }}">
-                                    Notification
-                                </a>
-                            </ul>
-                        </div>
                     </li>
                 </ul>
                 <!-- Divider -->

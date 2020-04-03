@@ -189,7 +189,7 @@ Route::group(
 
     Route::post('new-ticket', 'TicketsController@store');
 
-    Route::get('my_tickets', 'TicketsController@userTickets')->name('index');
+    Route::get('tickets', 'TicketsController@userTickets')->name('index');
 
     Route::get('tickets/{ticket_id}', 'TicketsController@show');
 

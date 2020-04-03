@@ -18,7 +18,7 @@ class InvalidSiteException extends BaseException {
       $this->code = $code;
     }
 
-    $this->message = __('error.api.invalid-site');
+    $this->message = __('error.api.invalid_site');
 
     if (isset($view)) {
       $this->view = $view;

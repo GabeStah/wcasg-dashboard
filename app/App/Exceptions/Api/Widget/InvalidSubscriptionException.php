@@ -15,7 +15,7 @@ class InvalidSubscriptionException extends WidgetException {
     Throwable $previous = null
   ) {
     parent::__construct($message, $code, $previous);
-    $this->message = __('error.api.invalid-subscription');
+    $this->message = __('error.api.invalid_subscription');
   }
 
   /**

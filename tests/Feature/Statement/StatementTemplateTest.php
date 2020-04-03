@@ -25,7 +25,7 @@ class StatementTemplateTest extends TestCase {
 
     $this->assertNotNull($response->getSession()->has('error'));
     $this->assertEquals(
-      __('controller.admin.StatementTemplate.destroy.fail.in-use'),
+      __('controller.admin.StatementTemplate.destroy.fail.in_use'),
       $response->getSession()->get('error')
     );
 

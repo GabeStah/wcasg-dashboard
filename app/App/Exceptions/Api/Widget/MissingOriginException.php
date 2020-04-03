@@ -16,7 +16,7 @@ class MissingOriginException extends WidgetException {
     Throwable $previous = null
   ) {
     parent::__construct($message, $code, $previous);
-    $this->message = __('error.api.missing-origin');
+    $this->message = __('error.api.missing_origin');
   }
 
   /**

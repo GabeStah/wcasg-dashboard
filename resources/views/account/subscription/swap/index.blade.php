@@ -59,16 +59,14 @@
 
                 <div class="form-group row">
                     <div class="col-md-6 offset-md-4">
-                        <button type="submit" class="btn btn-outline-danger"
+                        <button type="submit" class="btn btn-danger"
                             data-confirmation
                             data-confirmation-title="Cancel Subscription"
                             data-confirmation-text="Are you sure you wish you cancel your subscription?"
                             data-confirmation-icon="warning"
                             data-confirmation-yes="Yes"
                             data-confirmation-no="No"
-                        >
-                            Cancel Subscription
-                        </button>
+                        >Cancel Subscription</button>
                     </div>
                 </div>
             </form>
