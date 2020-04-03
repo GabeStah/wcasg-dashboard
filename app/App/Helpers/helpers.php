@@ -114,31 +114,32 @@ if (!function_exists('fa_icon_from_cc_brand')) {
    * @return string
    */
   function fa_icon_from_cc_brand($brand): string {
+    $brand = ucwords($brand);
     switch ($brand) {
       case 'American Express':
-        return 'cc-amex';
+        return 'fab fa-cc-amex';
         break;
       case 'Diners Club':
-        return 'cc-diners-club';
+        return 'fab fa-cc-diners-club';
         break;
       case 'Discover':
-        return 'cc-discover';
+        return 'fab fa-cc-discover';
         break;
       case 'JCB':
-        return 'cc-jcb';
+        return 'fab fa-cc-jcb';
         break;
       case 'MasterCard':
-        return 'cc-mastercard';
+        return 'fab fa-cc-mastercard';
         break;
       case 'Unknown':
       case 'UnionPay':
-        return 'credit-card';
+        return 'fa fa-credit-card';
         break;
       case 'Visa':
-        return 'cc-visa';
+        return 'fab fa-cc-visa';
         break;
       default:
-        return 'credit-card';
+        return 'fa fa-credit-card';
     }
   }
 }

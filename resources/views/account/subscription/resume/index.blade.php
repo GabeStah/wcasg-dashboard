@@ -11,7 +11,14 @@
                 {{ csrf_field() }}
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary"
+                            data-confirmation
+                            data-confirmation-title="Resume Subscription"
+                            data-confirmation-text="Are you sure you wish you resume your subscription?"
+                            data-confirmation-icon="warning"
+                            data-confirmation-yes="Yes"
+                            data-confirmation-no="No"
+                    >
                         Resume
                     </button>
                 </div>

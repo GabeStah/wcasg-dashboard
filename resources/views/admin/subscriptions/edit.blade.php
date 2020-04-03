@@ -33,11 +33,11 @@
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="hf-name">Plan Price</label>
                     <div class="col-md-6">
-                        <input type="text" id="price" name="price" class="form-control"
-                            value="{{ $plan->price }}">
+                        <input type="text" id="amount" name="amount" class="form-control"
+                            value="{{ $plan->amount }}">
 
-                            @if ($errors->has('price'))
-                                <span class="text-danger">{{ $errors->first('price') }}</span>
+                            @if ($errors->has('amount'))
+                                <span class="text-danger">{{ $errors->first('amount') }}</span>
                             @endif
                     </div>
                 </div>

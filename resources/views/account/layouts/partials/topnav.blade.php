@@ -70,7 +70,7 @@
                             aria-haspopup="true" aria-expanded="false">
                             <div class="media align-items-center">
                                 <span class="avatar avatar-sm rounded-circle">
-                                    <img alt="Image placeholder" src="{{ asset('storage'.auth()->user()->image) }}">
+                                    <img alt="Image placeholder" src="{{ asset(auth()->user()->image) }}">
                                 </span>
                                 <div class="media-body ml-2 d-none d-lg-block">
                                     <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->first_name }}</span>

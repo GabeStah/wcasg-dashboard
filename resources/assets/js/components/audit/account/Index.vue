@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <div class="row my-2">
           <div class="col-sm-12" v-if="sites">
-            <label for="site">Select a Site</label>
+            <label for="site">Select An Existing Site</label>
             <select id="site" v-model="selectedSiteId" class="form-control form-control-lg">
               <option disabled="disabled" selected value=""
                 >Please select a site</option
@@ -25,7 +25,7 @@
       <div class="col-md-6">
         <div class="row my-2">
           <div class="col-sm-12">
-            <label for="url">Domain or URL</label>
+            <label for="url">New Domain or URL</label>
             <input
               id="url"
               name="url"

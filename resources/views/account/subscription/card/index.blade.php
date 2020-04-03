@@ -5,19 +5,16 @@
         <!-- Card header -->
         <div class="card-header">
             <!-- Title -->
-            <h5 class="h3 mb-0">Update Card : <span><i
-                        class="fab fa-{{ fa_icon_from_cc_brand(auth()->user()->card_brand ) }}"></i> **** {{ auth()->user()->card_last_four }}</span>
-            </h5>
+            <h2 class="h3 mb-0">Update Credit Card</h2>
         </div>
         <div class="card-body pl-md-4 pl-lg-6">
-            <p class="card-subtitle mb-5">You can securely update your credit card information for future payments.</p>
-
+            <h4 class="">Current Credit Card: <i class="{{ fa_icon_from_cc_brand(auth()->user()->card_brand ) }}"></i> **** {{ auth()->user()->card_last_four }}</h4>
             <form method="POST" action="{{ route('account.subscription.card.store') }}" id="card-form">
                 {{ csrf_field() }}
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary" id="update">
-                        Update card
+                        Update Card
                     </button>
                 </div>
             </form>

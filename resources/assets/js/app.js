@@ -5,6 +5,8 @@
  */
 
 require('./bootstrap');
+const swal = require('sweetalert');
+// window.swal = swal;
 // import Axios from 'axios'
 
 window.Vue = require('vue');
@@ -72,3 +74,27 @@ const app = new Vue({
   el: '#app',
   whitespace: 'condense'
 });
+
+
+const confirmation = jQuery('[data-confirmation]');
+if (confirmation && confirmation.length > 0) {
+  confirmation.on('click', async function(e) {
+    e.preventDefault();
+    const icon = jQuery(this).attr('data-confirmation-icon') ? jQuery(this).attr('data-confirmation-icon') : 'warning';
+    const text = jQuery(this).attr('data-confirmation-text') ? jQuery(this).attr('data-confirmation-text') : 'Are you sure?';
+    const title = jQuery(this).attr('data-confirmation-title') ? jQuery(this).attr('data-confirmation-title') : 'Confirm';
+    const yes = jQuery(this).attr('data-confirmation-yes') ? jQuery(this).attr('data-confirmation-yes') : 'Yes';
+    const no = jQuery(this).attr('data-confirmation-no') ? jQuery(this).attr('data-confirmation-no') : 'No';
+    const choice = await swal({
+      title,
+      text,
+      icon,
+      buttons: [no, yes],
+      dangerMode: true,
+    });
+
+    if (choice) {
+      jQuery(this).closest('form').submit();
+    }
+  });
+}

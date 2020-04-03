@@ -36,16 +36,16 @@ class SubscriptionSwapController extends Controller {
 
     $plan = Plan::findOrFail($request->plan);
 
-    if ($this->downgradesFromTeamPlan($user, $plan)) {
-      //todo: uncomment lines below and create event to email each user on the team
-
-      // $user->team->users()->each(function() {
-      // fire event to mail users here
-      // remember to queue them
-      // });
-
-      $user->team->users()->detach();
-    }
+    //    if ($this->downgradesFromTeamPlan($user, $plan)) {
+    //      //todo: uncomment lines below and create event to email each user on the team
+    //
+    //      // $user->team->users()->each(function() {
+    //      // fire event to mail users here
+    //      // remember to queue them
+    //      // });
+    //
+    //      $user->team->users()->detach();
+    //    }
 
     // TODO: Multi-subscription
     $user->subscription($user->subscriptions->first()->id)->swap($plan->id);

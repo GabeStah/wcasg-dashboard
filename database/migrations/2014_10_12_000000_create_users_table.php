@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration {
         ->string('username')
         ->unique()
         ->nullable();
-      $table->string('profile_image')->default('/uploads/images/avatar.png');
+      $table->string('profile_image')->default('/img/avatar.png');
       $table->string('email')->unique();
       $table->string('phone')->nullable();
       $table->string('password');

@@ -13,7 +13,7 @@
                     <div class="card {{ $plansRow->count() == 1 ? 'col-sm-6' : '' }} text-center">
 
                         <h2 class="my-3 text-truncate">
-                            <small>$.</small> {{ $plan->price }}
+                            <small>$.</small> {{ (float) $plan->amount / 100 }}
                         </h2>
 
                         <div class="card-body">

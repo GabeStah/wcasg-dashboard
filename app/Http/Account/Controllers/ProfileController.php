@@ -20,7 +20,7 @@ class ProfileController extends Controller {
    * @return Factory|Response|View
    */
   public function index() {
-    $rows = [
+    $personal = [
       ['field' => 'first_name', 'title' => 'First Name', 'required' => true],
       ['field' => 'last_name', 'title' => 'Last Name', 'required' => true],
       ['field' => 'username', 'title' => 'Username', 'required' => true],
@@ -29,9 +29,12 @@ class ProfileController extends Controller {
         'title' => 'Email',
         'required' => true,
         'type' => 'email'
-      ],
-      ['field' => 'phone', 'title' => 'Phone'],
+      ]
+    ];
+
+    $business = [
       ['field' => 'company_name', 'title' => 'Company Name'],
+      ['field' => 'phone', 'title' => 'Phone'],
       ['field' => 'address1', 'title' => 'Address'],
       ['field' => 'address2', 'title' => 'Address 2'],
       ['field' => 'city', 'title' => 'City'],
@@ -44,7 +47,10 @@ class ProfileController extends Controller {
       ]
     ];
 
-    return view('account.profile.index', compact('rows'));
+    return view('account.profile.index', [
+      'personal' => $personal,
+      'business' => $business
+    ]);
   }
 
   /**
@@ -82,7 +88,7 @@ class ProfileController extends Controller {
       // Get image file
       $image = $request->file('profile_image');
       // Make a image name based on user name and current timestamp
-      $name = str::slug($request->input('name')) . '_' . time();
+      $name = str::slug($request->input('username')) . '_' . time();
       // Define folder path
       $folder = '/uploads/images/';
       // Make a file path where image will be stored [ folder path + file name + file extension]

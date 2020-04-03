@@ -89,12 +89,12 @@
                                         Change plan
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link{{ return_if(on_page('account.subscription.cancel.index'), ' active') }}"
-                                        href="{{ route('account.subscription.cancel.index') }}">
-                                        Cancel subscription
-                                    </a>
-                                </li>
+{{--                                <li class="nav-item">--}}
+{{--                                    <a class="nav-link{{ return_if(on_page('account.subscription.cancel.index'), ' active') }}"--}}
+{{--                                        href="{{ route('account.subscription.cancel.index') }}">--}}
+{{--                                        Cancel subscription--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
                                 <li class="nav-item">
                                     <a class="nav-link{{ return_if(on_page('account.subscription.invoice.index'), ' active') }}"
                                        href="/account/subscription/invoice/invoices">

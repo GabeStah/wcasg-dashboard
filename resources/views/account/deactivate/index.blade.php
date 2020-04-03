@@ -36,11 +36,18 @@
                 @endsubscriptionnotcancelled
 
                 <div class="form-group">
-                    <button type="submit" class="btn btn-danger">
+                    <button type="submit" class="btn btn-danger"
+                        data-confirmation
+                        data-confirmation-title="Deactivate Account"
+                        data-confirmation-text="Are you sure you wish you deactivate your account?"
+                        data-confirmation-icon="error"
+                        data-confirmation-yes="Yes"
+                        data-confirmation-no="No"
+                    >
                         Deactivate account
                     </button>
 
-                    <p class="form-text">
+                    <p class="form-text mt-4">
                         Read more on account deactivation in our
                         <a href="#">Privacy policy</a>
                     </p>

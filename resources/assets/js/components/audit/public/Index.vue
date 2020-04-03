@@ -5,8 +5,7 @@
         <div class="title">
           <h3>Perform a Full Site Audit Now!</h3>
           <p>
-            Nulla metus metus ullamcorper vel tincidunt sed euismod nibh Quisque
-            volutpat
+
           </p>
         </div>
       </div>
@@ -14,7 +13,7 @@
       <div class="col-md-7">
         <div class="row my-2">
           <div class="col-sm-12">
-            <label for="url">Domain or URL</label>
+            <label for="url">New Domain or URL</label>
             <input
               id="url"
               name="url"

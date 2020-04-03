@@ -4,10 +4,10 @@
     <div class="card">
 
         <div class="card-body">
-            <h2 class="card-title">Swap subscription - Upgrading or Downgrading plan</h2>
-            <p class="card-subtitle mb-2 pl-md-4 pl-lg-6">
+            <h2 class="card-title">Change Subscription</h2>
+            <p class="card-subtitle my-4 pl-md-4 pl-lg-6">
                 You are currently on the <strong>{{ auth()->user()->plan->nickname }}</strong> plan, at a rate of:
-                <strong>({{ config('settings.cashier.currency.symbol') }}{{ auth()->user()->plan->price }})</strong>
+                <strong>{{ config('settings.cashier.symbol') }}{{ number_format(auth()->user()->plan->amount / 100, 2) }} per {{ auth()->user()->plan->interval }}</strong>
             </p>
 
             <form method="POST" action="{{ route('account.subscription.swap.store') }}" class="pl-md-4 pl-lg-6">
@@ -25,7 +25,7 @@
                                 <option value="{{ $plan->id }}"
                                         {{ request('plan') === $plan->id ||
                                         old('plan') === $plan->id ? 'selected' : '' }}>
-                                    {{ $plan->nickname }} (${{ $plan->price }})
+                                    {{ $plan->nickname }} (${{ number_format($plan->amount / 100, 2) }} per {{ $plan->interval }})
                                 </option>
                             @endforeach
                         </select>
@@ -40,8 +40,34 @@
 
                 <div class="form-group row">
                     <div class="col-md-6 offset-md-4">
-                        <button type="submit" class="btn btn-primary">
-                            Update
+                        <button type="submit" class="btn btn-primary"
+                            data-confirmation
+                            data-confirmation-title="Change Subscription"
+                            data-confirmation-text="Are you sure you wish you change your subscription?"
+                            data-confirmation-icon="warning"
+                            data-confirmation-yes="Yes"
+                            data-confirmation-no="No"
+                        >
+                            Change Subscription
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <form method="POST" action="{{ route('account.subscription.cancel.store') }}" class="pl-md-4 pl-lg-6 mt--2">
+                {{ csrf_field() }}
+
+                <div class="form-group row">
+                    <div class="col-md-6 offset-md-4">
+                        <button type="submit" class="btn btn-outline-danger"
+                            data-confirmation
+                            data-confirmation-title="Cancel Subscription"
+                            data-confirmation-text="Are you sure you wish you cancel your subscription?"
+                            data-confirmation-icon="warning"
+                            data-confirmation-yes="Yes"
+                            data-confirmation-no="No"
+                        >
+                            Cancel Subscription
                         </button>
                     </div>
                 </div>

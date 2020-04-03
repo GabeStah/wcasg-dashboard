@@ -47,7 +47,7 @@
                         
                         <span class="avatar rounded-circle">
                             <img alt="Image placeholder" class="rounded-circle" width="50"
-                                 src="{{ asset('storage'.auth()->user()->image) }}">
+                                 src="{{ asset(auth()->user()->image) }}">
                         </span>
                     </a>
 
