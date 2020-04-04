@@ -71,7 +71,7 @@ class TicketsController extends Controller {
     $mailer->sendTicketInformation(Auth::user(), $ticket);
 
     return redirect()
-      ->route('tickets.show', compact('ticket'))
+      ->route('ticket.show', $ticket->ticket_id)
       ->with(
         'status',
         "A ticket with ID: #$ticket->ticket_id has been opened."

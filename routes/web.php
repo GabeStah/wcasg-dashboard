@@ -191,7 +191,7 @@ Route::group(
 
     Route::get('tickets', 'TicketsController@userTickets')->name('index');
 
-    Route::get('tickets/{ticket_id}', 'TicketsController@show');
+    Route::get('tickets/{ticket_id}', 'TicketsController@show')->name('show');
 
     Route::post('comment', 'CommentsController@postComment')->name('comment');
   }

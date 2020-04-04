@@ -46,7 +46,7 @@
                                 @endif
                             </td>
                             <td>{{ $ticket->updated_at->diffForHumans() }}</td>
-                            <td class="float-right">
+                            <td>
                                 @if($ticket->status === 'Open')
                                 <a href="{{ url('admin/tickets/' . $ticket->ticket_id) }}" class="btn btn-info"><i class="fa fa-commenting"></i></a>
 
