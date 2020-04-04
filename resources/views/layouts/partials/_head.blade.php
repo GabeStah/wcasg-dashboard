@@ -8,7 +8,7 @@
 <title>{{ config('app.name') }}</title>
 
 <!-- Favicon -->
-<link rel="icon" href="{{ asset('assets/img/brand/favicon.png') }}" type="image/png">
+<link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/png">
 
 <!-- Bootstrap 4.1.3 -->
 <link rel="stylesheet" href="{{ asset('saas/css/bootstrap.min.css') }}">

@@ -100,8 +100,9 @@ class TicketsController extends Controller {
   // Show single ticket on admin panel
   public function adminshow($ticket_id) {
     $ticket = Ticket::where('ticket_id', $ticket_id)->firstOrFail();
+    $user = $ticket->user;
 
-    return view('admin.tickets.show', compact('ticket'));
+    return view('admin.tickets.show', ['ticket' => $ticket, 'user' => $user]);
   }
 
   public function close($ticket_id, SendTicket $mailer) {

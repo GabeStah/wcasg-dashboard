@@ -10,5 +10,8 @@
 <!-- Styles -->
 <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 
+<!-- Favicon -->
+<link rel="icon" href="{{ asset('img/favicon.png') }}" type="image/png">
+
 <!-- Custom Styles -->
 @yield('styles')

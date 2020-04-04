@@ -159,12 +159,12 @@
                             <span class="nav-link-text">{{ __('account.sidebar.tickets.header') }}</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link{{ return_if(on_page('account.mynotification.index'), ' active') }}" href="{{ route('account.mynotification.index') }}" role="button" aria-controls="navbar-notifications">
-                            <i class="fas fa-bell"></i>
-                            <span class="nav-link-text">{{ __('account.sidebar.notifications.header') }}</span>
-                        </a>
-                    </li>
+{{--                    <li class="nav-item">--}}
+{{--                        <a class="nav-link{{ return_if(on_page('account.mynotification.index'), ' active') }}" href="{{ route('account.mynotification.index') }}" role="button" aria-controls="navbar-notifications">--}}
+{{--                            <i class="fas fa-bell"></i>--}}
+{{--                            <span class="nav-link-text">{{ __('account.sidebar.notifications.header') }}</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
                 </ul>
                 <!-- Divider -->
                 <hr class="my-3">

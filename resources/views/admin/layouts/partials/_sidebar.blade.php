@@ -1,5 +1,4 @@
 @section('sidebar')
-    <li class="nav-title">USERS & ACCESS CONTROL</li>
     <!-- Users -->
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#">
@@ -72,18 +71,10 @@
         </ul>
     </li>
     <!-- Tickets -->
-    <li class="nav-item nav-dropdown">
-        <a class="nav-link nav-dropdown-toggle" href="#">
+    <li class="nav-item">
+        <a class="nav-link {{ return_if(on_page('admin.tickets'), 'active') }}" href="{{ route('admin.tickets') }}">
                 <i class="fa fa-ticket"></i> Tickets
         </a>
-        <ul class="nav-dropdown-items">
-            <li class="nav-item">
-                <a class="nav-link{{ return_if(on_page('admin.tickets'), ' active') }}"
-                    href="{{ route('admin.tickets') }}">
-                    <i class="fa fa-ticket"></i>Tickets
-                </a>
-            </li>
-        </ul>
     </li>
     <!-- Products -->
     <li class="nav-item nav-dropdown">
@@ -126,38 +117,30 @@
         </ul>
     </li>
     <!-- Coupons -->
-    <li class="nav-item nav-dropdown">
-        <a class="nav-link nav-dropdown-toggle" href="#">
-            <i class="fa fa-tags"></i> Manage Coupons
-        </a>
-        <ul class="nav-dropdown-items">
-            <li class="nav-item">
-                <a class="nav-link{{ return_if(on_page('admin.coupons.index'), ' active') }}"
-                   href="{{ route('admin.coupons.index') }}">
-                    <i class="fa fa-tags"></i>All Coupons
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link{{ return_if(on_page('admin.coupons.create'), ' active') }}"
-                   href="{{ route('admin.coupons.create') }}">
-                    <i class="icon-plus"></i> Add Coupon
-                </a>
-            </li>
-        </ul>
-    </li>
+{{--    <li class="nav-item nav-dropdown">--}}
+{{--        <a class="nav-link nav-dropdown-toggle" href="#">--}}
+{{--            <i class="fa fa-tags"></i> Manage Coupons--}}
+{{--        </a>--}}
+{{--        <ul class="nav-dropdown-items">--}}
+{{--            <li class="nav-item">--}}
+{{--                <a class="nav-link{{ return_if(on_page('admin.coupons.index'), ' active') }}"--}}
+{{--                   href="{{ route('admin.coupons.index') }}">--}}
+{{--                    <i class="fa fa-tags"></i>All Coupons--}}
+{{--                </a>--}}
+{{--            </li>--}}
+{{--            <li class="nav-item">--}}
+{{--                <a class="nav-link{{ return_if(on_page('admin.coupons.create'), ' active') }}"--}}
+{{--                   href="{{ route('admin.coupons.create') }}">--}}
+{{--                    <i class="icon-plus"></i> Add Coupon--}}
+{{--                </a>--}}
+{{--            </li>--}}
+{{--        </ul>--}}
+{{--    </li>--}}
     <!-- Subscriptions -->
-    <li class="nav-item nav-dropdown">
-        <a class="nav-link nav-dropdown-toggle" href="#">
-            <i class="fa fa-credit-card"></i> Subscription
+    <li class="nav-item">
+        <a class="nav-link {{ return_if(on_page('admin.subscriptions.index'), 'active') }}" href="{{ route('admin.subscriptions.index') }}">
+            <i class="fa fa-tags"></i> Subscriptions
         </a>
-        <ul class="nav-dropdown-items">
-            <li class="nav-item">
-                <a class="nav-link{{ return_if(on_page('admin.subscriptions.index'), ' active') }}"
-                   href="{{ route('admin.subscriptions.index') }}">
-                    <i class="fa fa-tags"></i>All subscription
-                </a>
-            </li>
-        </ul>
     </li>
     <!-- Statements -->
     <li class="nav-item nav-dropdown">
@@ -191,19 +174,19 @@
             {{--            </li>--}}
         </ul>
     </li>
-    <li class="nav-item nav-dropdown">
-        <a class="nav-link nav-dropdown-toggle" href="#">
-            <i class="fa fa-envelope"></i> Notification
-        </a>
-        <ul class="nav-dropdown-items">
-            <li class="nav-item">
-                <a class="nav-link{{ return_if(on_page('admin.subscriptions.index'), ' active') }}"
-                   href="{{ route('admin.annoucement.create') }}">
-                    <i class="fa fa-comment"></i>Send Notification
-                </a>
-            </li>
-        </ul>
-    </li>
+{{--    <li class="nav-item nav-dropdown">--}}
+{{--        <a class="nav-link nav-dropdown-toggle" href="#">--}}
+{{--            <i class="fa fa-envelope"></i> Notification--}}
+{{--        </a>--}}
+{{--        <ul class="nav-dropdown-items">--}}
+{{--            <li class="nav-item">--}}
+{{--                <a class="nav-link{{ return_if(on_page('admin.subscriptions.index'), ' active') }}"--}}
+{{--                   href="{{ route('admin.annoucement.create') }}">--}}
+{{--                    <i class="fa fa-comment"></i>Send Notification--}}
+{{--                </a>--}}
+{{--            </li>--}}
+{{--        </ul>--}}
+{{--    </li>--}}
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#">
             <i class="fa fa-gear"></i> Statistics
