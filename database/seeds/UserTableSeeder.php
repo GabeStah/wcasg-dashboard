@@ -8,6 +8,7 @@ use CreatyDev\Domain\Users\Models\Role;
 class UserTableSeeder extends Seeder {
   public function run() {
     $admin = Role::where('slug', 'admin-root')->first();
+    $month_later = Carbon::now()->addDays(28);
 
     factory(User::class)->create([
       'first_name' => 'Gabe',
@@ -20,9 +21,7 @@ class UserTableSeeder extends Seeder {
     ]);
 
     $user = User::where('email', 'gabe@solarixdigital.com')->first();
-
-    $expires_at = Carbon::now()->addDays(28);
-    $user->assignRole($admin, $expires_at);
+    $user->assignRole($admin, $month_later);
 
     factory(User::class)->create([
       'first_name' => 'Kyle',
@@ -34,12 +33,34 @@ class UserTableSeeder extends Seeder {
       'activated' => true
     ]);
 
-    $expires_at = Carbon::now()->addDays(28);
-
-    $user = User::where('email', 'gabe@solarixdigital.com')->first();
-    $user->assignRole($admin, $expires_at);
     $user = User::where('email', 'kyle@solarixdigital.com')->first();
-    $user->assignRole($admin, $expires_at);
+    $user->assignRole($admin, $month_later);
+
+    //    factory(User::class)->create([
+    //      'first_name' => 'WCASG',
+    //      'last_name' => 'Dev',
+    //      'username' => 'wcasgdev',
+    //      'email' => 'dev+wcasg@solarixdigital.com',
+    //      'password' =>
+    //        '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm',
+    //      'activated' => true
+    //    ]);
+    //
+    //    $user = User::where('email', 'dev+wcasg@solarixdigital.com')->first();
+    //    $user->assignRole($admin, $month_later);
+    //
+    //    factory(User::class)->create([
+    //      'first_name' => 'KickPages',
+    //      'last_name' => 'Dev',
+    //      'username' => 'kickpages',
+    //      'email' => 'dev+kickpages@solarixdigital.com',
+    //      'password' =>
+    //        '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm',
+    //      'activated' => true
+    //    ]);
+    //
+    //    $user = User::where('email', 'dev+kickpages@solarixdigital.com')->first();
+    //    $user->assignRole($admin, $month_later);
 
     // Create 10 random users
     factory(User::class, 10)->create();

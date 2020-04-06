@@ -23,36 +23,53 @@
 @endsection
 
 @section('scripts')
-    <script src="https://checkout.stripe.com/checkout.js"></script>
+    <script src="https://js.stripe.com/v3"></script>
+    {{--<script src="https://checkout.stripe.com/checkout.js"></script>--}}
     <script>
-        let handler = StripeCheckout.configure({
-            key: '{{ config('services.stripe.key') }}',
-            locale: 'auto',
-            token: function (token) {
-                let form = $('#card-form')
+        const stripe = Stripe('{{ config('services.stripe.key') }}');
 
-                $('#update').prop('disabled', true)
+        const checkoutButton = document.querySelector('#checkout-button');
+        checkoutButton.addEventListener('click', () => {
+            stripe.redirectToCheckout({
+                items: [{
+                    // Define the product and plan in the Dashboard first, and use the plan
+                    // ID in your client-side code.
+                    plan: 'plan_123',
+                    quantity: 1
+                }],
+                successUrl: 'https://www.example.com/success',
+                cancelUrl: 'https://www.example.com/cancel'
+            });
+        });
 
-                $('<input>').attr({
-                    type: 'hidden',
-                    name: 'token',
-                    value: token.id,
-                }).appendTo(form)
+        {{--let handler = StripeCheckout.configure({--}}
+        {{--    key: '{{ config('services.stripe.key') }}',--}}
+        {{--    locale: 'auto',--}}
+        {{--    token: function (token) {--}}
+        {{--        let form = $('#card-form')--}}
 
-                form.submit();
-            }
-        })
+        {{--        $('#update').prop('disabled', true)--}}
 
-        $('#update').click(function (e) {
-            handler.open({
-                name: 'Laravel SaaS',
-                currency: '{{ config('settings.cashier.currency') }}',
-                key: '{{ config('services.stripe.key') }}',
-                email: '{{ auth()->user()->email }}',
-                panelLabel: 'Update card'
-            })
+        {{--        $('<input>').attr({--}}
+        {{--            type: 'hidden',--}}
+        {{--            name: 'token',--}}
+        {{--            value: token.id,--}}
+        {{--        }).appendTo(form)--}}
 
-            e.preventDefault();
-        })
+        {{--        form.submit();--}}
+        {{--    }--}}
+        {{--})--}}
+
+        {{--$('#update').click(function (e) {--}}
+        {{--    handler.open({--}}
+        {{--        name: 'Laravel SaaS',--}}
+        {{--        currency: '{{ config('settings.cashier.currency') }}',--}}
+        {{--        key: '{{ config('services.stripe.key') }}',--}}
+        {{--        email: '{{ auth()->user()->email }}',--}}
+        {{--        panelLabel: 'Update card'--}}
+        {{--    })--}}
+
+        {{--    e.preventDefault();--}}
+        {{--})--}}
     </script>
 @endsection

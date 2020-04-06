@@ -22,6 +22,8 @@ class WidgetController extends Controller {
       'Content-Type' => 'text/javascript;charset=UTF-8'
     ]);
 
+    $site->increment('widget_request_count');
+
     // Respond with javascript content.
     return $response->setContent($payload);
   }

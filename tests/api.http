@@ -1,4 +1,4 @@
-POST http://wcasg.local/api/audit/create
+POST http://wcasg.test/api/audit/create
 Content-Type: application/json
 
 {
@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 ###
 
-POST http://wcasg.local/api/audit/create
+POST http://wcasg.test/api/audit/create
 Content-Type: application/x-www-form-urlencoded
 
 url=google.com

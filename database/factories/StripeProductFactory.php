@@ -24,8 +24,9 @@ $factory->define(StripeProduct::class, function (Faker $faker) {
     ],
     [
       'name' => 'Amazon Kindle',
-      'description' => '',
-      'unit_label' => ''
+      'description' =>
+        'Meet the Kindle, now with a built-in adjustable front light so you can read indoors and outdoors and at more times of day. Purpose-built for reading, Kindle features a glare-free touchscreen display that reads like real paper, even in direct sunlight.',
+      'unit_label' => 'kindle'
     ],
     [
       'name' => 'Widget Service',

@@ -29,6 +29,11 @@ class CreateSitesTable extends Migration {
       $table->string('name')->nullable();
 
       $table
+        ->unsignedBigInteger('widget_request_count')
+        ->default(0)
+        ->comment('Tracks number of times domain widget is requested.');
+
+      $table
         ->uuid('token')
         ->unique()
         ->index()
