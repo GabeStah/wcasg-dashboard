@@ -1,8 +1,7 @@
 <!-- ======== Start Footer ======== -->
 <footer class="footer">
     <div class="container text-center">
-        <img src="{{ asset('img/logo.png') }}" alt="WCASG Logo" class="w-25">
-        <p>© 2019 CreatyDev. All rights reserved.</p>
+        <img src="{{ asset('img/wcasg_acronym_light-sm.png') }}" alt="WCASG Logo">
     </div>
 </footer>
 <!-- ======== End Footer ======== -->

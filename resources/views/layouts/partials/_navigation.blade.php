@@ -1,7 +1,7 @@
 <!-- ======== Start Navbar ======== -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('img/logo.png') }}" alt="logo" class="w-50"></a>
+        <a class="navbar-brand" href="{{ route('home') }}"><img src="{{ asset('img/logo-sm.png') }}" alt="logo"></a>
         <button
             class="navbar-toggler"
             type="button"
@@ -19,15 +19,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('audit.index') }}">Audit</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#features">Features</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#benefits">Benefits</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#price">Price</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#contact">Contact</a>

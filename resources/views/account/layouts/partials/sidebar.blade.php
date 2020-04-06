@@ -167,20 +167,20 @@
 {{--                    </li>--}}
                 </ul>
                 <!-- Divider -->
-                <hr class="my-3">
-                <!-- Heading -->
-                <h6 class="navbar-heading p-0 text-muted">Documentation</h6>
-                <!-- Navigation -->
-                <ul class="navbar-nav mb-md-3">
-                    <li class="nav-item">
-                        <a class="nav-link"
-                            href="https://saas-demo.creatydev.com/docs" target="blank__"
-                            target="_blank">
-                            <i class="ni ni-spaceship"></i>
-                            <span class="nav-link-text">Getting started</span>
-                        </a>
-                    </li>
-                </ul>
+{{--                <hr class="my-3">--}}
+{{--                <!-- Heading -->--}}
+{{--                <h6 class="navbar-heading p-0 text-muted">Documentation</h6>--}}
+{{--                <!-- Navigation -->--}}
+{{--                <ul class="navbar-nav mb-md-3">--}}
+{{--                    <li class="nav-item">--}}
+{{--                        <a class="nav-link"--}}
+{{--                            href="https://saas-demo.creatydev.com/docs" target="blank__"--}}
+{{--                            target="_blank">--}}
+{{--                            <i class="ni ni-spaceship"></i>--}}
+{{--                            <span class="nav-link-text">Getting started</span>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                </ul>--}}
             </div>
         </div>
     </div>
