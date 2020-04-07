@@ -7,14 +7,8 @@
                 <button class="btn btn-outline-light btn-sm">{{ __('account.extension.back') }}</button>
             </a>
         </div>
-
-        <div>
-            <a href="#">
-                <button class="btn btn-primary">{{ __('account.extension.add_new_button') }}</button>
-            </a>
-        </div>
     </div>
     <div class="container-fluid">
-        <extension-account :extensions="{{ $extensions }}" :i8n="{{ $i8n }}" :site="{{ $site }}"></extension-account>
+        <extension-account :initial-extensions="{{ $extensions }}" :i8n="{{ $i8n }}" :site="{{ $site }}"></extension-account>
     </div>
 @endsection

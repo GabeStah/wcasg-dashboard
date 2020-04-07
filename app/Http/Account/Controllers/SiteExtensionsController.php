@@ -20,6 +20,7 @@ class SiteExtensionsController extends Controller {
     $extensions = $site->extensions;
     $i8n = json_encode([
       'action' => __('account.extension.action'),
+      'add_new_button' => __('account.extension.add_new_button'),
       'assertion' => __('account.extension.assertion'),
       'type' => [
         'built_in' => __('account.extension.type.built_in'),

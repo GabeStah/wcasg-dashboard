@@ -8,10 +8,10 @@ return [
   ],
   'extension' => [
     'action' =>
-      'The action function is executed when the site passes all assertion checks.',
+      'The action function is executed when the site passes the assertion check.',
     'add_new_button' => 'Add New Extension',
     'assertion' =>
-      'All assertion functions must return true for actions to fire.',
+      'The assertion function must return true for the action function to fire.',
     'back' => 'Back to Sites',
     'must_be_active' => 'This extension must be active.',
     'subscribe_to_add' => 'Subscribe now to create a custom extension!',

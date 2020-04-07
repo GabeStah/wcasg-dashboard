@@ -41,6 +41,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereTrialPeriodDays($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $product_id
+ * @property int $amount
+ * @property string $currency
+ * @property string $nickname
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereCurrency($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereNickname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereProductId($value)
  */
 class Plan extends Model {
   /**

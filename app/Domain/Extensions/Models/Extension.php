@@ -33,6 +33,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Extensions\Models\Extension whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Extensions\Models\Extension whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Extensions\Models\Extension enabled()
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Extensions\Models\Extension imported()
  */
 class Extension extends Model {
   /**
@@ -46,6 +48,8 @@ class Extension extends Model {
   ];
 
   protected $fillable = ['description', 'enabled', 'imported', 'name'];
+
+  protected $with = ['actions', 'predicates'];
 
   public function actions() {
     return $this->belongsToMany(

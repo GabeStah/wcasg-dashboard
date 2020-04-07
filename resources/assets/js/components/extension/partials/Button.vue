@@ -1,6 +1,6 @@
 <template>
   <button
-    class="btn btn-block btn-primary"
+    :class="classes"
     @click="onClick"
     :disabled="isLoading"
   >
@@ -19,6 +19,9 @@
 <script>
 export default {
   props: {
+    classes: {
+      type: String, default: 'btn btn-block btn-primary'
+    },
     isLoading: Boolean,
     onClick: Function,
     onLoadingText: String,

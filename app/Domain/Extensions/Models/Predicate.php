@@ -26,6 +26,12 @@ use LZCompressor\LZString;
  * @mixin \Eloquent
  */
 class Predicate extends Model {
+  protected $attributes = [
+    'function' => "function fn() {
+        // Add logic here 
+    }"
+  ];
+
   protected $fillable = ['function', 'name'];
 
   /**

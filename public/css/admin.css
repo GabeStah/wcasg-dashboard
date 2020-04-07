@@ -18600,7 +18600,6 @@ base-chart.chart {
 
 .sidebar .nav-dropdown.open {
   background: rgba(0, 0, 0, 0.2);
-  border-bottom: 1px solid #7ebeffbd;
 }
 
 .sidebar .nav-dropdown.open > .nav-dropdown-items {

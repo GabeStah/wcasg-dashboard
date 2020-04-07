@@ -52,6 +52,7 @@ use Laravel\Cashier\Subscription as CashierSubscription;
  * @mixin \Eloquent
  * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription incomplete()
  * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription pastDue()
+ * @property string $stripe_plan
  */
 class Subscription extends CashierSubscription {
   public $incrementing = false;

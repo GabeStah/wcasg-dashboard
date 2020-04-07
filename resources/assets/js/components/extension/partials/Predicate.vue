@@ -1,11 +1,13 @@
 <template>
   <div>
-    <div class="row">
-      <h3>
-        <info-icon :text="i8n.assertion" />Assertion: {{ predicate.name }}
-      </h3>
+    <div v-if="!predicate.dirty">
+      <h3><info-icon :text="i8n.assertion" />Assertion: {{ predicate.name }}</h3>
     </div>
-    <div class="mb-4" style="height: 300px">
+    <div v-if="predicate.dirty" class="d-flex">
+      <info-icon :text="i8n.assertion" />
+      <input class="d-inline-flex form-control w-25 ml-2" type="text" v-if="predicate.dirty" v-model="predicate.name" placeholder="Enter Assertion Name"></input>
+    </div>
+    <div class="mb-4 mt-2" style="height: 300px">
       <editor
         :editor-id="`predicate-${predicate.id}`"
         :content="decompress(predicate.function)"
@@ -15,6 +17,7 @@
       ></editor>
     </div>
     <update-button
+      v-if="!predicate.dirty"
       on-loading-text="Saving..."
       :is-loading="isLoading"
       :on-click="update"
@@ -44,6 +47,7 @@ export default {
     handleChange(value) {
       if (value && value !== this.content) {
         this.content = value;
+        this.$emit('predicate-change-content', this.content);
       }
     },
     async update() {

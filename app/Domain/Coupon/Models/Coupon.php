@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Coupon\Models\Coupon wherePercentOff($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Coupon\Models\Coupon whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $plan_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Coupon\Models\Coupon wherePlanId($value)
  */
 class Coupon extends Model {
   protected $fillable = [

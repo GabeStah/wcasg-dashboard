@@ -1,11 +1,13 @@
 <template>
   <div>
-    <div class="row">
-      <h3>
-        <h3><info-icon :text="i8n.action" />Action: {{ action.name }}</h3>
-      </h3>
+    <div v-if="!action.dirty">
+      <h3><info-icon :text="i8n.action" />Action: {{ action.name }}</h3>
     </div>
-    <div class="mb-4" style="height: 300px">
+    <div v-if="action.dirty" class="d-flex">
+      <info-icon :text="i8n.action" />
+      <input class="d-inline-flex form-control w-25 ml-2" type="text" v-if="action.dirty" v-model="action.name" placeholder="Enter Action Name"></input>
+    </div>
+    <div class="mb-4 mt-2" style="height: 300px">
       <editor
         :editor-id="`action-${action.id}`"
         :content="decompress(action.function)"
@@ -15,6 +17,7 @@
       ></editor>
     </div>
     <update-button
+      v-if="!action.dirty"
       on-loading-text="Saving..."
       :is-loading="isLoading"
       :on-click="update"
@@ -44,6 +47,7 @@ export default {
     handleChange(value) {
       if (value && value !== this.content) {
         this.content = value;
+        this.$emit('action-change-content', this.content);
       }
     },
     async update() {

@@ -41,6 +41,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site whereStatementId($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Extensions\Models\Extension[] $extensions
  * @property-read int|null $extensions_count
+ * @property int $widget_request_count Tracks number of times domain widget is requested.
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Sites\Models\Site whereWidgetRequestCount($value)
  */
 class Site extends Model {
   use HasToken;

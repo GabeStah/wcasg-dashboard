@@ -1,6 +1,6 @@
 <template>
   <i
-    class="fa fa-question-circle"
+    class="fa fa-question-circle align-self-center"
     data-placement="top"
     :data-original-title="text"
     data-toggle="tooltip"
