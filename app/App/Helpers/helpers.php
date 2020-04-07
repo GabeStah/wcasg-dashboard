@@ -176,3 +176,27 @@ if (!function_exists('webpackify')) {
     return "!function(e,t){'object'==typeof exports&&'object'==typeof module?module.exports=t():'function'==typeof define&&define.amd?define([],t):'object'==typeof exports?exports['{$name}']=t():e['{$name}']=t()}('undefined'!=typeof self?self:this,function(){return '{$content}'});";
   }
 }
+
+if (!function_exists('cents_to_decimal')) {
+  function cents_to_decimal($amount) {
+    if (is_numeric($amount) && !is_float($amount) && is_int($amount)) {
+      return number_format($amount / 100, 2);
+    } else {
+      throw new Exception(
+        "Amount $amount not valid integer; cannot be converted to decimal."
+      );
+    }
+  }
+}
+
+if (!function_exists('decimal_to_cents')) {
+  function decimal_to_cents($amount) {
+    if (preg_match('/^\d+\.(\d{2})$/', $amount)) {
+      return $amount * 100;
+    } else {
+      throw new Exception(
+        "Amount $amount invalid decimal; cannot be converted to cents."
+      );
+    }
+  }
+}

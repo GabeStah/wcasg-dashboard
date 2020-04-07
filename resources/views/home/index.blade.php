@@ -356,7 +356,7 @@
 {{--                            <a href="#0" class="top-btn">Popular</a>--}}
 {{--                        @endif--}}
 {{--                            <h3>{{ $plan->nickname }}</h3>--}}
-{{--                            <h4>$<span>{{ (float) $plan->amount / 100 }}</span>/ {{ $plan->interval }}</h4>--}}
+{{--                            <h4>$<span>{{ cents_to_decimal($plan->amount) }}</span>/ {{ $plan->interval }}</h4>--}}
 {{--                            <ul>--}}
 {{--                                <li>Admin Panel</li>--}}
 {{--                                <li>100GB Storge</li>--}}

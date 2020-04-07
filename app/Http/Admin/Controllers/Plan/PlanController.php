@@ -18,10 +18,15 @@ class PlanController extends Controller {
   const createValidation = [
     'product_id' => 'required|starts_with:prod_',
     'nickname' => 'required|string',
-    'amount' => 'required|integer',
+    'amount' => 'required|regex:/^\d+\.(\d{2})$/',
     'interval' => 'required',
     'teams_limit' => 'nullable|integer',
     'trial_period_days' => 'nullable|integer'
+  ];
+
+  const createValidationMessages = [
+    'amount.regex' =>
+      'The :attribute must be in decimal format with exactly two decimal places (e.g. 12.34, 10.00, etc).'
   ];
 
   const updateValidation = [
@@ -96,7 +101,7 @@ class PlanController extends Controller {
         'title' => 'Amount*',
         'required' => true,
         'info_text' => __('admin.plan.amount'),
-        'placeholder' => 'Cost (in cents)'
+        'placeholder' => 'Cost'
       ],
       [
         'field' => 'trial_period_days',
@@ -142,15 +147,20 @@ class PlanController extends Controller {
    * @return RedirectResponse|Response
    * @throws AuthorizationException
    * @throws ValidationException
+   * @throws \Exception
    */
   public function store(Request $request) {
     $this->authorize('create', Plan::class);
 
-    $this->validate($request, self::createValidation);
+    $this->validate(
+      $request,
+      self::createValidation,
+      self::createValidationMessages
+    );
 
     $plan = new Plan([
       'product_id' => $request->input('product_id'),
-      'amount' => $request->input('amount'),
+      'amount' => decimal_to_cents($request->input('amount')),
       'nickname' => $request->input('nickname'),
       'interval' => $request->input('interval'),
       'teams_enabled' => !empty($request->input('teams_enabled'))

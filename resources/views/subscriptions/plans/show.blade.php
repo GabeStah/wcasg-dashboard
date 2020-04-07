@@ -6,7 +6,7 @@
             <div class="col-sm-8 offset-sm-2">
                 <div class="card text-center">
                     <h1 class="my-3 text-truncate">
-                        <small>$.</small> {{ (float) $plan->amount }}
+                        <small>$</small> {{ cents_to_decimal($plan->amount) }}
                     </h1>
 
                     <div class="card-body">

@@ -7,7 +7,7 @@
             <h2 class="card-title">Change Subscription</h2>
             <p class="card-subtitle my-4 pl-md-4 pl-lg-6">
                 You are currently on the <strong>{{ auth()->user()->plan->nickname }}</strong> plan, at a rate of:
-                <strong>{{ config('settings.cashier.symbol') }}{{ number_format(auth()->user()->plan->amount / 100, 2) }} per {{ auth()->user()->plan->interval }}</strong>
+                <strong>{{ config('settings.cashier.symbol') }}{{ cents_to_decimal(auth()->user()->plan->amount) }} per {{ auth()->user()->plan->interval }}</strong>
             </p>
 
             <form method="POST" action="{{ route('account.subscription.swap.store') }}" class="pl-md-4 pl-lg-6">
@@ -25,7 +25,7 @@
                                 <option value="{{ $plan->id }}"
                                         {{ request('plan') === $plan->id ||
                                         old('plan') === $plan->id ? 'selected' : '' }}>
-                                    {{ $plan->nickname }} (${{ number_format($plan->amount / 100, 2) }} per {{ $plan->interval }})
+                                    {{ $plan->nickname }} (${{ cents_to_decimal($plan->amount) }} per {{ $plan->interval }})
                                 </option>
                             @endforeach
                         </select>

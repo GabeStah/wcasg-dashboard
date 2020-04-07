@@ -23,7 +23,7 @@
                                             <option value="{{ $plan->id }}"
                                                     {{ request('plan') === $plan->id ||
                                                     old('plan') === $plan->id ? 'selected' : '' }}>
-                                                {{ $plan->nickname }} (${{ $plan->amount }})
+                                                {{ $plan->nickname }} (${{ cents_to_decimal($plan->amount) }})
                                             </option>
                                         @endforeach
                                     </select>

@@ -2,7 +2,7 @@
 
 return [
   'plan' => [
-    'amount' => 'The amount in cents to be charged on the interval specified.',
+    'amount' => 'The amount to charge at each specified interval.',
     'interval' => 'The frequency at which a subscription is billed.',
     'product' => 'The product whose pricing this plan determines.',
     'stripe_mention' => 'The new plan is automatically added to Stripe.',

@@ -12,7 +12,7 @@ return [
     |
     */
 
-  'name' => env('APP_NAME', 'WCASG App Dashboard'),
+  'name' => env('APP_NAME', 'WCASG'),
 
   /*
     |--------------------------------------------------------------------------

@@ -31,9 +31,9 @@
                         @foreach ($plans as $plan )
                         <tr>
                             <td>{{ $plan->nickname }}</td>
-                            <td><a href="{{ route('admin.products.edit', $plan->product_id) }}">{{ $products[$plan->product_id]->nickname }}</a></td>
+                            <td><a href="{{ route('admin.products.edit', $plan->product_id) }}">{{ $products[$plan->product_id]->name }}</a></td>
                             <td>{{ $plan->interval }}</td>
-                            <td>${{ (float) ($plan->amount / 100) }}</td>
+                            <td>${{ cents_to_decimal($plan->amount) }}</td>
                              <td>{{ $plan->trial_period_days }}</td>
                             <td>
                                 @if ($plan->teams_enabled)
