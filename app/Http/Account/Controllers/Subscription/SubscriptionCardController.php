@@ -15,11 +15,19 @@ class SubscriptionCardController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index(Request $request) {
-    return view('account.subscription.card.index');
+    return view('account.subscription.card.index', [
+      'intent' => auth()
+        ->user()
+        ->createSetupIntent()
+    ]);
   }
 
   public function store(Request $request) {
-    $request->user()->updateCard($request->token);
+    $request->validate([
+      'payment_method' => 'required|string'
+    ]);
+
+    $request->user()->updateDefaultPaymentMethod(request('payment_method'));
 
     // send email
     Mail::to($request->user())->send(new CardUpdated());
