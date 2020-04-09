@@ -14,5 +14,9 @@ return [
       'Name of singular item associated with product (i.e. site, gigabyte, hour, etc).',
     'statement_descriptor' =>
       'An arbitrary string to be displayed on your customer’s credit card or bank statement. This may be up to 22 characters.'
+  ],
+  'restraint' => [
+    'description' =>
+      '(Optional) Place a business logic restraint on this entity.  For example, a Plan.Restraint of "site <= 5" restricts Plan subscribers to (5) or fewer Sites.  Enter empty value to remove restraint.'
   ]
 ];

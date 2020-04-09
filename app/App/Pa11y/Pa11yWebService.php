@@ -2,12 +2,8 @@
 
 namespace CreatyDev\App\Pa11y;
 
-use Exception;
 use GuzzleHttp\Client;
-use CreatyDev\Domain\Users\Models\User;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\RequestException;
-use Illuminate\Contracts\Support\Jsonable;
 
 class Pa11yWebService implements Pa11y {
   /**

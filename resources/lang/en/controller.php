@@ -4,6 +4,10 @@ return [
   'account' => [
     'Site' => [
       'create' => [
+        'error' => [
+          'too_many_sites' =>
+            'You have reached the maximum active sites for your current subscription plan.  Please upgrade your plan to add more.'
+        ],
         'success' => 'The site has been created.'
       ],
       'destroy' => [

@@ -23,6 +23,14 @@
                 @component('components.form.row-list', ['rows' => $rows])
                 @endcomponent
 
+                @component('components.form.schema.restraint.row', [
+                  'id' => 0,
+                  'field' => 'restraint',
+                  'info_text' => __('admin.restraint.description'),
+                  'schema' => $restraintSchema
+                ])
+                @endcomponent
+
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="hf-nickname">Teams Plan</label>
                     <div class="col-md-6">

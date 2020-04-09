@@ -23,6 +23,26 @@
                 @component('components.form.row-list', ['data' => $plan, 'rows' => $rows])
                 @endcomponent
 
+                @if($restraints)
+                    @foreach($restraints as $restraint)
+                        @component('components.form.schema.restraint.row', [
+                          'data' => $restraint,
+                          'field' => 'restraint',
+                          'id' => $loop->index,
+                          'info_text' => __('admin.restraint.description'),
+                          'schema' => $restraintSchema
+                        ])
+                        @endcomponent
+                    @endforeach
+                @elseif($restraintSchema)
+                    @component('components.form.schema.restraint.row', [
+                      'field' => 'restraint',
+                      'info_text' => __('admin.restraint.description'),
+                      'schema' => $restraintSchema
+                    ])
+                    @endcomponent
+                @endif
+
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="hf-nickname">Teams Plan</label>
                     <div class="col-md-6">

@@ -34,6 +34,7 @@ class CreatePlansTable extends Migration {
       $table->boolean('teams_enabled')->default(false);
       $table->integer('teams_limit')->nullable();
       $table->integer('trial_period_days')->nullable();
+      $table->json('context')->nullable();
       $table->timestamps();
     });
   }

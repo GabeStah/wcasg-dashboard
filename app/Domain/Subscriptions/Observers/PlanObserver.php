@@ -13,6 +13,10 @@ class PlanObserver {
    * @return Plan
    */
   public function creating(Plan $plan) {
+    return $this->createStripePlan($plan);
+  }
+
+  private function createStripePlan(Plan $plan) {
     // Create Stripe Plan
     $stripePlan = \Stripe\Plan::create([
       'amount' => $plan->amount,

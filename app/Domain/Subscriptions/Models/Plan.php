@@ -2,6 +2,7 @@
 
 namespace CreatyDev\Domain\Subscriptions\Models;
 
+use CreatyDev\Domain\Users\Models\User;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -69,6 +70,7 @@ class Plan extends Model {
    */
   public $casts = [
     'active' => 'boolean',
+    'context' => 'json',
     'teams_enabled' => 'boolean'
   ];
 
@@ -82,7 +84,8 @@ class Plan extends Model {
     'active',
     'teams_enabled',
     'teams_limit',
-    'trial_period_days'
+    'trial_period_days',
+    'context'
   ];
 
   /**
@@ -98,6 +101,63 @@ class Plan extends Model {
    * @var string
    */
   protected $keyType = 'string';
+
+  public function isContextValidated($entity, $change, User $user) {
+    $context = $this->context;
+    // No context
+    if (!$context) {
+      return true;
+    }
+
+    $context = json_decode(json_encode($context));
+
+    // No restraints
+    if (!$context->plan || !$context->plan->restraints) {
+      return true;
+    }
+
+    $results = [];
+
+    if ($entity === 'site') {
+      $sites = $user->sites->where('active', '=', true);
+      $current = $sites->count();
+      $desired = $current + $change;
+
+      // Check restraint value against desired value
+      foreach ($context->plan->restraints as $restraint) {
+        switch ($restraint->comparator) {
+          case '<':
+            array_push($results, $desired < $restraint->value);
+            break;
+          case '<=':
+            array_push($results, $desired <= $restraint->value);
+            break;
+          case '>':
+            array_push($results, $desired > $restraint->value);
+            break;
+          case '>=':
+            array_push($results, $desired >= $restraint->value);
+            break;
+          case '=':
+            array_push($results, $desired = $restraint->value);
+            break;
+          default:
+            // If invalid comparator, assume pass
+            array_push($results, true);
+        }
+      }
+
+      // All must pass
+      foreach ($results as $result) {
+        if ($result !== true) {
+          return false;
+        }
+      }
+
+      // All pass
+      return true;
+    }
+  }
 
   /**
    * Check if plan is for teams.

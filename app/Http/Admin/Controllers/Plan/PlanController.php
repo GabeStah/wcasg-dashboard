@@ -3,6 +3,7 @@
 namespace CreatyDev\Http\Admin\Controllers\Plan;
 
 use CreatyDev\App\Controllers\Controller;
+use CreatyDev\App\JsonSchemaValidator\JsonSchemaValidatorService;
 use CreatyDev\Domain\Subscriptions\Models\Plan;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
@@ -36,7 +37,10 @@ class PlanController extends Controller {
     'trial_period_days' => 'nullable|integer'
   ];
 
-  public function __construct() {
+  private $validator;
+
+  public function __construct(JsonSchemaValidatorService $validator) {
+    $this->validator = $validator;
     Stripe\Stripe::setApiKey(config('services.stripe.secret'));
   }
 
@@ -77,6 +81,8 @@ class PlanController extends Controller {
    */
   public function create() {
     $this->authorize('create', Plan::class);
+
+    $restraintSchema = $this->validator->getRestraintSchema();
 
     $products = Stripe\Product::all();
 
@@ -136,7 +142,10 @@ class PlanController extends Controller {
       ]
     ];
 
-    return view('admin.plans.create', compact('rows'));
+    return view('admin.plans.create', [
+      'rows' => $rows,
+      'restraintSchema' => $restraintSchema
+    ]);
   }
 
   /**
@@ -170,6 +179,25 @@ class PlanController extends Controller {
       'active' => true,
       'trial_period_days' => $request->input('trial_period_days')
     ]);
+
+    if ($request->input('restraint_value')) {
+      $context = $this->validator->createContext(
+        'plan',
+        (object) [
+          'entity' => $request->input('restraint_entity'),
+          'comparator' => $request->input('restraint_comparator'),
+          'value' => $request->input('restraint_value')
+        ]
+      );
+
+      if ($context) {
+        $plan->context = $context;
+      } else {
+        return redirect()
+          ->back()
+          ->with('error', 'Invalid restraint settings.');
+      }
+    }
 
     $plan->save();
 
@@ -206,6 +234,8 @@ class PlanController extends Controller {
   public function edit($id) {
     $this->authorize('update', Plan::class);
 
+    $restraintSchema = $this->validator->getRestraintSchema();
+
     $plan = Plan::findOrFail($id);
 
     $products = Stripe\Product::all();
@@ -237,7 +267,22 @@ class PlanController extends Controller {
       ]
     ];
 
-    return view('admin.plans.edit', ['plan' => $plan, 'rows' => $rows]);
+    $restraints = null;
+
+    if (
+      $plan->context &&
+      $plan->context['plan'] &&
+      $plan->context['plan']['restraints']
+    ) {
+      $restraints = $plan->context['plan']['restraints'];
+    }
+
+    return view('admin.plans.edit', [
+      'plan' => $plan,
+      'restraintSchema' => $restraintSchema,
+      'restraints' => $restraints,
+      'rows' => $rows
+    ]);
   }
 
   /**
@@ -269,6 +314,24 @@ class PlanController extends Controller {
         ->back()
         ->with('success', 'The plan\'s product has been changed.');
     } else {
+      $context = null;
+      if ($request->input('restraint_value')) {
+        $context = $this->validator->createContext(
+          'plan',
+          (object) [
+            'entity' => $request->input('restraint_entity'),
+            'comparator' => $request->input('restraint_comparator'),
+            'value' => $request->input('restraint_value')
+          ]
+        );
+
+        if (!$context) {
+          return redirect()
+            ->back()
+            ->with('error', 'Invalid restraint settings.');
+        }
+      }
+
       $plan->update([
         'nickname' => $request->input('nickname'),
         'teams_enabled' =>
@@ -280,7 +343,8 @@ class PlanController extends Controller {
         'active' => !empty($request->input('active'))
           ? $request->input('active')
           : true,
-        'trial_period_days' => $request->input('trial_period_days')
+        'trial_period_days' => $request->input('trial_period_days'),
+        'context' => $context
       ]);
       return redirect()
         ->back()

@@ -128,7 +128,7 @@ class SitesController extends Controller {
       ->with('success', __('controller.account.Site.Statement.update.success'));
   }
 
-  public function store() {
+  public function store(Request $request) {
     try {
       $userId = Auth::id();
       $user = User::find($userId);
@@ -149,12 +149,37 @@ class SitesController extends Controller {
         'subscription_id' => $subscription->id
       ]);
 
+      $contextValidated = false;
+      // Validate context if setting active site
+      if ($site->active) {
+        $plans = $user->plans->whereNotNull('context');
+        // Find plan with site context
+        foreach ($plans as $plan) {
+          if ($plan->isContextValidated('site', 1, $user)) {
+            $contextValidated = true;
+            break;
+          }
+        }
+
+        // If contextual plans exists, route based on validation.
+        if ($plans->count() > 0 && !$contextValidated) {
+          return redirect()
+            ->route('account.sites.index')
+            ->with(
+              'error',
+              __('controller.account.Site.create.error.too_many_sites')
+            );
+        }
+      }
+
       $site->save();
 
-      return view('account.sites.index', [
-        'sites' => $user->sites,
-        'isSubscribed' => $user->isSubscribed()
-      ])->with('success', __('controller.account.Site.create.success'));
+      return redirect()
+        ->route('account.sites.index', [
+          'sites' => $user->sites,
+          'isSubscribed' => $user->isSubscribed()
+        ])
+        ->with('success', __('controller.account.Site.create.success'));
     } catch (\Exception $ex) {
       return $ex->getMessage();
     }
@@ -216,8 +241,30 @@ class SitesController extends Controller {
       $user = User::find($userId);
       $site = Site::find($id);
 
-      $site->active = request('active') ? true : false;
+      $active = request('active') ? true : false;
 
+      $contextValidated = false;
+      if ($active && $active !== $site->active) {
+        $plans = $user->plans->whereNotNull('context');
+        // Find plan with site context
+        foreach ($plans as $plan) {
+          if ($plan->isContextValidated('site', 1, $user)) {
+            $contextValidated = true;
+            break;
+          }
+        }
+
+        if ($plans->count() > 0 && !$contextValidated) {
+          return redirect()
+            ->route('account.sites.index')
+            ->with(
+              'error',
+              __('controller.account.Site.create.error.too_many_sites')
+            );
+        }
+      }
+
+      $site->active = $active;
       $site->domain = request('domain');
       $site->save();
 
