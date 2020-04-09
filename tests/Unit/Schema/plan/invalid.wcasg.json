@@ -1,0 +1,11 @@
+{
+  "plan": {
+    "restraints": [
+      {
+        "entity": "site",
+        "comparator": "===",
+        "value": 5
+      }
+    ]
+  }
+}

@@ -8,6 +8,12 @@
             </a>
         </div>
     </div>
+    <div class="container-fluid py-3">
+        <h2>Extensions</h2>
+        <div class="flex-fill">
+            {{ __('account.extension.description') }}
+        </div>
+    </div>
     <div class="container-fluid">
         <extension-account :initial-extensions="{{ $extensions }}" :i8n="{{ $i8n }}" :site="{{ $site }}"></extension-account>
     </div>

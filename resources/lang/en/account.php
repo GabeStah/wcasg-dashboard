@@ -13,6 +13,8 @@ return [
     'assertion' =>
       'The assertion function must return true for the action function to fire.',
     'back' => 'Back to Sites',
+    'description' =>
+      'Add extra logic and behaviors with extensions.  Each enabled extension is included with the widget payload associated with this site.  When an extension\'s assertion passes (returns true), the extension\'s action is executed.',
     'must_be_active' => 'This extension must be active.',
     'subscribe_to_add' => 'Subscribe now to create a custom extension!',
     'type' => [

@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://solarixdigital.com/schemas/wcasg.json",
+  "type": "object",
+  "properties": {
+    "plan": {
+      "$comment": "https://stripe.com/docs/api/plans/object",
+      "description": "Subscribable plan representing a product.",
+      "type": "object",
+      "properties": {
+        "restraints": {
+          "description": "Series of restraints that inform business logic for parent object.",
+          "type": "array",
+          "items": { "$ref": "#/definitions/restraint" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "restraint": {
+      "type": "object",
+      "properties": {
+        "entity": {
+          "description": "Type of object used in restraint comparison.",
+          "type": "string",
+          "enum": ["site"]
+        },
+        "comparator": {
+          "description": "Method used to compare entity against value.",
+          "type": "string",
+          "enum": ["<", "<=", ">", ">=", "="]
+        },
+        "value": {
+          "description": "Value to compare.",
+          "type": ["boolean", "integer", "string"]
+        }
+      }
+    }
+  }
+}
