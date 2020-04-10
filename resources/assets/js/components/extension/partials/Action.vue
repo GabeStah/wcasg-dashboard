@@ -5,7 +5,13 @@
     </div>
     <div v-if="action.dirty" class="d-flex">
       <info-icon :text="i8n.action" />
-      <input class="d-inline-flex form-control w-25 ml-2" type="text" v-if="action.dirty" v-model="action.name" placeholder="Enter Action Name"></input>
+      <input
+        class="d-inline-flex form-control w-25 ml-2"
+        type="text"
+        v-if="action.dirty"
+        v-model="action.name"
+        placeholder="Enter Action Name"
+      />
     </div>
     <div class="mb-4 mt-2" style="height: 300px">
       <editor
@@ -52,20 +58,30 @@ export default {
     },
     async update() {
       this.isLoading = true;
-      const result = await axios.post(`/api/extension?XDEBUG_SESSION_START=1`, {
-        fn: this.content,
-        id: this.action.id,
-        site_id: this.site.id,
-        type: 'action'
-      }).catch(error => console.log(error));
+      const result = await axios
+        .post(this.url(), {
+          fn: this.content,
+          id: this.action.id,
+          site_id: this.site ? this.site.id : null,
+          type: 'action'
+        })
+        .catch(error => console.log(error));
       this.isLoading = false;
     }
   },
   mixins: [extensionMixin],
   props: {
+    isAdmin: {
+      type: Boolean,
+      require: false,
+      default: false
+    },
     i8n: Object,
     action: Object,
-    site: Object
+    site: {
+      type: Object,
+      required: false
+    }
   }
 };
 </script>

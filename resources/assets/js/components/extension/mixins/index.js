@@ -1,5 +1,3 @@
-import axios from 'axios';
-import isURL from 'validator/es/lib/isURL';
 import lzString from 'lz-string';
 
 export const extensionMixin = {
@@ -8,8 +6,7 @@ export const extensionMixin = {
       error: null,
       isLoading: false,
       results: null,
-      token: null,
-      url: ''
+      token: null
     };
   },
   methods: {
@@ -19,10 +16,20 @@ export const extensionMixin = {
     decompress(value) {
       return lzString.decompressFromBase64(value);
     },
+    url() {
+      return `/api/extension${ this.isAdmin ? '/admin' : '' }?XDEBUG_SESSION_START=1`
+    },
     reset() {
       this.error = null;
       this.isLoading = false;
       this.results = null;
     },
+  },
+  props: {
+    isAdmin: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
   }
 };

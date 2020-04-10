@@ -34,11 +34,8 @@ Route::group(
     'as' => 'api.extension.'
   ],
   function () {
-    Route::post('extension/create', 'ExtensionController@create')->name(
-      'create'
-    );
-    Route::get('extension', 'ExtensionController@get')->name('get');
     Route::post('extension', 'ExtensionController@update')->name('update');
+    Route::post('extension/admin', 'ExtensionController@admin')->name('admin');
   }
 );
 

@@ -654,6 +654,15 @@ Route::group(
          */
         Route::resource('/users', 'UserController');
       });
+
+      /**
+       * Subscription Namespace Routes
+       */
+      Route::group(['namespace' => 'Extension'], function () {
+        Route::get('/extensions', 'ExtensionController@index')->name(
+          'extensions.index'
+        );
+      });
     });
 
     /**

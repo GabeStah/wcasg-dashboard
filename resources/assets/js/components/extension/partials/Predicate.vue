@@ -1,11 +1,19 @@
 <template>
   <div>
     <div v-if="!predicate.dirty">
-      <h3><info-icon :text="i8n.assertion" />Assertion: {{ predicate.name }}</h3>
+      <h3>
+        <info-icon :text="i8n.assertion" />Assertion: {{ predicate.name }}
+      </h3>
     </div>
     <div v-if="predicate.dirty" class="d-flex">
       <info-icon :text="i8n.assertion" />
-      <input class="d-inline-flex form-control w-25 ml-2" type="text" v-if="predicate.dirty" v-model="predicate.name" placeholder="Enter Assertion Name"></input>
+      <input
+        class="d-inline-flex form-control w-25 ml-2"
+        type="text"
+        v-if="predicate.dirty"
+        v-model="predicate.name"
+        placeholder="Enter Assertion Name"
+      />
     </div>
     <div class="mb-4 mt-2" style="height: 300px">
       <editor
@@ -52,12 +60,14 @@ export default {
     },
     async update() {
       this.isLoading = true;
-      const result = await axios.post(`/api/extension?XDEBUG_SESSION_START=1`, {
-        fn: this.content,
-        id: this.predicate.id,
-        site_id: this.site.id,
-        type: 'predicate'
-      }).catch(error => console.log(error));
+      const result = await axios
+        .post(this.url(), {
+          fn: this.content,
+          id: this.predicate.id,
+          site_id: this.site ? this.site.id : null,
+          type: 'predicate'
+        })
+        .catch(error => console.log(error));
       this.isLoading = false;
     }
   },
@@ -65,7 +75,10 @@ export default {
   props: {
     i8n: Object,
     predicate: Object,
-    site: Object
+    site: {
+      type: Object,
+      required: false
+    }
   }
 };
 </script>

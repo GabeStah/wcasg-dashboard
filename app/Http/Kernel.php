@@ -2,6 +2,7 @@
 
 namespace CreatyDev\Http;
 
+use CreatyDev\Http\Middleware\Api\Extension\CheckValidExtensionRequest;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel {
@@ -48,12 +49,16 @@ class Kernel extends HttpKernel {
       \CreatyDev\Http\Middleware\Api\Audit\CheckValidAuditRequest::class
     ],
 
-    'api.extension' => ['throttle:30,5', 'bindings'],
+    'api.extension' => [
+      'throttle:30,5',
+      'bindings',
+      CheckValidExtensionRequest::class
+    ],
 
     'api.json' => [\CreatyDev\Http\Middleware\Api\RespondAsJson::class],
 
     'api.statement' => [
-      \CreatyDev\Http\Middleware\Api\Widget\CheckValidStatementRequest::class,
+      \CreatyDev\Http\Middleware\Api\Widget\CheckValidExtensionRequest::class,
       // Throttle requests, 30 max attempts over 5 minute decay
       'throttle:30,5',
       'bindings'

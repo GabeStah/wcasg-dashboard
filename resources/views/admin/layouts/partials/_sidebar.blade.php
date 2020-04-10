@@ -76,6 +76,12 @@
                 <i class="fa fa-ticket"></i> Tickets
         </a>
     </li>
+    <!-- Built-in Extensions -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('admin.extensions.index')  }}">
+            <i class="fa fa-puzzle-piece"></i> Extensions
+        </a>
+    </li>
     <!-- Products -->
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#">

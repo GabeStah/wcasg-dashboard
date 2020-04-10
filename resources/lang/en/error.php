@@ -8,6 +8,9 @@ return [
       'invalid' => 'Audit is invalid.',
       'running' => 'Audit is still processing.  Please wait.'
     ],
+    'authorization' => [
+      'invalid' => 'Invalid authorization to complete this request.'
+    ],
     'invalid_origin' => 'Request origin is invalid.',
     'inactive_site' =>
       'This site is currently marked inactive. Please contact an administrator.',

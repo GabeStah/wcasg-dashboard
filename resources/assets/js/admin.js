@@ -30,6 +30,9 @@ Vue.component('data-table', require('./components/DataTable.vue'));
 // Vue.component('tags-index', TagsIndex);
 Vue.component('stripe-ballance', require('./components/admin/StripeBallance.vue'));
 
+Vue.component('extension-admin', require('./components/extension/admin/Index.vue'));
+Vue.component('info-icon', require('./components/partials/InfoIcon.vue'));
+
 const app = new Vue({
     el: '#app'
 });
