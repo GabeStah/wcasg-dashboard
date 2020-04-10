@@ -1,3 +1,11 @@
+@if(session()->has('status'))
+    @component('layouts.partials.alerts._alerts_component', [
+    'type' => 'info'
+    ])
+      {{ session('status') }}
+    @endcomponent
+@endif
+
 @if(session()->has('error'))
     @component('layouts.partials.alerts._alerts_component', [
     'type' => 'danger',

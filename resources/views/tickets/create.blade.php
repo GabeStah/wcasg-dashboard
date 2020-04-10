@@ -2,11 +2,6 @@
 @section('title', 'Open Ticket')
 @section('content')
 <div class="container-fluid">
-        @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-        @endif
     <div class="card">
         <!-- Card header -->
         <div class="card-header">
@@ -16,7 +11,7 @@
         <div class="card-body">
                 
             <form class="form-horizontal offset-sm-2" role="form" method="POST">
-                {!! csrf_field() !!}
+                @csrf
 
                 <div class="form-group row {{ $errors->has('title') ? ' has-error' : '' }}">
                     <label for="title" class="col-md-2 col-form-label form-control-label">Title</label>

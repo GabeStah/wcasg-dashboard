@@ -9,8 +9,8 @@
                         <h2 class="card-title">Edit project</h2>
 
                         <form method="POST" action="{{ route('tenant.projects.update', $project) }}">
-                            {{ csrf_field() }}
-                            {{ method_field('PUT') }}
+                            @csrf
+                            @method('PUT')
 
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="name" class="control-label">Name</label>

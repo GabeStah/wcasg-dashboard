@@ -36,8 +36,8 @@
                               method="post"
                               style="display: none;"
                               id="role-toggle-status-form-{{ $role->id }}">
-                            {{ csrf_field() }}
-                            {{ method_field('PUT') }}
+                            @csrf
+                            @method('PUT')
                         </form>
                     </li><!-- /.nav-item -->
 
@@ -64,8 +64,8 @@
                                   method="post"
                                   style="display: none;"
                                   id="role-delete-form-{{ $role->id }}">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
+                                @csrf
+                                @method('DELETE')
                             </form>
                         </li><!-- /.nav-item -->
                     @endif
@@ -102,8 +102,8 @@
                           method="post"
                           style="display: none;"
                           id="revoke-role-users-access-form-{{ $role->id }}">
-                        {{ csrf_field() }}
-                        {{ method_field('PUT') }}
+                        @csrf
+                        @method('PUT')
                     </form>
                 </li><!-- /.nav-item -->
 

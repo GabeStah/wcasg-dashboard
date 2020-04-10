@@ -1,6 +1,6 @@
 <?php
 
-namespace CreatyDev\Http\Admin\Controllers\Annoucement;
+namespace CreatyDev\Http\Admin\Controllers\Announcement;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
@@ -8,9 +8,9 @@ use CreatyDev\Domain\Users\Models\User;
 use CreatyDev\App\Controllers\Controller;
 use Illuminate\Foundation\Console\Presets\Vue;
 
-use CreatyDev\Domain\Notifications\Annoucement;
+use CreatyDev\Domain\Notifications\Announcement;
 
-class AnnoucementController extends Controller {
+class AnnouncementController extends Controller {
   /**
    * Display a listing of the resource.
    *
@@ -22,13 +22,13 @@ class AnnoucementController extends Controller {
   }
 
   public function create() {
-    return View('admin.annoucement.create');
+    return View('admin.announcement.create');
   }
 
   public function store(Request $request) {
     $message = $request->all();
     $users = User::all();
-    Notification::send($users, new Annoucement($message));
+    Notification::send($users, new Announcement($message));
 
     return redirect()
       ->back()

@@ -181,7 +181,7 @@
 {{--        <ul class="nav-dropdown-items">--}}
 {{--            <li class="nav-item">--}}
 {{--                <a class="nav-link{{ return_if(on_page('admin.subscriptions.index'), ' active') }}"--}}
-{{--                   href="{{ route('admin.annoucement.create') }}">--}}
+{{--                   href="{{ route('admin.announcement.create') }}">--}}
 {{--                    <i class="fa fa-comment"></i>Send Notification--}}
 {{--                </a>--}}
 {{--            </li>--}}

@@ -10,15 +10,10 @@
       <div class="card-header">
         <strong>Update Statement Template</strong>
       </div>
-      @if (session('status'))
-        <div class="alert alert-success">
-          {{ session('status') }}
-        </div>
-      @endif
       <div class="card-body">
         <form action="{{ route('admin.statement-templates.update', $template->id) }}" method="POST"
               class="form-horizontal offset-sm-2">
-          {!! csrf_field() !!}
+          @csrf
           @method('PUT')
 
           <div class="form-group row">

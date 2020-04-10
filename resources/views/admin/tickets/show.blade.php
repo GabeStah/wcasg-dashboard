@@ -6,11 +6,6 @@
 
 @section('admin.content')
 <div class="container-fluid">
-        @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-        @endif
     <div class="card">
         <!-- Card header -->
         <div class="card-header">
@@ -18,12 +13,6 @@
         </div>
         <!-- Card body -->
         <div class="card-body">
-                    @if (session('status'))
-                    <div class="alert alert-success">
-                        {{ session('status') }}
-                    </div>
-                    @endif
-
                     <div class="ticket-info">
                         <blockquote class="blockquote">
                           <h4>{{ $ticket->message }}</h4>

@@ -10,14 +10,9 @@
         <div class="card-header">
             <strong>Update Product</strong>
         </div>
-        @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-        @endif
         <div class="card-body">
             <form action="{{ route('admin.products.update', $product->id) }}" method="POST" class="form-horizontal offset-sm-2">
-                    {!! csrf_field() !!}
+                    @csrf
                     @method('PUT')
 
                 @component('components.form.row-list', ['data' => $product, 'rows' => $rows])

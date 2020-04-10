@@ -44,7 +44,7 @@
                                                 <div class="row register-form">
                                                     <div class="col-md-6 offset-sm-3">
                                                         <form method="POST" action="{{ route('login') }}">
-                                                            {{ csrf_field() }}
+                                                            @csrf
 
                                                             <div
                                                                 class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">

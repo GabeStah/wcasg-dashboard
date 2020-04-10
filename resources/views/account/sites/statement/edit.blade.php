@@ -3,7 +3,7 @@
 @section('content')
   <div class="card card-default">
     <form action="{{ route('account.sites.statement.update', $statement->id) }}" method="POST">
-      {{ csrf_field() }}
+      @csrf
       @method('PUT')
       <div class="card-header border-0">
         <h2 class="mb-0"><i class="fas fa-universal-access"></i>Edit Accessibility Statement</h2>

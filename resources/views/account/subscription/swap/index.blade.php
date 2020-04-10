@@ -11,7 +11,7 @@
             </p>
 
             <form method="POST" action="{{ route('account.subscription.swap.store') }}" class="pl-md-4 pl-lg-6">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="form-group row{{ $errors->has('plan') ? ' has-error' : '' }}">
                     <label for="plan" class="col-md-4 control-label">Plan</label>
@@ -55,7 +55,7 @@
             </form>
 
             <form method="POST" action="{{ route('account.subscription.cancel.store') }}" class="pl-md-4 pl-lg-6 mt--2">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="form-group row">
                     <div class="col-md-6 offset-md-4">

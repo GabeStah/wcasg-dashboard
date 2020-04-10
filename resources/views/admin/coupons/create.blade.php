@@ -11,14 +11,9 @@
             <strong>Create a Coupons / Discount</strong> 
             <span class="float-right text-info"> Coupon will automaticaly create on your stripe dashboard </span>
         </div>
-        @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-        @endif
         <div class="card-body">
             <form action="{{ route('admin.coupons.store') }}" method="POST" class="form-horizontal offset-sm-2">
-                    {!! csrf_field() !!}
+                    @csrf
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="hf-name">Coupon name</label>
                     <div class="col-md-6">

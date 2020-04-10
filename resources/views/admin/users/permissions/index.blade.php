@@ -74,8 +74,8 @@
                                           method="post"
                                           style="display: none;"
                                           id="permission-toggle-status-form-{{ $permission->id }}">
-                                        {{ csrf_field() }}
-                                        {{ method_field('PUT') }}
+                                        @csrf
+                                        @method('PUT')
                                     </form>
 
                                     <!-- Delete Button -->
@@ -99,8 +99,8 @@
                                           method="post"
                                           style="display: none;"
                                           id="permission-delete-form-{{ $permission->id }}">
-                                        {{ csrf_field() }}
-                                        {{ method_field('DELETE') }}
+                                        @csrf
+                                        @method('DELETE')
                                     </form>
                                 @endif
 

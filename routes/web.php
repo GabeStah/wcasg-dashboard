@@ -692,10 +692,10 @@ Route::group(
       );
     });
     /**
-     * Annoucement Namespace Routes
+     * Announcement Namespace Routes
      */
-    Route::group(['namespace' => 'Annoucement'], function () {
-      Route::resource('/annoucement', 'AnnoucementController');
+    Route::group(['namespace' => 'Announcement'], function () {
+      Route::resource('/announcement', 'AnnouncementController');
     });
 
     /**

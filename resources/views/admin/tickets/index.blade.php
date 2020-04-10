@@ -51,7 +51,7 @@
                                 <a href="{{ url('admin/tickets/' . $ticket->ticket_id) }}" class="btn btn-info"><i class="fa fa-commenting"></i></a>
 
                                 <form action="{{ url('admin/close_ticket/' . $ticket->ticket_id) }}" method="POST" style="display: inline-block;">
-                                    {!! csrf_field() !!}
+                                    @csrf
                                     <button type="submit" class="btn btn-danger"><i class="fa fa-window-close-o"></i></button>
                                 </form>
                                 @endif

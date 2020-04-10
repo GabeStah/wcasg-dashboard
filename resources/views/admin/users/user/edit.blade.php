@@ -10,14 +10,9 @@
         <div class="card-header">
             <strong>Edit user</strong>
         </div>
-        @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-        @endif
         <div class="card-body">
             <form action="{{ route('admin.users.update', $user->id) }}" method="POST" class="form-horizontal offset-sm-2">
-                    {!! csrf_field() !!}
+                    @csrf
                     @method('PUT')
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="hf-name">First Name</label>

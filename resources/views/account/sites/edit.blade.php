@@ -7,7 +7,7 @@
     </div>
     <div class="card-body">
       <form method="POST" action="{{ route('account.sites.update', $site) }}" enctype="multipart/form-data">
-        {{ csrf_field() }}
+        @csrf
         @method('PUT')
 
         <div class="form-group row{{ $errors->has('domain') ? ' has-error' : '' }}">

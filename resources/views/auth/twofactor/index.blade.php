@@ -8,7 +8,7 @@
                     <div class="card-body">
                         <h2 class="card-title">Two Factor Authentication</h2>
                         <form method="POST" action="{{ route('login.twofactor.verify') }}">
-                            {{ csrf_field() }}
+                            @csrf
 
                             <div class="form-group row{{ $errors->has('token') ? ' has-error' : '' }}">
                                 <label for="token" class="col-md-4 control-label">Verification token</label>

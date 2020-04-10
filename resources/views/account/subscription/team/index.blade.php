@@ -7,8 +7,8 @@
             <h2 class="card-title">Manage team</h2>
 
             <form method="POST" action="{{ route('account.subscription.team.update') }}">
-                {{ csrf_field() }}
-                {{ method_field('PUT') }}
+                @csrf
+                @method('PUT')
 
                 <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                     <label for="name" class="control-label">Team name</label>
@@ -48,7 +48,7 @@
             </div>
 
             <form action="{{ route('account.subscription.team.member.store') }}" method="POST" id="member-form">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                     <label for="email" class="control-label">Add member by email address</label>
@@ -115,8 +115,8 @@
                         <form action="{{ route('account.subscription.team.member.destroy', $user) }}"
                             method="POST"
                             style="display: none" id="member-destroy-form-{{ $user->id }}">
-                            {{ csrf_field() }}
-                            {{ method_field('DELETE') }}
+                            @csrf
+                            @method('DELETE')
 
                         </form>
                     </div>

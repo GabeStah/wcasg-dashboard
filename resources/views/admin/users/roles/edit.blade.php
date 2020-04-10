@@ -22,8 +22,8 @@
             @endif
 
             <form class="my-1" action="{{ route('admin.roles.update', $role) }}" method="post">
-                {{ csrf_field() }}
-                {{ method_field('PUT') }}
+                @csrf
+                @method('PUT')
 
                 <fieldset{{ (!$role->parent_id && ($role->children->count())) ? ' disabled' : ''  }}>
                     <div class="form-group row{{ $errors->has('name') ? ' has-error' : '' }}">

@@ -9,14 +9,8 @@
                             <div>@include('layouts.partials.alerts._alerts')</div>
                         <h2 class="card-title">Reset Password</h2>
 
-                        @if (session('status'))
-                            <div class="alert alert-success">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
                         <form method="POST" action="{{ route('password.email') }}">
-                            {{ csrf_field() }}
+                            @csrf
 
                             <div class="form-group row{{ $errors->has('email') ? ' has-error' : '' }}">
                                 <label for="email" class="col-md-4 control-label">E-Mail Address</label>

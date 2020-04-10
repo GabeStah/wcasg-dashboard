@@ -10,8 +10,8 @@
                     </div>
                     <div class="mx-auto w-auto mb-4">
                         <form method="POST" action="{{ route('api.audit.get', $project) }}">
-                            {{ csrf_field() }}
-                            {{ method_field('PUT') }}
+                            @csrf
+                            @method('PUT')
                         </form>
                     </div>
                     @if($audits->isEmpty())

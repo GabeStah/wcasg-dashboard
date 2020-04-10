@@ -17,8 +17,8 @@
             <h2 class="card-title">Edit permission</h2>
 
             <form class="my-1" action="{{ route('admin.permissions.update', $permission) }}" method="post">
-                {{ csrf_field() }}
-                {{ method_field('PUT') }}
+                @csrf
+                @method('PUT')
 
                 <div class="form-group row{{ $errors->has('name') ? ' has-error' : '' }}">
                     <label for="name" class="control-label col-md-4">Name</label>

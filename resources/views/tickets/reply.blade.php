@@ -6,8 +6,7 @@
         <div class="comment-form">
 
             <form action="{{ url('account/comment') }}" method="POST" class="form">
-                    {{ method_field('POST') }}
-                {!! csrf_field() !!}
+                @csrf
 
                 <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
 

@@ -7,8 +7,8 @@
 
             @if(auth()->user()->twoFactorEnabled())
                 <form method="POST" action="{{ route('account.twofactor.destroy') }}" class="pl-md-4 pl-lg-6">
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
+                    @csrf
+                    @method('DELETE')
 
                     <p class="form-text">Two factor authentication is enabled for your account.</p>
 
@@ -20,7 +20,7 @@
                 </form>
             @elseif(auth()->user()->twoFactorPendingVerification())
                 <form method="POST" action="{{ route('account.twofactor.verify') }}" class="pl-md-4 pl-lg-6">
-                    {{ csrf_field() }}
+                    @csrf
 
                     <div class="form-group row{{ $errors->has('token') ? ' has-error' : '' }}">
                         <label for="token" class="col-md-4 control-label">Verification token</label>
@@ -49,8 +49,8 @@
                 </form>
 
                 <form class="mt-2" method="POST" action="{{ route('account.twofactor.destroy') }}">
-                    {{ csrf_field() }}
-                    {{ method_field('DELETE') }}
+                    @csrf
+                    @method('DELETE')
 
                     <div class="form-group row">
                         <div class="col-md-6 offset-md-4">
@@ -62,7 +62,7 @@
                 </form>
             @else
                 <form method="POST" action="{{ route('account.twofactor.store') }}">
-                    {{ csrf_field() }}
+                    @csrf
 
                     <div class="form-group row{{ $errors->has('dial_code') ? ' has-error' : '' }}">
                         <label for="dial_code" class="col-md-4 control-label">Dial code</label>

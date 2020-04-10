@@ -11,14 +11,10 @@
             <strong>Create new User</strong> 
             <span class="center"> </span>
         </div>
-        @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-        @endif
+
         <div class="card-body">
             <form action="{{ route('admin.users.store') }}" method="POST" class="form-horizontal offset-sm-2">
-                    {!! csrf_field() !!}
+                    @csrf
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="hf-name">First name</label>
                     <div class="col-md-6">

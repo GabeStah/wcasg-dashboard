@@ -17,7 +17,7 @@
                 </div>
 
                 <form action="{{ route('admin.users.roles.store', $user) }}" method="post">
-                    {{ csrf_field() }}
+                    @csrf
 
                     @include('admin.users.user.roles.partials.forms._roles')
 
@@ -72,8 +72,8 @@
                                               method="post"
                                               style="display: none;"
                                               id="revoke-user-role-form-{{ $role->roleable->id }}">
-                                            {{ csrf_field() }}
-                                            {{ method_field('DELETE') }}
+                                            @csrf
+                                            @method('DELETE')
                                         </form>
                                     </li>
                                 </ul>
@@ -86,8 +86,8 @@
                             @endif
                         @else
                             <form action="{{ route('admin.users.roles.update', [$user, $role]) }}" method="post">
-                                {{ csrf_field() }}
-                                {{ method_field('PUT') }}
+                                @csrf
+                                @method('PUT')
 
                                 @include('admin.users.partials.forms._datetimepicker', ['id' => '_'.$role->roleable->id])
 

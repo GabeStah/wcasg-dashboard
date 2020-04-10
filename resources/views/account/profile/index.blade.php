@@ -7,7 +7,7 @@
             <h2 class="card-title">Profile</h2>
 
             <form method="POST" action="{{ route('account.profile.store') }}" enctype="multipart/form-data" class="pl-md-2 pl-lg-4">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="card p-5">
                     <h2>Personal Info</h2>

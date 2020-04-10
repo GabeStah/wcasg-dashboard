@@ -1,5 +1,5 @@
 <form method="POST" action="{{ route('register') }}">
-  {{ csrf_field() }}
+  @csrf
   <div class="row register-form">
     <div class="col-md-6">
       <div class="form-group">

@@ -10,7 +10,7 @@
         <div class="card-body pl-md-4 pl-lg-6">
 
             <form method="POST" action="{{ route('account.deactivate.store') }}">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="form-group{{ $errors->has('current_password') ? ' has-error' : '' }}">
                     <label for="current_password" class="control-label">Current password</label>

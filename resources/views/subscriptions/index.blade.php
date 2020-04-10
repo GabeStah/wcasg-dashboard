@@ -9,7 +9,7 @@
                         <h2 class="card-title">Subscription</h2>
 
                         <form method="POST" action="{{ route('subscription.store') }}" id="payment-form">
-                            {{ csrf_field() }}
+                            @csrf
 
                             <div class="form-group row{{ $errors->has('plan') ? ' has-error' : '' }}">
                                 <label for="plan" class="col-md-4 control-label">Plan</label>

@@ -15,7 +15,7 @@
             </h4>
 
             <form method="POST" action="{{ route('admin.users.impersonate.store') }}">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="form-group row{{ $errors->has('email') ? ' has-error' : '' }}">
                     <label for="email" class="col-md-4 control-label">User E-mail Address</label>

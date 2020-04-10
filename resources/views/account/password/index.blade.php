@@ -6,7 +6,7 @@
             <h2 class="card-title">Change Password</h2>
 
             <form method="POST" action="{{ route('account.password.store') }}" class="pl-md-4 pl-lg-6">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="form-group row{{ $errors->has('current_password') ? ' has-error' : '' }}">
                     <label for="current_password" class="col-md-4 control-label">Current Password</label>

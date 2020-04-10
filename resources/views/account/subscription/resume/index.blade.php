@@ -8,7 +8,7 @@
             <p>Confirm to resume your subscription.</p>
 
             <form method="POST" action="{{ route('account.subscription.resume.store') }}">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary"

@@ -21,7 +21,7 @@
             </div>
 
             <form action="{{ route('admin.roles.permissions.store', $role) }}" method="post">
-                {{ csrf_field() }}
+                @csrf
 
                 @include('admin.users.roles.partials.forms._permissions')
 
@@ -81,8 +81,8 @@
                                   method="post"
                                   style="display: none;"
                                   id="remove-role-permission-form-{{ $permission->id }}">
-                                {{ csrf_field() }}
-                                {{ method_field('DELETE') }}
+                                @csrf
+                                @method('DELETE')
                             </form>
                         </td>
                     </tr>

@@ -11,7 +11,7 @@
             <p class="card-subtitle mb-4">You can cancel your subscription Here !</p>
 
             <form method="POST" action="{{ route('account.subscription.cancel.store') }}">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">

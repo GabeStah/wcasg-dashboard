@@ -2,11 +2,6 @@
 @section('title', $ticket->title)
 @section('content')
 <div class="container-fluid">
-        @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-        @endif
     <div class="card">
         <!-- Card header -->
         <div class="card-header">

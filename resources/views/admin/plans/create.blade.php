@@ -11,14 +11,9 @@
             <strong>Create a Plan</strong> 
             <span class="center"> {{ __('admin.plan.stripe_mention') }} </span>
         </div>
-        @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-        @endif
         <div class="card-body">
             <form action="{{ route('admin.plans.store') }}" method="POST" class="form-horizontal offset-sm-2">
-                    {!! csrf_field() !!}
+                    @csrf
 
                 @component('components.form.row-list', ['rows' => $rows])
                 @endcomponent

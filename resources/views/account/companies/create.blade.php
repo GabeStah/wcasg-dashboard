@@ -9,7 +9,7 @@
                         <h2 class="card-title">Create new company</h2>
 
                         <form method="POST" action="{{ route('account.companies.store') }}">
-                            {{ csrf_field() }}
+                            @csrf
 
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="name" class="control-label">Name</label>

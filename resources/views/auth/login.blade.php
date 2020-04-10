@@ -10,7 +10,7 @@
                         <br>
                         <div>@include('layouts.partials.alerts._alerts')</div>
                         <form method="POST" action="{{ route('login') }}">
-                            {{ csrf_field() }}
+                            @csrf
 
                             <div class="form-group row{{ $errors->has('email') ? ' has-error' : '' }}">
                                 <label for="email" class="col-md-4 control-label">E-Mail Address</label>

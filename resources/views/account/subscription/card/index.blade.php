@@ -11,7 +11,7 @@
             <h4 class="mb-3">Current Credit Card: <i class="{{ fa_icon_from_cc_brand(auth()->user()->card_brand ) }}"></i> **** {{ auth()->user()->card_last_four }}</h4>
 
             <form method="POST" action="{{ route('account.subscription.card.store') }}" id="card-form">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="form-group">
                     <input id="payment_method" name="payment_method" type="hidden"/>

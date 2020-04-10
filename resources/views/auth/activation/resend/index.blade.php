@@ -9,7 +9,7 @@
                         <h2 class="card-title">Resend Activation Token</h2>
 
                         <form method="POST" action="{{ route('activation.resend.store') }}">
-                            {{ csrf_field() }}
+                            @csrf
 
                             <div class="form-group row{{ $errors->has('email') ? ' has-error' : '' }}">
                                 <label for="email" class="col-md-4 control-label">E-Mail Address</label>

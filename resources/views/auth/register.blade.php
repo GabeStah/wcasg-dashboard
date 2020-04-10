@@ -9,7 +9,7 @@
                         <h2 class="card-title">Sign Up</h2>
                         <div>@include('layouts.partials.alerts._alerts')</div>
                         <form method="POST" action="{{ route('register') }}">
-                            {{ csrf_field() }}
+                            @csrf
 
                             <!-- Controller is provided through vendor lib, so row data must be defined here. -->
                             @component('components.form.row-list', ['rows' => [

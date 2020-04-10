@@ -17,7 +17,7 @@
             <h2 class="card-title">Add new permission</h2>
 
             <form action="{{ route('admin.permissions.store') }}" method="post">
-                {{ csrf_field() }}
+                @csrf
 
                 <div class="form-group row{{ $errors->has('name') ? ' has-error' : '' }}">
                     <label for="name" class="control-label col-md-4">Name</label>

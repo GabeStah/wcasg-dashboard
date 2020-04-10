@@ -1,26 +1,21 @@
 @extends('admin.layouts.default')
 
 @section('admin.breadcrumb')
-    <li class='breadcrumb-item active'>Annoucement</li>
+    <li class='breadcrumb-item active'>Announcement</li>
 @endsection
 
 @section('admin.content')
 <div class="container-fluid mt--6">
-        @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
-        @endif
     <div class="card">
         <!-- Card header -->
         <div class="card-header">
-            <h3 class="mb-0">New annoucement</h3>
+            <h3 class="mb-0">New announcement</h3>
         </div>
         <!-- Card body -->
         <div class="card-body">
 
-            <form action="{{ route('admin.annoucement.store') }}" method="POST" class="form-horizontal offset-sm-2">
-                    {!! csrf_field() !!}
+            <form action="{{ route('admin.announcement.store') }}" method="POST" class="form-horizontal offset-sm-2">
+                    @csrf
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label" for="hf-name">Subject *</label>
                     <div class="col-md-6">
@@ -82,7 +77,7 @@
                                 @endif
                         </div>
                     </div>
-                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Add annoucement</button>
+                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Add announcement</button>
             </form>
 
         </div>
