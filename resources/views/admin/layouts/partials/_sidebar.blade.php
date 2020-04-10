@@ -200,6 +200,12 @@
             </li>
         </ul>
     </li>
+    <!-- Intuit Authorization URL -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{ config('solarix.connector.intuit_authorize_endpoint') }}" target="_blank">
+            <i class="fa fa-user-secret"></i> QuickBooks Auth
+        </a>
+    </li>
     {{-- Disable this menu cause the Env editor package not yet compatible to Laravel 6 --}}
     {{-- <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#">
