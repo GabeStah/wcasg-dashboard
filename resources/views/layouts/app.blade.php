@@ -9,7 +9,7 @@
     <div id="app">
 
         {{-- @include('layouts.partials._navigation') --}}
-        <header class="header-global">
+        <header class="header-global" style="height: 34px;">
             @include('layouts.partials._navigation')
         </header>
         @include('layouts.partials.errors._errors')

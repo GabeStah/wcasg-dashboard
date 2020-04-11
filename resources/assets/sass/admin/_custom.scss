@@ -34,3 +34,31 @@
   background: linear-gradient(87deg, #172b4d 0, #1a174d 100%) !important;
   border-radius: .375rem;
 }
+
+.admin .card-header {
+  background-color: #fff;
+}
+
+.admin .btn-outline-light
+{
+  color: #878f97;
+  border-color: #828991;
+}
+.admin .btn-outline-light:hover
+{
+  color: #fff;
+  border-color: #adb5bd;
+  background-color: #adb5bd;
+}
+
+.admin .btn-outline-darker
+{
+  color: #3a3d44;
+  border-color: #56595e;
+}
+.admin .btn-outline-darker:hover
+{
+  color: #fff;
+  border-color: #adb5bd;
+  background-color: #adb5bd;
+}
