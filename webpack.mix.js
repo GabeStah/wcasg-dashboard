@@ -28,6 +28,10 @@ mix
   .purgeCss();
 
 mix.webpackConfig({
+  entry: {
+    app: ['./resources/assets/sass/app.scss'],
+    admin: ['./resources/assets/sass/admin/admin.scss'],
+  },
   plugins: [
     new LiveReloadPlugin(),
     new CompressionPlugin(),

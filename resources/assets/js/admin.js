@@ -24,15 +24,15 @@ Vue.use(VueScrollTo);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('info-icon', require('./components/partials/InfoIcon.vue'));
-Vue.component('stripe-ballance', require('./components/admin/StripeBallance.vue'));
+Vue.component('info-icon', require('./components/partials/InfoIcon.vue').default);
+Vue.component('stripe-ballance', require('./components/admin/StripeBallance.vue').default);
 
 // Async load component
 Vue.component('data-table', function(resolve) {
-    require(['./components/DataTable.vue'], resolve)
+    require(['./components/DataTable.vue'], resolve).default
 });
 Vue.component('extension-admin', function(resolve) {
-    require(['./components/extension/admin/Index.vue'], resolve)
+    require(['./components/extension/admin/Index.vue'], resolve).default
 });
 
 

@@ -41,28 +41,28 @@ window.generateHex = (length = 36) => {
   return output;
 };
 
-Vue.component('passport-clients', require('./components/passport/Clients.vue'));
+Vue.component('passport-clients', require('./components/passport/Clients.vue').default);
 
 Vue.component(
   'passport-authorized-clients',
-  require('./components/passport/AuthorizedClients.vue')
+  require('./components/passport/AuthorizedClients.vue').default
 );
 
 Vue.component(
   'passport-personal-access-tokens',
-  require('./components/passport/PersonalAccessTokens.vue')
+  require('./components/passport/PersonalAccessTokens.vue').default
 );
 
 Vue.component(
   'notification',
-  require('./components/notifications/Notification.vue')
+  require('./components/notifications/Notification.vue').default
 );
 
-Vue.component('audit-account', require('./components/audit/account/Index.vue'));
-Vue.component('audit-public', require('./components/audit/public/Index.vue'));
-Vue.component('audit-results', require('./components/audit/partials/Results.vue'));
+Vue.component('audit-account', require('./components/audit/account/Index.vue').default);
+Vue.component('audit-public', require('./components/audit/public/Index.vue').default);
+Vue.component('audit-results', require('./components/audit/partials/Results.vue').default);
 
-Vue.component('info-icon', require('./components/partials/InfoIcon.vue'));
+Vue.component('info-icon', require('./components/partials/InfoIcon.vue').default);
 
 // Async load component
 Vue.component('extension-account', function(resolve) {
