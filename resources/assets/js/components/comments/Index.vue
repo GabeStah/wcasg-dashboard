@@ -140,7 +140,7 @@
                 }
             },
             appendReply(comment, reply) {
-                if (!_.has(comment, 'children')) {
+                if (!comment.hasOwnProperty('children')) {
                     comment['children'] = [];
 
                     comment['children'][0] = reply
@@ -165,29 +165,36 @@
                 var comment = this.filtered(deleted.id, comments)
 
                 if (comment && (comment.id == deleted.id)) {
-                    _.remove(comments, function (comment, key) {
-                        return comment.id == deleted.id;
-                    })
+                  for (let i = comments.length - 1; i >= 0; i--) {
+                    if (comments[i].id === deleted.id) {
+                      comments.splice(i, 1);
+                    }
+                  }
                 } else if (comment.children) {
                     this.removeComment(deleted, comment.children)
                 }
             },
             filtered(id, comments) {
-                return _.head(this.filterTree(id, comments));
+                const filteredTree = this.filterTree(id, comments);
+                if (filteredTree.length > 0) {
+                    return filteredTree[0];
+                } else {
+                  return null;
+                }
+            },
+            isEmpty(obj) {
+              return [Object, Array].includes((obj || {}).constructor) && !Object.entries((obj || {})).length
             },
             filterTree(filter, list) {
-                return _.filter(list, (item) => {
-                    if (_.includes(_.toLower(item.id), _.toLower(filter))) {
+                return list.filter(item => {
+                    if (item.id.toString().toLowerCase().includes(filter.toString().toLowerCase())) {
                         return true
                     } else if (item.children) {
                         item.children = this.filterTree(filter, item.children);
 
-                        return !_.isEmpty(item.children)
+                        return !this.isEmpty(item.children)
                     }
                 })
-            },
-            moment(...args) {
-                return moment(...args);
             }
         }
     }

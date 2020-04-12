@@ -123,9 +123,6 @@
             },
             deleteComment(comment) {
                 EventBus.$emit('comment:delete', comment)
-            },
-            moment(...args) {
-                return moment(...args);
             }
         }
     }

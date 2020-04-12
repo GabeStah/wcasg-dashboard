@@ -110,7 +110,7 @@
                     return
                 }
 
-                this.selected = _.map(this.filteredRecords, 'id')
+                this.selected = this.filteredRecords.map(record => record.id);
             }
         }
     }

@@ -18,20 +18,23 @@ var VueScrollTo = require('vue-scrollto');
 
 Vue.use(VueScrollTo);
 
-// import TagsIndex from './components/tags/Index';
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('data-table', require('./components/DataTable.vue'));
-// Vue.component('tags-index', TagsIndex);
+Vue.component('info-icon', require('./components/partials/InfoIcon.vue'));
 Vue.component('stripe-ballance', require('./components/admin/StripeBallance.vue'));
 
-Vue.component('extension-admin', require('./components/extension/admin/Index.vue'));
-Vue.component('info-icon', require('./components/partials/InfoIcon.vue'));
+// Async load component
+Vue.component('data-table', function(resolve) {
+    require(['./components/DataTable.vue'], resolve)
+});
+Vue.component('extension-admin', function(resolve) {
+    require(['./components/extension/admin/Index.vue'], resolve)
+});
+
 
 const app = new Vue({
     el: '#app'

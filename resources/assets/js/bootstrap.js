@@ -1,5 +1,3 @@
-
-window._ = require('lodash');
 window.Popper = require('popper.js').default;
 
 /**
@@ -12,12 +10,6 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-
-    //moment
-    window.moment = require('moment');
-
-    //bootstrap datetimepicker
-    $.fn.datetimepicker = require('tempusdominus-bootstrap-4').datetimepicker();
 
     //toastr
     window.toastr = require('toastr');

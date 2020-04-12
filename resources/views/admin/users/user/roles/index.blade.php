@@ -21,7 +21,7 @@
 
                     @include('admin.users.user.roles.partials.forms._roles')
 
-                    @include('admin.users.partials.forms._datetimepicker')
+                    @include('admin.users.partials.forms._date')
 
                     <div class="form-group row">
                         <div class="col-sm-4 offset-sm-4">
@@ -89,7 +89,7 @@
                                 @csrf
                                 @method('PUT')
 
-                                @include('admin.users.partials.forms._datetimepicker', ['id' => '_'.$role->roleable->id])
+                                @include('admin.users.partials.forms._date', ['id' => '_'.$role->roleable->id])
 
                                 <div class="form-group row">
                                     <div class="col-sm-4 offset-sm-4">
@@ -107,8 +107,4 @@
             <div class="card-text">No roles found.</div>
         </div>
     @endif
-@endsection
-
-@section('scripts')
-    @include('admin.partials.forms.scripts._script_datetimepicker')
 @endsection

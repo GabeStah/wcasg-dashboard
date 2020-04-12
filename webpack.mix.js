@@ -1,5 +1,9 @@
 let mix = require('laravel-mix');
 require('laravel-mix-purgecss');
+const LiveReloadPlugin = require('webpack-livereload-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const shouldAnalyzeBundle = true;
 
 /*
  |--------------------------------------------------------------------------
@@ -23,8 +27,10 @@ mix
   .sass('resources/assets/sass/admin/admin.scss', 'public/css')
   .purgeCss();
 
-var LiveReloadPlugin = require('webpack-livereload-plugin');
-
 mix.webpackConfig({
-  plugins: [new LiveReloadPlugin()]
+  plugins: [
+    new LiveReloadPlugin(),
+    new CompressionPlugin(),
+    ...(shouldAnalyzeBundle ? [new BundleAnalyzerPlugin()] : [])
+  ]
 });

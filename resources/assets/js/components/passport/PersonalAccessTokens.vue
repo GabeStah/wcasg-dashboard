@@ -155,6 +155,9 @@
 </template>
 
 <script>
+    import toArray from "lodash/toArray";
+    import reject from 'lodash/reject';
+
     export default {
         /*
          * The component's data.
@@ -248,7 +251,7 @@
                         })
                         .catch(error => {
                             if (typeof error.response.data === 'object') {
-                                this.form.errors = _.flatten(_.toArray(error.response.data.errors));
+                                this.form.errors = toArray(error.response.data.errors).flat(1);
                             } else {
                                 this.form.errors = ['Something went wrong. Please try again.'];
                             }
@@ -260,7 +263,7 @@
              */
             toggleScope(scope) {
                 if (this.scopeIsAssigned(scope)) {
-                    this.form.scopes = _.reject(this.form.scopes, s => s == scope);
+                    this.form.scopes = reject(this.form.scopes, s => s === scope);
                 } else {
                     this.form.scopes.push(scope);
                 }
@@ -270,7 +273,7 @@
              * Determine if the given scope has been assigned to the token.
              */
             scopeIsAssigned(scope) {
-                return _.indexOf(this.form.scopes, scope) >= 0;
+                return this.form.scopes.indexOf(scope) >= 0;
             },
 
             /**

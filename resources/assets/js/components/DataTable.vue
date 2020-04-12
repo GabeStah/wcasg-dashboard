@@ -225,6 +225,9 @@
 
 <script>
     import queryString from 'query-string'
+    import map from 'lodash/map';
+    import orderBy from 'lodash/orderBy';
+    import pick from 'lodash/pick';
 
     export default {
         props: [
@@ -278,7 +281,7 @@
                 })
 
                 if (this.sort.key) {
-                    data = _.orderBy(data, (i) => {
+                    data = orderBy(data, (i) => {
                         let value = i[this.sort.key]
 
                         if (!isNaN(parseFloat(value))) {
@@ -314,7 +317,7 @@
             edit(record) {
                 this.editing.errors = []
                 this.editing.id = record.id
-                this.editing.form = _.pick(record, this.response.updateable)
+                this.editing.form = pick(record, this.response.updateable)
             },
             update() {
                 axios.put(`${this.endpoint}/${this.editing.id}`, this.editing.form).then(() => {
@@ -360,7 +363,7 @@
                     return
                 }
 
-                this.selected = _.map(this.filteredRecords, 'id')
+                this.selected = map(this.filteredRecords, 'id')
             }
         },
         mounted() {

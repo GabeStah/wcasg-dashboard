@@ -8,92 +8,100 @@ use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Http\Request;
 use CreatyDev\App\Controllers\Controller;
 
-class UserRoleController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @param  \CreatyDev\Domain\Users\Models\User $user
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function index(User $user)
-    {
-        $this->authorize('touch', User::class);
+class UserRoleController extends Controller {
+  /**
+   * Display a listing of the resource.
+   *
+   * @param  \CreatyDev\Domain\Users\Models\User $user
+   * @return \Illuminate\Http\Response
+   * @throws \Illuminate\Auth\Access\AuthorizationException
+   */
+  public function index(User $user) {
+    $this->authorize('touch', User::class);
 
-        $roles = $user->roles()
-            ->orderByPivot('created_at')
-            ->orderByPivot('expires_at')
-            ->get();
+    $roles = $user
+      ->roles()
+      ->orderByPivot('created_at')
+      ->orderByPivot('expires_at')
+      ->get();
 
-        return view('admin.users.user.roles.index', compact('user', 'roles'));
+    return view('admin.users.user.roles.index', compact('user', 'roles'));
+  }
+
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \Illuminate\Http\Request $request
+   * @param  \CreatyDev\Domain\Users\Models\User $user
+   * @return \Illuminate\Http\Response
+   * @throws \Illuminate\Auth\Access\AuthorizationException
+   */
+  public function store(Request $request, User $user) {
+    $this->authorize('touch', User::class);
+
+    $request->validate([
+      'expires_at' => 'required|date'
+    ]);
+
+    $expires = null;
+
+    $role = Role::where('id', $request->role)->first();
+
+    $assigned = $user->assignRole($role, $request->expires_at);
+
+    if ($assigned) {
+      return back()->withSuccess(
+        "{$user->name} has been assigned {$role->name} role."
+      );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \CreatyDev\Domain\Users\Models\User $user
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function store(Request $request, User $user)
-    {
-        $this->authorize('touch', User::class);
+    return back()->withSuccess("Failed assigning user {$role->name} role.");
+  }
 
-        $expires = null;
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  \Illuminate\Http\Request $request
+   * @param  \CreatyDev\Domain\Users\Models\User $user
+   * @param  \CreatyDev\Domain\Users\Models\Role $role
+   * @return \Illuminate\Http\Response
+   * @throws \Illuminate\Auth\Access\AuthorizationException
+   */
+  public function update(Request $request, User $user, Role $role) {
+    $this->authorize('touch', User::class);
 
-        $role = Role::where('id', $request->role)->first();
+    $request->validate([
+      'expires_at' => 'required|date'
+    ]);
 
-        $assigned = $user->assignRole($role, $request->expires_at);
+    $updated = $user->updateRole($role, $request->expires_at);
 
-        if ($assigned) {
-            return back()->withSuccess("{$user->name} has been assigned {$role->name} role.");
-        }
-
-        return back()->withSuccess("Failed assigning user {$role->name} role.");
+    if ($updated) {
+      return back()->withSuccess("{$user->name}'s {$role->name} role updated.");
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \CreatyDev\Domain\Users\Models\User $user
-     * @param  \CreatyDev\Domain\Users\Models\Role $role
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function update(Request $request, User $user, Role $role)
-    {
-        $this->authorize('touch', User::class);
+    return back()->withError("Failed updating user's {$role->name} role.");
+  }
 
-        $updated = $user->updateRole($role, $request->expires_at);
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  \CreatyDev\Domain\Users\Models\User $user
+   * @param  \CreatyDev\Domain\Users\Models\Role $role
+   * @return \Illuminate\Http\Response
+   * @throws \Illuminate\Auth\Access\AuthorizationException
+   */
+  public function destroy(User $user, Role $role) {
+    $this->authorize('delete', User::class);
 
-        if ($updated) {
-            return back()->withSuccess("{$user->name}'s {$role->name} role updated.");
-        }
+    $updated = $user->updateRole($role, Carbon::now());
 
-        return back()->withError("Failed updating user's {$role->name} role.");
+    if ($updated) {
+      return back()->withSuccess("{$user->name}'s {$role->name} role revoked.");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \CreatyDev\Domain\Users\Models\User $user
-     * @param  \CreatyDev\Domain\Users\Models\Role $role
-     * @return \Illuminate\Http\Response
-     * @throws \Illuminate\Auth\Access\AuthorizationException
-     */
-    public function destroy(User $user, Role $role)
-    {
-        $this->authorize('delete', User::class);
-
-        $updated = $user->updateRole($role, Carbon::now());
-
-        if ($updated) {
-            return back()->withSuccess("{$user->name}'s {$role->name} role revoked.");
-        }
-
-        return back()->withError("{$user->name} does not have an active {$role->name} role.");
-    }
+    return back()->withError(
+      "{$user->name} does not have an active {$role->name} role."
+    );
+  }
 }
