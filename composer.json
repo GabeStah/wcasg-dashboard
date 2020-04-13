@@ -37,7 +37,8 @@
     "staudenmeir/eloquent-has-many-deep": "^1.7",
     "unisharp/laravel-filemanager": "^1.8",
     "wpb/string-blade-compiler": "^4.0.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-zlib": "*"
   },
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^2.6",

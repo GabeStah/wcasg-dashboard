@@ -16,10 +16,13 @@ class WidgetController extends Controller {
 
     $payload = $this->getPayload($site);
 
+    $payload = gzencode($payload);
+
     // All validation Middleware passed, allow response
     $response->withHeaders([
       'Access-Control-Allow-Origin' => $request->header('origin'),
-      'Content-Type' => 'text/javascript;charset=UTF-8'
+      'Content-Type' => 'text/javascript;charset=UTF-8',
+      'Content-Encoding' => 'gzip'
     ]);
 
     $site->increment('widget_request_count');
