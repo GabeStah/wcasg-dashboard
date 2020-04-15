@@ -686,6 +686,24 @@ Route::group(
     });
 
     /**
+     * Configuration Routes
+     */
+    Route::group(
+      [
+        'middleware' => ['auth', 'role:admin'],
+        'namespace' => 'Configuration'
+      ],
+      function () {
+        Route::get('/configuration', 'ConfigurationController@index')->name(
+          'configuration.index'
+        );
+        Route::post('/configuration', 'ConfigurationController@update')->name(
+          'configuration.update'
+        );
+      }
+    );
+
+    /**
      * Coupon Namespace Routes
      */
     Route::group(['namespace' => 'Coupon'], function () {

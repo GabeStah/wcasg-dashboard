@@ -30,6 +30,13 @@ return [
     ]
   ],
   'admin' => [
+    'Configuration' => [
+      'disclaimer' => [
+        'update' => [
+          'success' => 'Disclaimer has been updated.'
+        ]
+      ]
+    ],
     'Statement' => [
       'create' => [
         'success' => 'The accessibility statement has been created.'

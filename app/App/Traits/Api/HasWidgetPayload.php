@@ -2,9 +2,11 @@
 
 namespace CreatyDev\App\Traits\Api;
 
+use CreatyDev\Domain\Configuration\Models\Configuration;
 use CreatyDev\Domain\Sites\Models\Site;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Storage;
+use LZCompressor\LZString;
 
 /**
  * Generates Widget payload.
@@ -23,10 +25,32 @@ trait HasWidgetPayload {
    */
   protected function getPayload(Site $site) {
     $payloads = [];
+    array_push($payloads, $this->getDisclaimerPayload());
     array_push($payloads, $this->getExtensionPayload($site));
     array_push($payloads, $this->getStatementPayload($site));
     array_push($payloads, $this->getWidgetPayload());
     return implode('', $payloads);
+  }
+
+  /**
+   * Gets packed module for disclaimer.
+   *
+   * @return string
+   */
+  protected function getDisclaimerPayload() {
+    $configuration = Configuration::first();
+    if (
+      $configuration &&
+      $configuration->settings &&
+      $configuration->settings['disclaimer']
+    ) {
+      $disclaimer = LZString::decompressFromBase64(
+        $configuration->settings['disclaimer']
+      );
+      if ($disclaimer) {
+        return webpackify('WcasgDisclaimer', $disclaimer);
+      }
+    }
   }
 
   /**

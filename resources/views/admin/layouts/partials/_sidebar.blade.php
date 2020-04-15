@@ -195,17 +195,25 @@
 {{--    </li>--}}
     <li class="nav-item nav-dropdown">
         <a class="nav-link nav-dropdown-toggle" href="#">
-            <i class="fa fa-gear"></i> Statistics
+            <i class="fa fa-bar-chart"></i> Statistics
         </a>
         <ul class="nav-dropdown-items">
             <li class="nav-item">
                 <a class="nav-link{{ return_if(on_page('admin.env.index'), ' active') }}"
                     href="{{ route('admin.visitlog') }}">
-                    <i class="fa fa-gear"></i>Visitor log
+                    <i class="fas fa-clipboard"></i>Visitor log
                 </a>
             </li>
         </ul>
     </li>
+
+    <!-- Configuration -->
+    <li class="nav-item nav-dropdown">
+        <a class="nav-link {{ return_if(on_page('admin.configuration.index'), 'active') }}" href="{{ route('admin.configuration.index') }}">
+            <i class="fa fa-cog"></i> Configuration
+        </a>
+    </li>
+
     <!-- Intuit Authorization URL -->
     <li class="nav-item">
         <a class="nav-link" href="{{ config('solarix.connector.intuit_authorize_endpoint') }}" target="_blank">

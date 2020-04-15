@@ -8,6 +8,10 @@ return [
   ],
   'views' => [
     'admin' => [
+      'configuration' => [
+        'disclaimer' =>
+          'The default disclaimer shown to end users of the Widget.'
+      ],
       'StatementTemplate' => [
         'columns' => [
           'actions' =>

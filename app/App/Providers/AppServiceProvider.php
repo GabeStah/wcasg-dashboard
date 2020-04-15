@@ -2,6 +2,8 @@
 
 namespace CreatyDev\App\Providers;
 
+use CreatyDev\Domain\Configuration\Models\Configuration;
+use CreatyDev\Domain\Configuration\Observers\ConfigurationObserver;
 use CreatyDev\Domain\Sites\Models\Site;
 use CreatyDev\Domain\Statements\Models\Statement;
 use CreatyDev\Domain\Statements\Models\StatementTemplate;
@@ -27,6 +29,7 @@ class AppServiceProvider extends ServiceProvider {
     //model observers
     //        Category::observe(CategoryObserver::class);
     //        Tag::observe(TagObserver::class);
+    Configuration::observe(ConfigurationObserver::class);
     Plan::observe(PlanObserver::class);
     Role::observe(RoleObserver::class);
     Site::observe(SiteObserver::class);
