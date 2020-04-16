@@ -9,42 +9,21 @@
         <div class="col-lg">
             <div class="card">
                 <div class="card-header">
-                    <i class="fa fa-align-justify"></i> Products
+                    <i class="fa fa-align-justify"></i>WCASG Connector
                 </div>
                 <div class="card-body">
-                    <table class="table table-responsive-sm table-striped">
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Statement Descriptor</th>
-                            <th>Description</th>
-                            <th>Unit Label</th>
-                            <th>Last Updated</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach ($products as $product )
-                            <tr>
-                                <td>{{ $product->name }}</td>
-                                <td>{{ $product->statement_descriptor }}</td>
-                                <td>{{ $product->description }}</td>
-                                <td>{{ $product->unit_label }}</td>
-                                <td>{{ new Illuminate\Support\Carbon($product->updated) }}</td>
-                                <td>
-                                    <div class="btn-group" role="group" aria-label="User Actions">
-                                        <a href="{{ route('admin.products.edit', $product->id) }}" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary" data-original-title="Edit"><i class="fa fa-edit "></i></a>
-                                        {{--                                    <form action="{{ route('admin.products.destroy', $product->id)}}" method="post">--}}
-                                        {{--                                        @csrf--}}
-                                        {{--                                        @method('DELETE')--}}
-                                        {{--                                        <button class="btn btn-danger" type="submit"><i class="fa fa-trash-o "></i></button>--}}
-                                        {{--                                    </form>--}}
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
-                    </table>
+                    <h3>About</h3>
+                    <p>The WCASG Connector is a custom application that communicates and transmits data between WCASG, Stripe, and QuickBooks Online.  This connection ensures changes made to objects like customers, plans, products, and subscriptions are automatically updated in the associated QuickBooks Online account.</p>
+                    <h3>Authorization</h3>
+                    <p>Intuit requires explicit authorization before allowing the WCASG Connector to transmit data to and from QuickBooks Online.  The Connector maintains the previous authorization for as long as possible, but eventually the active authorization expires and needs to be renewed by an administrator.</p>
+                    <h3>Renewal</h3>
+                    <p>By clicking the button below you will be forwarded to the Connector app's authorization page, which then routes you to Intuit's authorization page.  You will be asked to login and reauthorize the WCASG Connector application so it can continue connecting to the associated QuickBooks Online account.</p>
+                    <p>After authorizing the Connector you will be returned to a Connector page with a message indicating that Intuit authorization has been updated.</p>
+                    <a href="{{ config('solarix.connector.intuit_authorize_endpoint') }}" target="_blank">
+                        <button class="btn btn-primary mb-2"><i class="fa fa-lock mr-2"></i>Authorize WCASG Connector for QuickBooks Online</button>
+                    </a>
+                    <h3>Expiration</h3>
+                    <p>The WCASG Connector attempts to retain authorization for a few months.  However, should the Connector become deauthorized or an error occur, an email will be dispatched to a WCASG admin informing them that the Connector must be reauthorized from this page.</p>
                 </div>
             </div>
         </div>

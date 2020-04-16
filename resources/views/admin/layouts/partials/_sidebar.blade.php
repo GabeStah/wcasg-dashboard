@@ -216,7 +216,7 @@
 
     <!-- Intuit Authorization URL -->
     <li class="nav-item">
-        <a class="nav-link" href="{{ config('solarix.connector.intuit_authorize_endpoint') }}" target="_blank">
+        <a class="nav-link" href="{{ route('admin.quickbooks.index') }}">
             <i class="fa fa-user-secret"></i>QuickBooks
         </a>
     </li>

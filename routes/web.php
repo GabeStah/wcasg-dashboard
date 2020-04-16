@@ -711,6 +711,21 @@ Route::group(
     });
 
     /**
+     * QuickBooks Routes
+     */
+    Route::group(
+      [
+        'prefix' => '/quickbooks',
+        'middleware' => ['auth', 'role:admin'],
+        'namespace' => 'Quickbooks',
+        'as' => 'quickbooks.'
+      ],
+      function () {
+        Route::get('/', 'QuickbooksController@index')->name('index');
+      }
+    );
+
+    /**
      * Subscription Namespace Routes
      */
     Route::group(['namespace' => 'Subscription'], function () {

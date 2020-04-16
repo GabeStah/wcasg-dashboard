@@ -3,7 +3,7 @@ require('laravel-mix-purgecss');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const shouldAnalyzeBundle = true;
+const shouldAnalyzeBundle = false;
 
 /*
  |--------------------------------------------------------------------------
