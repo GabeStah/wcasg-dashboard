@@ -73,7 +73,9 @@
                                     <img alt="User Avatar" src="{{ asset(auth()->user()->image) }}">
                                 </span>
                                 <div class="media-body ml-2 d-none d-lg-block">
-                                    <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->name }}</span>
+                                    <span class="mb-0 text-sm  font-weight-bold {{ session()->has('impersonate') ? 'text-red' : '' }}">
+                                       {{ session()->has('impersonate') ? 'IMPERSONATING: ' : '' }}{{ Auth::user()->name }}
+                                    </span>
                                 </div>
                             </div>
                         </a>

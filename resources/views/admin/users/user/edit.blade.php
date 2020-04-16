@@ -73,9 +73,6 @@
                 <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Update user</button>
             </form>
         </div>
-        <div class="card-footer">
-            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
-        </div>
     </div>
 </div>
 @endsection

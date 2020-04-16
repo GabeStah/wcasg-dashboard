@@ -58,8 +58,8 @@
                             <a href="{{ route('admin.users.roles.index', $user) }}">Manage roles</a>
                         </td>
                         <td>
-                            <span class="float-right" style="font-size:18px;">
-                                <a href="{{ URL::to('admin/users/' . $user->id . '/edit') }}"><i style="padding-right:10px;" class="fa fa-edit" title="Edit user"></i></a>
+                            <span style="font-size:24px;">
+                                <a href="{{ URL::to('admin/users/' . $user->id . '/edit') }}"><i class="fa fa-edit" title="Edit user"></i></a>
                                 {{-- <a href="#"><i style="color:#f86c6b;" class="fa fa-user-times" title="Disable user"></i></a> --}}
                             </span>
                         </td>

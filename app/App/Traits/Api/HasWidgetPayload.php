@@ -61,9 +61,15 @@ trait HasWidgetPayload {
    * @return string
    */
   protected function getExtensionPayload(Site $site) {
-    $extensions = $site->extensions;
+    $extensions = $site->extensions->where('enabled', '=', true);
     if ($extensions) {
-      return webpackify('WcasgExtensions', json_encode($extensions));
+      // Need to reindex array because unordered array converted
+      // via json encode produces an object, rather than an array.
+      $reindexed = [];
+      foreach ($extensions->toArray() as $item) {
+        array_push($reindexed, $item);
+      }
+      return webpackify('WcasgExtensions', json_encode($reindexed));
     }
   }
 

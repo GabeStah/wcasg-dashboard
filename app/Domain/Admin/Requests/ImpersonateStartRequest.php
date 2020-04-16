@@ -2,34 +2,37 @@
 
 namespace CreatyDev\Domain\Admin\Requests;
 
+use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ImpersonateStartRequest extends FormRequest
-{
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
+class ImpersonateStartRequest extends FormRequest {
+  /**
+   * Determine if the user is authorized to make this request.
+   *
+   * @return bool
+   */
+  public function authorize() {
+    return true;
+  }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
-    {
-        return [
-            'email' => [
-                'required',
-                'email',
-                Rule::exists('users', 'email')->whereNot('email', $this->user()->email)
-            ],
-        ];
-    }
+  /**
+   * Get the validation rules that apply to the request.
+   *
+   * @return array
+   */
+  public function rules() {
+    return [
+      'email' => [
+        'required',
+        'email',
+        function ($attribute, $value, $fail) {
+          $found = User::where('email', $value)->first();
+          if (!$found) {
+            $fail("A user with $attribute of $value could not be found.");
+          }
+        }
+      ]
+    ];
+  }
 }
