@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <h4 class="mb-0">{{ UsersNumber }}</h4>
-                    <p>Total user</p>
+                    <p>Total User</p>
                 </div>
                 <div class="chart-wrapper px-3" style="height:70px;">
                     <div class="chartjs-size-monitor"
@@ -39,11 +39,11 @@
         <div class="col-sm-6 col-lg-3">
             <div class="card text-white bg-info">
                 <div class="card-body pb-0">
-                    <button type="button" class="btn btn-transparent p-0 float-right">
-                        <i class="icon-location-pin"></i>
-                    </button>
+<!--                    <button type="button" class="btn btn-transparent p-0 float-right">-->
+<!--                        <i class="icon-location-pin"></i>-->
+<!--                    </button>-->
                     <h4 class="mb-0">{{ newTicket }}</h4>
-                    <p>New Ticket</p>
+                    <p>New Tickets</p>
                 </div>
                 <div class="chart-wrapper px-3" style="height:70px;">
                     <div class="chartjs-size-monitor"
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <h4 class="mb-0">{{ total_subscription }}</h4>
-                    <p>Total Subscription</p>
+                    <p>Total Subscriptions</p>
                 </div>
                 <div class="chart-wrapper">
                     <div class="chart-wrapper" style="height:70px;">
@@ -111,11 +111,11 @@
                             <i class="icon-settings"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" href="/admin/logvisit">Visitors log</a>
+                            <a class="dropdown-item" href="/admin/logvisit">Visitors Log</a>
                         </div>
                     </div>
                     <h4 class="mb-0">{{ unique_visitors }}</h4>
-                    <p>Total Unique visitor</p>
+                    <p>Total Unique Visitors</p>
                 </div>
                 <div class="chart-wrapper px-3" style="height:70px;">
                     <div class="chartjs-size-monitor"

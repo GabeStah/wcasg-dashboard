@@ -25,7 +25,7 @@ Vue.use(VueScrollTo);
  */
 
 Vue.component('info-icon', require('./components/partials/InfoIcon.vue').default);
-Vue.component('stripe-ballance', require('./components/admin/StripeBallance.vue').default);
+Vue.component('dashboard', require('./components/admin/Dashboard.vue').default);
 
 // Async load component
 Vue.component('data-table', function(resolve) {

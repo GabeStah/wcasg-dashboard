@@ -9,7 +9,7 @@
         <div class="card-body">
             <h2 class="card-title">Admin Dashboard</h2>
             My dashboard
-                <stripe-ballance></stripe-ballance>
+                <dashboard></dashboard>
         </div>
          
     </div>
