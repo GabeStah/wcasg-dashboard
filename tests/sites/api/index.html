@@ -154,6 +154,22 @@
     <label for="info">Fill out the deets:</label>
     <textarea id="info" name="info" rows="5" cols="33"></textarea>
 
+    <form action="http://wcasg.test/api/audit/create" method="POST">
+      <input type="hidden" name="XDEBUG_SESSION_START" value="1"></input>
+      <input type="hidden" name="type" value="lead"></input>
+      <input type="hidden" name="mailto_address" value="gabe@solarixdigital.com"></input>
+      <input name="first_name" value="John"></input>
+      <input name="last_name" value="Doe"></input>
+      <input name="company_name" value="Solarix Digital"></input>
+      <input name="address1" value="123 4th St"></input>
+      <input name="address2" value="#456"></input>
+      <input name="city" value="New York"></input>
+      <input name="state" value="NY"></input>
+      <input name="postal_code" value="10012"></input>
+      <input name="url" value="http://example.com"></input>
+      <button type="submit">Send</button>
+    </form>
+
     <footer class="container">
       <h4>Other Stuff</h4>
       <ul class="col">

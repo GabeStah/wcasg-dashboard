@@ -2,8 +2,10 @@
 
 namespace CreatyDev\App\Providers;
 
+use CreatyDev\Domain\Audits\Events\AuditCompleted;
 use CreatyDev\Domain\Audits\Events\AuditTaskCreated;
 use CreatyDev\Domain\Audits\Listeners\ExecuteAudit;
+use CreatyDev\Domain\Audits\Listeners\GenerateLead;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use CreatyDev\Domain\Auth\Events\UserRequestedActivationEmail;
 use CreatyDev\Domain\Auth\Events\UserSignedUp;
@@ -19,6 +21,7 @@ class EventServiceProvider extends ServiceProvider {
    */
   protected $listen = [
     AuditTaskCreated::class => [ExecuteAudit::class],
+    AuditCompleted::class => [GenerateLead::class],
     UserSignedUp::class => [
       CreateDefaultTeam::class,
       SendActivationEmail::class

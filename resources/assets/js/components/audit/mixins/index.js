@@ -26,7 +26,7 @@ export const auditMixin = {
         this.joinChannel(`audit-${this.token}`);
 
         axios
-          .post(`/api/audit/create`, {
+          .post(`/api/audit/create?XDEBUG_SESSION_START=1`, {
             site_id: type === 'site' && this.selectedSite ? this.selectedSite.id : null,
             token: this.token,
             url: this.url

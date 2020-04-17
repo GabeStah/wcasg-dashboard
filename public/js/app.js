@@ -63505,7 +63505,7 @@ var auditMixin = {
 
         this.token = generateHex();
         this.joinChannel("audit-".concat(this.token));
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/audit/create", {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/audit/create?XDEBUG_SESSION_START=1", {
           site_id: type === 'site' && this.selectedSite ? this.selectedSite.id : null,
           token: this.token,
           url: this.url

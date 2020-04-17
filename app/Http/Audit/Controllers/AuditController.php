@@ -18,4 +18,8 @@ class AuditController extends Controller {
   public function index() {
     return view('audit.index');
   }
+
+  public function thanks() {
+    return view('audit.thanks');
+  }
 }

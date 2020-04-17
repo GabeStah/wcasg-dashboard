@@ -11,18 +11,48 @@ use CreatyDev\Domain\Audits\Jobs\CreateAuditTask;
 use CreatyDev\Domain\Audits\Jobs\GetAuditResults;
 use CreatyDev\Domain\Audits\Jobs\RunAuditTask;
 use CreatyDev\Domain\Audits\Models\Audit;
+use CreatyDev\Domain\Leads\Mail\LeadGenerated;
+use CreatyDev\Domain\Leads\Models\Lead;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AuditController extends Controller {
   public function create(Request $request, Pa11y $pa11y) {
-    $audit = new Audit($request->get('params'));
+    $auditData = [];
+
+    if ($request->has('token')) {
+      $auditData['id'] = $request->input('token');
+    }
+
+    if ($request->has('url')) {
+      $auditData['url'] = $request->input('url');
+    }
+
+    if ($request->has('site_id')) {
+      $auditData['site_id'] = $request->input('site_id');
+    }
+
+    $audit = new Audit($auditData);
     $audit->saveOrFail();
+
+    $lead = null;
+
+    if ($request->has('type') && $request->input('type') === 'lead') {
+      $lead = new Lead($request->input());
+      $lead->audit_id = $audit->id;
+      $lead->saveOrFail();
+    }
 
     // Dispatch Audit creation event.
     event(new AuditCreated($audit));
 
-    // If token passed use background jobs
-    if (request('token')) {
+    if ($request->has('type') && $request->input('type') === 'lead') {
+      // Dispatch Audit request event.
+      event(new AuditRequested($audit));
+      return redirect()
+        ->route('audit.thanks')
+        ->with('success', 'Thank you very much.');
+    } elseif (request('token')) {
       // Dispatch Audit request event.
       event(new AuditRequested($audit));
     } else {

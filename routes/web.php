@@ -115,6 +115,7 @@ Route::group(
     'namespace' => 'Audit\Controllers'
   ],
   function () {
+    Route::get('/thank-you', 'AuditController@thanks')->name('thanks');
     Route::get('/', 'AuditController@index')->name('index');
     Route::get('/{id}', 'AuditController@get')
       ->name('get')
