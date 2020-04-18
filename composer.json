@@ -9,6 +9,9 @@
   "type": "project",
   "require": {
     "php": "^7.2",
+    "ext-json": "*",
+    "ext-zlib": "*",
+    "asahasrabuddhe/laravel-mjml": "^0.2.0",
     "barryvdh/laravel-debugbar": "*",
     "barryvdh/laravel-dompdf": "*",
     "binarytorch/larecipe": "^2.2",
@@ -36,9 +39,7 @@
     "spatie/laravel-blade-x": "^2.5",
     "staudenmeir/eloquent-has-many-deep": "^1.7",
     "unisharp/laravel-filemanager": "^1.8",
-    "wpb/string-blade-compiler": "^4.0.0",
-    "ext-json": "*",
-    "ext-zlib": "*"
+    "wpb/string-blade-compiler": "^4.0.0"
   },
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^2.6",

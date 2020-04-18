@@ -1,0 +1,32 @@
+---
+title: "Audit-Generated Lead"
+bodyClass: bg-gray-200
+---
+
+{% extends "src/layouts/base.njk" %}
+
+{% block template %}
+
+<section class="container mx-auto px-6">
+
+  <h1 class="text-center text-4xl text-black font-medium leading-snug tracking-wider">
+    Example.com - New Lead Generated
+  </h1>
+
+  {% include 'src/partials/audit/stats.njk' %}
+
+  {% include 'src/partials/divider.njk' %}
+
+  {% include 'src/partials/lead.njk' %}
+
+  {% include 'src/partials/audit/results-button.njk' %}
+
+  {% include 'src/partials/audit/results.njk' %}
+
+</section>
+
+{% include 'src/partials/divider.njk' %}
+
+{% include 'src/partials/footer.njk' %}
+
+{% endblock %}

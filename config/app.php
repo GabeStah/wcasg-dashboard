@@ -149,6 +149,10 @@ return [
      * Package Service Providers...
      */
     Brotzka\DotenvEditor\DotenvEditorServiceProvider::class,
+    // Used to reduce rendered HTML for mailable views
+    // TODO: Incompatible with current Laravel/bugged
+    // See: https://github.com/HTMLMin/Laravel-HTMLMin/issues/149
+    //    HTMLMin\HTMLMin\Facades\HTMLMin::class,
 
     /*
      * Application Service Providers...

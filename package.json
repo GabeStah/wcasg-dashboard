@@ -17,6 +17,9 @@
     "db:test:reset": "php artisan key:generate && php artisan config:cache && composer dump-autoload && php artisan migrate:fresh --database=mysql_testing && php artisan passport:install && php artisan db:seed",
     "db:seed": "php artisan migrate:refresh --seed",
     "db:test:seed": "php artisan migrate:refresh --database=mysql_testing --seed",
+    "maizzle:build": "cd .maizzle && maizzle build",
+    "maizzle:build:prod": "cd .maizzle && maizzle build production",
+    "maizzle:serve": "cd .maizzle && maizzle serve",
     "watch": "cross-env NODE_ENV=development node_modules/.bin/webpack --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch-poll": "npm run watch -- --watch-poll",
     "hot": "cross-env NODE_ENV=development node_modules/.bin/webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
@@ -29,6 +32,7 @@
     "production": "cross-env NODE_ENV=production node_modules/.bin/webpack --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
   "devDependencies": {
+    "@maizzle/cli": "^0.5.0",
     "@prettier/plugin-php": "^0.12.0",
     "axios": "^0.18",
     "babel-plugin-syntax-object-rest-spread": "^6.13.0",
@@ -56,6 +60,7 @@
     "js-beautify": "^1.10.1-rc2",
     "laravel-echo": "^1.6.1",
     "lz-string": "^1.4.4",
+    "mjml": "^4.6.2",
     "pace-progress": "^1.0.2",
     "pusher-js": "^5.1.1",
     "query-string": "^5.1.1",
