@@ -9,10 +9,9 @@ return [
    * binary or the binary has been installed globally, please set this property to false and manually specify the path
    * below instead.
    */
-  'auto_detect_path' => false,
+  'auto_detect_path' => env('MJML_AUTO_DETECT', false),
   /*
    * The path to the MJML binary
    */
-  'path_to_binary' =>
-    'D:\work\solarix\projects\wcasg\dashboard\node_modules\.bin\mjml.cmd'
+  'path_to_binary' => env('MJML_PATH', 'node_modules/.bin/mjml')
 ];
