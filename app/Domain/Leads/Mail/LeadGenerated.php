@@ -42,6 +42,7 @@ class LeadGenerated extends Mailable {
    * @return $this
    */
   public function build(Pa11y $pa11y) {
+    $MAX_RESULTS = 6;
     $results = $pa11y->getTaskAllResults($this->audit->task_id);
 
     $data = [
@@ -90,6 +91,7 @@ class LeadGenerated extends Mailable {
     $mjml = $this->mjml('emails.lead.lead', [
       'audit' => $this->audit,
       'lead' => $data,
+      'max_results' => $MAX_RESULTS,
       'results' => $results->results,
       'stats' => $stats
     ]);

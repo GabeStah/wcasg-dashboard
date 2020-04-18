@@ -37,16 +37,11 @@
                 </mj-text>
             </mj-column>
         </mj-section>
-        <!-- <mj-section background-color="#1f2e78">
-          <mj-column width="100%">
-          </mj-column>
-        </mj-section> -->
         <mj-wrapper padding-top="0" padding-bottom="0" css-class="body-section">
 
             <mj-section background-color="#ffffff" padding-left="15px" padding-right="15px" padding-top="0">
                 <mj-column width="100%">
                     <mj-spacer height="20px" />
-                    <!-- <mj-divider border-color="#DFE3E8" border-width="1px" /> -->
                     <mj-text color="#212b35" font-weight="bold" font-size="30px">
                         Audit Stats
                     </mj-text>
@@ -104,9 +99,6 @@
                     <mj-text color="#212b35" font-weight="bold" font-size="30px">
                         Audit Results
                     </mj-text>
-                    <mj-button background-color="#167ff7" align="center" color="#ffffff" font-size="17px" font-weight="bold" href="{{ config('app.url') . '/audit/' . $audit->id }}" width="400px">
-                        Click Here to View Public Results URL
-                    </mj-button>
                 </mj-column>
             </mj-section>
 
@@ -135,30 +127,45 @@
 
             @foreach($results as $result)
 
+                <mj-section background-color="#ffffff" padding="0 15px 0 15px">
+                    <mj-column width="10%">
+                        <mj-text font-size="12px">
+                            {{ $result->type ?? '' }}
+                        </mj-text>
+                    </mj-column>
+                    <mj-column width="20%">
+                        <mj-text font-size="12px">
+                            {{ $result->code ?? preg_split('/\./', $result->code).join(' ') }}
+                        </mj-text>
+                    </mj-column>
+                    <mj-column width="40%">
+                        <mj-text font-size="12px">
+                            {{ $result->message ?? '' }}
+                        </mj-text>
+                    </mj-column>
+                    <mj-column width="30%">
+                        <mj-text font-size="12px">
+                            {{ $result->selector ?? '' }}
+                        </mj-text>
+                    </mj-column>
+                </mj-section>
+
+                @if($loop->iteration === $max_results)
+                    @break
+                @endif
+            @endforeach
+
             <mj-section background-color="#ffffff" padding="0 15px 0 15px">
-                <mj-column width="10%">
-                    <mj-text font-size="12px">
-                        {{ $result->type ?? '' }}
-                    </mj-text>
-                </mj-column>
-                <mj-column width="20%">
-                    <mj-text font-size="12px">
-                        {{ $result->code ?? preg_split('/\./', $result->code).join(' ') }}
-                    </mj-text>
-                </mj-column>
-                <mj-column width="40%">
-                    <mj-text font-size="12px">
-                        {{ $result->message ?? '' }}
-                    </mj-text>
-                </mj-column>
-                <mj-column width="30%">
-                    <mj-text font-size="12px">
-                        {{ $result->selector ?? '' }}
-                    </mj-text>
+                <mj-column width="100%">
+                    <mj-button background-color="#167ff7" align="center" color="#ffffff" font-size="17px" font-weight="bold" href="{{ config('app.url') . 'audit/' . $audit->id }}" width="400px">
+                        @if(count($results) > $max_results)
+                            Click to View the {{ count($results) - $max_results }} Remaining Results
+                        @else
+                            Click to View the Public Results URL
+                        @endif
+                    </mj-button>
                 </mj-column>
             </mj-section>
-
-            @endforeach
         </mj-wrapper>
 
         <mj-wrapper full-width="full-width">
