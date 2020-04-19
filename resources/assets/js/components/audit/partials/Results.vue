@@ -1,9 +1,17 @@
 <template>
   <div v-if="results" class="row row-cols-2 d-flex justify-content-center py-3">
     <div v-if="audit" class="col-md-12 py-2">
-      <a :href="getAuditUrl" target="_blank">
-        <button type="button" class="btn btn-secondary">Public Results URL <i class="fas fa-external-link-alt"></i></button>
+      <a v-if="showPublicUrl === true" :href="getAuditUrl" target="_blank">
+        <button type="button" class="btn btn-secondary">
+          Public Results URL <i class="fas fa-external-link-alt"></i>
+        </button>
       </a>
+      <p>
+        Results are based on the
+        <a :href="this.audit.standard.url" target="_blank"
+          >{{ this.audit.standard.name }} Standard</a
+        >.
+      </p>
     </div>
     <div class="col-md-6" v-for="result in results">
       <div class="card flex-md-row mb-4 box-shadow h-md-250">
@@ -56,6 +64,10 @@ export default {
       };
     }
   },
-  props: ['audit', 'results']
+  props: {
+    audit: Object,
+    results: Array,
+    showPublicUrl: { type: Boolean, default: true }
+  }
 };
 </script>

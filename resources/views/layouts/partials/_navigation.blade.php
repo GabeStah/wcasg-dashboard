@@ -20,10 +20,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('audit.index') }}">Audit</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact">Contact</a>
-                </li>
-
             </ul>
         @guest
             <!---- Modal login and register -->

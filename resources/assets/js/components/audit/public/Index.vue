@@ -21,6 +21,7 @@
               v-model="url"
               class="form-control"
               placeholder="Enter a domain or URL..."
+              v-on:keydown.enter="createAudit"
             />
           </div>
         </div>

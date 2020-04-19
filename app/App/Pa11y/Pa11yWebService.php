@@ -2,6 +2,7 @@
 
 namespace CreatyDev\App\Pa11y;
 
+use CreatyDev\Domain\Audits\Models\Audit;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 
@@ -25,19 +26,18 @@ class Pa11yWebService implements Pa11y {
   /**
    * Generate a task for specified domain and standard.
    *
-   * @param string $url
-   *
+   * @param Audit $audit
    * @return array|mixed
    */
-  public function createTask(string $url) {
+  public function createTask(Audit $audit) {
     $response = $this->client->request(
       'POST',
       config('services.pa11y.endpoint') . 'tasks',
       [
         'form_params' => [
-          'name' => 'Test Task',
-          'url' => $url,
-          'standard' => 'WCAG2AA'
+          'name' => 'audit-' . $audit->id,
+          'url' => $audit->url,
+          'standard' => $audit->standard['name']
         ]
       ]
     );

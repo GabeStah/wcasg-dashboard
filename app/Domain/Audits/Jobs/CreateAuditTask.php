@@ -50,7 +50,7 @@ class CreateAuditTask implements ShouldQueue {
    * @return void
    */
   public function handle(Pa11y $pa11y) {
-    $taskObject = $pa11y->createTask($this->audit->url);
+    $taskObject = $pa11y->createTask($this->audit);
     $this->audit->update(['task_id' => $taskObject->id]);
     event(new AuditTaskCreated($this->audit));
   }

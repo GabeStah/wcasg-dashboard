@@ -422,7 +422,7 @@
         <section class="contact" id="contact">
             <div class="container">
                 <div class="heading text-center">
-                    <h2>Keep In Touch</h2>
+                    <h2>Contact Us Today</h2>
                     <div class="line mb-0"></div>
                 </div>
 

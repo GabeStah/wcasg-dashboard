@@ -1,5 +1,6 @@
 <?php
 
+use CreatyDev\Domain\Audits\Models\Audit;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -28,6 +29,8 @@ class CreateAuditsTable extends Migration {
         ->string('result_id')
         ->unique()
         ->nullable();
+
+      $table->json('standard');
 
       $table->timestamp('expired_at')->nullable();
 

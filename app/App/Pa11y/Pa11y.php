@@ -2,6 +2,8 @@
 
 namespace CreatyDev\App\Pa11y;
 
+use CreatyDev\Domain\Audits\Models\Audit;
+
 /**
  * Interface Pa11y
  *
@@ -9,7 +11,7 @@ namespace CreatyDev\App\Pa11y;
  * @package CreatyDev\App\Pa11y
  */
 interface Pa11y {
-  public function createTask(string $url);
+  public function createTask(Audit $audit);
   public function getTasks();
 
   /**

@@ -32,6 +32,10 @@ class AuditController extends Controller {
       $auditData['site_id'] = $request->input('site_id');
     }
 
+    if ($request->has('standard')) {
+      $auditData['standard'] = $request->input('standard');
+    }
+
     $audit = new Audit($auditData);
     $audit->saveOrFail();
 

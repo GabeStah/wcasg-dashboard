@@ -30,7 +30,7 @@
             <mj-column width="100%">
                 <mj-image src="http://178.128.7.36/img/wcasg_acronym_light-sm.png" alt="" align="center" width="150px" />
                 <mj-text color="#ffffff" font-weight="bold" align="center" text-transform="uppercase" font-size="16px" letter-spacing="1px" padding-top="30px">
-                    <a href="{{ $lead['url'] }}" style="color:#ffffff;text-decoration:none;">{{ $lead['url'] }}</a>
+                    <a href="{{ $lead['url'] }}" style="color:#ffffff;text-decoration:none;" target="_blank">{{ $lead['url'] }}</a>
                 </mj-text>
                 <mj-text color="#17CBC4" align="center" font-size="24px" padding-top="0" font-weight="bold" text-transform="uppercase" letter-spacing="1px" line-height="20px">
                     Website Audit Report
@@ -98,6 +98,9 @@
                     <mj-divider border-color="#DFE3E8" border-width="1px" />
                     <mj-text color="#212b35" font-weight="bold" font-size="30px">
                         Audit Results
+                    </mj-text>
+                    <mj-text color="#212b35" font-size="14px" style="padding: 0 25px">
+                        Results are based on the <a href="{{ $audit->standard['url'] }}" style="text-decoration:none;" target="_blank">{{ $audit->standard['name'] }} Standard</a>.
                     </mj-text>
                 </mj-column>
             </mj-section>

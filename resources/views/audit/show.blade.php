@@ -13,7 +13,7 @@
                 <div class="line"></div>
             </div>
 
-            <audit-results :results="{{ json_encode($results) }}"></audit-results>
+            <audit-results :audit="{{ $audit }}" :results="{{ json_encode($results) }}" :show-public-url="false"></audit-results>
             @endisset
         </div>
     </div>
