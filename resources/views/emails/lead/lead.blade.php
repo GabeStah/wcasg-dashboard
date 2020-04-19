@@ -1,7 +1,7 @@
 <mjml>
     <mj-head>
-        <mj-title>Audit-Generated Lead</mj-title>
-        <mj-preview>Audit-Generated Lead</mj-preview>
+        <mj-title>Website Audit Report for {{ $lead['url'] }}</mj-title>
+        <mj-preview>Website Audit Report for {{ $lead['url'] }}</mj-preview>
         <mj-attributes>
             <mj-all font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"></mj-all>
             <mj-text font-weight="400" font-size="16px" color="#000000" line-height="24px" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"></mj-text>
@@ -30,10 +30,10 @@
             <mj-column width="100%">
                 <mj-image src="http://178.128.7.36/img/wcasg_acronym_light-sm.png" alt="" align="center" width="150px" />
                 <mj-text color="#ffffff" font-weight="bold" align="center" text-transform="uppercase" font-size="16px" letter-spacing="1px" padding-top="30px">
-                    {{ $lead['url'] }}
+                    <a href="{{ $lead['url'] }}" style="color:#ffffff;text-decoration:none;">{{ $lead['url'] }}</a>
                 </mj-text>
                 <mj-text color="#17CBC4" align="center" font-size="24px" padding-top="0" font-weight="bold" text-transform="uppercase" letter-spacing="1px" line-height="20px">
-                    New Lead Generated
+                    Website Audit Report
                 </mj-text>
             </mj-column>
         </mj-section>

@@ -6,10 +6,8 @@ use CreatyDev\App\Pa11y\Pa11y;
 use CreatyDev\Domain\Audits\Models\Audit;
 use CreatyDev\Domain\Leads\Models\Lead;
 use Illuminate\Bus\Queueable;
-//use Illuminate\Mail\Mailable;
 use Asahasrabuddhe\LaravelMJML\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-//use HTMLMin\HTMLMin\Facades\HTMLMin;
 
 class LeadGenerated extends Mailable {
   use Queueable, SerializesModels;
@@ -33,6 +31,7 @@ class LeadGenerated extends Mailable {
   public function __construct(Audit $audit, Lead $lead) {
     $this->audit = $audit;
     $this->lead = $lead;
+    $this->subject('Website Audit Report for ' . get_domain($this->lead->url));
   }
 
   /**
@@ -43,7 +42,8 @@ class LeadGenerated extends Mailable {
    */
   public function build(Pa11y $pa11y) {
     $MAX_RESULTS = 6;
-    $results = $pa11y->getTaskAllResults($this->audit->task_id);
+    $resultData = $pa11y->getTaskAllResults($this->audit->task_id);
+    $results = $resultData->results;
 
     $data = [
       'url' => $this->lead->url,
@@ -61,7 +61,7 @@ class LeadGenerated extends Mailable {
     $notices = [];
     $warnings = [];
 
-    foreach ($results->results as $result) {
+    foreach ($results as $result) {
       if ($result->type) {
         switch ($result->type) {
           case 'notice':
@@ -84,15 +84,25 @@ class LeadGenerated extends Mailable {
       'warnings' => count($warnings)
     ];
 
+    $resultOrder = ['error' => 0, 'warning' => 1, 'notice' => 2];
+
+    uksort($results, function ($a, $b) use ($results, $resultOrder) {
+      if (isset($results[$a]->type) && isset($results[$b]->type)) {
+        return $resultOrder[$results[$a]->type] -
+          $resultOrder[$results[$b]->type];
+      }
+    });
+
     // The MJML conversion includes abundant extra characters that throw error from html2text parser used internally by
     // Laravel.  This line explicitly disables those errors for this single conversion process.
-    $internalErrors = libxml_use_internal_errors(true);
+    libxml_use_internal_errors(true);
 
     $mjml = $this->mjml('emails.lead.lead', [
       'audit' => $this->audit,
+      'domain' => get_domain($this->lead->url),
       'lead' => $data,
       'max_results' => $MAX_RESULTS,
-      'results' => $results->results,
+      'results' => $results,
       'stats' => $stats
     ]);
 
