@@ -23,7 +23,7 @@ class TicketsController extends Controller {
    * @return Response
    */
   public function index() {
-    $tickets = Ticket::paginate(10);
+    $tickets = Ticket::paginate(config('app.pagination.quantity'));
 
     return view('admin.tickets.index', compact('tickets'));
   }
@@ -80,7 +80,9 @@ class TicketsController extends Controller {
 
   public function userTickets() {
     $categories = Category::all();
-    $tickets = Ticket::where('user_id', Auth::user()->id)->paginate(10);
+    $tickets = Ticket::where('user_id', Auth::user()->id)->paginate(
+      config('app.pagination.quantity')
+    );
 
     return view('tickets.user_tickets', compact('tickets', 'categories'));
   }

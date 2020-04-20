@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Auth;
 
 class StatementTemplateController extends Controller {
   public function index() {
-    $templates = StatementTemplate::with('sites')
-      ->get()
-      ->sortBy('name');
+    $templates = StatementTemplate::with('sites')->paginate(
+      config('app.pagination.quantity')
+    );
 
     $settings = Setting::first();
 

@@ -15,10 +15,9 @@ class ProductController extends Controller {
     $this->authorize('manage', 'product');
 
     try {
-      $products = Stripe\Product::all(['limit' => 10]);
+      $products = Stripe\Product::all();
 
       return view('admin.products.index', compact('products'));
-      //      }
     } catch (Stripe\Error\Api $e) {
       return json_decode($e, false);
     }

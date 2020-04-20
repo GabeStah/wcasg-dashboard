@@ -90,6 +90,7 @@
             @endforeach
             </tbody>
           </table>
+          {{ $templates->links() }}
         </div>
       </div>
     </div>

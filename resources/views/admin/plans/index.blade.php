@@ -65,6 +65,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                {{ $plans->links() }}
             </div>
         </div>
     </div>

@@ -221,5 +221,9 @@ return [
     'Validator' => Illuminate\Support\Facades\Validator::class,
     'View' => Illuminate\Support\Facades\View::class,
     'DotenvEditor' => Brotzka\DotenvEditor\DotenvEditorFacade::class
+  ],
+
+  'pagination' => [
+    'quantity' => env('APP_PAGINATION_QUANTITY', 20)
   ]
 ];

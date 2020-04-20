@@ -56,7 +56,7 @@ class PlanController extends Controller {
   public function index(Request $request) {
     $this->authorize('create', Plan::class);
 
-    $plans = Plan::all();
+    $plans = Plan::paginate(config('app.pagination.quantity'));
 
     $stripeProducts = Stripe\Product::all(['limit' => 100]);
 

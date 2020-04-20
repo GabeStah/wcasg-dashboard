@@ -47,8 +47,9 @@
                             </td>
                         </tr>
                         @endforeach
-                    </tbody>
+                         </tbody>
                 </table>
+                {{ $subscriptions->links() }}
             </div>
         </div>
     </div>

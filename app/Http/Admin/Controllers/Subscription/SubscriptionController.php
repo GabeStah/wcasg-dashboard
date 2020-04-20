@@ -14,8 +14,7 @@ class SubscriptionController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index() {
-    //        $subscriptions =  DB::table('subscriptions')->get();
-    $subscriptions = Subscription::get();
+    $subscriptions = Subscription::paginate(config('app.pagination.quantity'));
     return view('admin.subscriptions.index', compact('subscriptions'));
   }
 }
