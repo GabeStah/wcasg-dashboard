@@ -6,6 +6,7 @@
  * Time: 1:30 AM
  */
 
+use Illuminate\Support\Str;
 use LZCompressor\LZString;
 
 if (!function_exists('on_page')) {
@@ -204,5 +205,12 @@ if (!function_exists('decimal_to_cents')) {
 if (!function_exists('get_domain')) {
   function get_domain($url) {
     return parse_url($url, PHP_URL_HOST) ? parse_url($url, PHP_URL_HOST) : $url;
+  }
+}
+
+if (!function_exists('stripe_base_url')) {
+  function stripe_base_url() {
+    return 'https://dashboard.stripe.com/' .
+      (Str::contains(config('services.stripe.key'), '_test_') ? 'test/' : '');
   }
 }

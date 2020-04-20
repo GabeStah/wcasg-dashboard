@@ -2,6 +2,7 @@
 
 namespace CreatyDev\Http\Admin\Controllers\Subscription;
 
+use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Solarix\Cashier\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,10 @@ class SubscriptionController extends Controller {
    * @return \Illuminate\Http\Response
    */
   public function index() {
-    $subscriptions = Subscription::paginate(config('app.pagination.quantity'));
+    $subscriptions = Subscription::with('user', 'plan')->paginate(
+      config('app.pagination.quantity')
+    );
+
     return view('admin.subscriptions.index', compact('subscriptions'));
   }
 }

@@ -2,6 +2,12 @@
 
 namespace CreatyDev\Solarix\Cashier;
 
+use CreatyDev\Domain\Subscriptions\Models\Plan;
+use CreatyDev\Domain\Users\Models\User;
+use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Laravel\Cashier\Exceptions\SubscriptionUpdateFailure;
 use Laravel\Cashier\Subscription as CashierSubscription;
 
@@ -15,43 +21,43 @@ use Laravel\Cashier\Subscription as CashierSubscription;
  * @property string                                   $stripe_status
  * @property string                                   $stripe_plan_id
  * @property int                                      $quantity
- * @property \Illuminate\Support\Carbon|null          $trial_ends_at
- * @property \Illuminate\Support\Carbon|null          $ends_at
- * @property \Illuminate\Support\Carbon|null          $created_at
- * @property \Illuminate\Support\Carbon|null          $updated_at
+ * @property Carbon|null          $trial_ends_at
+ * @property Carbon|null          $ends_at
+ * @property Carbon|null          $created_at
+ * @property Carbon|null          $updated_at
  * @property int|null                                 $plan_id
- * @property-read \CreatyDev\Domain\Users\Models\User $owner
- * @property-read \CreatyDev\Domain\Users\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription active()
- * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription cancelled()
- * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription ended()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription notCancelled()
- * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription notOnGracePeriod()
- * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription notOnTrial()
- * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription onGracePeriod()
- * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription onTrial()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription query()
- * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription recurring()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription valid()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription whereEndsAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription wherePlanId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription whereQuantity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription whereStripeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription whereStripePlan($value)
+ * @property-read User $owner
+ * @property-read User $user
+ * @method static Builder|CashierSubscription active()
+ * @method static Builder|CashierSubscription cancelled()
+ * @method static Builder|CashierSubscription ended()
+ * @method static Builder|Subscription newModelQuery()
+ * @method static Builder|Subscription newQuery()
+ * @method static Builder|CashierSubscription notCancelled()
+ * @method static Builder|CashierSubscription notOnGracePeriod()
+ * @method static Builder|CashierSubscription notOnTrial()
+ * @method static Builder|CashierSubscription onGracePeriod()
+ * @method static Builder|CashierSubscription onTrial()
+ * @method static Builder|Subscription query()
+ * @method static Builder|CashierSubscription recurring()
+ * @method static Builder|Subscription valid()
+ * @method static Builder|Subscription whereCreatedAt($value)
+ * @method static Builder|Subscription whereEndsAt($value)
+ * @method static Builder|Subscription whereId($value)
+ * @method static Builder|Subscription whereName($value)
+ * @method static Builder|Subscription wherePlanId($value)
+ * @method static Builder|Subscription whereQuantity($value)
+ * @method static Builder|Subscription whereStripeId($value)
+ * @method static Builder|Subscription whereStripePlan($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription
  *         whereStripeStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription
  *         whereTrialEndsAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Solarix\Cashier\Subscription whereUserId($value)
- * @mixin \Eloquent
- * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription incomplete()
- * @method static \Illuminate\Database\Eloquent\Builder|\Laravel\Cashier\Subscription pastDue()
+ * @method static Builder|Subscription whereUpdatedAt($value)
+ * @method static Builder|Subscription whereUserId($value)
+ * @mixin Eloquent
+ * @method static Builder|CashierSubscription incomplete()
+ * @method static Builder|CashierSubscription pastDue()
  * @property string $stripe_plan
  */
 class Subscription extends CashierSubscription {
@@ -65,7 +71,7 @@ class Subscription extends CashierSubscription {
   /**
    * Filter query by active.
    *
-   * @param \Illuminate\Database\Eloquent\Builder $query
+   * @param Builder $query
    * @return void
    */
   public function scopeValid($query) {
@@ -76,14 +82,23 @@ class Subscription extends CashierSubscription {
   }
 
   /**
+   * Get Statement associated with this Site.
+   *
+   * @return BelongsTo
+   */
+  public function plan() {
+    return $this->belongsTo(Plan::class);
+  }
+
+  /**
    * Swap the subscription to a new Stripe plan.
    *
    * @param  string  $plan
    * @param  array  $options
    *
-   * @return \Laravel\Cashier\Subscription
+   * @return CashierSubscription
    *
-   * @throws \Laravel\Cashier\Exceptions\SubscriptionUpdateFailure
+   * @throws SubscriptionUpdateFailure
    */
   public function swap($plan, $options = []) {
     if ($this->incomplete()) {
