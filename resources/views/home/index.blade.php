@@ -6,23 +6,36 @@
             <div class="container">
                 <div class="content">
                     <div class="row d-flex align-items-center">
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             <div class="left">
-                                <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sapien mauris, varius sed tortor in, scelerisque iaculis justo. Nullam molestie eleifend mauris. Nulla dignissim hendrerit est sed pellentesque. </h3>
-                                    <p>
-                                        <strong>Sed eget lectus quis arcu aliquet facilisis vitae nec quam. Sed quam diam, bibendum eget dignissim a, ullamcorper sed lacus. Fusce eget magna elit. Suspendisse ac ipsum et nisl facilisis porttitor in tristique sem. Sed ullamcorper semper egestas.</strong>
-                                    </p>
-                                    <p>
-                                    Nam interdum tristique ante sit amet sagittis. Sed vestibulum ipsum a tortor congue iaculis. Nulla consequat sem id tortor luctus, sit amet tempus lorem eleifend. Sed viverra nec libero eu lobortis. Praesent sodales sagittis semper. Etiam elementum neque sit amet nulla tristique porta. Fusce dictum enim nec nisi tincidunt, non varius neque maximus. Nam id purus sit amet justo ullamcorper volutpat.
-                                </p>
+                                <h2 class="display-4">Safeguard Your Business </h2>
+                                    <h3 class="mt-3">Our easy to install app works on any website to increase accessibility compliance and provide peace of mind.</h3>
+                                    <ul class="fa-ul my-5 w-75 mx-auto d-block">
+                                        <li class="p-2 ml-2">
+                                            <span class="fa-li"><i class="fa fa-shield-alt fa-2x text-primary mr-3"></i></span><h4 class="ml-2">Protect Your Business</h4>
+                                            <p class="ml-2">Safeguard yourself against litigation for not following the American with Disabilities Act and providing resources to users with disabilities.</p>
+                                        </li>
+                                        <li class="p-2 ml-2">
+                                            <span class="fa-li"><i class="fa fa-tachometer-alt fa-2x text-primary mr-3"></i></span><h4 class="ml-2">Performance Friendly</h4>
+                                            <p class="ml-2">Our widget has fast loading times and a small footprint to help your website stay competitive.</p>
+                                        </li>
+                                        <li class="p-2 ml-2">
+                                            <span class="fa-li"><i class="fa fa-universal-access fa-2x text-primary mr-3"></i></span><h4 class="ml-2">Provide Needed Tools</h4>
+                                            <p class="ml-2">Allow more users to view, utilize and purchase goods or services from your website. </p>
+                                        </li>
+                                        <li class="p-2 ml-2">
+                                            <span class="fa-li"><i class="fa fa-check fa-2x text-primary mr-3"></i></span><h4 class="ml-2">Easy 3 Step Install</h4>
+                                            <p class="ml-2">No coding required. A single line of code added to your website and the widget is installed - we'll walk you through it. </p>
+                                        </li>
+                                    </ul>
                                 <a href="{{ route('register') }}" class="btn-1">Get Started</a>
 {{--                                <a href="/docs" class="btn-2">View documention</a>--}}
                             </div>
                         </div>
                         <!-- Right-->
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="right">
-                                <img src="{{ asset('saas/img/slider-img.png') }}" alt="slider-img" class="img-fluid wow fadeInRight" data-wow-offset="1">
+                                <img src="{{ asset('img/widget_examples/wcasg_widget_example_1.gif') }}" alt="WCASG ADA Widget 3-Step Example Animation" class="img-fluid wow fadeInRight mx-auto d-block mw-75 rounded" data-wow-offset="1">
                             </div>
                         </div>
                     </div>
