@@ -97,7 +97,7 @@ class LeadGenerated extends Mailable {
     // Laravel.  This line explicitly disables those errors for this single conversion process.
     libxml_use_internal_errors(true);
 
-    $mjml = $this->mjml('emails.lead.lead', [
+    $mjml = $this->mjml('emails.lead.created', [
       'audit' => $this->audit,
       'domain' => get_domain($this->lead->url),
       'lead' => $data,
