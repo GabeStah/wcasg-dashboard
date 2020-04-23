@@ -34,6 +34,7 @@ class CreateLeadsTable extends Migration {
         ->default('United States');
       $table->string('email')->nullable();
       $table->string('phone')->nullable();
+      $table->json('metadata')->nullable();
 
       $table
         ->string('audit_id', 36)
@@ -45,6 +46,15 @@ class CreateLeadsTable extends Migration {
         ->on('audits');
 
       $table
+        ->string('plan_id', 36)
+        ->index()
+        ->nullable();
+      $table
+        ->foreign('plan_id')
+        ->references('id')
+        ->on('plans');
+
+      $table
         ->bigInteger('user_id')
         ->unsigned()
         ->index()
@@ -52,7 +62,8 @@ class CreateLeadsTable extends Migration {
       $table
         ->foreign('user_id')
         ->references('id')
-        ->on('users');
+        ->on('users')
+        ->onDelete('CASCADE');
 
       $table->timestamps();
     });

@@ -2,12 +2,20 @@
 
 namespace CreatyDev\Domain\Users\Models;
 
+use CreatyDev\Domain\Leads\Models\Lead;
 use CreatyDev\Domain\Sites\Models\Site;
 use CreatyDev\Domain\Statements\Models\Statement;
+use Eloquent;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use CreatyDev\Solarix\Cashier\Subscription;
 use CreatyDev\Solarix\Traits\Billable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
+use Laravel\Passport\Client;
 use Laravel\Passport\HasApiTokens;
 use CreatyDev\App\Traits\Eloquent\Auth\HasConfirmationToken;
 use CreatyDev\App\Traits\Eloquent\Auth\HasTwoFactorAuthentication;
@@ -23,6 +31,7 @@ use CreatyDev\Domain\Users\Filters\UserFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\Token;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 /**
@@ -38,13 +47,13 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property string $password
  * @property int $activated
  * @property string|null $remember_token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  * @property string|null $stripe_id
  * @property string|null $card_brand
  * @property string|null $card_last_four
  * @property string|null $trial_ends_at
- * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property Carbon|null $deleted_at
  * @property string|null $company_name
  * @property string|null $address1
  * @property string|null $address2
@@ -52,71 +61,71 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @property string|null $state
  * @property string|null $country
  * @property string|null $postal_code
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
+ * @property-read \Illuminate\Database\Eloquent\Collection|Client[] $clients
  * @property-read int|null $clients_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Ticket\Models\Comment[] $comments
+ * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $comments
  * @property-read int|null $comments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Company\Models\Company[] $companies
+ * @property-read \Illuminate\Database\Eloquent\Collection|Company[] $companies
  * @property-read int|null $companies_count
- * @property-read \CreatyDev\Domain\Users\Models\ConfirmationToken $confirmationToken
+ * @property-read ConfirmationToken $confirmationToken
  * @property-read mixed $image
  * @property-read string $name
  * @property-read mixed $plan
  * @property-read mixed $statements
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read DatabaseNotificationCollection|DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Users\Models\Permission[] $permissions
+ * @property-read \Illuminate\Database\Eloquent\Collection|Permission[] $permissions
  * @property-read int|null $permissions_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Subscriptions\Models\Plan[] $plans
+ * @property-read \Illuminate\Database\Eloquent\Collection|Plan[] $plans
  * @property-read int|null $plans_count
- * @property-read \Kalnoy\Nestedset\Collection|\CreatyDev\Domain\Users\Models\Role[] $roles
+ * @property-read \Kalnoy\Nestedset\Collection|Role[] $roles
  * @property-read int|null $roles_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Sites\Models\Site[] $sites
+ * @property-read \Illuminate\Database\Eloquent\Collection|Site[] $sites
  * @property-read int|null $sites_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Solarix\Cashier\Subscription[] $subscriptions
+ * @property-read \Illuminate\Database\Eloquent\Collection|Subscription[] $subscriptions
  * @property-read int|null $subscriptions_count
- * @property-read \CreatyDev\Domain\Teams\Models\Team $team
- * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Teams\Models\Team[] $teams
+ * @property-read Team $team
+ * @property-read \Illuminate\Database\Eloquent\Collection|Team[] $teams
  * @property-read int|null $teams_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Ticket\Models\Ticket[] $tickets
+ * @property-read \Illuminate\Database\Eloquent\Collection|Ticket[] $tickets
  * @property-read int|null $tickets_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
+ * @property-read \Illuminate\Database\Eloquent\Collection|Token[] $tokens
  * @property-read int|null $tokens_count
- * @property-read \CreatyDev\Domain\Users\Models\TwoFactor $twoFactor
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User filter($request, $filters = [])
+ * @property-read TwoFactor $twoFactor
+ * @method static Builder|User filter($request, $filters = [])
  * @method static bool|null forceDelete()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User newQuery()
- * @method static \Illuminate\Database\Query\Builder|\CreatyDev\Domain\Users\Models\User onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User query()
+ * @method static Builder|User newModelQuery()
+ * @method static Builder|User newQuery()
+ * @method static \Illuminate\Database\Query\Builder|User onlyTrashed()
+ * @method static Builder|User query()
  * @method static bool|null restore()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereActivated($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereAddress1($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereAddress2($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereCardBrand($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereCardLastFour($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereCity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereCompanyName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereCountry($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereFirstName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereLastName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User wherePostalCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereProfileImage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereState($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereStripeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereTrialEndsAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Users\Models\User whereUsername($value)
- * @method static \Illuminate\Database\Query\Builder|\CreatyDev\Domain\Users\Models\User withTrashed()
- * @method static \Illuminate\Database\Query\Builder|\CreatyDev\Domain\Users\Models\User withoutTrashed()
- * @mixin \Eloquent
+ * @method static Builder|User whereActivated($value)
+ * @method static Builder|User whereAddress1($value)
+ * @method static Builder|User whereAddress2($value)
+ * @method static Builder|User whereCardBrand($value)
+ * @method static Builder|User whereCardLastFour($value)
+ * @method static Builder|User whereCity($value)
+ * @method static Builder|User whereCompanyName($value)
+ * @method static Builder|User whereCountry($value)
+ * @method static Builder|User whereCreatedAt($value)
+ * @method static Builder|User whereDeletedAt($value)
+ * @method static Builder|User whereEmail($value)
+ * @method static Builder|User whereFirstName($value)
+ * @method static Builder|User whereId($value)
+ * @method static Builder|User whereLastName($value)
+ * @method static Builder|User wherePassword($value)
+ * @method static Builder|User wherePhone($value)
+ * @method static Builder|User wherePostalCode($value)
+ * @method static Builder|User whereProfileImage($value)
+ * @method static Builder|User whereRememberToken($value)
+ * @method static Builder|User whereState($value)
+ * @method static Builder|User whereStripeId($value)
+ * @method static Builder|User whereTrialEndsAt($value)
+ * @method static Builder|User whereUpdatedAt($value)
+ * @method static Builder|User whereUsername($value)
+ * @method static \Illuminate\Database\Query\Builder|User withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
+ * @mixin Eloquent
  */
 class User extends Authenticatable {
   use Notifiable,
@@ -237,9 +246,16 @@ class User extends Authenticatable {
   }
 
   /**
+   * @return HasOne
+   */
+  public function lead() {
+    return $this->hasOne(Lead::class);
+  }
+
+  /**
    * Get team owned by user.
    *
-   * @return \Illuminate\Database\Eloquent\Relations\HasOne
+   * @return HasOne
    */
   public function team() {
     return $this->hasOne(Team::class);
@@ -298,7 +314,7 @@ class User extends Authenticatable {
   /**
    * Get all Statements associated with User.
    *
-   * @return \Illuminate\Support\Collection
+   * @return Collection
    */
   public function statements() {
     return Statement::join('sites', 'statements.id', '=', 'sites.statement_id')
@@ -341,7 +357,6 @@ class User extends Authenticatable {
     return $this->profile_image;
   }
 
-  // Ticket system
   public function comments() {
     return $this->hasMany(Comment::class);
   }
@@ -349,5 +364,4 @@ class User extends Authenticatable {
   public function tickets() {
     return $this->hasMany(Ticket::class);
   }
-  // end ticket system
 }

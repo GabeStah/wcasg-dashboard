@@ -350,67 +350,38 @@
 {{--        </section>--}}
 {{--        <!-- ======== End Testimonial ======== -->--}}
 
-{{--        <!-- ======== Start Our Price ======== -->--}}
-{{--        <section class="our-price" id="price">--}}
-{{--            <div class="container text-center">--}}
-{{--                <div class="heading">--}}
-{{--                    <h2>Our Price</h2>--}}
-{{--                </div>--}}
-{{--                <div class="line"></div>--}}
-{{--                <div class="row">--}}
-{{--                    <!-- Box-1 -->--}}
-{{--                    @foreach ($plans as $plan)--}}
-{{--                        --}}
-{{--                    <div class="col-md-4">--}}
-{{--                        <div class="box" @if ($loop->iteration == 2)--}}
-{{--                                box-center--}}
-{{--                        @endif>--}}
-{{--                        @if ($loop->iteration == 2)--}}
-{{--                            <a href="#0" class="top-btn">Popular</a>--}}
-{{--                        @endif--}}
-{{--                            <h3>{{ $plan->nickname }}</h3>--}}
-{{--                            <h4>$<span>{{ cents_to_decimal($plan->amount) }}</span>/ {{ $plan->interval }}</h4>--}}
-{{--                            <ul>--}}
-{{--                                <li>Admin Panel</li>--}}
-{{--                                <li>100GB Storge</li>--}}
-{{--                                <li>Unlimited Email</li>--}}
-{{--                            </ul>--}}
-{{--                            <a href="{{ route('home') }}/subscription?plan={{ $plan->id }}" class="btn-2">Get Started</a>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    --}}
-{{--                    @endforeach--}}
-{{--                    <!-- Box-2 -->--}}
-{{--                    --}}{{-- <div class="col-md-4">--}}
-{{--                        <div class="box box-center">--}}
-{{--                            <a href="#0" class="top-btn">Popular</a>--}}
-{{--                            <h3>Standard</h3>--}}
-{{--                            <h4>$<span class="blue">45</span>/ Month</h4>--}}
-{{--                            <ul>--}}
-{{--                                <li>Admin Panel</li>--}}
-{{--                                <li>300GB Storge</li>--}}
-{{--                                <li>Unlimited Email</li>--}}
-{{--                            </ul>--}}
-{{--                            <a href="http://saas-boilerplate.test/subscription?plan=User_month_50" class="btn-1">Get Started</a>--}}
-{{--                        </div>--}}
-{{--                    </div> --}}
-{{--                    <!-- Box-3 -->--}}
-{{--                    --}}{{-- <div class="col-md-4">--}}
-{{--                        <div class="box">--}}
-{{--                            <h3>Ultimate</h3>--}}
-{{--                            <h4>$<span>85</span>/ Month</h4>--}}
-{{--                            <ul>--}}
-{{--                                <li>Admin Panel</li>--}}
-{{--                                <li>500GB Storge</li>--}}
-{{--                                <li>Unlimited Email</li>--}}
-{{--                            </ul>--}}
-{{--                            <a href="http://saas-boilerplate.test/subscription?plan=Team_plan_100" class="btn-2">Get Started</a>--}}
-{{--                        </div>--}}
-{{--                    </div> --}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </section>--}}
-{{--        <!-- ======== End Our Price ======== -->--}}
+        <!-- ======== Start Our Price ======== -->
+        <section class="our-price" id="price">
+            <div class="container text-center">
+                <div class="heading">
+                    <h2>Plans</h2>
+                </div>
+                <div class="line"></div>
+                <div class="row">
+                    <!-- Box-1 -->
+                    @foreach ($plans as $plan)
+
+                    <div class="col-md-3">
+                        <div class="box" @if ($loop->iteration == 3) box-center @endif>
+                            @if ($loop->iteration == 3)
+                                <span class="top-btn">Popular</span>
+                            @endif
+                            <h3>{{ $plan->nickname }}</h3>
+                            <h4>$<span>{{ cents_to_decimal($plan->amount) }}</span>/ {{ $plan->interval }}</h4>
+                            <ul>
+                                <li>Site-Wide Accessibility Widget</li>
+                                <li>Admin Dashboard</li>
+                                <li>Advanced Extensions</li>
+                            </ul>
+                            <a href="{{ route('register', ['plan' => $plan->id]) }}" class="btn-1 btn-primary btn-lg">Get Started</a>
+                        </div>
+                    </div>
+
+                    @endforeach
+                </div>
+            </div>
+        </section>
+        <!-- ======== End Our Price ======== -->
 
 {{--        <!-- ======== Start Clients ======== -->--}}
 {{--        <section class="clients">--}}

@@ -11,6 +11,10 @@
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
 
+                            @if(isset($plan))
+                            <input type="hidden" name="plan" value="{{ $plan }}">
+                            @endif
+
                             <!-- Controller is provided through vendor lib, so row data must be defined here. -->
                             @component('components.form.row-list', ['rows' => [
                                 ['field' => 'first_name', 'title' => 'First Name', 'required' => true],

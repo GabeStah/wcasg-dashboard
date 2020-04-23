@@ -11,6 +11,12 @@ use Illuminate\Database\Eloquent\Factory;
 $factory->define(StripeProduct::class, function (Faker $faker) {
   $products = [
     [
+      'name' => 'Widget Service',
+      'description' =>
+        'WCASG Widget service provides state of the art accessibility support, government compliance, and user-defined customization for your site.',
+      'unit_label' => 'site'
+    ],
+    [
       'name' => 'iPhone 11 Pro',
       'description' =>
         'All-new triple-camera system Up to 20 hours of video playback Water resistant to a depth of 4 meters for up to 30 minutes.',
@@ -27,12 +33,6 @@ $factory->define(StripeProduct::class, function (Faker $faker) {
       'description' =>
         'Meet the Kindle, now with a built-in adjustable front light so you can read indoors and outdoors and at more times of day. Purpose-built for reading, Kindle features a glare-free touchscreen display that reads like real paper, even in direct sunlight.',
       'unit_label' => 'kindle'
-    ],
-    [
-      'name' => 'Widget Service',
-      'description' =>
-        'WCASG Widget service provides state of the art accessibility support, government compliance, and user-defined customization for your site.',
-      'unit_label' => 'site'
     ],
     [
       'name' => 'USB Cable',

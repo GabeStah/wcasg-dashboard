@@ -104,6 +104,19 @@ class Plan extends Model {
    */
   protected $keyType = 'string';
 
+  /**
+   * Checks if passed data is validated by context object.
+   *
+   * e.g.: Checks if adding 1 site for $user is validated:
+   * <code>
+   * $plan->isContextValidated('site', 1, $user)
+   * </code>
+   *
+   * @param String $entity Key representing type of entity to validate.
+   * @param Integer $change Proposed change to entity.
+   * @param User $user Object on which to perform entity validation.
+   * @return bool Result of validation.
+   */
   public function isContextValidated($entity, $change, User $user) {
     $context = $this->context;
     // No context
@@ -159,6 +172,42 @@ class Plan extends Model {
       // All pass
       return true;
     }
+  }
+
+  /**
+   * Get the maximum number of Sites allowed by context.
+   *
+   * @return int
+   */
+  public function getSiteCountMaximum() {
+    $maximum = 100;
+    $context = $this->context;
+    // No context
+    if (!$context) {
+      return $maximum;
+    }
+
+    $context = json_decode(json_encode($context));
+
+    // Check restraint value against desired value
+    foreach ($context->plan->restraints as $restraint) {
+      switch ($restraint->comparator) {
+        case '<':
+          if ($maximum >= $restraint->value) {
+            $maximum = $restraint->value - 1;
+          }
+        case '<=':
+          if ($maximum > $restraint->value) {
+            $maximum = $restraint->value;
+          }
+        case '=':
+          if ($maximum > $restraint->value) {
+            $maximum = $restraint->value;
+          }
+      }
+    }
+
+    return $maximum;
   }
 
   /**

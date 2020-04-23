@@ -67,10 +67,6 @@
                             My Account
                         </a>
 
-                        <!-- Developer Link -->
-{{--                        <a class="dropdown-item" href="{{ route('developer.index') }}">--}}
-{{--                            Developer Panel--}}
-{{--                        </a>--}}
                         <div class="dropdown-divider"></div>
 
                         <a class="dropdown-item" href="{{ route('logout') }}"

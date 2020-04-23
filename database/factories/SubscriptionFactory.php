@@ -24,13 +24,16 @@ $factory->defineAs(Subscription::class, 'complete', function (Faker $faker) {
   // User
   $user = factory(User::class)->create();
 
-  // Product
-  $stripeProduct = StripeProduct::create(factory(StripeProduct::class)->raw());
+  //  // Product
+  //  $stripeProduct = StripeProduct::create(factory(StripeProduct::class)->raw());
+  //
+  //  // Plan
+  //  $plan = factory(Plan::class)->create([
+  //    'product_id' => $stripeProduct->id
+  //  ]);
 
-  // Plan
-  $plan = factory(Plan::class)->create([
-    'product_id' => $stripeProduct->id
-  ]);
+  // Get random existing Plan
+  $plan = Plan::all()->random();
 
   // PaymentMethod
   $paymentMethod = PaymentMethod::create(factory(PaymentMethod::class)->raw());

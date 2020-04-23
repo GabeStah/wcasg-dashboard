@@ -3,6 +3,18 @@
 
   <div class="col-md-6">
     @switch($type ?? null)
+      @case('password')
+          @component('components.form.input', [
+            'label' => $label ?? null,
+            'field' => $field ?? null,
+            'data' => $data ?? null,
+            'type' => 'password',
+            'required' => $required ?? null,
+            'errors' => $errors ?? null,
+            'placeholder' => $placeholder ?? null
+          ])
+          @endcomponent
+          @break
       @case('input')
         @component('components.form.input', [
           'label' => $label ?? null,

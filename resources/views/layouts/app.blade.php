@@ -12,7 +12,9 @@
         <header class="header-global" style="height: 34px;">
             @include('layouts.partials._navigation')
         </header>
-        @include('layouts.partials.errors._errors')
+        @if(!session('disableGlobalErrors'))
+            @include('layouts.partials.errors._errors')
+        @endif
         @yield('content')
     </div>
 
