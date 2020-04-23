@@ -64,13 +64,13 @@
                             </ul>
                         </div>
                     </li>
+                    @subscribed
                     <li class="nav-item">
                         <a class="nav-link {{ return_if(current_route_group(1) === 'subscription', ' active') }}" href="#navbar-components" data-toggle="collapse" role="button"
                             aria-expanded="{{ current_route_group(1) === 'subscription' ? 'true' : 'false' }}" aria-controls="navbar-components">
                             <i class="fa fa-credit-card" aria-hidden="true"></i>
                             <span class="nav-link-text">{{ __('account.sidebar.subscription.header') }}</span>
                         </a>
-                        @subscribed
                         @notpiggybacksubscription
                             <!-- Subscription Links -->
                             <div class="collapse {{ current_route_group(1) === 'subscription' ? 'show' : '' }}" id="navbar-components">
@@ -109,8 +109,8 @@
                                 </ul>
                             </div>
                         @endnotpiggybacksubscription
-                        @endsubscribed
                     </li>
+                    @endsubscribed
                     <li class="nav-item">
                         <a class="nav-link {{ return_if(current_route_group(1) === 'sites', ' active') }}"
                            href="{{ route('account.sites.index') }}" role="button" aria-controls="navbar-sites">

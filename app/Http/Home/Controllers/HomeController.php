@@ -22,7 +22,9 @@ class HomeController extends Controller {
     // Log the visitor
     VisitLog::save();
     // Get Plans to show on the landing page
-    $plans = Plan::take('3')->get();
+    $plans = Plan::take('4')
+      ->orderBy('amount')
+      ->get();
     return view('home.index', compact('plans'));
   }
 }

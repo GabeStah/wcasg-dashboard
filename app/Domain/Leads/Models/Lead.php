@@ -3,6 +3,7 @@
 namespace CreatyDev\Domain\Leads\Models;
 
 use CreatyDev\Domain\Audits\Models\Audit;
+use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -62,6 +63,8 @@ class Lead extends Model {
    */
   protected $appends = ['name'];
 
+  protected $casts = ['metadata' => 'json'];
+
   /**
    * The attributes that are mass assignable.
    *
@@ -80,7 +83,11 @@ class Lead extends Model {
     'country',
     'email',
     'phone',
-    'mailto_address'
+    'mailto_address',
+    'audit_id',
+    'user_id',
+    'plan_id',
+    'metadata'
   ];
 
   /**
@@ -99,6 +106,26 @@ class Lead extends Model {
    */
   public function getNameAttribute() {
     return $this->first_name . ' ' . $this->last_name;
+  }
+
+  /**
+   * Gets the domains list associated with this lead.
+   *
+   * @return mixed
+   */
+  public function getDomains() {
+    if ($this->metadata && isset($this->metadata['domains'])) {
+      return $this->metadata['domains'];
+    }
+  }
+
+  /**
+   * Get associated Plan.
+   *
+   * @return BelongsTo
+   */
+  public function plan() {
+    return $this->belongsTo(Plan::class);
   }
 
   /**

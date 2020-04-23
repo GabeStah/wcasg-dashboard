@@ -106,10 +106,6 @@ class LeadGenerated extends Mailable {
       'stats' => $stats
     ]);
 
-    // Minify
-    // TODO: Currently seemingly does nothing
-    //    $mjml->html(HTMLMin::html($mjml->html));
-
     return $mjml;
   }
 }

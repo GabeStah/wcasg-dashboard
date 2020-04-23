@@ -4,11 +4,19 @@ namespace CreatyDev\Http\Auth\Controllers;
 
 use CreatyDev\App\Controllers\Controller;
 use CreatyDev\Domain\Auth\Events\UserSignedUp;
+use CreatyDev\Domain\Leads\Models\Lead;
 use CreatyDev\Domain\Users\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Validation\Rule;
+use Illuminate\View\View;
 
 class RegisterController extends Controller {
   /*
@@ -41,6 +49,16 @@ class RegisterController extends Controller {
   }
 
   /**
+   * Show the application registration form.
+   *
+   * @param Request $request
+   * @return Application|Factory|Response|View
+   */
+  public function showRegistrationForm(Request $request) {
+    return view('auth.register', ['plan' => $request->get('plan')]);
+  }
+
+  /**
    * Get a validator for an incoming registration request.
    *
    * @param  array $data
@@ -50,13 +68,7 @@ class RegisterController extends Controller {
     $rules = [
       'first_name' => 'required|string|max:40',
       'last_name' => 'required|string|max:40',
-      //      'profile_image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-      'username' => [
-        'nullable',
-        'string',
-        'max:30',
-        Rule::unique('users', 'username')->ignore(auth()->id())
-      ],
+      'username' => ['nullable', 'string', 'max:30'],
       'phone' => ['nullable', 'string'],
       'email' => [
         'required',
@@ -73,19 +85,9 @@ class RegisterController extends Controller {
       'country' => ['nullable', 'string', 'max:100'],
       'postal_code' => ['nullable', 'string', 'max:50'],
       'terms' => 'required'
-      //      'password' => ['required', new CurrentPassword()],
     ];
 
     return Validator::make($data, $rules);
-
-    //    return Validator::make($data, [
-    //      'first_name' => 'required|string|max:30',
-    //      'last_name' => 'required|string|max:30',
-    //      'username' => 'nullable|string|max:30|unique:users',
-    //      'email' => 'required|string|email|max:255|unique:users',
-    //      'password' => 'required|string|min:6|confirmed',
-    //      'terms' => 'required'
-    //    ]);
   }
 
   /**
@@ -104,13 +106,35 @@ class RegisterController extends Controller {
       'password' => bcrypt($data['password']),
       'activated' => false,
       'company_name' => $data['company_name'],
-      'address1' => $data['company_name'],
-      'address2' => $data['company_name'],
-      'city' => $data['company_name'],
-      'state' => $data['company_name'],
-      'postal_code' => $data['company_name'],
-      'country' => $data['company_name']
+      'address1' => $data['address1'],
+      'address2' => $data['address2'],
+      'city' => $data['city'],
+      'state' => $data['state'],
+      'postal_code' => $data['postal_code'],
+      'country' => $data['country']
     ]);
+  }
+
+  /**
+   * Handle a registration request for the application.
+   *
+   * @param Request $request
+   * @return Application|RedirectResponse|Response|Redirector
+   */
+  public function register(Request $request) {
+    $this->validator($request->all())->validate();
+
+    event(new Registered(($user = $this->create($request->all()))));
+
+    // Generate lead, with optional plan association from checkout flow
+    Lead::create([
+      'user_id' => $user->id,
+      'plan_id' => $request->get('plan')
+    ]);
+
+    $this->guard()->login($user);
+
+    return $this->registered($request, $user);
   }
 
   /**
@@ -128,8 +152,8 @@ class RegisterController extends Controller {
     event(new UserSignedUp($user));
 
     //redirect user
-    return redirect($this->redirectPath())->withSuccess(
-      'Please check your email for an activation link'
-    );
+    return redirect(route('login'))->with([
+      'success' => 'Please check your email for an activation link to proceed!'
+    ]);
   }
 }

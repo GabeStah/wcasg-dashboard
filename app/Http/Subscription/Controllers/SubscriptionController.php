@@ -25,9 +25,10 @@ class SubscriptionController extends Controller {
    * @return Response
    */
   public function store(SubscriptionStoreRequest $request) {
+    $plan = \Stripe\Plan::retrieve($request->plan);
     $subscription = $request
       ->user()
-      ->newSubscription($request->plan->nickname, $request->plan->id);
+      ->newSubscription($plan->nickname, $plan->id);
 
     if ($request->has('coupon')) {
       $subscription->withCoupon($request->coupon);
