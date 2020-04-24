@@ -31,5 +31,6 @@
 <link rel="stylesheet" href="{{ asset('saas/css/main.css') }}">
 <link rel="stylesheet" href="{{ asset('saas/css/custom.css') }}">
 {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
+<link href="{{ asset('argon/vendor/nucleo/css/nucleo.css') }}" rel="stylesheet">
 
 @yield('styles')

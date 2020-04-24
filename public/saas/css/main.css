@@ -41,8 +41,10 @@ body {
     background: #f1f7ff !important;
 }
 .navbar .nav-item {
-    padding: 0;
+    align-items: center;
+    display: flex;
     margin: 0;
+    padding: 0;
 }
 .navbar .nav-item .nav-link {
     padding: 0;

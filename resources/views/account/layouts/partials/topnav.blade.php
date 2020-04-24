@@ -93,15 +93,6 @@
                                 <i class="ni ni-single-02"></i>
                                 <span>My Account</span>
                             </a>
-{{--                            <a href="#!" class="dropdown-item">--}}
-{{--                                <i class="ni ni-calendar-grid-58"></i>--}}
-{{--                                <span>Activity</span>--}}
-{{--                            </a>--}}
-                            <!-- Developer Link -->
-{{--                            <a class="dropdown-item" href="{{ route('developer.index') }}">--}}
-{{--                                <i class="ni ni-chart-bar-32"></i>--}}
-{{--                                <span>Developer Panel</span>--}}
-{{--                            </a>--}}
                             <!-- Impersonating -->
                             @impersonating
                             <a class="dropdown-item" href="#"
