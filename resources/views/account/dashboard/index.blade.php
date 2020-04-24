@@ -1,7 +1,165 @@
 @extends('account.layouts.default')
 
 @section('content')
-{{--<div class="row">--}}
+  <div class="row">
+      <div class="col-12">
+          <h1>MY DASHBOARD</h1>
+          <h3 class="text-muted font-weight-light">Welcome to the WCASG client area</h3>
+      </div>
+  </div>
+
+  <div class="row mt-3 ">
+      <div class="col-12 col-lg-6 d-flex align-items-stretch w-100">
+          <div class="card w-100">
+              <div class="card-header bg-transparent">
+                  <div class="row align-items-center">
+                      <div class="col">
+                          <h6 class="text-uppercase text-muted ls-1 mb-1">Add Your Website</h6>
+                          <h5 class="h3 mb-0">Getting Started</h5>
+                      </div>
+                  </div>
+              </div>
+              <div class="card-body">
+                      <!-- If a user has no Site (enabled or disabled) -->
+                      <h4>Setting up your first site</h4>
+                      <ul class="fa-ul">
+                          <li><span class="fa-li"><i class="far fa-circle"></i></span>Add your website to the <a
+                                  href="/account/sites">Sites Page.</a></li>
+                          <li><span class="fa-li"><i class="far fa-circle"></i></span>Paste the code snippet into your
+                              website just before <\head>. </li>
+                          <li><span class="fa-li"><i class="far fa-circle"></i></span>Your done! The widget will start
+                              working instantly.</li>
+                      </ul>
+
+                      <!-- If a user has never ran an Audit Scan before -->
+                      <h4 class="pt-4">Perform a website accessibility audit</h4>
+                      <ul class="fa-ul">
+                          <li><span class="fa-li"><i class="far fa-circle"></i></span>Enter a new or existing site via the  <a
+                                  href="/account/audits/create">Audit Creation Page</a></li>
+                          <li><span class="fa-li"><i class="far fa-circle"></i></span>Allow the scan to finish</li>
+                          <li><span class="fa-li"><i class="far fa-circle"></i></span>Scan results will be presented automatically.</li>
+                      </ul>
+              </div>
+          </div>
+      </div>
+
+      <div class="col-12 col-lg-6 align-items-stretch text-white">
+          <h3 class="text-muted text-center font-weight-light">Statistics Coming Soon</h3>
+          <div class="row">
+              <div class="col-4">
+                  <div class="card bg-info border-0 centered">
+                      <div class="card-body">
+                          <h3 class="display-1 text-center text-white">99</h3>
+                          <p class="text-center">Widget Interaction</p>
+                      </div>
+                  </div>
+                  <div class="card bg-info border-0 centered">
+                      <div class="card-body">
+                          <h3 class="display-1 text-center text-white">99</h3>
+                          <p class="text-center">Page Views</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-4">
+                  <div class="card bg-info border-0 centered">
+                      <div class="card-body">
+                          <h3 class="display-1 text-center text-white">99</h3>
+                          <p class="text-center">Bandwith Used This Month</p>
+                      </div>
+                  </div>
+                  <div class="card bg-info border-0 centered">
+                      <div class="card-body">
+                          <h3 class="display-1 text-center text-white">99</h3>
+                          <p class="text-center">Voice-To-Text Bandwidth</p>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-4">
+                  <div class="card bg-gradient-info border-0 centered">
+                      <div class="card-body">
+                          <h3 class="display-1 text-center text-white">99</h3>
+                          <p class="text-center">Enabled Webites</p>
+                      </div>
+                  </div>
+                  <div class="card bg-gradient-info border-0 centered">
+                      <div class="card-body">
+                          <h3 class="display-1 text-center text-white">99</h3>
+                          <p class="text-center">Support Tickets</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+      
+  <div class="row mt-3">
+    <div class="col-6">
+      <div class="card">
+          <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                  <div class="col">
+                      <h6 class="text-uppercase text-muted ls-1 mb-1">Coming Soon</h6>
+                      <h5 class="h3 mb-0 text-muted">News & Information</h5>
+                  </div>
+              </div>
+          </div>
+          <div class="card-body">
+          </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="card">
+          <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                  <div class="col">
+                      <h6 class="text-uppercase text-muted ls-1 mb-1">Coming Soon</h6>
+                      <h5 class="h3 mb-0 text-muted">Additional Accessibility Services</h5>
+                  </div>
+              </div>
+          </div>
+          <div class="card-body">
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3 ">
+    <div class="col-12">
+      <div class="card">
+          <div class="card-header bg-transparent">
+              <div class="row align-items-center">
+                  <div class="col">
+                      <h6 class="text-uppercase text-muted ls-1 mb-1">Coming Soon</h6>
+                      <h5 class="h3 mb-0 text-muted">Website Visitors & Associated Info</h5>
+                  </div>
+              </div>
+          </div>
+          <div class="card-body">
+              <div class="chart">
+                  <div class="chartjs-size-monitor">
+                      <div class="chartjs-size-monitor-expand">
+                          <div class=""></div>
+                      </div>
+                      <div class="chartjs-size-monitor-shrink">
+                          <div class=""></div>
+                      </div>
+                  </div>
+                  <div class="chartjs-size-monitor">
+                      <div class="chartjs-size-monitor-expand">
+                          <div></div>
+                      </div>
+                      <div class="chartjs-size-monitor-shrink">
+                          <div></div>
+                      </div>
+                  </div>
+                  <canvas id="chart-bars1" width="3303" height="525" class="chart-canvas chartjs-render-monitor"
+                      style="display: block; width: 2202px; height: 350px;"></canvas>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
 {{--    <div class="col-xl-3 col-md-6">--}}
 {{--        <div class="card bg-gradient-primary border-0">--}}
 {{--            <!-- Card body -->--}}
@@ -126,7 +284,6 @@
 {{--            </div>--}}
 {{--        </div>--}}
 {{--    </div>--}}
-{{--</div>--}}
 {{--<div>--}}
 {{--    <div class="card">--}}
 {{--        <div class="card-header bg-transparent">--}}
@@ -155,13 +312,13 @@ new Chart(document.getElementById("chart-bars1"), {
       labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
       datasets: [
         {
-          label: "Orders",
+          label: "Stat1",
           backgroundColor: "#3e95cd",
-          data: [933,221,983,2478, 2600,2700,2800,2900,1734,1800,1850,1900]
+          data: [1,2,3,4,5,6,7,8,9,10,11,12]
         }, {
-          label: "Sales",
+          label: "Stat2",
           backgroundColor: "#8e5ea2",
-          data: [1608,947,2675,934,2800,850,1900,1600, 2600,2700,2800,2900]
+          data: [12,11,10,9,8,7,6,5,4,3,2,1]
         }
       ]
     },
