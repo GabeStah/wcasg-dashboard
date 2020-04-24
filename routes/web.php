@@ -199,7 +199,7 @@ Route::group(
 Route::group(
   [
     'prefix' => '/account',
-    'middleware' => ['auth'],
+    'middleware' => ['auth', 'subscription.active'],
     'namespace' => 'Ticket\Controllers',
     'as' => 'ticket.'
   ],
@@ -232,7 +232,7 @@ Route::group(['middleware' => ['subscription.active']], function () {});
 Route::group(
   [
     'prefix' => '/account',
-    'middleware' => ['auth'],
+    'middleware' => ['auth', 'subscription.active'],
     'namespace' => 'Account\Controllers',
     'as' => 'account.'
   ],

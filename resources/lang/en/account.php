@@ -62,6 +62,9 @@ return [
     ],
     'notifications' => [
       'header' => 'Notifications'
+    ],
+    'plans' => [
+      'header' => 'Plans'
     ]
   ],
   'site' => [

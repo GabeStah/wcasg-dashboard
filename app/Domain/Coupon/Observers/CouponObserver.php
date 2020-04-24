@@ -12,10 +12,16 @@ class CouponObserver {
    * @return Coupon
    */
   public function creating(Coupon $coupon) {
-    // Stripe
-    \Stripe\Coupon::create($coupon->toStripe());
-
-    return $coupon;
+    try {
+      // Find existing from Stripe.
+      // Throws InvalidRequest if not found.
+      \Stripe\Coupon::retrieve($coupon->id);
+      return $coupon;
+    } catch (\Stripe\Error\InvalidRequest $e) {
+      // No Stripe Coupon exists, create
+      \Stripe\Coupon::create($coupon->toStripe());
+      return $coupon;
+    }
   }
 
   /**

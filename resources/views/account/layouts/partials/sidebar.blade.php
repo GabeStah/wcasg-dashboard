@@ -30,12 +30,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ return_if(on_page('account.index') or on_page('account.profile.index') or on_page('account.password.index') or on_page('account.deactivate.index') or on_page('account.twofactor.index') , ' active') }}" href="#navbar-examples" data-toggle="collapse" role="button"
-                            aria-expanded="{{ (on_page('account.index') or on_page('account.profile.index') or on_page('account.password.index') or on_page('account.deactivate.index') or on_page('account.twofactor.index')) ? 'true' : 'false' }}" aria-controls="navbar-examples">
+                        <a class="nav-link {{ return_if(on_page('account.index') or on_page('account.profile.index') or on_page('account.password.index') or on_page('account.deactivate.index') or on_page('account.twofactor.index') , ' active') }}" href="#account" data-toggle="collapse" role="button"
+                            aria-expanded="{{ (on_page('account.index') or on_page('account.profile.index') or on_page('account.password.index') or on_page('account.deactivate.index') or on_page('account.twofactor.index')) ? 'true' : 'false' }}" aria-controls="account">
                             <i class="fas fa-user"></i>
                             <span class="nav-link-text">{{ __('account.sidebar.account.header') }}</span>
                         </a>
-                        <div class="collapse {{ return_if(on_page('account.index') or on_page('account.profile.index') or on_page('account.password.index') or on_page('account.deactivate.index') or on_page('account.twofactor.index') , 'show') }}" id="navbar-examples">
+                        <div class="collapse {{ return_if(on_page('account.index') or on_page('account.profile.index') or on_page('account.password.index') or on_page('account.deactivate.index') or on_page('account.twofactor.index') , 'show') }}" id="account">
                             <ul class="nav nav-sm flex-column">
                                 @component('components.sidebar.nav-item', [
                                   'active' => on_page('account.index'),
@@ -66,14 +66,14 @@
                     </li>
                     @subscribed
                     <li class="nav-item">
-                        <a class="nav-link {{ return_if(current_route_group(1) === 'subscription', ' active') }}" href="#navbar-components" data-toggle="collapse" role="button"
-                            aria-expanded="{{ current_route_group(1) === 'subscription' ? 'true' : 'false' }}" aria-controls="navbar-components">
+                        <a class="nav-link {{ return_if(current_route_group(1) === 'subscription', ' active') }}" href="#subscription" data-toggle="collapse" role="button"
+                            aria-expanded="{{ current_route_group(1) === 'subscription' ? 'true' : 'false' }}" aria-controls="subscription">
                             <i class="fa fa-credit-card" aria-hidden="true"></i>
                             <span class="nav-link-text">{{ __('account.sidebar.subscription.header') }}</span>
                         </a>
                         @notpiggybacksubscription
                             <!-- Subscription Links -->
-                            <div class="collapse {{ current_route_group(1) === 'subscription' ? 'show' : '' }}" id="navbar-components">
+                            <div class="collapse {{ current_route_group(1) === 'subscription' ? 'show' : '' }}" id="subscription">
                                 <ul class="nav nav-sm flex-column">
 
                                     @subscriptionnotcancelled
@@ -127,29 +127,11 @@
                     </li>
                     @notsubscribed
                     <li class="nav-item">
-                        <a class="nav-link {{ return_if(on_page('plans.index') or on_page('plans.teams.index'), ' active') }}" href="#navbar-plans" data-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="navbar-forms">
-                            <i class="fas fa-dollar-sign"></i>
-                            <span class="nav-link-text">Pricing Plan</span>
+                        <a class="nav-link {{ return_if(current_route_group(0) === 'plans', ' active') }}"
+                           href="{{ route('plans.index') }}" role="button" aria-controls="navbar-plans">
+                            <i class="fa fa-dollar-sign" aria-hidden="true"></i>
+                            <span class="nav-link-text">{{ __('account.sidebar.plans.header') }}</span>
                         </a>
-                        <div class="collapse" id="navbar-plans">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link{{ return_if(on_page('plans.index'), ' active') }}"
-                                            href="{{ route('plans.index') }}">
-                                            <i class="far fa-user"></i>
-                                            User Plan
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link{{ return_if(on_page('plans.teams.index'), ' active') }}"
-                                    href="{{ route('plans.teams.index') }}">
-                                            <i class="fas fa-users"></i>
-                                            Team Plan
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                     </li>
                     @endnotsubscribed
                     <li class="nav-item">
