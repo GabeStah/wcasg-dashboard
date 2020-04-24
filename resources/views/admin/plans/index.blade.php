@@ -21,7 +21,7 @@
                             <th>Amount</th>
                             <th>Trial Period Days</th>
                             <th>Type</th>
-                            <th>Team limit</th>
+                            <th>Coupon</th>
                             <th>Date</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -42,7 +42,13 @@
                                 <span class="badge badge-info"> Normal plan</span>
                                 @endif
                             </td>
-                            <td>{{ $plan->teams_limit }}</td>
+                            <td>
+                                @if(isset($plan->coupon))
+                                    <a href="{{ route('admin.coupons.edit', $plan->coupon->id) }}">
+                                        <span>{{ $plan->coupon->id }}</span>
+                                    </a>
+                                @endif
+                            </td>
                             <td>{{ $plan->created_at->diffForHumans() }}</td>
                             <td>
                                 @if ($plan->active)

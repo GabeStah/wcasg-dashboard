@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Stripe\Coupon;
 use Stripe\Error\Api;
 use Stripe\Plan;
 use Stripe\Product;
@@ -19,6 +20,12 @@ class StripeReset extends Seeder {
           'Attempting to reset non-test Stripe data.  Aborting.'
         );
       }
+
+      $coupons = Coupon::all(['limit' => 100]);
+      foreach ($coupons->autoPagingIterator() as $coupon) {
+        Coupon::retrieve($coupon->id)->delete();
+      }
+
       $plans = Plan::all(['limit' => 100]);
       foreach ($plans->autoPagingIterator() as $plan) {
         Plan::retrieve($plan->id)->delete();
@@ -33,6 +40,8 @@ class StripeReset extends Seeder {
       foreach ($subs->autoPagingIterator() as $sub) {
         Subscription::retrieve($sub->id)->delete();
       }
+      //    } catch (\Stripe\Error\InvalidRequest $e) {
+      //      dump($e);
     } catch (Api $e) {
       dump($e);
     }

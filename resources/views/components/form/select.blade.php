@@ -1,4 +1,8 @@
-<select id="{{ $field }}" name="{{ $field }}">
+<select
+    id="{{ $field }}"
+    name="{{ $field }}"
+    {{ isset($editable) && $editable ? '' : 'disabled' }}
+>
   @foreach ($options as $option)
     <option value="{{ $option['value'] }}"
             data-content="{{ $option['text'] }}"

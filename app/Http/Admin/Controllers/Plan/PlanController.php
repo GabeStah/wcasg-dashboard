@@ -4,6 +4,7 @@ namespace CreatyDev\Http\Admin\Controllers\Plan;
 
 use CreatyDev\App\Controllers\Controller;
 use CreatyDev\App\JsonSchemaValidator\JsonSchemaValidatorService;
+use CreatyDev\Domain\Coupon\Models\Coupon;
 use CreatyDev\Domain\Subscriptions\Models\Plan;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
@@ -84,7 +85,21 @@ class PlanController extends Controller {
 
     $restraintSchema = $this->validator->getRestraintSchema();
 
+    // Get Coupon options
+    $coupons = Coupon::all();
+    $coupon_options = [['value' => false, 'text' => 'Select a Coupon']];
+    foreach ($coupons->toArray() as $coupon) {
+      array_push($coupon_options, [
+        'value' => $coupon['id'],
+        'text' => $coupon['id']
+      ]);
+    }
+
+    // Get Product options
     $products = Stripe\Product::all();
+    $product_options = array_map(function ($product) {
+      return ['value' => $product->id, 'text' => $product->name];
+    }, $products->data);
 
     $rows = [
       [
@@ -93,9 +108,7 @@ class PlanController extends Controller {
         'required' => true,
         'info_text' => __('admin.plan.product'),
         'type' => 'select',
-        'options' => array_map(function ($product) {
-          return ['value' => $product->id, 'text' => $product->name];
-        }, $products->data)
+        'options' => $product_options
       ],
       [
         'field' => 'nickname',
@@ -139,6 +152,14 @@ class PlanController extends Controller {
             'text' => 'Year'
           ]
         ]
+      ],
+      [
+        'field' => 'coupon_id',
+        'title' => 'Coupon',
+        'required' => false,
+        'info_text' => __('admin.plan.coupon'),
+        'type' => 'select',
+        'options' => $coupon_options
       ]
     ];
 
@@ -177,7 +198,10 @@ class PlanController extends Controller {
         : false,
       'teams_limit' => $request->input('teams_limit') ?? null,
       'active' => true,
-      'trial_period_days' => $request->input('trial_period_days')
+      'trial_period_days' => $request->input('trial_period_days'),
+      'coupon_id' => $request->input('coupon_id')
+        ? $request->input('coupon_id')
+        : null
     ]);
 
     if ($request->input('restraint_value')) {
@@ -238,6 +262,16 @@ class PlanController extends Controller {
 
     $plan = Plan::findOrFail($id);
 
+    // Get Coupon options
+    $coupons = Coupon::all();
+    $coupon_options = [['value' => false, 'text' => 'Select a Coupon']];
+    foreach ($coupons->toArray() as $coupon) {
+      array_push($coupon_options, [
+        'value' => $coupon['id'],
+        'text' => $coupon['id']
+      ]);
+    }
+
     $products = Stripe\Product::all();
 
     $rows = [
@@ -264,6 +298,14 @@ class PlanController extends Controller {
         'title' => 'Trial Period',
         'required' => false,
         'info_text' => __('admin.plan.trial_period_days')
+      ],
+      [
+        'field' => 'coupon_id',
+        'title' => 'Coupon',
+        'required' => false,
+        'info_text' => __('admin.plan.coupon'),
+        'type' => 'select',
+        'options' => $coupon_options
       ]
     ];
 
@@ -336,15 +378,16 @@ class PlanController extends Controller {
         'nickname' => $request->input('nickname'),
         'teams_enabled' =>
           $request->input('teams_enabled') &&
-          !empty($request->input('teams_limit'))
-            ? true
-            : false,
+          !empty($request->input('teams_limit')),
         'teams_limit' => $request->input('teams_limit') ?? null,
         'active' => !empty($request->input('active'))
           ? $request->input('active')
           : true,
         'trial_period_days' => $request->input('trial_period_days'),
-        'context' => $context
+        'context' => $context,
+        'coupon_id' => $request->input('coupon_id')
+          ? $request->input('coupon_id')
+          : null
       ]);
       return redirect()
         ->back()

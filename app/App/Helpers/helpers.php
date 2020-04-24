@@ -180,7 +180,7 @@ if (!function_exists('webpackify')) {
 
 if (!function_exists('cents_to_decimal')) {
   function cents_to_decimal($amount) {
-    if (is_numeric($amount) && !is_float($amount) && is_int($amount)) {
+    if (is_numeric($amount)) {
       return number_format($amount / 100, 2);
     } else {
       throw new Exception(

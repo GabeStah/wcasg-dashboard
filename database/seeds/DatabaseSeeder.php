@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder {
     $this->call(StripeReset::class);
     // Regular seeders
     $this->call(ConfigurationSeeder::class);
+    $this->call(CouponSeeder::class);
     $this->call(ExtensionSeeder::class);
     $this->call(PlanTableSeeder::class);
     $this->call(RoleTableSeeder::class);

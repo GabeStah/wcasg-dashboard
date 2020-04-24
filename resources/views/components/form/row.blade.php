@@ -11,7 +11,8 @@
             'type' => 'password',
             'required' => $required ?? null,
             'errors' => $errors ?? null,
-            'placeholder' => $placeholder ?? null
+            'placeholder' => $placeholder ?? null,
+            'editable' => $editable ?? true
           ])
           @endcomponent
           @break
@@ -22,7 +23,8 @@
           'data' => $data ?? null,
           'required' => $required ?? null,
           'errors' => $errors ?? null,
-          'placeholder' => $placeholder ?? null
+          'placeholder' => $placeholder ?? null,
+          'editable' => $editable ?? true
         ])
         @endcomponent
         @break
@@ -31,18 +33,20 @@
           'data' => $data ?? null,
           'default' => $default ?? null,
           'field' => $field ?? null,
-          'options' => $options ?? null
+          'options' => $options ?? null,
+          'editable' => $editable ?? true
         ])
         @endcomponent
         @break
       @default
         @component('components.form.input', [
-            'label' => $label ?? null,
-            'field' => $field ?? null,
-            'data' => $data ?? null,
-            'required' => $required ?? null,
-            'errors' => $errors ?? null,
-            'placeholder' => $placeholder ?? null
+          'label' => $label ?? null,
+          'field' => $field ?? null,
+          'data' => $data ?? null,
+          'required' => $required ?? null,
+          'errors' => $errors ?? null,
+          'placeholder' => $placeholder ?? null,
+          'editable' => $editable ?? true
         ])
         @endcomponent
     @endswitch

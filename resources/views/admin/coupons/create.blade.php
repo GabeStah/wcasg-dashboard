@@ -8,82 +8,21 @@
 <div class="clearfix">
     <div class="card">
         <div class="card-header">
-            <strong>Create a Coupons / Discount</strong> 
-            <span class="float-right text-info"> Coupon will automaticaly create on your stripe dashboard </span>
+            <strong>Create a Coupon</strong>
+            <span>Coupon will be automatically added to Stripe.</span>
         </div>
         <div class="card-body">
+            <p>Creating a Coupon has no effect on its own.  A Coupon <strong>must</strong> be applied to one or more Plans to have any effect (a Coupon can be assigned on the edit Plan page).</p>
+            <p>A new Subscription using a Plan with an active Coupon will receive a discount based on the Coupon's configuration.</p>
+            <p>For example, a Coupon with a <span class="font-italic">Percent Off</span> of <code>100</code> and a <span class="font-italic">Duration</span> of <code>once</code> will apply a one-time discount of 100% off the Plan's Subscription price.</p>
             <form action="{{ route('admin.coupons.store') }}" method="POST" class="form-horizontal offset-sm-2">
-                    @csrf
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Coupon name</label>
-                    <div class="col-md-6">
-                        <input type="text" id="name" name="name" class="form-control"
-                            placeholder="Coupon name.."
-                            value="{{ old('name') }}" required>
+                @csrf
 
-                            @if ($errors->has('name'))
-                                <span class="text-danger">{{ $errors->first('name') }}</span>
-                            @endif
-                    </div>
-                </div>
-                <div class="form-group row">
-                        <label class="col-md-3 col-form-label" for="hf-plan_id">Coupon Code</label>
-                        <div class="col-md-6">
-                            <input type="text" id="plan_id" name="plan_id" class="form-control"
-                                placeholder="Exp: 25OFF"
-                                value="{{ old('plan_id') }}" required>
-    
-                                @if ($errors->has('plan_id'))
-                                    <span class="text-danger">{{ $errors->first('plan_id') }}</span>
-                                @endif
-                        </div>
-                    </div>
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Percentage Off</label>
-                    <div class="col-md-6">
-                        <input type="text" id="price" name="percent_off" class="form-control"
-                            placeholder="Enter Plan price.."
-                            value="{{ old('percent_off') }}" required>
+                @component('components.form.row-list', ['rows' => $rows])
+                @endcomponent
 
-                            @if ($errors->has('percent_off'))
-                                <span class="text-danger">{{ $errors->first('percent_off') }}</span>
-                            @endif
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-3 col-form-label" for="hf-name">Duration</label>
-                    <div class="col-md-6">
-                            <select id="duration" type="" class="form-control" name="duration" required>
-                                <option value="">Select Duration</option>
-                                <option value="once">Once</option>
-                                <option value="repeating">Repeating</option>
-                                <option value="forever">Forever</option>
-                            </select>
-
-                            @if ($errors->has('duration'))
-                                <span class="text-danger">{{ $errors->first('duration') }}</span>
-                            @endif
-                    </div>
-                </div>
-                <div class="form-group row">
-                        <label class="col-md-3 col-form-label" for="hf-name">Duration in months</label>
-                        <div class="col-md-6">
-                            <input type="text" id="duration_in_months" name="duration_in_months" class="form-control"
-                                placeholder="Duration ..."
-                                value="{{ old('duration_in_months') }}">
-                                <span style="font-size:11px;"><i class="fa fa-question-circle"></i> Required only if duration is repeating, in which case it must be a positive integer that specifies the number of months the discount will be in effect.</span>
-    
-                                @if ($errors->has('duration_in_months'))
-                                    <span class="text-danger">{{ $errors->first('duration_in_months') }}</span>
-                                @endif
-                        </div>
-                    </div>
-                
-                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i> Create</button>
+                <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i>Create</button>
             </form>
-        </div>
-        <div class="card-footer">
-            <button type="reset" class="btn btn-sm btn-danger"><i class="fa fa-ban"></i> Reset</button>
         </div>
     </div>
 </div>

@@ -4,6 +4,8 @@ namespace CreatyDev\App\Providers;
 
 use CreatyDev\Domain\Configuration\Models\Configuration;
 use CreatyDev\Domain\Configuration\Observers\ConfigurationObserver;
+use CreatyDev\Domain\Coupon\Models\Coupon;
+use CreatyDev\Domain\Coupon\Observers\CouponObserver;
 use CreatyDev\Domain\Sites\Models\Site;
 use CreatyDev\Domain\Statements\Models\Statement;
 use CreatyDev\Domain\Statements\Models\StatementTemplate;
@@ -30,6 +32,7 @@ class AppServiceProvider extends ServiceProvider {
     //        Category::observe(CategoryObserver::class);
     //        Tag::observe(TagObserver::class);
     Configuration::observe(ConfigurationObserver::class);
+    Coupon::observe(CouponObserver::class);
     Plan::observe(PlanObserver::class);
     Role::observe(RoleObserver::class);
     Site::observe(SiteObserver::class);

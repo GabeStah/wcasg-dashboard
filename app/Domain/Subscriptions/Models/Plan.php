@@ -2,10 +2,14 @@
 
 namespace CreatyDev\Domain\Subscriptions\Models;
 
+use CreatyDev\Domain\Coupon\Models\Coupon;
 use CreatyDev\Domain\Users\Models\User;
-use Cviebrock\EloquentSluggable\Sluggable;
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
+use Stripe\Product;
 
 /**
  * CreatyDev\Domain\Subscriptions\Models\Plan
@@ -19,39 +23,39 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $teams_enabled
  * @property int|null $teams_limit
  * @property int|null $trial_period_days
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan active()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan except($planId)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan findSimilarSlugs($attribute, $config, $slug)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan forTeams()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan forUsers()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan query()
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereGatewayId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereInterval($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereTeamsEnabled($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereTeamsLimit($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereTrialPeriodDays($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereUpdatedAt($value)
- * @mixin \Eloquent
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @method static Builder|Plan active()
+ * @method static Builder|Plan except($planId)
+ * @method static Builder|Plan findSimilarSlugs($attribute, $config, $slug)
+ * @method static Builder|Plan forTeams()
+ * @method static Builder|Plan forUsers()
+ * @method static Builder|Plan newModelQuery()
+ * @method static Builder|Plan newQuery()
+ * @method static Builder|Plan query()
+ * @method static Builder|Plan whereActive($value)
+ * @method static Builder|Plan whereCreatedAt($value)
+ * @method static Builder|Plan whereGatewayId($value)
+ * @method static Builder|Plan whereId($value)
+ * @method static Builder|Plan whereInterval($value)
+ * @method static Builder|Plan whereName($value)
+ * @method static Builder|Plan wherePrice($value)
+ * @method static Builder|Plan whereSlug($value)
+ * @method static Builder|Plan whereTeamsEnabled($value)
+ * @method static Builder|Plan whereTeamsLimit($value)
+ * @method static Builder|Plan whereTrialPeriodDays($value)
+ * @method static Builder|Plan whereUpdatedAt($value)
+ * @mixin Eloquent
  * @property string $product_id
  * @property int $amount
  * @property string $currency
  * @property string $nickname
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereCurrency($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereNickname($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereProductId($value)
+ * @method static Builder|Plan whereAmount($value)
+ * @method static Builder|Plan whereCurrency($value)
+ * @method static Builder|Plan whereNickname($value)
+ * @method static Builder|Plan whereProductId($value)
  * @property array|null $context
- * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereContext($value)
+ * @method static Builder|Plan whereContext($value)
  */
 class Plan extends Model {
   /**
@@ -78,6 +82,7 @@ class Plan extends Model {
 
   protected $fillable = [
     'id',
+    'coupon_id',
     'product_id',
     'amount',
     'currency',
@@ -103,6 +108,76 @@ class Plan extends Model {
    * @var string
    */
   protected $keyType = 'string';
+
+  /**
+   * Gets base price before any applicable discount.
+   *
+   * @return string
+   * @throws \Exception
+   */
+  public function basePrice() {
+    return cents_to_decimal($this->amount);
+  }
+
+  /**
+   * Get the associated Coupon.
+   *
+   * @return BelongsTo
+   */
+  public function coupon() {
+    return $this->belongsTo(Coupon::class);
+  }
+
+  /**
+   * Get the maximum number of Sites allowed by context.
+   *
+   * @return int
+   */
+  public function getSiteCountMaximum() {
+    $maximum = 100;
+    $context = $this->context;
+    // No context
+    if (!$context) {
+      return $maximum;
+    }
+
+    $context = json_decode(json_encode($context));
+
+    // Check restraint value against desired value
+    foreach ($context->plan->restraints as $restraint) {
+      switch ($restraint->comparator) {
+        case '<':
+          if ($maximum >= $restraint->value) {
+            $maximum = $restraint->value - 1;
+          }
+        case '<=':
+          if ($maximum > $restraint->value) {
+            $maximum = $restraint->value;
+          }
+        case '=':
+          if ($maximum > $restraint->value) {
+            $maximum = $restraint->value;
+          }
+      }
+    }
+
+    return $maximum;
+  }
+
+  /**
+   * Get amount of discount.
+   *
+   * @return string
+   * @throws \Exception
+   */
+  public function discount() {
+    if ($this->isDiscounted()) {
+      return cents_to_decimal($this->amount * $this->coupon->percent());
+    } else {
+      // No discount.
+      return cents_to_decimal(0);
+    }
+  }
 
   /**
    * Checks if passed data is validated by context object.
@@ -175,39 +250,16 @@ class Plan extends Model {
   }
 
   /**
-   * Get the maximum number of Sites allowed by context.
+   * Determine if Plan is currently discounted.
    *
-   * @return int
+   * @return bool
    */
-  public function getSiteCountMaximum() {
-    $maximum = 100;
-    $context = $this->context;
-    // No context
-    if (!$context) {
-      return $maximum;
+  public function isDiscounted() {
+    if (isset($this->coupon)) {
+      return $this->coupon->isValid();
+    } else {
+      return false;
     }
-
-    $context = json_decode(json_encode($context));
-
-    // Check restraint value against desired value
-    foreach ($context->plan->restraints as $restraint) {
-      switch ($restraint->comparator) {
-        case '<':
-          if ($maximum >= $restraint->value) {
-            $maximum = $restraint->value - 1;
-          }
-        case '<=':
-          if ($maximum > $restraint->value) {
-            $maximum = $restraint->value;
-          }
-        case '=':
-          if ($maximum > $restraint->value) {
-            $maximum = $restraint->value;
-          }
-      }
-    }
-
-    return $maximum;
   }
 
   /**
@@ -226,6 +278,32 @@ class Plan extends Model {
    */
   public function isNotForTeams() {
     return !$this->isForTeams();
+  }
+
+  /**
+   * Gets actual price after any applicable discount.
+   *
+   * @return string
+   * @throws \Exception
+   */
+  public function price() {
+    if ($this->isDiscounted()) {
+      return cents_to_decimal($this->amount * (1 - $this->coupon->percent()));
+    } else {
+      // No discount, base price.
+      return cents_to_decimal($this->amount);
+    }
+  }
+
+  /**
+   * Get the Stripe Product associated with Plan.
+   *
+   * @return Product
+   */
+  public function product() {
+    if ($this->product_id) {
+      return Product::retrieve($this->product_id);
+    }
   }
 
   /**

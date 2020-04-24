@@ -4,8 +4,15 @@ namespace CreatyDev\Http\Admin\Controllers\Coupon;
 
 use CreatyDev\App\Controllers\Controller;
 use CreatyDev\Domain\Coupon\Models\Coupon;
+use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
-
+use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 use Stripe;
 
 class CouponController extends Controller {
@@ -17,12 +24,10 @@ class CouponController extends Controller {
    * Display a listing of the resource.
    *
    * @param Request $request
-   * @return \Illuminate\Http\Response
-   * @throws \Illuminate\Auth\Access\AuthorizationException
+   * @return Response
+   * @throws AuthorizationException
    */
   public function index(Request $request) {
-    // $this->authorize('manage coupons', Coupon::class);
-
     $coupons = Coupon::all();
 
     return view('admin.coupons.index', compact('coupons'));
@@ -31,159 +36,271 @@ class CouponController extends Controller {
   /**
    * Show the form for creating a new resource.
    *
-   * @return \Illuminate\Http\Response
+   * @return Application|Factory|View
    */
   public function create() {
-    // $this->authorize('create', Coupon::class);
+    $rows = [
+      [
+        'field' => 'id',
+        'title' => 'Id*',
+        'required' => true,
+        'info_text' => __('admin.coupon.id'),
+        'placeholder' => '100_PERCENT_OFF_FIRST_MONTH'
+      ],
+      [
+        'field' => 'name',
+        'title' => 'Name*',
+        'required' => true,
+        'info_text' => __('admin.coupon.name'),
+        'placeholder' => 'First Month Free'
+      ],
+      [
+        'field' => 'percent_off',
+        'title' => 'Percent Off*',
+        'required' => true,
+        'info_text' => __('admin.coupon.percent_off'),
+        'placeholder' => '100'
+      ],
+      [
+        'field' => 'duration',
+        'title' => 'Duration*',
+        'required' => true,
+        'info_text' => __('admin.coupon.duration'),
+        'type' => 'select',
+        'default' => 'once',
+        'options' => [
+          [
+            'value' => 'once',
+            'text' => 'Once'
+          ],
+          [
+            'value' => 'forever',
+            'text' => 'Forever'
+          ],
+          [
+            'value' => 'repeating',
+            'text' => 'Repeating'
+          ]
+        ]
+      ],
+      [
+        'field' => 'duration_in_months',
+        'title' => 'Duration (in months)',
+        'required' => false,
+        'info_text' => __('admin.coupon.duration_in_months'),
+        'default' => '1'
+      ],
+      [
+        'field' => 'max_redemptions',
+        'title' => 'Max Redemptions',
+        'required' => false,
+        'info_text' => __('admin.coupon.max_redemptions')
+      ],
+      [
+        'field' => 'redeem_by',
+        'title' => 'Redeem By',
+        'required' => false,
+        'info_text' => __('admin.coupon.redeem_by')
+      ],
+      [
+        'field' => 'currency',
+        'title' => 'Currency',
+        'required' => false,
+        'info_text' => __('admin.coupon.currency'),
+        'type' => 'select',
+        'default' => 'usd',
+        'options' => [
+          [
+            'value' => 'usd',
+            'text' => 'USD'
+          ]
+        ]
+      ]
+    ];
 
-    return view('admin.coupons.create');
+    return view('admin.coupons.create', compact('rows'));
   }
 
   /**
    * Store a newly created resource in storage.
    *
-   * @param  \Illuminate\Http\Request $request
-   * @return \Illuminate\Http\Response
+   * @param Request $request
+   * @return Response
+   * @throws ValidationException
    */
   public function store(Request $request) {
-    // $this->authorize('create', Coupon::class);
-
     $this->validate($request, [
-      'name' => 'required',
-      'percent_off' => 'required',
-      'plan_id' => 'required',
-      'duration' => 'required'
+      'id' => 'required|string|max:50',
+      'currency' => ['required', Rule::in(['usd'])],
+      'duration' => ['required', Rule::in(['forever', 'once', 'repeating'])],
+      'duration_in_months' => [
+        'nullable',
+        'integer',
+        function ($attribute, $value, $fail) use ($request) {
+          if ($request->input('duration') === 'once') {
+            if (isset($value)) {
+              $fail(
+                "Duration (in months) cannot be set if Duration is set to 'once'."
+              );
+            }
+          }
+        }
+      ],
+      'max_redemptions' => 'nullable|integer',
+      'name' => 'required|string',
+      'percent_off' => 'required|integer|between:1,100',
+      'redeem_by' => 'nullable|date|after:today'
     ]);
 
-    // Test if duration_in_months is not empty
-    $duration_in_months = !empty($request->input('duration_in_months'))
-      ? (int) $request->input('duration_in_months')
-      : null;
-    $percent_off = (float) $request->input('percent_off');
-    // dd($percent_off);
-
-    \Stripe\Coupon::create([
-      'name' => $request->input('name'),
-      'percent_off' => $percent_off,
-      'duration' => $request->input('duration'),
-      'duration_in_months' => $duration_in_months,
-      'id' => $request->input('plan_id')
-    ]);
-
-    $coupon = new Coupon([
-      'name' => $request->input('name'),
-      'percent_off' => $percent_off,
-      'duration' => $request->input('duration'),
-      'duration_in_months' => $duration_in_months,
-      'plan_id' => $request->input('plan_id')
-    ]);
-
+    // Create local
+    $coupon = new Coupon($request->all());
     $coupon->save();
 
-    return redirect()
-      ->back()
-      ->with('status', 'Your Coupon has been created.');
-  }
-
-  /**
-   * Display the specified resource.
-   *
-   * @param  \CreatyDev\Domain\Users\Models\Coupon $plan
-   * @return \Illuminate\Http\Response
-   */
-  public function show(Coupon $plan) {
-    $this->authorize('view', $plan);
-
-    return view('admin.coupons.show');
+    return redirect(route('admin.coupons.index'))->with(
+      'success',
+      'The [' . $coupon->id . '] coupon has been created.'
+    );
   }
 
   /**
    * Show the form for editing the specified resource.
    *
-   * @param  \CreatyDev\Domain\Users\Models\Coupon $plan
-   * @return \Illuminate\Http\Response
+   * @param $id
+   * @return Response
    */
   public function edit($id) {
-    // $this->authorize('update', Coupon::class);
-
     $coupon = Coupon::findOrFail($id);
 
-    return view('admin.coupons.edit', compact('coupon', $coupon));
+    $rows = [
+      [
+        'field' => 'name',
+        'title' => 'Name*',
+        'required' => true,
+        'info_text' => __('admin.coupon.name'),
+        'placeholder' => 'First Month Free'
+      ],
+      [
+        'field' => 'id',
+        'title' => 'Id',
+        'required' => true,
+        'info_text' => __('admin.coupon.id'),
+        'placeholder' => '100_PERCENT_OFF_FIRST_MONTH',
+        'editable' => false
+      ],
+      [
+        'field' => 'percent_off',
+        'title' => 'Percent Off',
+        'required' => true,
+        'info_text' => __('admin.coupon.percent_off'),
+        'placeholder' => '100',
+        'editable' => false
+      ],
+      [
+        'field' => 'duration',
+        'title' => 'Duration',
+        'required' => true,
+        'info_text' => __('admin.coupon.duration'),
+        'type' => 'select',
+        'default' => 'once',
+        'options' => [
+          [
+            'value' => 'once',
+            'text' => 'Once'
+          ],
+          [
+            'value' => 'forever',
+            'text' => 'Forever'
+          ],
+          [
+            'value' => 'repeating',
+            'text' => 'Repeating'
+          ]
+        ],
+        'editable' => false
+      ],
+      [
+        'field' => 'duration_in_months',
+        'title' => 'Duration (in months)',
+        'required' => false,
+        'info_text' => __('admin.coupon.duration_in_months'),
+        'default' => '1',
+        'editable' => false
+      ],
+      [
+        'field' => 'max_redemptions',
+        'title' => 'Max Redemptions',
+        'required' => false,
+        'info_text' => __('admin.coupon.max_redemptions'),
+        'editable' => false
+      ],
+      [
+        'field' => 'redeem_by',
+        'title' => 'Redeem By',
+        'required' => false,
+        'info_text' => __('admin.coupon.redeem_by'),
+        'editable' => false
+      ],
+      [
+        'field' => 'currency',
+        'title' => 'Currency',
+        'required' => false,
+        'info_text' => __('admin.coupon.currency'),
+        'type' => 'select',
+        'default' => 'usd',
+        'options' => [
+          [
+            'value' => 'usd',
+            'text' => 'USD'
+          ]
+        ],
+        'editable' => false
+      ]
+    ];
+
+    return view('admin.coupons.edit', ['coupon' => $coupon, 'rows' => $rows]);
   }
 
   /**
    * Update the specified resource in storage.
    *
-   * @param  \Illuminate\Http\Request $request
-   * @param  \CreatyDev\Domain\Users\Models\Coupon $plan
-   * @return \Illuminate\Http\Response
+   * @param Request $request
+   * @param $id
+   * @return Response
+   * @throws ValidationException
    */
   public function update(Request $request, $id) {
-    $this->authorize('update', Coupon::class);
+    $coupon = Coupon::findOrFail($id);
 
     $this->validate($request, [
-      'name' => 'required',
-      'price' => 'required',
-      'interval' => 'required'
+      'name' => 'required|string'
     ]);
 
-    $plan = Coupon::findOrFail($id);
-    // Generate pla slug from plan name
-    $slug = str_replace(' ', '-', $request->input('name'));
-    $stripe_plan_id = str_replace(' ', '_', $request->input('name'));
-    $team_enable = !empty($request->input('teams_limit')) ? 1 : 0;
-    $teams_limit = !empty($request->input('teams_limit'))
-      ? $request->input('teams_limit')
-      : null;
-    $amount = $request->input('amount');
-    // Delete the plan on stripe
-    $stripe_plan = \Stripe\Coupon::retrieve($plan->id);
-    $stripe_plan->delete();
-    // Recrete a new plan on stripe
-    \Stripe\Coupon::create([
-      'amount' => $amount,
-      'interval' => $request->input('interval'),
-      'product' => [
-        'name' => $request->input('name')
-      ],
-      'currency' => 'usd',
-      'id' => $plan->id,
-      'trial_period_days' => $request->input('trial')
-    ]);
+    // Update local
+    $coupon->name = $request->input('name');
+    $coupon->save();
 
-    $plan->nickname = $request->input('name');
-    $plan->plan_id = $plan->id;
-    $plan->price = $request->input('price');
-    $plan->interval = $request->input('interval');
-    $plan->teams_enabled = $team_enable;
-    $plan->teams_limit = $teams_limit;
-    $plan->active = 1;
-    $plan->slug = $slug;
-    $plan->trial_period_days = $request->input('trial');
-    $plan->save();
-
-    return redirect()
-      ->back()
-      ->with('status', 'Your plan has been updated.');
+    return redirect(route('admin.coupons.index'))->with(
+      'success',
+      'The [' . $coupon->id . '] coupon has been updated.'
+    );
   }
 
   /**
    * Remove the specified resource from storage.
    *
-   * @param  \CreatyDev\Domain\Users\Models\Coupon $plan
-   * @return \Illuminate\Http\Response
+   * @param $id
+   * @return Response
+   * @throws Exception
    */
   public function destroy($id) {
-    $this->authorize('delete', Coupon::class);
-    $plan = Coupon::findOrFail($id);
+    $coupon = Coupon::findOrFail($id);
 
-    $stripe_plan = \Stripe\Coupon::retrieve($plan->id);
-    $stripe_plan->delete();
+    // Delete local
+    $coupon->delete();
 
-    // Delete the plan on the database
-    $plan->delete();
-    return redirect()
-      ->back()
-      ->with('status', 'Your plan has been deleted.');
+    return redirect(route('admin.coupons.index'))->with(
+      'success',
+      'The [' . $coupon->id . '] coupon was deleted.'
+    );
   }
 }

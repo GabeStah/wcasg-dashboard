@@ -363,11 +363,15 @@
 
                     <div class="col-md-3">
                         <div class="box" @if ($loop->iteration == 3) box-center @endif>
-                            @if ($loop->iteration == 3)
-                                <span class="top-btn">Popular</span>
+                            @if($plan->coupon && $plan->coupon->isValid())
+                                <span class="top-btn">Special Rate</span>
+                                <h3>{{ $plan->nickname }}</h3>
+                                <h4>$<span>{{ $plan->price() }}</span>/ {{ $plan->interval }}</h4>
+                                <span class="badge badge-success">{{ $plan->coupon->toString() }}</span>
+                            @else
+                                <h3>{{ $plan->nickname }}</h3>
+                                <h4>$<span>{{ cents_to_decimal($plan->amount) }}</span>/ {{ $plan->interval }}</h4>
                             @endif
-                            <h3>{{ $plan->nickname }}</h3>
-                            <h4>$<span>{{ cents_to_decimal($plan->amount) }}</span>/ {{ $plan->interval }}</h4>
                             <ul>
                                 <li>Site-Wide Accessibility Widget</li>
                                 <li>Admin Dashboard</li>

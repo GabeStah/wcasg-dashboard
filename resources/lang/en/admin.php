@@ -20,8 +20,28 @@ return [
       'custom' => 'Custom extension created by you.'
     ]
   ],
+  'coupon' => [
+    'id' => 'Unique identifier entered by users when applying this coupon.',
+    'currency' => 'Currency which to discount.',
+    'duration' =>
+      "Describes how long a customer who applies this coupon will get the discount.  'Forever' is indefinite, 'once' is a single discount, and 'repeating' is applied X number of times (see 'duration_in_months').",
+    'duration_in_months' =>
+      "If 'duration' is 'repeating', this is the number of months the coupon applies.  Ignored if coupon duration is 'forever' or 'once'.",
+    'max_redemptions' =>
+      'Maximum number of times this coupon can be redeemed, in total, across all customers, before it is no longer valid.  Leave blank for no maximum.',
+    'metadata' => 'Additional JSON data related to coupon.',
+    'name' => 'Name of the coupon displayed to customers on invoices.',
+    'percent_off' =>
+      'Percent that will be taken off when this coupon\' discount is applied.',
+    'redeem_by' =>
+      'Date after which coupon can no longer be redeemed.  If set, must be a date in the future.',
+    'valid' =>
+      'Taking account of other properties, whether this coupon can still be applied.'
+  ],
   'plan' => [
     'amount' => 'The amount to charge at each specified interval.',
+    'coupon' =>
+      '(Optional) The coupon to apply to new subscriptions based on this Plan.',
     'interval' => 'The frequency at which a subscription is billed.',
     'product' => 'The product whose pricing this plan determines.',
     'stripe_mention' => 'The new plan is automatically added to Stripe.',

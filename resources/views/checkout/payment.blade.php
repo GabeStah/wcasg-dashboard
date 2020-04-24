@@ -216,10 +216,34 @@
             <div class="col-md-8 offset-md-2">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="card-title">Payment Information</h2>
-                        <p>Please enter your credit card information below and confirm your billing address.</p>
-                        <p>You are about to subscribe to the <strong>{{ $plan->nickname }}</strong> plan at <strong>${{ cents_to_decimal($plan->amount) }} per {{ $plan->interval }}</strong>.</p>
-
+                        <h2 class="card-title text-center">Payment Information</h2>
+                        <div class="d-flex">
+                            <div class="w-50 m-2">
+                                <p>Please enter your credit card information below and confirm your billing address.</p>
+                            </div>
+                            <ul class="w-50 m-2 list-group">
+                                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                    <div>
+                                        <h6 class="my-0">{{ $plan->product()->name }}</h6>
+                                        <small class="text-muted">{{ $plan->nickname }}</small>
+                                    </div>
+                                    <span class="text-muted">${{ $plan->basePrice() }}</span>
+                                </li>
+                                @if(isset($plan->coupon) && $plan->coupon->isValid())
+                                    <li class="list-group-item d-flex justify-content-between bg-light">
+                                        <div class="text-success">
+                                            <h6 class="my-0">{{ $plan->coupon->toString() }}</h6>
+                                            <small>{{ $plan->coupon->id }}</small>
+                                        </div>
+                                        <span class="text-success">-${{ $plan->discount() }}</span>
+                                    </li>
+                                @endif
+                                <li class="list-group-item d-flex justify-content-between">
+                                    <span>Total ({{ isset($plan->currency) ? strtoupper($plan->currency) : 'USD' }})</span>
+                                    <strong>${{ $plan->price() }}</strong>
+                                </li>
+                            </ul>
+                        </div>
                         <div class="cell payment" id="payment">
                             <form method="POST" action="{{ route('checkout.payment.store') }}" id="payment-form">
                                 @csrf
