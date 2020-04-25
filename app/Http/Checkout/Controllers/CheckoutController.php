@@ -44,8 +44,17 @@ class CheckoutController extends Controller {
     $user = auth()->user();
     $lead = $user->lead;
     $plan = $lead->plan;
+    $coupon = $plan->coupon;
+    $coupon_used = false;
+
+    // Coupon already used
+    if ($coupon && $user->coupons->contains('id', '=', $coupon->id)) {
+      $coupon_used = true;
+    }
 
     return view('checkout.payment', [
+      'coupon' => $coupon,
+      'coupon_used' => $coupon_used,
       'intent' => $user->createSetupIntent(),
       'lead' => $lead,
       'plan' => $plan,

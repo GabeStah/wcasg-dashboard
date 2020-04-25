@@ -229,18 +229,31 @@
                                     </div>
                                     <span class="text-muted">${{ $plan->basePrice() }}</span>
                                 </li>
-                                @if(isset($plan->coupon) && $plan->coupon->isValid())
+                                @if(isset($coupon) && $coupon->isValid())
                                     <li class="list-group-item d-flex justify-content-between bg-light">
-                                        <div class="text-success">
-                                            <h6 class="my-0">{{ $plan->coupon->toString() }}</h6>
-                                            <small>{{ $plan->coupon->id }}</small>
-                                        </div>
-                                        <span class="text-success">-${{ $plan->discount() }}</span>
+                                        @if($coupon_used)
+                                            <div class="text-danger">
+                                                <h6 class="my-0" style="text-decoration: line-through;">{{ $coupon->toString() }}</h6>
+                                                <h6 style="text-decoration: line-through;">{{ $coupon->id }}</h6>
+                                                <small>This coupon has already been used by this account.  You may proceed at the normal price.</small>
+                                            </div>
+                                            <span class="text-danger">-$0.00</span>
+                                        @else
+                                            <div class="text-success">
+                                                <h6 class="my-0">{{ $coupon->toString() }}</h6>
+                                                <small>{{ $coupon->id }}</small>
+                                            </div>
+                                            <span class="text-success">-${{ $plan->discount() }}</span>
+                                        @endif
                                     </li>
                                 @endif
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span>Total ({{ isset($plan->currency) ? strtoupper($plan->currency) : 'USD' }})</span>
-                                    <strong>${{ $plan->price() }}</strong>
+                                    @if($coupon_used)
+                                        <strong>${{ $plan->basePrice() }}</strong>
+                                    @else
+                                        <strong>${{ $plan->price() }}</strong>
+                                    @endif
                                 </li>
                             </ul>
                         </div>

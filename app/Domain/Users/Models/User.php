@@ -2,11 +2,13 @@
 
 namespace CreatyDev\Domain\Users\Models;
 
+use CreatyDev\Domain\Coupon\Models\Coupon;
 use CreatyDev\Domain\Leads\Models\Lead;
 use CreatyDev\Domain\Sites\Models\Site;
 use CreatyDev\Domain\Statements\Models\Statement;
 use Eloquent;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use CreatyDev\Solarix\Cashier\Subscription;
@@ -243,6 +245,15 @@ class User extends Authenticatable {
    */
   public function isTheSameAs(User $user) {
     return $this->id === $user->id;
+  }
+
+  /**
+   * Get Coupons associated with User.
+   *
+   * @return BelongsToMany
+   */
+  public function coupons() {
+    return $this->belongsToMany(Coupon::class, 'coupon_user');
   }
 
   /**

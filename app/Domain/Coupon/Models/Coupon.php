@@ -3,9 +3,11 @@
 namespace CreatyDev\Domain\Coupon\Models;
 
 use CreatyDev\Domain\Subscriptions\Models\Plan;
+use CreatyDev\Domain\Users\Models\User;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 
@@ -122,5 +124,14 @@ class Coupon extends Model {
     unset($data['updated_at']);
     unset($data['valid']);
     return $data;
+  }
+
+  /**
+   * Get Users associated with Coupon.
+   *
+   * @return BelongsToMany
+   */
+  public function users() {
+    return $this->belongsToMany(User::class, 'coupon_user');
   }
 }

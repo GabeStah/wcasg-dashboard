@@ -37,9 +37,17 @@ class SubscriptionBuilder extends CashierSubscriptionBuilder {
 
     // Get local Plan
     $plan_local = Plan::find($this->plan);
-    if ($plan_local->coupon) {
+
+    // Check for used Coupon
+    $coupon_used = false;
+    $coupon = $plan_local->coupon;
+    if ($coupon && $this->owner->coupons->contains('id', '=', $coupon->id)) {
+      $coupon_used = true;
+    }
+
+    if ($coupon && !$coupon_used) {
       // Assign coupon id from associated local plan to apply to Stripe subscription.
-      $this->coupon = $plan_local->coupon->id;
+      $this->coupon = $coupon->id;
     }
 
     /** @var \Stripe\Subscription $stripeSubscription */
@@ -66,6 +74,12 @@ class SubscriptionBuilder extends CashierSubscriptionBuilder {
       'trial_ends_at' => $trialEndsAt,
       'ends_at' => null
     ]);
+
+    // Add Coupon to User
+    if ($coupon && !$coupon_used) {
+      // Assign coupon id from associated local plan to apply to Stripe subscription.
+      $this->owner->coupons()->attach($coupon);
+    }
 
     if ($subscription->incomplete()) {
       (new Payment(
