@@ -54,6 +54,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Leads\Models\Lead whereUrl($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Leads\Models\Lead whereUserId($value)
  * @mixin \Eloquent
+ * @property array|null $metadata
+ * @property string|null $plan_id
+ * @property-read \CreatyDev\Domain\Subscriptions\Models\Plan|null $plan
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Leads\Models\Lead whereMetadata($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Leads\Models\Lead wherePlanId($value)
  */
 class Lead extends Model {
   /**

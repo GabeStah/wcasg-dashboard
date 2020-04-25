@@ -56,6 +56,9 @@ use Stripe\Product;
  * @method static Builder|Plan whereProductId($value)
  * @property array|null $context
  * @method static Builder|Plan whereContext($value)
+ * @property string|null $coupon_id
+ * @property-read \CreatyDev\Domain\Coupon\Models\Coupon|null $coupon
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereCouponId($value)
  */
 class Plan extends Model {
   /**

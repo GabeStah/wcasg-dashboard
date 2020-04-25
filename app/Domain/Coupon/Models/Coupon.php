@@ -38,6 +38,18 @@ use Illuminate\Support\Carbon;
  * @mixin Eloquent
  * @property string $plan_id
  * @method static Builder|Coupon wherePlanId($value)
+ * @property int|null $max_redemptions Maximum number of times this coupon can be redeemed, in total, across all customers, before it is no longer valid.
+ * @property array|null $metadata
+ * @property int|null $redeem_by Date after which coupon can no longer be redeemed.
+ * @property bool $valid Taking account of the above properties, whether this coupon can still be applied to a customer
+ * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Subscriptions\Models\Plan[] $plans
+ * @property-read int|null $plans_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Users\Models\User[] $users
+ * @property-read int|null $users_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Coupon\Models\Coupon whereMaxRedemptions($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Coupon\Models\Coupon whereMetadata($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Coupon\Models\Coupon whereRedeemBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Coupon\Models\Coupon whereValid($value)
  */
 class Coupon extends Model {
   protected $casts = [

@@ -128,6 +128,9 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
  * @method static \Illuminate\Database\Query\Builder|User withTrashed()
  * @method static \Illuminate\Database\Query\Builder|User withoutTrashed()
  * @mixin Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\CreatyDev\Domain\Coupon\Models\Coupon[] $coupons
+ * @property-read int|null $coupons_count
+ * @property-read \CreatyDev\Domain\Leads\Models\Lead $lead
  */
 class User extends Authenticatable {
   use Notifiable,

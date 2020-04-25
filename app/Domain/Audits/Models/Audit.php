@@ -31,6 +31,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Audits\Models\Audit whereExpiredAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Audits\Models\Audit whereSiteId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Audits\Models\Audit whereUserId($value)
+ * @property array $standard
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Audits\Models\Audit whereStandard($value)
  */
 class Audit extends Model {
   use HasTokenId;

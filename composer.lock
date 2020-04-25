@@ -4,20 +4,20 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "d7a1c61fbdd86473e7e0966b2bd0c201",
+  "content-hash": "e8df7dbedc788b5985f701cf93e42bc3",
   "packages": [
     {
       "name": "asahasrabuddhe/laravel-mjml",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "source": {
         "type": "git",
         "url": "https://github.com/asahasrabuddhe/laravel-mjml.git",
-        "reference": "437b5eb28d3f260930453d95e7bf5c650eeb153a"
+        "reference": "5295592d486c8458d8bea352041161be3cfff4b5"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/asahasrabuddhe/laravel-mjml/zipball/437b5eb28d3f260930453d95e7bf5c650eeb153a",
-        "reference": "437b5eb28d3f260930453d95e7bf5c650eeb153a",
+        "url": "https://api.github.com/repos/asahasrabuddhe/laravel-mjml/zipball/5295592d486c8458d8bea352041161be3cfff4b5",
+        "reference": "5295592d486c8458d8bea352041161be3cfff4b5",
         "shasum": ""
       },
       "require": {
@@ -49,7 +49,7 @@
         }
       ],
       "description": "A package that enables using MJML with Laravel Mailables.",
-      "time": "2019-03-09T07:06:23+00:00"
+      "time": "2020-04-24T11:01:20+00:00"
     },
     {
       "name": "balping/json-raw-encoder",

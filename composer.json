@@ -11,7 +11,7 @@
     "php": "^7.2",
     "ext-json": "*",
     "ext-zlib": "*",
-    "asahasrabuddhe/laravel-mjml": "^0.2.0",
+    "asahasrabuddhe/laravel-mjml": "^0.3.0",
     "barryvdh/laravel-debugbar": "*",
     "barryvdh/laravel-dompdf": "*",
     "binarytorch/larecipe": "^2.2",
