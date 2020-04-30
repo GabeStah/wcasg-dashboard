@@ -9,7 +9,7 @@
       </div>
       <!-- Card body -->
       <div class="card-body">
-        <audit-account :sites="{{ $sites }}"></audit-account>
+        <audit-account pusher-key="{!! config('broadcasting.connections.pusher.key') !!}" :sites="{{ $sites }}"></audit-account>
       </div>
     </div>
   </div>

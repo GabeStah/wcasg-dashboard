@@ -38,7 +38,9 @@ class Pa11yWebService implements Pa11y {
           'name' => 'audit-' . $audit->id,
           'url' => $audit->url,
           'standard' => $audit->standard['name']
-        ]
+        ],
+        // Disable CABundle verification (since requests are made internally, should be safe)
+        'verify' => false
       ]
     );
 
@@ -71,7 +73,10 @@ class Pa11yWebService implements Pa11y {
   public function runTask(string $id) {
     $response = $this->client->request(
       'POST',
-      config('services.pa11y.endpoint') . "tasks/{$id}/run"
+      config('services.pa11y.endpoint') . "tasks/{$id}/run",
+      [
+        'verify' => false
+      ]
     );
     return json_decode($response->getBody());
   }
@@ -85,7 +90,8 @@ class Pa11yWebService implements Pa11y {
           // 'from' => null,
           // 'to' => null,
           'full' => 'true'
-        ]
+        ],
+        'verify' => false
       ]
     );
 

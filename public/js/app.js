@@ -63372,12 +63372,9 @@ if (confirmation && confirmation.length > 0) {
 /*!******************************************!*\
   !*** ./resources/assets/js/bootstrap.js ***!
   \******************************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 window.Popper = __webpack_require__(/*! popper.js */ "./node_modules/popper.js/dist/esm/popper.js")["default"];
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -63415,24 +63412,6 @@ if (token) {
 } else {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
-// $(document).ready(function () {
-//     $('span[id^="site-active"]').editable();
-// });
-
-
-
-window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
-window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
-  broadcaster: 'pusher',
-  key: 'd5caada98a2eacbace61',
-  cluster: 'us3',
-  forceTLS: false
-});
 
 /***/ }),
 
@@ -63520,6 +63499,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var validator_es_lib_isURL__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! validator/es/lib/isURL */ "./node_modules/validator/es/lib/isURL.js");
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
+/* harmony import */ var pusher_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(pusher_js__WEBPACK_IMPORTED_MODULE_4__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -63528,10 +63510,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
+
+
 var auditMixin = {
+  created: function created() {
+    this.echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_3__["default"]({
+      broadcaster: 'pusher',
+      key: this.pusherKey,
+      cluster: 'us3',
+      forceTLS: false
+    });
+  },
   data: function data() {
     return {
       audit: null,
+      echo: null,
       error: null,
       isLoading: false,
       results: null,
@@ -63566,7 +63559,7 @@ var auditMixin = {
     joinChannel: function joinChannel(channelId) {
       var _this = this;
 
-      var channel = Echo.channel(channelId);
+      var channel = this.echo.channel(channelId);
       channel.listen('.AuditCompleted', /*#__PURE__*/function () {
         var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref) {
           var audit, response;
@@ -63577,7 +63570,7 @@ var auditMixin = {
                   audit = _ref.audit;
                   _this.audit = audit;
                   _context.next = 4;
-                  return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/audit/".concat(audit.id));
+                  return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/audit/".concat(audit.id, "?XDEBUG_SESSION_START=1"));
 
                 case 4:
                   response = _context.sent;
@@ -63621,7 +63614,7 @@ var auditMixin = {
       }());
     },
     leaveChannel: function leaveChannel(channelId) {
-      Echo.leaveChannel(channelId);
+      this.echo.leaveChannel(channelId);
     },
     validate: function validate() {
       var _this2 = this;
@@ -63647,6 +63640,9 @@ var auditMixin = {
         return true;
       }
     }
+  },
+  props: {
+    pusherKey: String
   }
 };
 

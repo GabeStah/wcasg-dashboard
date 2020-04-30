@@ -8,7 +8,7 @@
             <div class="line"></div>
         </div>
 
-        <audit-public></audit-public>
+        <audit-public pusher-key="{!! config('broadcasting.connections.pusher.key') !!}"></audit-public>
     </div>
 </div>
 @endsection

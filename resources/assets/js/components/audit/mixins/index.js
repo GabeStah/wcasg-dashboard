@@ -1,10 +1,22 @@
 import axios from 'axios';
 import isURL from 'validator/es/lib/isURL';
 
+import Echo from 'laravel-echo'
+import pusher from 'pusher-js';
+
 export const auditMixin = {
+  created() {
+    this.echo = new Echo({
+      broadcaster: 'pusher',
+      key: this.pusherKey,
+      cluster: 'us3',
+      forceTLS: false
+    });
+  },
   data() {
     return {
       audit: null,
+      echo: null,
       error: null,
       isLoading: false,
       results: null,
@@ -23,6 +35,7 @@ export const auditMixin = {
           this.leaveChannel(`audit-${this.token}`);
         }
         this.token = generateHex();
+
         this.joinChannel(`audit-${this.token}`);
 
         axios
@@ -37,11 +50,11 @@ export const auditMixin = {
       }
     },
     joinChannel(channelId) {
-      const channel = Echo.channel(channelId);
+      const channel = this.echo.channel(channelId);
 
       channel.listen('.AuditCompleted', async ({ audit }) => {
         this.audit = audit;
-        const response = await axios.get(`/api/audit/${audit.id}`);
+        const response = await axios.get(`/api/audit/${audit.id}?XDEBUG_SESSION_START=1`);
 
         this.results = response.data.data.results;
         this.isLoading = false;
@@ -53,7 +66,7 @@ export const auditMixin = {
       });
     },
     leaveChannel(channelId) {
-      Echo.leaveChannel(channelId);
+      this.echo.leaveChannel(channelId);
     },
     validate(type = 'url') {
       if (type === 'site') {
@@ -73,5 +86,8 @@ export const auditMixin = {
         return true;
       }
     }
+  },
+  props: {
+    pusherKey: String
   }
 };
