@@ -2,11 +2,11 @@
 
 namespace CreatyDev\Domain\Subscriptions\Mail;
 
-use Asahasrabuddhe\LaravelMJML\Mail\Mailable;
 use CreatyDev\App\Pa11y\Pa11y;
 use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Domain\Users\Models\User;
 use CreatyDev\Solarix\Cashier\Subscription;
+use CreatyDev\Solarix\Mail\Mailable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Stripe\PaymentMethod;
@@ -45,6 +45,7 @@ class SubscriptionCreatedMail extends Mailable {
     Subscription $subscription,
     User $user
   ) {
+    parent::__construct();
     $this->subject('WCASG Subscription Confirmation');
 
     $this->payment_method = $payment_method;
@@ -60,11 +61,9 @@ class SubscriptionCreatedMail extends Mailable {
    * @return $this
    */
   public function build() {
-    // The MJML conversion includes abundant extra characters that throw error from html2text parser used internally by
-    // Laravel.  This line explicitly disables those errors for this single conversion process.
-    libxml_use_internal_errors(true);
-
     $mjml = $this->mjml('emails.account.subscription.created', [
+      'hero_title' => 'Subscription Confirmation',
+      'hero_text' => 'Thank you for your order!',
       'user' => $this->user,
       'subscription' => $this->subscription,
       'payment_method' => $this->payment_method,

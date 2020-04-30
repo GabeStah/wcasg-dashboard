@@ -2,32 +2,25 @@
 
 namespace CreatyDev\Domain\Account\Mail\Subscription;
 
+use CreatyDev\Solarix\Mail\Mailable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SubscriptionResumed extends Mailable
-{
-    use Queueable, SerializesModels;
+class SubscriptionResumed extends Mailable {
+  use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        return $this->subject('Subscription Resumed')->markdown('emails.account.subscription.resumed');
-    }
+  /**
+   * Build the message.
+   *
+   * @return $this
+   */
+  public function build() {
+    return $this->subject('Subscription Resumed')->mjml(
+      'emails.account.subscription.resumed',
+      [
+        'hero_title' => 'Subscription Resumed',
+        'hero_text' => 'Your subscription has resumed.'
+      ]
+    );
+  }
 }

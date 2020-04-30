@@ -2,7 +2,11 @@
 
 @section('content')
   <mj-column width="100%" vertical-align="middle" padding="12px 0px">
-    <mj-text align="center" font-size="18px" line-height="24px" padding-bottom="8px" color="#242b3d" font-weight="bold">You have been added as a member of {{ $team->name }}.</mj-text>
+    <mj-text align="center" font-size="16px" line-height="24px" color="#424651">
+      @component('emails.components.panel')
+        {{ __('mail.subscription.features_disabled_text') }}
+      @endcomponent
+    </mj-text>
     @component('emails.components.button', ['font_size' => '24px', 'url' => route('account.index')])
       {{ __('mail.subscription.view_account_button_text') }}
     @endcomponent

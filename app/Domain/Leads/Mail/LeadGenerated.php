@@ -5,8 +5,8 @@ namespace CreatyDev\Domain\Leads\Mail;
 use CreatyDev\App\Pa11y\Pa11y;
 use CreatyDev\Domain\Audits\Models\Audit;
 use CreatyDev\Domain\Leads\Models\Lead;
+use CreatyDev\Solarix\Mail\Mailable;
 use Illuminate\Bus\Queueable;
-use Asahasrabuddhe\LaravelMJML\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class LeadGenerated extends Mailable {
@@ -29,6 +29,7 @@ class LeadGenerated extends Mailable {
    * @param Lead $lead
    */
   public function __construct(Audit $audit, Lead $lead) {
+    parent::__construct();
     $this->audit = $audit;
     $this->lead = $lead;
     $this->subject('Website Audit Report for ' . get_domain($this->lead->url));
@@ -93,13 +94,11 @@ class LeadGenerated extends Mailable {
       }
     });
 
-    // The MJML conversion includes abundant extra characters that throw error from html2text parser used internally by
-    // Laravel.  This line explicitly disables those errors for this single conversion process.
-    libxml_use_internal_errors(true);
-
     $mjml = $this->mjml('emails.lead.created', [
       'audit' => $this->audit,
       'domain' => get_domain($this->lead->url),
+      'hero_title' => get_domain($this->lead->url),
+      'hero_text' => 'Website Audit Report',
       'lead' => $data,
       'max_results' => $MAX_RESULTS,
       'results' => $results,

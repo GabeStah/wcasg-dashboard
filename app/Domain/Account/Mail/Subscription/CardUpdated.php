@@ -2,32 +2,25 @@
 
 namespace CreatyDev\Domain\Account\Mail\Subscription;
 
+use CreatyDev\Solarix\Mail\Mailable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class CardUpdated extends Mailable
-{
-    use Queueable, SerializesModels;
+class CardUpdated extends Mailable {
+  use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        return $this->subject('Card Updated')->markdown('emails.account.subscription.card');
-    }
+  /**
+   * Build the message.
+   *
+   * @return $this
+   */
+  public function build() {
+    return $this->subject('Card Updated')->mjml(
+      'emails.account.subscription.card',
+      [
+        'hero_title' => 'Card Updated',
+        'hero_text' => 'Your card details have been updated.'
+      ]
+    );
+  }
 }

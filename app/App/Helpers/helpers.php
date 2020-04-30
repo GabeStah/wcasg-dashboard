@@ -9,6 +9,18 @@
 use Illuminate\Support\Str;
 use LZCompressor\LZString;
 
+if (!function_exists('app_logo_path')) {
+  /**
+   * Get app logo image path.
+   *
+   * @param string $size
+   * @return bool
+   */
+  function app_logo_path($size = 'sm') {
+    return config('app.url') . "img/logo-$size.png";
+  }
+}
+
 if (!function_exists('on_page')) {
   /**
    * Check's whether request url/route matches passed link

@@ -2,21 +2,12 @@
 
 namespace CreatyDev\Domain\Account\Mail\Subscription;
 
+use CreatyDev\Solarix\Mail\Mailable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
 class SubscriptionSwapped extends Mailable {
   use Queueable, SerializesModels;
-
-  /**
-   * Create a new message instance.
-   *
-   * @return void
-   */
-  public function __construct() {
-    //
-  }
 
   /**
    * Build the message.
@@ -24,8 +15,12 @@ class SubscriptionSwapped extends Mailable {
    * @return $this
    */
   public function build() {
-    return $this->subject('Subscription Plan Changed')->markdown(
-      'emails.account.subscription.swapped'
+    return $this->subject('Subscription Plan Changed')->mjml(
+      'emails.account.subscription.swapped',
+      [
+        'hero_title' => 'Subscription Changed',
+        'hero_text' => 'Your subscription has been updated.'
+      ]
     );
   }
 }

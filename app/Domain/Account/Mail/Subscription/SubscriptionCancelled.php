@@ -2,22 +2,12 @@
 
 namespace CreatyDev\Domain\Account\Mail\Subscription;
 
+use CreatyDev\Solarix\Mail\Mailable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class SubscriptionCancelled extends Mailable {
   use Queueable, SerializesModels;
-
-  /**
-   * Create a new message instance.
-   *
-   * @return void
-   */
-  public function __construct() {
-    //
-  }
 
   /**
    * Build the message.
@@ -25,8 +15,12 @@ class SubscriptionCancelled extends Mailable {
    * @return $this
    */
   public function build() {
-    return $this->subject('Subscription Cancelled')->markdown(
-      'emails.account.subscription.cancelled'
+    return $this->subject('Subscription Cancelled')->mjml(
+      'emails.account.subscription.cancelled',
+      [
+        'hero_title' => 'Subscription Cancelled',
+        'hero_text' => 'Your subscription has been cancelled.'
+      ]
     );
   }
 }

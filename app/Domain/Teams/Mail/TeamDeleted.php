@@ -2,32 +2,22 @@
 
 namespace CreatyDev\Domain\Teams\Mail;
 
+use CreatyDev\Solarix\Mail\Mailable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TeamDeleted extends Mailable
-{
-    use Queueable, SerializesModels;
+class TeamDeleted extends Mailable {
+  use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        return $this->subject('Team Deleted')->markdown('emails.team.deleted');
-    }
+  /**
+   * Build the message.
+   *
+   * @return $this
+   */
+  public function build() {
+    return $this->subject('Team Deleted')->mjml('emails.team.deleted', [
+      'hero_title' => 'Team Deleted',
+      'hero_text' => 'Team has been deleted.'
+    ]);
+  }
 }

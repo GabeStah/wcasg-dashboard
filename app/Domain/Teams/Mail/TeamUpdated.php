@@ -2,32 +2,22 @@
 
 namespace CreatyDev\Domain\Teams\Mail;
 
+use CreatyDev\Solarix\Mail\Mailable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TeamUpdated extends Mailable
-{
-    use Queueable, SerializesModels;
+class TeamUpdated extends Mailable {
+  use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    public function build()
-    {
-        return $this->subject('Team Updated')->markdown('emails.team.updated');
-    }
+  /**
+   * Build the message.
+   *
+   * @return $this
+   */
+  public function build() {
+    return $this->subject('Team Updated')->mjml('emails.team.updated', [
+      'hero_title' => 'Team Updated',
+      'hero_text' => 'Your team has been updated.'
+    ]);
+  }
 }
