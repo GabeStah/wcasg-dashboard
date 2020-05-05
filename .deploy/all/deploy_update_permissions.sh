@@ -18,4 +18,6 @@ ssh -o StrictHostKeyChecking=no ubuntu@"${DEPLOY_ENDPOINT}" << EOF
   sudo chgrp -R "\${LARAVEL_WS_GROUP}" "\${LARAVEL_ROOT}/storage" "\${LARAVEL_ROOT}/bootstrap/cache"
 
   sudo chmod -R ug+rwx "\${LARAVEL_ROOT}/storage" "\${LARAVEL_ROOT}/bootstrap/cache"
+
+  sudo chmod -R ug+rwx "\${LARAVEL_ROOT}/node_modules/mjml"
 EOF
