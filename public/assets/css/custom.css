@@ -1,7 +1,12 @@
 .badge-circle.badge-md {
-        width: 1rem;
-        height: 1rem;
-        position: relative;
-        top: -12px;
-        left: -12px;
-    }
+    width: 1rem;
+    height: 1rem;
+    position: relative;
+    top: -12px;
+    left: -12px;
+}
+
+/* Disable tooltip mouse events to prevent flickering effect when tooltip appears overtop of the triggering element. */
+.tooltip {
+    pointer-events: none;
+}

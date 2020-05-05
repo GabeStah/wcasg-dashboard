@@ -3012,7 +3012,13 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  props: ['text']
+  props: {
+    placement: {
+      type: String,
+      "default": 'top'
+    },
+    text: String
+  }
 });
 
 /***/ }),
@@ -49797,7 +49803,7 @@ var render = function() {
     staticClass: "fa fa-question-circle align-self-center",
     style: _vm.style,
     attrs: {
-      "data-placement": "top",
+      "data-placement": _vm.placement,
       "data-original-title": _vm.text,
       "data-toggle": "tooltip"
     }

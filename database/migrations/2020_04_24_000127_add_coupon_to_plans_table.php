@@ -31,7 +31,8 @@ class AddCouponToPlansTable extends Migration {
    */
   public function down() {
     Schema::table('plans', function (Blueprint $table) {
-      //
+      $table->dropForeign('coupon_id');
+      $table->dropColumn('coupon_id');
     });
   }
 }

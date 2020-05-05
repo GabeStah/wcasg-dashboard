@@ -1,7 +1,7 @@
 <template>
   <i
     class="fa fa-question-circle align-self-center"
-    data-placement="top"
+    :data-placement="placement"
     :data-original-title="text"
     data-toggle="tooltip"
     :style="style"
@@ -17,6 +17,12 @@ export default {
       }
     };
   },
-  props: ['text']
+  props: {
+    placement: {
+      type: String,
+      default: 'top'
+    },
+    text: String,
+  }
 };
 </script>
