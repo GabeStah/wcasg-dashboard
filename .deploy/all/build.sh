@@ -1,5 +1,6 @@
 #!/bin/sh
 
+echo "Outer ENV_FILE_TESTING: ${ENV_FILE_TESTING}"
 echo "Outer SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}"
 echo "Outer ENV_FILE: ${ENV_FILE}"
 
