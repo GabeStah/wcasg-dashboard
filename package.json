@@ -7,8 +7,6 @@
   "private": true,
   "scripts": {
     "artisan:queue:work": "php artisan queue:work",
-    "deploy": "yarn run deploy:permissions",
-    "deploy:permissions": ". deploy/permissions.sh",
     "dev": "npm run development",
     "dev:db:mongo:ssh-tunnel": "ssh -L 4433:localhost:27017 root@167.172.199.242 -f -N",
     "dev:webservice:start": "cd ../pa11y-webservice-laravel && yarn run start",
@@ -27,6 +25,7 @@
     "ide:helper:models": "php artisan ide-helper:models --write",
     "serve:local:site": "serve tests/sites",
     "staging:supervisor:update": "sudo supervisorctl update && sudo supervisorctl start laravel-worker:*",
+    "testing": "cross-env NODE_ENV=development node_modules/.bin/webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/.bin/webpack --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
