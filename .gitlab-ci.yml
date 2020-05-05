@@ -46,7 +46,7 @@ variables:
     - testing
   variables:
     DEPLOY_ENDPOINT: 'dashboard.widget.wcasg.solarix.dev'
-    ENV_FILE: '$ENV_FILE_PRODUCTION'
+    ENV_FILE: $ENV_FILE_PRODUCTION
     SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY_TESTING
   environment:
     name: testing
@@ -107,7 +107,7 @@ testing:healthcheck:
     - master
   variables:
     DEPLOY_ENDPOINT: 'dashboard.widget.wcasg.solarix.host'
-    ENV_FILE: '$ENV_FILE_PRODUCTION'
+    ENV_FILE: $ENV_FILE_PRODUCTION
     SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY_PRODUCTION
   environment:
     name: production
