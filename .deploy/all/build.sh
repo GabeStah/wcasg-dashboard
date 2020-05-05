@@ -7,6 +7,7 @@ ssh -o StrictHostKeyChecking=no ubuntu@"${DEPLOY_ENDPOINT}" << EOF
   git stash
   git pull origin ${CI_COMMIT_REF_NAME}
   git checkout ${CI_COMMIT_REF_NAME}
+  cp ${ENV_FILE} .env
   composer install
   yarn install
   npm rebuild
