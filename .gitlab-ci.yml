@@ -63,6 +63,9 @@ testing:build:
   stage: build
   <<: *testing_template
   script:
+    # Must be set here, as file-type variable expands to value when reassigned in 'variables' key.
+    # See: https://gitlab.com/gitlab-org/gitlab-runner/-/issues/1809
+    - ENV_FILE="${ENV_FILE_TESTING}"
     - *all_job_stage_script
 
 # Reset database.
@@ -123,6 +126,9 @@ production:build:
   stage: build
   <<: *production_template
   script:
+    # Must be set here, as file-type variable expands to value when reassigned in 'variables' key.
+    # See: https://gitlab.com/gitlab-org/gitlab-runner/-/issues/1809
+    - ENV_FILE="${ENV_FILE_PRODUCTION}"
     - *all_job_stage_script
 
 production:test:
