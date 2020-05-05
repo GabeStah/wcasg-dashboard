@@ -8,5 +8,6 @@ ssh -o StrictHostKeyChecking=no ubuntu@"${DEPLOY_ENDPOINT}" << EOF
   git checkout ${CI_COMMIT_REF_NAME}
   composer install
   yarn install
+  npm rebuild
   yarn run development
 EOF
