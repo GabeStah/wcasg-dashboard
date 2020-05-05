@@ -46,7 +46,7 @@ variables:
     - testing
   variables:
     DEPLOY_ENDPOINT: 'dashboard.widget.wcasg.solarix.dev'
-    ENV_FILE: $ENV_FILE_TESTING
+    ENV_FILE: ${ENV_FILE_TESTING}
     SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY_TESTING
   environment:
     name: testing

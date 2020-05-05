@@ -6,6 +6,7 @@ echo "Outer ENV_FILE: ${ENV_FILE}"
 
 # Update repo to build-flag, pull, install, and build app.
 ssh -o StrictHostKeyChecking=no ubuntu@"${DEPLOY_ENDPOINT}" << EOF
+  echo "Inner ENV_FILE_TESTING: ${ENV_FILE_TESTING}"
   echo "Inner SSH_PRIVATE_KEY: ${SSH_PRIVATE_KEY}"
   echo "Inner ENV_FILE: ${ENV_FILE}"
   echo "Inner SSH_PRIVATE_KEY escaped: \${SSH_PRIVATE_KEY}"
