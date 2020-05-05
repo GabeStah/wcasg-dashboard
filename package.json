@@ -7,8 +7,6 @@
   "private": true,
   "scripts": {
     "artisan:queue:work": "php artisan queue:work",
-    "deploy": "yarn run deploy:permissions",
-    "deploy:permissions": "export TARGET_DIRECTORY=\"/var/www/dashboard\" && . .deploy/all/deploy_update_permissions.sh",
     "dev": "npm run development",
     "dev:db:mongo:ssh-tunnel": "ssh -L 4433:localhost:27017 root@167.172.199.242 -f -N",
     "dev:webservice:start": "cd ../pa11y-webservice-laravel && yarn run start",

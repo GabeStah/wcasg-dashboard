@@ -9,5 +9,5 @@ ssh -o StrictHostKeyChecking=no ubuntu@"${DEPLOY_ENDPOINT}" << EOF
   composer install
   yarn install
   npm rebuild
-  yarn run development
+  yarn run ${CI_ENVIRONMENT_NAME}
 EOF

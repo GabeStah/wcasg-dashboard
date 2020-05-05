@@ -63,8 +63,7 @@ testing:build:
   stage: build
   <<: *testing_template
   script:
-    - chmod +x ./.deploy/${CI_ENVIRONMENT_NAME}/${CI_JOB_STAGE}.sh
-    - . ./.deploy/${CI_ENVIRONMENT_NAME}/${CI_JOB_STAGE}.sh
+    - *all_job_stage_script
 
 # Reset database.
 # (optional, manual)
@@ -124,8 +123,7 @@ production:build:
   stage: build
   <<: *production_template
   script:
-    - chmod +x ./.deploy/${CI_ENVIRONMENT_NAME}/${CI_JOB_STAGE}.sh
-    - . ./.deploy/${CI_ENVIRONMENT_NAME}/${CI_JOB_STAGE}.sh
+    - *all_job_stage_script
 
 production:test:
   stage: test
