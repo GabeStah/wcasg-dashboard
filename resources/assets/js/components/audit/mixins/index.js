@@ -39,7 +39,7 @@ export const auditMixin = {
         this.joinChannel(`audit-${this.token}`);
 
         axios
-          .post(`/api/audit/create?XDEBUG_SESSION_START=1`, {
+          .post(`/api/audit/create${process.env.NODE_ENV === 'development' ? '?XDEBUG_SESSION_START=1' : ''}`, {
             site_id: type === 'site' && this.selectedSite ? this.selectedSite.id : null,
             token: this.token,
             url: this.url
@@ -54,7 +54,7 @@ export const auditMixin = {
 
       channel.listen('.AuditCompleted', async ({ audit }) => {
         this.audit = audit;
-        const response = await axios.get(`/api/audit/${audit.id}?XDEBUG_SESSION_START=1`);
+        const response = await axios.get(`/api/audit/${audit.id}${process.env.NODE_ENV === 'development' ? '?XDEBUG_SESSION_START=1' : ''}`);
 
         this.results = response.data.data.results;
         this.isLoading = false;
@@ -62,6 +62,9 @@ export const auditMixin = {
 
       channel.listen('.AuditFailed', async ({ audit, error }) => {
         this.error = error;
+        if (error.includes('Failed to finish task')) {
+          this.error = 'Unable to complete the requested audit.  Please ensure the requested URL is publicly accessible.'
+        }
         this.isLoading = false;
       });
     },
@@ -77,6 +80,7 @@ export const auditMixin = {
         this.selectedSite = this.sites.find(
           site => site.id === this.selectedSiteId
         );
+        this.url = this.selectedSite.domain;
         return true;
       } else {
         if (!isURL(this.url)) {
