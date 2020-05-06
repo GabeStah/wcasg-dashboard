@@ -17,7 +17,10 @@ class SiteExtensionsController extends Controller {
    */
   public function index($id) {
     $site = Site::findOrFail($id);
-    $extensions = $site->extensions->where('enabled', '=', true);
+    $extensions = $site
+      ->extensions()
+      ->where('enabled', '=', true)
+      ->get();
     $i8n = json_encode([
       'action' => __('account.extension.action'),
       'add_new_button' => __('account.extension.add_new_button'),
