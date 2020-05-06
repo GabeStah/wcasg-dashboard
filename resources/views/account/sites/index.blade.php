@@ -136,7 +136,7 @@
                                                        id="widget-snippet-{{ $site->id }}"
                                                        aria-labelledby="header-widget" onfocus="this.select()"
                                                        placeholder="Widget Snippet"
-                                                       data-placement="top"
+                                                       data-placement="left"
                                                        data-original-title="{{ __('account.site.widget_info') }}"
                                                        data-toggle="tooltip"
                                                 >{{ $site->getWidgetScriptTag() }}</textarea>

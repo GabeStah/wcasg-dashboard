@@ -2,37 +2,37 @@
 
 namespace CreatyDev\Domain\Users\Models;
 
-use CreatyDev\Domain\Coupon\Models\Coupon;
-use CreatyDev\Domain\Leads\Models\Lead;
-use CreatyDev\Domain\Sites\Models\Site;
-use CreatyDev\Domain\Statements\Models\Statement;
-use Eloquent;
-use Illuminate\Auth\Passwords\CanResetPassword;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use CreatyDev\Solarix\Cashier\Subscription;
-use CreatyDev\Solarix\Traits\Billable;
-use Illuminate\Notifications\DatabaseNotification;
-use Illuminate\Notifications\DatabaseNotificationCollection;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
-use Laravel\Passport\Client;
-use Laravel\Passport\HasApiTokens;
 use CreatyDev\App\Traits\Eloquent\Auth\HasConfirmationToken;
 use CreatyDev\App\Traits\Eloquent\Auth\HasTwoFactorAuthentication;
 use CreatyDev\App\Traits\Eloquent\Roles\HasPermissions;
 use CreatyDev\App\Traits\Eloquent\Roles\HasRoles;
 use CreatyDev\App\Traits\Eloquent\Subscriptions\HasSubscriptions;
 use CreatyDev\Domain\Company\Models\Company;
+use CreatyDev\Domain\Coupon\Models\Coupon;
+use CreatyDev\Domain\Leads\Models\Lead;
+use CreatyDev\Domain\Sites\Models\Site;
+use CreatyDev\Domain\Statements\Models\Statement;
 use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Domain\Teams\Models\Team;
-use CreatyDev\Domain\Ticket\Models\Ticket;
 use CreatyDev\Domain\Ticket\Models\Comment;
+use CreatyDev\Domain\Ticket\Models\Ticket;
 use CreatyDev\Domain\Users\Filters\UserFilters;
+use CreatyDev\Solarix\Cashier\Subscription;
+use CreatyDev\Solarix\Traits\Billable;
+use Eloquent;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\DatabaseNotification;
+use Illuminate\Notifications\DatabaseNotificationCollection;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
+use Laravel\Passport\Client;
+use Laravel\Passport\HasApiTokens;
 use Laravel\Passport\Token;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
@@ -368,7 +368,7 @@ class User extends Authenticatable {
 
   // user profile image
   public function getImageAttribute() {
-    return $this->profile_image;
+    return asset('storage' . $this->profile_image);
   }
 
   public function comments() {

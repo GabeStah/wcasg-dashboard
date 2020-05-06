@@ -20,7 +20,7 @@
                         <div class="col-md-6 d-flex">
                             <input id="profile_image" type="file" class="form-control w-75" name="profile_image">
                             @if (auth()->user()->image)
-                                <img src="{{ asset(auth()->user()->image) }}"
+                                <img src="{{ auth()->user()->image }}"
                                      class="avatar rounded-circle ml-md-5">
                             @endif
                             @if ($errors->has('profile_image'))
