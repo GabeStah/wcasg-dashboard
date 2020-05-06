@@ -12,18 +12,19 @@ class SetForeignKeysNullOnDeleteAuditsTable extends Migration {
    */
   public function up() {
     Schema::table('audits', function (Blueprint $table) {
-      $table->dropForeign('user_id');
+      $table->dropForeign('audits_ibfk_1');
+      $table->dropForeign('audits_ibfk_2');
+      $table->dropForeign('audits_site_id_foreign');
+      $table->dropForeign('audits_user_id_foreign');
 
       $table
-        ->foreign('user_id')
+        ->foreign('user_id', 'audits_user_id_foreign')
         ->references('id')
         ->on('users')
         ->onDelete('SET NULL');
 
-      $table->dropForeign('site_id');
-
       $table
-        ->foreign('site_id')
+        ->foreign('site_id', 'audits_site_id_foreign')
         ->references('id')
         ->on('sites')
         ->onDelete('SET NULL');
@@ -36,20 +37,6 @@ class SetForeignKeysNullOnDeleteAuditsTable extends Migration {
    * @return void
    */
   public function down() {
-    Schema::table('audits', function (Blueprint $table) {
-      $table->dropForeign('user_id');
-
-      $table
-        ->foreign('user_id')
-        ->references('id')
-        ->on('users');
-
-      $table->dropForeign('site_id');
-
-      $table
-        ->foreign('site_id')
-        ->references('id')
-        ->on('sites');
-    });
+    // Never reverse migration.
   }
 }

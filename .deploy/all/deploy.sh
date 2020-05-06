@@ -6,6 +6,7 @@ ssh -o StrictHostKeyChecking=no ubuntu@"${DEPLOY_ENDPOINT}" << EOF
   php artisan migrate
   php artisan config:cache
   php artisan view:clear
+  php artisan storage:link
   sudo systemctl restart nginx
   sudo systemctl restart php7.2-fpm
 EOF
