@@ -1,6 +1,5 @@
 <?php
 
-use CreatyDev\Domain\Audits\Models\Audit;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -44,7 +43,8 @@ class CreateAuditsTable extends Migration {
       $table
         ->foreign('user_id')
         ->references('id')
-        ->on('users');
+        ->on('users')
+        ->onDelete('SET NULL');
 
       $table
         ->unsignedBigInteger('site_id')
@@ -54,7 +54,8 @@ class CreateAuditsTable extends Migration {
       $table
         ->foreign('site_id')
         ->references('id')
-        ->on('sites');
+        ->on('sites')
+        ->onDelete('SET NULL');
     });
   }
 
