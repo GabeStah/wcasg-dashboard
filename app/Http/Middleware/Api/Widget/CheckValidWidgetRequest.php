@@ -44,10 +44,13 @@ class CheckValidWidgetRequest {
     }
 
     $site = null;
+    $originHost = parse_url($request->header('origin'), PHP_URL_HOST)
+      ? parse_url($request->header('origin'), PHP_URL_HOST)
+      : $request->header('origin');
 
     if ($this->hasAdminToken()) {
-      // Bypass token check, get first site.
-      $site = Site::first();
+      // Bypass token check, get first matching.
+      $site = Site::where('domain', 'LIKE', $originHost)->firstOrFail();
     } else {
       // Find site record with matching token.
       $site = Site::whereToken($token)->first();
@@ -60,9 +63,6 @@ class CheckValidWidgetRequest {
 
     // Check if current origin host matches site record domain host.
     $siteHost = $site->getDomainHost();
-    $originHost = parse_url($request->header('origin'), PHP_URL_HOST)
-      ? parse_url($request->header('origin'), PHP_URL_HOST)
-      : $request->header('origin');
     if ($siteHost !== $originHost) {
       throw new InvalidOriginException();
     }

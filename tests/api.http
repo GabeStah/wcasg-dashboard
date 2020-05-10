@@ -6,7 +6,7 @@ Content-Type: application/json
 }
 ###
 
-POST http://178.128.7.36/api/audit/create
+POST https://dashboard.widget.wcasg.solarix.dev/api/audit/create
 Content-Type: application/json
 
 {

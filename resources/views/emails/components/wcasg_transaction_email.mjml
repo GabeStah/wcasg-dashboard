@@ -18,7 +18,7 @@
     <!-- Header -->
     <mj-section background-color="white" padding="16px 8px 16px 8px" border-radius="4px 4px 0px 0px">
       <mj-column width="100%">
-        <mj-image width="150px" src="http://178.128.7.36/img/logo-sm.png"></mj-image>
+        <mj-image width="150px" src="https://dashboard.widget.wcasg.solarix.dev/img/logo-sm.png"></mj-image>
       </mj-column>
     </mj-section>
 

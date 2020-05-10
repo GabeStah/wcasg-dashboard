@@ -28,7 +28,7 @@
     <mj-body background-color="#E7E7E7" width="1200px">
         <mj-section full-width="full-width" background-color="#040B4F" padding-bottom="0">
             <mj-column width="100%">
-                <mj-image src="http://178.128.7.36/img/wcasg_acronym_light-sm.png" alt="" align="center" width="150px" />
+                <mj-image src="https://dashboard.widget.wcasg.solarix.dev/img/wcasg_acronym_light-sm.png" alt="" align="center" width="150px" />
                 <mj-text color="#ffffff" font-weight="bold" align="center" text-transform="uppercase" font-size="16px" letter-spacing="1px" padding-top="30px">
                     <a href="{{ $lead['url'] }}" style="color:#ffffff;text-decoration:none;" target="_blank">{{ $lead['url'] }}</a>
                 </mj-text>
