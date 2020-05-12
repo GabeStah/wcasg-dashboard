@@ -8,7 +8,8 @@
   "scripts": {
     "artisan:queue:work": "php artisan queue:work",
     "dev": "npm run development",
-    "dev:db:mongo:ssh-tunnel": "ssh -L 4433:localhost:27017 root@167.172.199.242 -f -N",
+    "dev:db:mongo:ssh-tunnel": "ssh -L 4321:localhost:27017 ubuntu@audit.widget.wcasg.solarix.dev -f -N -i C:\\Users\\Gabe\\.ssh\\aws\\solarix__pem_dev.pem",
+    "production:db:mongo:ssh-tunnel": "ssh -L 4321:localhost:27017 ubuntu@audit.widget.wcasg.solarix.host -f -N -i C:\\Users\\Gabe\\.ssh\\aws\\solarix__pem_dev.pem",
     "dev:webservice:start": "cd ../pa11y-webservice-laravel && yarn run start",
     "development": "cross-env NODE_ENV=development node_modules/.bin/webpack --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "db:dev": "docker-compose -f mysql.docker-compose.yml up",
