@@ -2,6 +2,8 @@
 
 namespace CreatyDev\Domain\Subscriptions\Models;
 
+use CreatyDev\App\Traits\Eloquent\HasToken;
+use CreatyDev\Domain\Api\Webhook\WebhookRoutableInterface;
 use CreatyDev\Domain\Coupon\Models\Coupon;
 use CreatyDev\Domain\Users\Models\User;
 use Eloquent;
@@ -60,14 +62,15 @@ use Stripe\Product;
  * @property-read \CreatyDev\Domain\Coupon\Models\Coupon|null $coupon
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereCouponId($value)
  */
-class Plan extends Model {
+class Plan extends Model implements WebhookRoutableInterface {
+  use HasToken;
   /**
    * Default values.
    *
    * @var array
    */
   public $attributes = [
-    'active' => true,
+    'active' => false,
     'currency' => 'usd',
     'interval' => 'month'
   ];
@@ -348,5 +351,17 @@ class Plan extends Model {
    */
   public function scopeForTeams(Builder $builder) {
     return $builder->where('teams_enabled', true);
+  }
+
+  /**
+   * Get the webhook route for this object.
+   *
+   * @return string
+   */
+  public function getWebhookRoute(): string {
+    return route('api.webhook.post', [
+      'token' => $this->token,
+      'plan' => $this->id
+    ]);
   }
 }

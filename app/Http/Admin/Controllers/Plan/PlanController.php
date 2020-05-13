@@ -10,7 +10,6 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -102,6 +101,12 @@ class PlanController extends Controller {
     }, $products->data);
 
     $rows = [
+      [
+        'field' => 'active',
+        'title' => 'Active',
+        'info_text' => __('admin.plan.active'),
+        'type' => 'toggle'
+      ],
       [
         'field' => 'product_id',
         'title' => 'Product*',
@@ -276,6 +281,12 @@ class PlanController extends Controller {
 
     $rows = [
       [
+        'field' => 'active',
+        'title' => 'Active',
+        'info_text' => __('admin.plan.active'),
+        'type' => 'toggle'
+      ],
+      [
         'field' => 'product_id',
         'title' => 'Product*',
         'required' => true,
@@ -380,9 +391,7 @@ class PlanController extends Controller {
           $request->input('teams_enabled') &&
           !empty($request->input('teams_limit')),
         'teams_limit' => $request->input('teams_limit') ?? null,
-        'active' => !empty($request->input('active'))
-          ? $request->input('active')
-          : true,
+        'active' => $request->input('active') ? true : false,
         'trial_period_days' => $request->input('trial_period_days'),
         'context' => $context,
         'coupon_id' => $request->input('coupon_id')

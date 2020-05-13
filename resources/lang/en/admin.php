@@ -39,6 +39,8 @@ return [
       'Taking account of other properties, whether this coupon can still be applied.'
   ],
   'plan' => [
+    'active' =>
+      'An active Plan is displayed in the store and Users can subscribe to it.',
     'amount' => 'The amount to charge at each specified interval.',
     'coupon' =>
       '(Optional) The coupon to apply to new subscriptions based on this Plan.',
