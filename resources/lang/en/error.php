@@ -20,6 +20,16 @@ return [
     'invalid_token' => 'Token parameter is invalid.',
     'missing_origin' =>
       'Request origin cannot be determined.  Cross Origin request has failed.',
-    'missing_token' => 'A token parameter is required to complete this request.'
+    'missing_token' =>
+      'A token parameter is required to complete this request.',
+    'webhook' => [
+      'invalid_id' => 'Invalid id specified.',
+      'invalid_token' => 'Invalid token specified.',
+      'invalid_type' => 'Invalid type specified.',
+      'missing_id' => 'No id specified.',
+      'missing_token' =>
+        'A token parameter is required to complete this request.',
+      'missing_type' => 'No type specified.'
+    ]
   ]
 ];

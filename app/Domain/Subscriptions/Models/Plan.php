@@ -360,8 +360,9 @@ class Plan extends Model implements WebhookRoutableInterface {
    */
   public function getWebhookRoute(): string {
     return route('api.webhook.post', [
+      'id' => $this->id,
       'token' => $this->token,
-      'plan' => $this->id
+      'type' => 'funnel'
     ]);
   }
 }
