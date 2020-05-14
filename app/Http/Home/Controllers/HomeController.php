@@ -23,6 +23,7 @@ class HomeController extends Controller {
     VisitLog::save();
     // Get Plans to show on the landing page
     $plans = Plan::whereActive(true)
+      ->whereVisible(true)
       ->orderBy('amount')
       ->get();
     return view('home.index', compact('plans'));

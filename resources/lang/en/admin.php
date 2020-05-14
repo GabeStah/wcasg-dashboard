@@ -44,6 +44,7 @@ return [
     'amount' => 'The amount to charge at each specified interval.',
     'coupon' =>
       '(Optional) The coupon to apply to new subscriptions based on this Plan.',
+    'visible' => 'A visible Plan is displayed in the front-end store view.',
     'interval' => 'The frequency at which a subscription is billed.',
     'product' => 'The product whose pricing this plan determines.',
     'stripe_mention' => 'The new plan is automatically added to Stripe.',

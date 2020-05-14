@@ -2,6 +2,7 @@
 
 namespace CreatyDev\Domain\Leads\Models;
 
+use CreatyDev\App\Traits\Eloquent\Auth\HasConfirmationToken;
 use CreatyDev\Domain\Audits\Models\Audit;
 use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Domain\Users\Models\User;
@@ -61,6 +62,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Leads\Models\Lead wherePlanId($value)
  */
 class Lead extends Model {
+  use HasConfirmationToken;
   /**
    * The attributes that should be appended to the model.
    *

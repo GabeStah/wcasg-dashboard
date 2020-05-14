@@ -8,36 +8,34 @@
 
 namespace CreatyDev\App\Traits\Eloquent\Auth;
 
+use Carbon\Carbon;
+use CreatyDev\Domain\ConfirmationToken;
 
-use CreatyDev\Domain\Users\Models\ConfirmationToken;
+trait HasConfirmationToken {
+  /**
+   *  Generates a confirmation token for a user.
+   * @param Carbon $expiresAt
+   * @return string
+   */
+  public function generateConfirmationToken(Carbon $expiresAt = null) {
+    $this->confirmationToken()->create([
+      'token' => ($token = str_random(200)),
+      'expires_at' => $expiresAt ?? $this->getConfirmationTokenExpiry()
+    ]);
 
-trait HasConfirmationToken
-{
-    /**
-     *  Generates a confirmation token for a user.
-     */
-    public function generateConfirmationToken()
-    {
-        $this->confirmationToken()->create([
-            'token' => $token = str_random(200),
-            'expires_at' => $this->getConfirmationTokenExpiry(),
-        ]);
+    return $token;
+  }
 
-        return $token;
-    }
+  protected function getConfirmationTokenExpiry($expires_in_minutes = 10) {
+    return $this->freshTimestamp()->addMinutes($expires_in_minutes);
+  }
 
-    protected function getConfirmationTokenExpiry()
-    {
-        return $this->freshTimestamp()->addMinutes(10);
-    }
-
-    /**
-     * Get's the user's confirmation token.
-     *
-     * @return mixed
-     */
-    public function confirmationToken()
-    {
-        return $this->hasOne(ConfirmationToken::class);
-    }
+  /**
+   * Get's the user's confirmation token.
+   *
+   * @return mixed
+   */
+  public function confirmationToken() {
+    return $this->hasOne(ConfirmationToken::class);
+  }
 }
