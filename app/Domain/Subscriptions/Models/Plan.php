@@ -72,7 +72,8 @@ class Plan extends Model implements WebhookRoutableInterface {
   public $attributes = [
     'active' => false,
     'currency' => 'usd',
-    'interval' => 'month'
+    'interval' => 'month',
+    'visible' => true
   ];
 
   /**
@@ -83,22 +84,24 @@ class Plan extends Model implements WebhookRoutableInterface {
   public $casts = [
     'active' => 'boolean',
     'context' => 'json',
-    'teams_enabled' => 'boolean'
+    'teams_enabled' => 'boolean',
+    'visible' => 'boolean'
   ];
 
   protected $fillable = [
-    'id',
-    'coupon_id',
-    'product_id',
+    'active',
     'amount',
+    'context',
+    'coupon_id',
     'currency',
+    'id',
     'interval',
     'nickname',
-    'active',
+    'product_id',
     'teams_enabled',
     'teams_limit',
     'trial_period_days',
-    'context'
+    'visible'
   ];
 
   /**
@@ -156,14 +159,15 @@ class Plan extends Model implements WebhookRoutableInterface {
           if ($maximum >= $restraint->value) {
             $maximum = $restraint->value - 1;
           }
+          break;
         case '<=':
           if ($maximum > $restraint->value) {
             $maximum = $restraint->value;
           }
+          break;
         case '=':
-          if ($maximum > $restraint->value) {
-            $maximum = $restraint->value;
-          }
+          $maximum = $restraint->value;
+          break;
       }
     }
 
@@ -351,6 +355,16 @@ class Plan extends Model implements WebhookRoutableInterface {
    */
   public function scopeForTeams(Builder $builder) {
     return $builder->where('teams_enabled', true);
+  }
+
+  /**
+   * Get visible plans.
+   *
+   * @param Builder $builder
+   * @return mixed
+   */
+  public function scopeVisible(Builder $builder) {
+    return $builder->where('visible', true);
   }
 
   /**

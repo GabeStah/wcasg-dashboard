@@ -24,6 +24,7 @@
                             <th>Coupon</th>
                             <th>Date</th>
                             <th>Status</th>
+                            <th>Visible</th>
                             <th>Webhook</th>
                             <th>Action</th>
                         </tr>
@@ -56,6 +57,13 @@
                                 <span class="badge badge-success"> Active</span>
                                 @else
                                 <span class="badge badge-danger"> Inactive</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($plan->visible)
+                                    <span class="badge badge-success"> Visible</span>
+                                @else
+                                    <span class="badge badge-danger"> Hidden</span>
                                 @endif
                             </td>
                             <td>
