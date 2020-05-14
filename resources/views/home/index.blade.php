@@ -350,42 +350,41 @@
 {{--        </section>--}}
 {{--        <!-- ======== End Testimonial ======== -->--}}
 
-        <!-- ======== Start Our Price ======== -->
+        <!-- ======== Start Plans ======== -->
+        @if(count($plans) > 0)
         <section class="our-price" id="price">
             <div class="container text-center">
                 <div class="heading">
                     <h2>Plans</h2>
                 </div>
                 <div class="line"></div>
-                <div class="row">
-                    <!-- Box-1 -->
+                <div class="row justify-content-center">
                     @foreach ($plans as $plan)
-
-                    <div class="col-md-3">
-                        <div class="box" @if ($loop->iteration == 3) box-center @endif>
-                            @if($plan->coupon && $plan->coupon->isValid())
-                                <span class="top-btn">Special Rate</span>
-                                <h3>{{ $plan->nickname }}</h3>
-                                <h4>$<span>{{ $plan->price() }}</span>/ {{ $plan->interval }}</h4>
-                                <span class="badge badge-success">{{ $plan->coupon->toString() }}</span>
-                            @else
-                                <h3>{{ $plan->nickname }}</h3>
-                                <h4>$<span>{{ cents_to_decimal($plan->amount) }}</span>/ {{ $plan->interval }}</h4>
-                            @endif
-                            <ul>
-                                <li>Site-Wide Accessibility Widget</li>
-                                <li>Admin Dashboard</li>
-                                <li>Advanced Extensions</li>
-                            </ul>
-                            <a href="{{ route('register', ['plan' => $plan->id]) }}" class="btn-1 btn-primary btn-lg">Get Started</a>
+                        <div class="col-md-3">
+                            <div class="box" @if ($loop->iteration == 3) box-center @endif>
+                                @if($plan->coupon && $plan->coupon->isValid())
+                                    <span class="top-btn">Special Rate</span>
+                                    <h3>{{ $plan->nickname }}</h3>
+                                    <h4>$<span>{{ $plan->price() }}</span>/ {{ $plan->interval }}</h4>
+                                    <span class="badge badge-success">{{ $plan->coupon->toString() }}</span>
+                                @else
+                                    <h3>{{ $plan->nickname }}</h3>
+                                    <h4>$<span>{{ cents_to_decimal($plan->amount) }}</span>/ {{ $plan->interval }}</h4>
+                                @endif
+                                <ul>
+                                    <li>Site-Wide Accessibility Widget</li>
+                                    <li>Admin Dashboard</li>
+                                    <li>Advanced Extensions</li>
+                                </ul>
+                                <a href="{{ route('register', ['plan' => $plan->id]) }}" class="btn-1 btn-primary btn-lg">Get Started</a>
+                            </div>
                         </div>
-                    </div>
-
                     @endforeach
                 </div>
             </div>
         </section>
-        <!-- ======== End Our Price ======== -->
+        @endif
+        <!-- ======== End Plans ======== -->
 
 {{--        <!-- ======== Start Clients ======== -->--}}
 {{--        <section class="clients">--}}

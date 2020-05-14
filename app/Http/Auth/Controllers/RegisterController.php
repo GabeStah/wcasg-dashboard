@@ -5,16 +5,17 @@ namespace CreatyDev\Http\Auth\Controllers;
 use CreatyDev\App\Controllers\Controller;
 use CreatyDev\Domain\Auth\Events\UserSignedUp;
 use CreatyDev\Domain\Leads\Models\Lead;
+use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -55,7 +56,14 @@ class RegisterController extends Controller {
    * @return Application|Factory|Response|View
    */
   public function showRegistrationForm(Request $request) {
-    return view('auth.register', ['plan' => $request->get('plan')]);
+    $lead = null;
+    if ($request->input('lead')) {
+      $lead = Lead::find($request->input('lead'));
+    }
+    return view('auth.register', [
+      'lead' => $lead,
+      'plan' => $request->input('plan')
+    ]);
   }
 
   /**
@@ -126,11 +134,32 @@ class RegisterController extends Controller {
 
     event(new Registered(($user = $this->create($request->all()))));
 
-    // Generate lead, with optional plan association from checkout flow
-    Lead::create([
-      'user_id' => $user->id,
-      'plan_id' => $request->get('plan')
-    ]);
+    // Get Lead
+    $lead = Lead::find($request->input('lead_id'));
+    // Get Plan
+    $plan = Plan::find($request->input('plan_id'));
+
+    if (!$plan && $lead->plan) {
+      $plan = $lead->plan;
+    }
+
+    if ($lead && $plan) {
+      // Create Stripe customer
+      $user->createOrGetStripeCustomer();
+
+      $subscription = $user
+        ->newSubscription($plan->nickname, $plan->id)
+        ->create(null);
+    }
+
+    // No lead, but plan passed via checkout flow.
+    if (!$lead && $plan) {
+      // Generate lead, with optional plan association from checkout flow
+      Lead::create([
+        'user_id' => $user->id,
+        'plan_id' => $request->get('plan_id')
+      ]);
+    }
 
     $this->guard()->login($user);
 

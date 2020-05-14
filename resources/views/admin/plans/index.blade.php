@@ -24,6 +24,8 @@
                             <th>Coupon</th>
                             <th>Date</th>
                             <th>Status</th>
+                            <th>Visible</th>
+                            <th>Webhook</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -58,6 +60,16 @@
                                 @endif
                             </td>
                             <td>
+                                @if ($plan->visible)
+                                    <span class="badge badge-success"> Visible</span>
+                                @else
+                                    <span class="badge badge-danger"> Hidden</span>
+                                @endif
+                            </td>
+                            <td>
+                                <a id="webhook-url" href="#" data-toggle="tooltip" data-delay='{"show": "100", "hide": "500"}' data-trigger="click" title="Copied!" data-placement="top" data-clipboard-text="{{ $plan->getWebhookRoute() }}" class="btn btn-secondary"><i class="fa fa-copy "></i></a>
+                            </td>
+                            <td>
                                 <div class="btn-group" role="group" aria-label="User Actions">
                                     <a href="{{ route('admin.plans.edit', $plan->id) }}" data-toggle="tooltip" data-placement="top" title="" class="btn btn-primary" data-original-title="Edit"><i class="fa fa-edit "></i></a>
                                     <form action="{{ route('admin.plans.destroy', $plan->id)}}" method="post">
@@ -76,4 +88,17 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script type="text/javascript" src="{{ asset('assets/js/vendor/clipboard.min.js') }}"></script>
+<script>
+    const clipboard = new ClipboardJS('#webhook-url');
+    // Hide tooltip when leaving after click
+    clipboard.on('success', e => {
+        $('#webhook-url[data-toggle="tooltip"]').on('mouseleave', function () {
+            $(this).tooltip('hide');
+        });
+    })
+</script>
 @endsection

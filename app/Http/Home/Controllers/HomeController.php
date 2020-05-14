@@ -2,14 +2,14 @@
 
 namespace CreatyDev\Http\Home\Controllers;
 
+use CreatyDev\App\Controllers\Controller;
+use CreatyDev\Domain\Subscriptions\Models\Plan;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
-use CreatyDev\App\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
 use Sarfraznawaz2005\VisitLog\Facades\VisitLog;
-use CreatyDev\Domain\Subscriptions\Models\Plan;
 
 class HomeController extends Controller {
   /**
@@ -22,7 +22,8 @@ class HomeController extends Controller {
     // Log the visitor
     VisitLog::save();
     // Get Plans to show on the landing page
-    $plans = Plan::take('4')
+    $plans = Plan::whereActive(true)
+      ->whereVisible(true)
       ->orderBy('amount')
       ->get();
     return view('home.index', compact('plans'));

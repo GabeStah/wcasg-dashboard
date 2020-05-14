@@ -6,13 +6,27 @@
             <div class="col-md-8 offset-md-2">
                 <div class="card">
                     <div class="card-body">
+                        @if(isset($alert))
+                            @component('layouts.partials.alerts._alerts_component', [
+                                'type' => 'success'
+                                ])
+                                {{ $alert }}
+                            @endcomponent
+                        @endif
                         <h2 class="card-title">Sign Up</h2>
-                        <div>@include('layouts.partials.alerts._alerts')</div>
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
 
+                            @if(isset($lead))
+                                <input type="hidden" name="lead_id" value="{{ $lead->id }}">
+                            @endif
+
                             @if(isset($plan))
-                            <input type="hidden" name="plan" value="{{ $plan }}">
+                            <input type="hidden" name="plan_id" value="{{ $plan->id }}">
+                            @endif
+
+                            @if(isset($skip_checkout))
+                                <input type="hidden" name="skip_checkout" value="{{ $skip_checkout }}">
                             @endif
 
                             <!-- Controller is provided through vendor lib, so row data must be defined here. -->
@@ -30,7 +44,7 @@
                                 ['field' => 'postal_code', 'title' => 'Postal Code'],
                                 ['field' => 'country', 'title' => 'Country', 'default' => 'United States'],
                                 ['field' => 'password', 'title' => 'Password', 'required' => true, 'type' => 'password']
-                            ]])
+                            ], 'data' => isset($lead) ? $lead : null])
                             @endcomponent
 
                             <div class="form-group row">

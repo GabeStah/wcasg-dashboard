@@ -30,6 +30,7 @@ class PlanTableSeeder extends Seeder {
         'unit_count' => 1,
         'interval' => 'month',
         'amount' => 10 * 100,
+        'active' => true,
         'coupon_id' => Coupon::create([
           'id' => 'ALPHA_100_OFF_3_MONTH',
           'currency' => 'usd',
@@ -42,12 +43,14 @@ class PlanTableSeeder extends Seeder {
       ],
       [
         'unit_count' => 5,
+        'active' => false,
         'interval' => 'month',
         'amount' => 10 * 100 * 5
       ],
       [
         'unit_count' => 15,
         'interval' => 'month',
+        'active' => false,
         'amount' => 10 * 100 * 15,
         'coupon_id' => Coupon::create([
           'id' => 'EARLY_ADOPTER_20_OFF_FOREVER',
@@ -60,6 +63,7 @@ class PlanTableSeeder extends Seeder {
       ],
       [
         'unit_count' => 25,
+        'active' => false,
         'interval' => 'month',
         'amount' => 10 * 100 * 25
       ]
@@ -80,7 +84,7 @@ class PlanTableSeeder extends Seeder {
         'interval' => $plan['interval'],
         'nickname' =>
           $plan['unit_count'] . ' Sites per ' . Str::camel($plan['interval']),
-        'active' => true,
+        'active' => $plan['active'],
         'teams_enabled' => false,
         'teams_limit' => 0,
         'trial_period_days' => 0,

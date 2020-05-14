@@ -3,8 +3,8 @@
 namespace CreatyDev\Http\Auth\Controllers;
 
 use CreatyDev\App\Controllers\Controller;
+use CreatyDev\Domain\ConfirmationToken;
 use CreatyDev\Domain\Leads\Models\Lead;
-use CreatyDev\Domain\Users\Models\ConfirmationToken;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class ActivationController extends Controller {
-  protected $redirectTo = '/account/dashboard';
+  protected $redirectTo = '/account/sites';
 
   /**
    * ActivationController constructor.
@@ -28,6 +28,14 @@ class ActivationController extends Controller {
    * @throws Exception
    */
   public function activate(Request $request, ConfirmationToken $token) {
+    if ($token->lead) {
+      return $this->registerFromLead($request, $token);
+    } elseif ($token->user) {
+      return $this->activateUser($request, $token);
+    }
+  }
+
+  protected function activateUser(Request $request, ConfirmationToken $token) {
     //activate user of given token
     $token->user->update([
       'activated' => true
@@ -37,7 +45,7 @@ class ActivationController extends Controller {
     $token->delete();
 
     // Create Stripe Customer
-    $token->user->createAsStripeCustomer();
+    $token->user->createOrGetStripeCustomer();
 
     //login user by id
     Auth::loginUsingId($token->user->id);
@@ -51,8 +59,23 @@ class ActivationController extends Controller {
       //redirect user to intended route
       return redirect()
         ->intended($this->redirectPath())
-        ->withSuccess('You are now signed in.');
+        ->withSuccess(
+          'You are now signed in. Add or modify your sites to get started!'
+        );
     }
+  }
+
+  protected function registerFromLead(
+    Request $request,
+    ConfirmationToken $token
+  ) {
+    return view('auth.register', [
+      'lead' => $token->lead,
+      'plan' => $token->lead->plan,
+      'skip_checkout' => true,
+      'alert' =>
+        'Please complete the sign up form below to activate your account.'
+    ]);
   }
 
   /**

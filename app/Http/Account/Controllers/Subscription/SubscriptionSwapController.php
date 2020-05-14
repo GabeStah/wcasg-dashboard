@@ -2,13 +2,13 @@
 
 namespace CreatyDev\Http\Account\Controllers\Subscription;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use CreatyDev\App\Controllers\Controller;
 use CreatyDev\Domain\Account\Mail\Subscription\SubscriptionSwapped;
 use CreatyDev\Domain\Account\Requests\SubscriptionSwapStoreRequest;
 use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Domain\Users\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class SubscriptionSwapController extends Controller {
   /**
@@ -19,6 +19,7 @@ class SubscriptionSwapController extends Controller {
    */
   public function index(Request $request) {
     $plans = Plan::except($request->user()->plan->id)
+      ->visible()
       ->active()
       ->get();
 

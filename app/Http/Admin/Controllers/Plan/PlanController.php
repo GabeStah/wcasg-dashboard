@@ -10,7 +10,6 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -102,6 +101,18 @@ class PlanController extends Controller {
     }, $products->data);
 
     $rows = [
+      [
+        'field' => 'active',
+        'title' => 'Active',
+        'info_text' => __('admin.plan.active'),
+        'type' => 'toggle'
+      ],
+      [
+        'field' => 'visible',
+        'title' => 'Visible',
+        'info_text' => __('admin.plan.visible'),
+        'type' => 'toggle'
+      ],
       [
         'field' => 'product_id',
         'title' => 'Product*',
@@ -197,7 +208,8 @@ class PlanController extends Controller {
         ? true
         : false,
       'teams_limit' => $request->input('teams_limit') ?? null,
-      'active' => true,
+      'active' => $request->input('active') ? true : false,
+      'visible' => $request->input('visible') ? true : false,
       'trial_period_days' => $request->input('trial_period_days'),
       'coupon_id' => $request->input('coupon_id')
         ? $request->input('coupon_id')
@@ -272,9 +284,21 @@ class PlanController extends Controller {
       ]);
     }
 
-    $products = Stripe\Product::all();
+    $products = Stripe\Product::all(['limit' => 100]);
 
     $rows = [
+      [
+        'field' => 'active',
+        'title' => 'Active',
+        'info_text' => __('admin.plan.active'),
+        'type' => 'toggle'
+      ],
+      [
+        'field' => 'visible',
+        'title' => 'Visible',
+        'info_text' => __('admin.plan.visible'),
+        'type' => 'toggle'
+      ],
       [
         'field' => 'product_id',
         'title' => 'Product*',
@@ -380,9 +404,8 @@ class PlanController extends Controller {
           $request->input('teams_enabled') &&
           !empty($request->input('teams_limit')),
         'teams_limit' => $request->input('teams_limit') ?? null,
-        'active' => !empty($request->input('active'))
-          ? $request->input('active')
-          : true,
+        'active' => $request->input('active') ? true : false,
+        'visible' => $request->input('visible') ? true : false,
         'trial_period_days' => $request->input('trial_period_days'),
         'context' => $context,
         'coupon_id' => $request->input('coupon_id')

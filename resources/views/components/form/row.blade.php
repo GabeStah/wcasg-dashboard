@@ -38,6 +38,16 @@
         ])
         @endcomponent
         @break
+      @case('toggle')
+        @component('components.form.toggle', [
+          'data' => $data ?? null,
+          'default' => $default ?? null,
+          'field' => $field ?? null,
+          'options' => $options ?? null,
+          'editable' => $editable ?? true
+        ])
+        @endcomponent
+        @break
       @default
         @component('components.form.input', [
           'label' => $label ?? null,

@@ -3,6 +3,7 @@
 namespace CreatyDev\Http;
 
 use CreatyDev\Http\Middleware\Api\Extension\CheckValidExtensionRequest;
+use CreatyDev\Http\Middleware\Api\Webhook\ValidateWebhookRequest;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel {
@@ -62,6 +63,12 @@ class Kernel extends HttpKernel {
       // Throttle requests, 30 max attempts over 5 minute decay
       'throttle:30,5',
       'bindings'
+    ],
+
+    'api.webhook' => [
+      'throttle:30,5',
+      'bindings',
+      ValidateWebhookRequest::class
     ],
 
     'api.widget' => [

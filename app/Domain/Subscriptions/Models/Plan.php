@@ -2,6 +2,8 @@
 
 namespace CreatyDev\Domain\Subscriptions\Models;
 
+use CreatyDev\App\Traits\Eloquent\HasToken;
+use CreatyDev\Domain\Api\Webhook\WebhookRoutableInterface;
 use CreatyDev\Domain\Coupon\Models\Coupon;
 use CreatyDev\Domain\Users\Models\User;
 use Eloquent;
@@ -60,16 +62,18 @@ use Stripe\Product;
  * @property-read \CreatyDev\Domain\Coupon\Models\Coupon|null $coupon
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereCouponId($value)
  */
-class Plan extends Model {
+class Plan extends Model implements WebhookRoutableInterface {
+  use HasToken;
   /**
    * Default values.
    *
    * @var array
    */
   public $attributes = [
-    'active' => true,
+    'active' => false,
     'currency' => 'usd',
-    'interval' => 'month'
+    'interval' => 'month',
+    'visible' => true
   ];
 
   /**
@@ -80,22 +84,24 @@ class Plan extends Model {
   public $casts = [
     'active' => 'boolean',
     'context' => 'json',
-    'teams_enabled' => 'boolean'
+    'teams_enabled' => 'boolean',
+    'visible' => 'boolean'
   ];
 
   protected $fillable = [
-    'id',
-    'coupon_id',
-    'product_id',
+    'active',
     'amount',
+    'context',
+    'coupon_id',
     'currency',
+    'id',
     'interval',
     'nickname',
-    'active',
+    'product_id',
     'teams_enabled',
     'teams_limit',
     'trial_period_days',
-    'context'
+    'visible'
   ];
 
   /**
@@ -153,14 +159,15 @@ class Plan extends Model {
           if ($maximum >= $restraint->value) {
             $maximum = $restraint->value - 1;
           }
+          break;
         case '<=':
           if ($maximum > $restraint->value) {
             $maximum = $restraint->value;
           }
+          break;
         case '=':
-          if ($maximum > $restraint->value) {
-            $maximum = $restraint->value;
-          }
+          $maximum = $restraint->value;
+          break;
       }
     }
 
@@ -348,5 +355,28 @@ class Plan extends Model {
    */
   public function scopeForTeams(Builder $builder) {
     return $builder->where('teams_enabled', true);
+  }
+
+  /**
+   * Get visible plans.
+   *
+   * @param Builder $builder
+   * @return mixed
+   */
+  public function scopeVisible(Builder $builder) {
+    return $builder->where('visible', true);
+  }
+
+  /**
+   * Get the webhook route for this object.
+   *
+   * @return string
+   */
+  public function getWebhookRoute(): string {
+    return route('api.webhook.post', [
+      'id' => $this->id,
+      'token' => $this->token,
+      'type' => 'funnel'
+    ]);
   }
 }
