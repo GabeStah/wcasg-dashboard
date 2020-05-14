@@ -30,7 +30,7 @@
                                 ['field' => 'postal_code', 'title' => 'Postal Code'],
                                 ['field' => 'country', 'title' => 'Country', 'default' => 'United States'],
                                 ['field' => 'password', 'title' => 'Password', 'required' => true, 'type' => 'password']
-                            ]])
+                            ], 'data' => isset($lead) ? $lead : null])
                             @endcomponent
 
                             <div class="form-group row">

@@ -52,6 +52,18 @@ Route::group(
 
 Route::group(
   [
+    'namespace' => 'Api\Controllers\Webhook',
+    'middleware' => ['api.webhook'],
+    'as' => 'api.webhook.'
+  ],
+  function () {
+    Route::get('webhook', 'WebhookController@get')->name('get');
+    Route::post('webhook', 'WebhookController@post')->name('post');
+  }
+);
+
+Route::group(
+  [
     'namespace' => 'Api\Controllers\Widget',
     'middleware' => ['api.widget'],
     'as' => 'api.widget.'

@@ -9,12 +9,12 @@ use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
@@ -55,7 +55,14 @@ class RegisterController extends Controller {
    * @return Application|Factory|Response|View
    */
   public function showRegistrationForm(Request $request) {
-    return view('auth.register', ['plan' => $request->get('plan')]);
+    $lead = null;
+    if ($request->input('lead')) {
+      $lead = Lead::find($request->input('lead'));
+    }
+    return view('auth.register', [
+      'lead' => $lead,
+      'plan' => $request->input('plan')
+    ]);
   }
 
   /**
