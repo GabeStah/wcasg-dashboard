@@ -3,7 +3,7 @@
 # Run migrations, update caches, and restart nginx/php
 ssh -o StrictHostKeyChecking=no ubuntu@"${DEPLOY_ENDPOINT}" << EOF
   cd ${TARGET_DIRECTORY}
-  php artisan migrate
+  php artisan migrate --force
   php artisan config:cache
   php artisan view:clear
   php artisan storage:link
