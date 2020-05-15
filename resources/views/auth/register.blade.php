@@ -18,11 +18,11 @@
                             @csrf
 
                             @if(isset($lead))
-                                <input type="hidden" name="lead_id" value="{{ $lead->id }}">
+                                <input type="hidden" name="lead_id" value="{{ is_string($lead) ? $lead : $lead->id }}">
                             @endif
 
                             @if(isset($plan))
-                            <input type="hidden" name="plan_id" value="{{ $plan->id }}">
+                                <input type="hidden" name="plan_id" value="{{ is_string($plan) ? $plan : $plan->id }}">
                             @endif
 
                             @if(isset($skip_checkout))
