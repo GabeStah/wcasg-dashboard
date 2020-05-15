@@ -139,7 +139,7 @@ class RegisterController extends Controller {
     // Get Plan
     $plan = Plan::find($request->input('plan_id'));
 
-    if (!$plan && $lead->plan) {
+    if (!$plan && $lead && $lead->plan) {
       $plan = $lead->plan;
     }
 
