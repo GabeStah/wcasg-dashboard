@@ -95,7 +95,7 @@ class PlanController extends Controller {
     }
 
     // Get Product options
-    $products = Stripe\Product::all();
+    $products = Stripe\Product::all(['limit' => 100]);
     $product_options = array_map(function ($product) {
       return ['value' => $product->id, 'text' => $product->name];
     }, $products->data);
