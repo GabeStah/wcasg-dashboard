@@ -50,6 +50,10 @@ use Illuminate\Support\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Coupon\Models\Coupon whereMetadata($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Coupon\Models\Coupon whereRedeemBy($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Coupon\Models\Coupon whereValid($value)
+ * @property string $code Unique coupon code entered by user to apply discount.
+ * @property string|null $path
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Coupon\Models\Coupon whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Coupon\Models\Coupon wherePath($value)
  */
 class Coupon extends Model {
   protected $casts = [
@@ -60,6 +64,7 @@ class Coupon extends Model {
   ];
   protected $fillable = [
     'id',
+    'code',
     'currency',
     'duration',
     'duration_in_months',
@@ -67,6 +72,7 @@ class Coupon extends Model {
     'metadata',
     'name',
     'percent_off',
+    'path',
     'redeem_by',
     'valid'
   ];
@@ -74,6 +80,20 @@ class Coupon extends Model {
   protected $primaryKey = 'id';
   public $incrementing = false;
   public $stripe_coupon = null;
+
+  /**
+   * Get the webhook route for this object.
+   *
+   * @return string
+   */
+  public function getPathRoute(): ?string {
+    if (!$this->path) {
+      return null;
+    }
+    return route('promotion.index', [
+      'coupon_path' => $this->path
+    ]);
+  }
 
   /**
    * Checks if cached Stripe coupon is valid.
@@ -84,7 +104,11 @@ class Coupon extends Model {
     if (!$this->stripe_coupon || $this->stripe_coupon->id !== $this->id) {
       $this->stripe_coupon = \Stripe\Coupon::retrieve($this->id);
     }
-    return $this->stripe_coupon->valid;
+    if ($this->stripe_coupon) {
+      return $this->stripe_coupon->valid;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -128,11 +152,18 @@ class Coupon extends Model {
   /**
    * Convert to valid Stripe object for create/update.
    *
+   * @param bool $creating
    * @return array
    */
-  public function toStripe() {
+  public function toStripe($creating = false) {
     $data = $this->toArray();
+    $data['metadata'] = [
+      'code' => $this->code,
+      'path' => $this->path
+    ];
+    unset($data['code']);
     unset($data['created_at']);
+    unset($data['path']);
     unset($data['updated_at']);
     unset($data['valid']);
     return $data;
@@ -145,5 +176,15 @@ class Coupon extends Model {
    */
   public function users() {
     return $this->belongsToMany(User::class, 'coupon_user');
+  }
+
+  /**
+   * Determine if coupon has been used by User.
+   *
+   * @param User $user
+   * @return bool
+   */
+  public function wasUsedByUser(User $user) {
+    return $user->coupons->contains('id', '=', $this->id);
   }
 }

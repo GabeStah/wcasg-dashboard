@@ -29,7 +29,7 @@
     "laravel/passport": "^7.0",
     "laravel/telescope": "^2.0",
     "laravel/tinker": "^1.0",
-    "livewire/livewire": "^1.0",
+    "livewire/livewire": "^1.1",
     "nullpunkt/lz-string-php": "^1.2",
     "opis/json-schema": "^1.0",
     "php-http/curl-client": "^2.1",

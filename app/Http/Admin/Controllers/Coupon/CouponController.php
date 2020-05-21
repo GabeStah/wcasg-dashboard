@@ -4,6 +4,8 @@ namespace CreatyDev\Http\Admin\Controllers\Coupon;
 
 use CreatyDev\App\Controllers\Controller;
 use CreatyDev\Domain\Coupon\Models\Coupon;
+use CreatyDev\Domain\Routable;
+use CreatyDev\Domain\UrlPathable;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
@@ -41,11 +43,11 @@ class CouponController extends Controller {
   public function create() {
     $rows = [
       [
-        'field' => 'id',
-        'title' => 'Id*',
+        'field' => 'code',
+        'title' => 'Code*',
         'required' => true,
-        'info_text' => __('admin.coupon.id'),
-        'placeholder' => '100_PERCENT_OFF_FIRST_MONTH'
+        'info_text' => __('admin.coupon.code'),
+        'placeholder' => '100-percent-off-first-month'
       ],
       [
         'field' => 'name',
@@ -115,6 +117,12 @@ class CouponController extends Controller {
             'text' => 'USD'
           ]
         ]
+      ],
+      [
+        'field' => 'path',
+        'title' => 'Path',
+        'required' => false,
+        'info_text' => __('admin.coupon.path')
       ]
     ];
 
@@ -130,7 +138,7 @@ class CouponController extends Controller {
    */
   public function store(Request $request) {
     $this->validate($request, [
-      'id' => 'required|string|max:50',
+      'code' => 'required|string|min:3',
       'currency' => ['required', Rule::in(['usd'])],
       'duration' => ['required', Rule::in(['forever', 'once', 'repeating'])],
       'duration_in_months' => [
@@ -148,6 +156,14 @@ class CouponController extends Controller {
       ],
       'max_redemptions' => 'nullable|integer',
       'name' => 'required|string',
+      'path' => [
+        'nullable',
+        'string',
+        'min:3',
+        'unique:coupons',
+        new UrlPathable(),
+        new Routable()
+      ],
       'percent_off' => 'required|integer|between:1,100',
       'redeem_by' => 'nullable|date|after:today'
     ]);
@@ -158,7 +174,7 @@ class CouponController extends Controller {
 
     return redirect(route('admin.coupons.index'))->with(
       'success',
-      'The [' . $coupon->id . '] coupon has been created.'
+      'The [' . $coupon->code . '] coupon has been created.'
     );
   }
 
@@ -180,12 +196,17 @@ class CouponController extends Controller {
         'placeholder' => 'First Month Free'
       ],
       [
-        'field' => 'id',
-        'title' => 'Id',
+        'field' => 'code',
+        'title' => 'Code*',
         'required' => true,
-        'info_text' => __('admin.coupon.id'),
-        'placeholder' => '100_PERCENT_OFF_FIRST_MONTH',
-        'editable' => false
+        'info_text' => __('admin.coupon.code'),
+        'placeholder' => '100-percent-off-first-month'
+      ],
+      [
+        'field' => 'path',
+        'title' => 'Path',
+        'required' => false,
+        'info_text' => __('admin.coupon.path')
       ],
       [
         'field' => 'percent_off',
@@ -272,16 +293,27 @@ class CouponController extends Controller {
     $coupon = Coupon::findOrFail($id);
 
     $this->validate($request, [
-      'name' => 'required|string'
+      'code' => 'required|string|min:3',
+      'name' => 'required|string',
+      'path' => [
+        'nullable',
+        'string',
+        'min:3',
+        Rule::unique('coupons')->ignore($coupon->id),
+        new UrlPathable(),
+        new Routable()
+      ]
     ]);
 
     // Update local
+    $coupon->code = $request->input('code');
     $coupon->name = $request->input('name');
+    $coupon->path = $request->input('path');
     $coupon->save();
 
     return redirect(route('admin.coupons.index'))->with(
       'success',
-      'The [' . $coupon->id . '] coupon has been updated.'
+      'The [' . $coupon->code . '] coupon has been updated.'
     );
   }
 
@@ -300,7 +332,7 @@ class CouponController extends Controller {
 
     return redirect(route('admin.coupons.index'))->with(
       'success',
-      'The [' . $coupon->id . '] coupon was deleted.'
+      'The [' . $coupon->code . '] coupon was deleted.'
     );
   }
 }

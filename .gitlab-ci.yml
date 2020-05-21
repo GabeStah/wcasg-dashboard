@@ -43,7 +43,10 @@ variables:
 ### Testing
 .testing_template: &testing_template
   only:
+    - branches
     - testing
+  except:
+    - master
   variables:
     DEPLOY_ENDPOINT: 'dashboard.widget.wcasg.solarix.dev'
     SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY_TESTING

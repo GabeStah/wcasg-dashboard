@@ -2,6 +2,7 @@
 
 namespace CreatyDev\Domain\Subscriptions\Events;
 
+use CreatyDev\Domain\Coupon\Models\Coupon;
 use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Domain\Users\Models\User;
 use CreatyDev\Solarix\Cashier\Subscription;
@@ -29,16 +30,24 @@ class SubscriptionCreated {
    * @var User
    */
   public $user;
+  /**
+   * @var Coupon
+   */
+  public $coupon;
 
   public function __construct(
-    string $payment_method_id,
+    $payment_method_id,
     Plan $plan,
     Subscription $subscription,
-    User $user
+    User $user,
+    Coupon $coupon = null
   ) {
-    $this->payment_method = PaymentMethod::retrieve($payment_method_id);
+    $this->payment_method = $payment_method_id
+      ? PaymentMethod::retrieve($payment_method_id)
+      : null;
     $this->plan = $plan;
     $this->subscription = $subscription;
     $this->user = $user;
+    $this->coupon = $coupon;
   }
 }

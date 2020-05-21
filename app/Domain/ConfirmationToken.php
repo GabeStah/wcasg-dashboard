@@ -26,6 +26,9 @@ use Illuminate\Support\Carbon;
  * @method static Builder|ConfirmationToken whereToken($value)
  * @method static Builder|ConfirmationToken whereUserId($value)
  * @mixin Eloquent
+ * @property int|null $lead_id
+ * @property-read \CreatyDev\Domain\Leads\Models\Lead|null $lead
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\ConfirmationToken whereLeadId($value)
  */
 class ConfirmationToken extends Model {
   public $timestamps = false;

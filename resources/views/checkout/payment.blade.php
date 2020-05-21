@@ -1,5 +1,6 @@
 @extends('layouts.app')
 
+
 @section('styles')
 <style>
     .payment {
@@ -208,6 +209,8 @@
         fill: #2295d7;
     }
 </style>
+
+    @livewireStyles
 @endsection
 
 @section('content')
@@ -215,55 +218,18 @@
         <div class="row">
             <div class="col-md-8 offset-md-2">
                 <div class="card">
-                    <div class="card-body">
-                        <h2 class="card-title text-center">Payment Information</h2>
-                        <div class="d-flex">
-                            <div class="w-50 m-2">
-                                <p>Please enter your credit card information below and confirm your billing address.</p>
-                            </div>
-                            <ul class="w-50 m-2 list-group">
-                                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                    <div>
-                                        <h6 class="my-0">{{ $plan->product()->name }}</h6>
-                                        <small class="text-muted">{{ $plan->nickname }}</small>
-                                    </div>
-                                    <span class="text-muted">${{ $plan->basePrice() }}</span>
-                                </li>
-                                @if(isset($coupon) && $coupon->isValid())
-                                    <li class="list-group-item d-flex justify-content-between bg-light">
-                                        @if($coupon_used)
-                                            <div class="text-danger">
-                                                <h6 class="my-0" style="text-decoration: line-through;">{{ $coupon->toString() }}</h6>
-                                                <h6 style="text-decoration: line-through;">{{ $coupon->id }}</h6>
-                                                <small>This coupon has already been used by this account.  You may proceed at the normal price.</small>
-                                            </div>
-                                            <span class="text-danger">-$0.00</span>
-                                        @else
-                                            <div class="text-success">
-                                                <h6 class="my-0">{{ $coupon->toString() }}</h6>
-                                                <small>{{ $coupon->id }}</small>
-                                            </div>
-                                            <span class="text-success">-${{ $plan->discount() }}</span>
-                                        @endif
-                                    </li>
-                                @endif
-                                <li class="list-group-item d-flex justify-content-between">
-                                    <span>Total ({{ isset($plan->currency) ? strtoupper($plan->currency) : 'USD' }})</span>
-                                    @if($coupon_used)
-                                        <strong>${{ $plan->basePrice() }}</strong>
-                                    @else
-                                        <strong>${{ $plan->price() }}</strong>
-                                    @endif
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="cell payment" id="payment">
-                            <form method="POST" action="{{ route('checkout.payment.store') }}" id="payment-form">
-                                @csrf
+                    <form method="POST" action="{{ route('checkout.payment.store') }}" id="payment-form">
+                        @csrf
+                        <div class="card-body">
+                            @include('layouts.partials.errors._errors')
+                            <h2 class="card-title text-center">Payment Information</h2>
+                            @livewire(CreatyDev\App\Http\Livewire\Checkout\Payment\Cart::class,
+                                ['coupon_code' => $coupon_code, 'plan' => $plan, 'user' => $user])
 
-                                <input id="payment-method" name="payment-method" type="hidden"/>
+                            <div class="cell payment" id="payment">
+                                <input id="payment-method" name="payment-method" type="hidden"></input>
 
-                                <div class="row">
+                                <div class="row" id="credit-card-info">
                                     <div class="field half-width">
                                         <div id="payment-card-number" class="input empty"></div>
                                         <label for="payment-card-number" data-tid="payment.form.card_number_label">Card number</label>
@@ -281,7 +247,7 @@
                                     </div>
                                 </div>
 
-                                <div data-locale-reversible>
+                                <div data-locale-reversible id="user-info">
                                     <div class="row">
                                         <div class="field">
                                             <input id="payment-name" data-tid="payment.form.name_placeholder" class="input" type="text" placeholder="John Doe" required="" autocomplete="name" value="{{ $user->name }}">
@@ -322,12 +288,12 @@
                                     </div>
                                 </div>
 
-                                <button id="card-button" class="btn btn-primary mt-3" data-secret="{{ $intent->client_secret }}">
+                                <button id="card-button" class="btn btn-primary mt-3" data-secret="{{ $client_secret }}">
                                     Subscribe
                                 </button>
-                            </form>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -335,10 +301,12 @@
 @endsection
 
 @section('scripts')
+    @livewireScripts
     <script src="https://js.stripe.com/v3"></script>
     <script>
         const swal = window.swal;
         const stripe = Stripe('{{ config('services.stripe.key') }}');
+        let validateCard = true;
         const elements = stripe.elements({
             fonts: [
                 {
@@ -423,38 +391,53 @@
             // Halt form submission.
             e.preventDefault();
             // Attempt to setup payment intent with provided details.
-            const { setupIntent, error } = await stripe.confirmCardSetup(
-                clientSecret, {
-                    payment_method: {
-                        card: cardNumber,
-                        billing_details: {
-                            name: document.getElementById('payment-name').value,
-                            address: {
-                                city: document.getElementById('payment-city').value,
-                                line1: document.getElementById('payment-address').value,
-                                line2: document.getElementById('payment-address2').value,
-                                postal_code: document.getElementById('payment-postal-code').value,
-                                state: document.getElementById('payment-state').value
+            if (validateCard) {
+                const { setupIntent, error } = await stripe.confirmCardSetup(
+                    clientSecret, {
+                        payment_method: {
+                            card: cardNumber,
+                            billing_details: {
+                                name: document.getElementById('payment-name').value,
+                                address: {
+                                    city: document.getElementById('payment-city').value,
+                                    line1: document.getElementById('payment-address').value,
+                                    line2: document.getElementById('payment-address2').value,
+                                    postal_code: document.getElementById('payment-postal-code').value,
+                                    state: document.getElementById('payment-state').value
+                                }
                             }
                         }
                     }
+                );
+                if (error) {
+                    // Show popup error to user.
+                    await swal({
+                        title: 'Error',
+                        text: error.message,
+                        icon: 'error',
+                        button: 'OK',
+                        dangerMode: true,
+                    });
+                } else {
+                    // Pass payment method id to backend controller
+                    jQuery('#payment-method').val(setupIntent.payment_method);
+                    jQuery('#payment-form').submit();
                 }
-            );
-
-            if (error) {
-                // Show popup error to user.
-                await swal({
-                    title: 'Error',
-                    text: error.message,
-                    icon: 'error',
-                    button: 'OK',
-                    dangerMode: true,
-                });
             } else {
-                // Pass payment method id to backend controller
-                jQuery('#payment-method').val(setupIntent.payment_method);
                 jQuery('#payment-form').submit();
             }
         });
+        // Handle form toggling for free vs charged cart totals
+        window.livewire.on('totalChanged', total => {
+            if (total > 0) {
+                jQuery('#credit-card-info').show();
+                jQuery('#user-info').show();
+                validateCard = true;
+            } else {
+                jQuery('#credit-card-info').hide();
+                jQuery('#user-info').hide();
+                validateCard = false;
+            }
+        })
     </script>
 @endsection

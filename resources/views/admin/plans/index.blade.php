@@ -47,7 +47,7 @@
                             <td>
                                 @if(isset($plan->coupon))
                                     <a href="{{ route('admin.coupons.edit', $plan->coupon->id) }}">
-                                        <span>{{ $plan->coupon->id }}</span>
+                                        <span>{{ $plan->coupon->name }}</span>
                                     </a>
                                 @endif
                             </td>

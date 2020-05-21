@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "e8df7dbedc788b5985f701cf93e42bc3",
+  "content-hash": "95c9a2cac8fecdc712e0f648b8cae289",
   "packages": [
     {
       "name": "asahasrabuddhe/laravel-mjml",
@@ -2345,16 +2345,16 @@
     },
     {
       "name": "livewire/livewire",
-      "version": "v1.0.12",
+      "version": "v1.1.0",
       "source": {
         "type": "git",
         "url": "https://github.com/livewire/livewire.git",
-        "reference": "d1bad84e24e290bc3f6745d88dddc19023865a68"
+        "reference": "ee22192220ca7b4f50dec2b0b6ea4da9e49ccf11"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/livewire/livewire/zipball/d1bad84e24e290bc3f6745d88dddc19023865a68",
-        "reference": "d1bad84e24e290bc3f6745d88dddc19023865a68",
+        "url": "https://api.github.com/repos/livewire/livewire/zipball/ee22192220ca7b4f50dec2b0b6ea4da9e49ccf11",
+        "reference": "ee22192220ca7b4f50dec2b0b6ea4da9e49ccf11",
         "shasum": ""
       },
       "require": {
@@ -2394,7 +2394,7 @@
         }
       ],
       "description": "A front-end framework for Laravel.",
-      "time": "2020-04-01T16:32:31+00:00"
+      "time": "2020-05-13T15:22:11+00:00"
     },
     {
       "name": "maximebf/debugbar",

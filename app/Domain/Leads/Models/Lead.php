@@ -60,6 +60,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property-read \CreatyDev\Domain\Subscriptions\Models\Plan|null $plan
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Leads\Models\Lead whereMetadata($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Leads\Models\Lead wherePlanId($value)
+ * @property-read \CreatyDev\Domain\ConfirmationToken $confirmationToken
  */
 class Lead extends Model {
   use HasConfirmationToken;

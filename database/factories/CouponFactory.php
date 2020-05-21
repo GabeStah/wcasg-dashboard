@@ -24,7 +24,7 @@ $factory->define(Coupon::class, function (Faker $faker) {
           ? 'for ' . $duration_in_months . ' months'
           : '')
         : ''));
-  $id = strtoupper(
+  $code = strtoupper(
     Str::snake(
       $percent_off .
         '_off_' .
@@ -34,7 +34,7 @@ $factory->define(Coupon::class, function (Faker $faker) {
   );
 
   return [
-    'id' => $id,
+    'code' => $code,
     'currency' => 'usd',
     'duration' => $duration,
     'duration_in_months' => $duration_in_months,

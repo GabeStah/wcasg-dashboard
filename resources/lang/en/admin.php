@@ -21,7 +21,7 @@ return [
     ]
   ],
   'coupon' => [
-    'id' => 'Unique identifier entered by users when applying this coupon.',
+    'code' => 'Unique identifier entered by users when applying this coupon.',
     'currency' => 'Currency which to discount.',
     'duration' =>
       "Describes how long a customer who applies this coupon will get the discount.  'Forever' is indefinite, 'once' is a single discount, and 'repeating' is applied X number of times (see 'duration_in_months').",
@@ -31,8 +31,10 @@ return [
       'Maximum number of times this coupon can be redeemed, in total, across all customers, before it is no longer valid.  Leave blank for no maximum.',
     'metadata' => 'Additional JSON data related to coupon.',
     'name' => 'Name of the coupon displayed to customers on invoices.',
+    'path' =>
+      'A unique promo path used to associate visitors with a specific coupon code.  Useful for assigning a pre-defined coupon to a large collection of anonymous visitors.',
     'percent_off' =>
-      'Percent that will be taken off when this coupon\' discount is applied.',
+      'Percent that will be taken off when this coupon\'s discount is applied.',
     'redeem_by' =>
       'Date after which coupon can no longer be redeemed.  If set, must be a date in the future.',
     'valid' =>
