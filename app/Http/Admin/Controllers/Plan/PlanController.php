@@ -73,6 +73,38 @@ class PlanController extends Controller {
   }
 
   /**
+   * Get Coupon options list.
+   *
+   * @return array[]
+   */
+  private function getCouponOptions() {
+    // Get Coupon options
+    $coupons = Coupon::all();
+    $coupon_options = [['value' => false, 'text' => 'Select a Coupon']];
+    foreach ($coupons->toArray() as $coupon) {
+      array_push($coupon_options, [
+        'value' => $coupon['id'],
+        'text' => $coupon['name'] . ' [' . $coupon['code'] . ']'
+      ]);
+    }
+    return $coupon_options;
+  }
+
+  /**
+   * Get Product options list.
+   *
+   * @return array[]
+   * @throws Stripe\Error\Api
+   */
+  private function getProductOptions() {
+    // Get Product options
+    $products = Stripe\Product::all(['limit' => 100]);
+    return array_map(function ($product) {
+      return ['value' => $product->id, 'text' => $product->name];
+    }, $products->data);
+  }
+
+  /**
    * Show the form for creating a new resource.
    *
    * @return Factory|Response|View
@@ -83,22 +115,6 @@ class PlanController extends Controller {
     $this->authorize('create', Plan::class);
 
     $restraintSchema = $this->validator->getRestraintSchema();
-
-    // Get Coupon options
-    $coupons = Coupon::all();
-    $coupon_options = [['value' => false, 'text' => 'Select a Coupon']];
-    foreach ($coupons->toArray() as $coupon) {
-      array_push($coupon_options, [
-        'value' => $coupon['id'],
-        'text' => $coupon['id']
-      ]);
-    }
-
-    // Get Product options
-    $products = Stripe\Product::all(['limit' => 100]);
-    $product_options = array_map(function ($product) {
-      return ['value' => $product->id, 'text' => $product->name];
-    }, $products->data);
 
     $rows = [
       [
@@ -119,7 +135,7 @@ class PlanController extends Controller {
         'required' => true,
         'info_text' => __('admin.plan.product'),
         'type' => 'select',
-        'options' => $product_options
+        'options' => $this->getProductOptions()
       ],
       [
         'field' => 'nickname',
@@ -170,7 +186,7 @@ class PlanController extends Controller {
         'required' => false,
         'info_text' => __('admin.plan.coupon'),
         'type' => 'select',
-        'options' => $coupon_options
+        'options' => $this->getCouponOptions()
       ]
     ];
 
@@ -274,18 +290,6 @@ class PlanController extends Controller {
 
     $plan = Plan::findOrFail($id);
 
-    // Get Coupon options
-    $coupons = Coupon::all();
-    $coupon_options = [['value' => false, 'text' => 'Select a Coupon']];
-    foreach ($coupons->toArray() as $coupon) {
-      array_push($coupon_options, [
-        'value' => $coupon['id'],
-        'text' => $coupon['id']
-      ]);
-    }
-
-    $products = Stripe\Product::all(['limit' => 100]);
-
     $rows = [
       [
         'field' => 'active',
@@ -305,12 +309,7 @@ class PlanController extends Controller {
         'required' => true,
         'info_text' => __('admin.plan.product'),
         'type' => 'select',
-        'options' => array_map(function ($product) use ($plan) {
-          return [
-            'value' => $product->id,
-            'text' => $product->name
-          ];
-        }, $products->data)
+        'options' => $this->getProductOptions()
       ],
       [
         'field' => 'nickname',
@@ -329,7 +328,7 @@ class PlanController extends Controller {
         'required' => false,
         'info_text' => __('admin.plan.coupon'),
         'type' => 'select',
-        'options' => $coupon_options
+        'options' => $this->getCouponOptions()
       ]
     ];
 
