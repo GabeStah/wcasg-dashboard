@@ -90,8 +90,8 @@ class CheckoutController extends Controller {
 
     $request->validate([
       'coupon_code' => [
-        function ($attribute, $value, $fail) use ($validCoupon) {
-          if (!$validCoupon) {
+        function ($attribute, $value, $fail) use ($coupon_code, $validCoupon) {
+          if ($coupon_code && !$validCoupon) {
             $fail('Promo code is invalid.');
           }
         }
