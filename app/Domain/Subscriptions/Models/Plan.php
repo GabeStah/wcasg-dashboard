@@ -7,6 +7,7 @@ use CreatyDev\Domain\Api\Webhook\WebhookRoutableInterface;
 use CreatyDev\Domain\Coupon\Models\Coupon;
 use CreatyDev\Domain\Users\Models\User;
 use Eloquent;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -61,6 +62,11 @@ use Stripe\Product;
  * @property string|null $coupon_id
  * @property-read \CreatyDev\Domain\Coupon\Models\Coupon|null $coupon
  * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereCouponId($value)
+ * @property string|null $token Unique identifier used in API requests.
+ * @property bool $visible
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan visible()
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\CreatyDev\Domain\Subscriptions\Models\Plan whereVisible($value)
  */
 class Plan extends Model implements WebhookRoutableInterface {
   use HasToken;
@@ -122,7 +128,7 @@ class Plan extends Model implements WebhookRoutableInterface {
    * Gets base price before any applicable discount.
    *
    * @return string
-   * @throws \Exception
+   * @throws Exception
    */
   public function basePrice() {
     return cents_to_decimal($this->amount);
@@ -177,11 +183,16 @@ class Plan extends Model implements WebhookRoutableInterface {
   /**
    * Get amount of discount.
    *
+   * @param Coupon|null $coupon
    * @return string
-   * @throws \Exception
+   * @throws Exception
    */
-  public function discount() {
-    if ($this->isDiscounted()) {
+  public function discount(Coupon $coupon = null) {
+    if ($coupon) {
+      // Discount for passed coupon
+      return cents_to_decimal($this->amount * $coupon->percent());
+    } elseif ($this->isDiscounted()) {
+      // Discount for coupon attached to Plan
       return cents_to_decimal($this->amount * $this->coupon->percent());
     } else {
       // No discount.
@@ -293,16 +304,25 @@ class Plan extends Model implements WebhookRoutableInterface {
   /**
    * Gets actual price after any applicable discount.
    *
+   * @param Coupon|null $coupon
+   * @param bool $convertToDecimal
    * @return string
-   * @throws \Exception
+   * @throws Exception
    */
-  public function price() {
-    if ($this->isDiscounted()) {
-      return cents_to_decimal($this->amount * (1 - $this->coupon->percent()));
-    } else {
-      // No discount, base price.
-      return cents_to_decimal($this->amount);
+  public function price(Coupon $coupon = null, $convertToDecimal = true) {
+    // Assume base price (no modifier adjustment)
+    $modifier = 1;
+    if ($coupon) {
+      // Price with passed coupon
+      $modifier = 1 - $coupon->percent();
+    } elseif ($this->isDiscounted()) {
+      // Price with coupon attached to Plan
+      $modifier = 1 - $this->coupon->percent();
     }
+
+    return $convertToDecimal
+      ? cents_to_decimal($this->amount * $modifier)
+      : $this->amount * $modifier;
   }
 
   /**

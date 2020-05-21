@@ -29,7 +29,7 @@
                     <tbody>
                         @foreach ($coupons as $coupon )
                         <tr>
-                            <td><span class="badge badge-success" style="font-size:14px">{{ $coupon->id }}</span> </td>
+                            <td><span class="badge badge-success" style="font-size:14px">{{ $coupon->code }}</span> </td>
                             <td><span class="badge badge-info">{{ $coupon->percent_off }}%</span> </td>
                             <td>{{ $coupon->name }}</td>
                             <td>{{ $coupon->duration }}</td>

@@ -47,10 +47,10 @@ class SubscriptionCreatedListener implements ShouldQueue {
   public function handle(SubscriptionCreated $event) {
     Mail::to($event->user->email)->send(
       new SubscriptionCreatedMail(
-        $event->payment_method,
         $event->plan,
         $event->subscription,
-        $event->user
+        $event->user,
+        $event->payment_method
       )
     );
   }

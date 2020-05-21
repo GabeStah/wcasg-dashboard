@@ -31,12 +31,14 @@ class SubscriptionCreated {
   public $user;
 
   public function __construct(
-    string $payment_method_id,
+    $payment_method_id,
     Plan $plan,
     Subscription $subscription,
     User $user
   ) {
-    $this->payment_method = PaymentMethod::retrieve($payment_method_id);
+    $this->payment_method = $payment_method_id
+      ? PaymentMethod::retrieve($payment_method_id)
+      : null;
     $this->plan = $plan;
     $this->subscription = $subscription;
     $this->user = $user;

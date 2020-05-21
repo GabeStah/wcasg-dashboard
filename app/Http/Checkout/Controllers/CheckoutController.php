@@ -3,10 +3,15 @@
 namespace CreatyDev\Http\Checkout\Controllers;
 
 use CreatyDev\App\Controllers\Controller;
+use CreatyDev\Domain\Coupon\Models\Coupon;
 use CreatyDev\Domain\Sites\Models\Site;
 use CreatyDev\Domain\Subscriptions\Events\SubscriptionCreated;
+use CreatyDev\Domain\Users\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller {
   /**
@@ -45,39 +50,82 @@ class CheckoutController extends Controller {
     $lead = $user->lead;
     $plan = $lead->plan;
     $coupon = $plan->coupon;
-    $coupon_used = false;
-
-    // Coupon already used
-    if ($coupon && $user->coupons->contains('id', '=', $coupon->id)) {
-      $coupon_used = true;
-    }
 
     return view('checkout.payment', [
-      'coupon' => $coupon,
-      'coupon_used' => $coupon_used,
-      'intent' => $user->createSetupIntent(),
+      'coupon_code' => $coupon ? $coupon->code : null,
+      'client_secret' => $user->createSetupIntent()->client_secret,
       'lead' => $lead,
       'plan' => $plan,
       'user' => $user
     ]);
   }
 
-  public function paymentStore(Request $request) {
-    $request->validate([
-      'payment-method' => 'required|string'
-    ]);
+  /**
+   * Determine if coupon is valid.
+   * Check existence of coupon, Stripe validity, and ensure not used by User.
+   *
+   * @param $coupon_code
+   * @param User $user
+   * @return bool|Builder|Model|object
+   */
+  public function isCouponCodeValid($coupon_code, User $user) {
+    $coupon = Coupon::where('code', $coupon_code)->first();
+    if (!$coupon || !$coupon->isValid() || $coupon->wasUsedByUser($user)) {
+      return false;
+    }
+    return $coupon;
+  }
 
-    $user = auth()->user();
+  public function paymentStore(Request $request) {
+    $user = Auth::user();
+    $coupon_code = $request->input('coupon_code');
+    $validCoupon = null;
+    if ($coupon_code) {
+      // Get valid coupon if coupon code supplied
+      $validCoupon = $this->isCouponCodeValid($coupon_code, $user);
+    }
+
     $lead = $user->lead;
     $plan = $lead->plan;
 
-    // Create Subscription
-    $user
-      ->newSubscription($plan->nickname, $plan->id)
-      ->create(request('payment-method'));
+    $request->validate([
+      'coupon_code' => [
+        function ($attribute, $value, $fail) use ($validCoupon) {
+          if (!$validCoupon) {
+            $fail('Promo code is invalid.');
+          }
+        }
+      ],
+      'payment-method' => [
+        function ($attribute, $value, $fail) use ($plan, $validCoupon) {
+          if (
+            (!isset($value) || !is_string($value)) &&
+            $validCoupon &&
+            $plan->price($validCoupon) > 0
+          ) {
+            // No payment method provided with a price above 0.
+            $fail('A valid payment method is required.');
+          }
+        }
+      ]
+    ]);
+
+    if ($validCoupon) {
+      // Create Subscription w/ coupon
+      $user
+        ->newSubscription($plan->nickname, $plan->id)
+        ->withCoupon($validCoupon->id)
+        // Payment method may or may not be required.  Above checks determine if total requires valid payment method,
+        // but Stripe will also error out if a PM is required but not provided.
+        ->create(request('payment-method') ? request('payment-method') : null);
+    } else {
+      // Create Subscription w/o coupon
+      $user
+        ->newSubscription($plan->nickname, $plan->id)
+        ->create(request('payment-method'));
+    }
 
     $domains = $lead->getDomains();
-
     $subscription = $user->validSubscription();
 
     if ($domains) {

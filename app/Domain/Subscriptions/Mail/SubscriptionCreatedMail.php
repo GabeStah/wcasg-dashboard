@@ -40,10 +40,10 @@ class SubscriptionCreatedMail extends Mailable {
    * @param User $user
    */
   public function __construct(
-    PaymentMethod $payment_method,
     Plan $plan,
     Subscription $subscription,
-    User $user
+    User $user,
+    PaymentMethod $payment_method = null
   ) {
     parent::__construct();
     $this->subject('WCASG Subscription Confirmation');

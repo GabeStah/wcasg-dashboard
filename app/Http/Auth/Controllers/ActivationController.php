@@ -28,6 +28,8 @@ class ActivationController extends Controller {
    * @throws Exception
    */
   public function activate(Request $request, ConfirmationToken $token) {
+    // Logout current user
+    Auth::logout();
     if ($token->lead) {
       return $this->registerFromLead($request, $token);
     } elseif ($token->user) {

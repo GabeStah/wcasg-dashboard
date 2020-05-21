@@ -47,24 +47,26 @@
         </mj-column>
       </mj-section>
 
-      <mj-section background-color="#ffffff" padding-left="15px" padding-right="15px">
-        <mj-column width="100%">
-          <mj-divider border-color="#DFE3E8" border-width="1px" />
-          <mj-text color="#212b35" font-weight="bold" font-size="20px">
-            Payment Information
-          </mj-text>
-        </mj-column>
+      @isset($payment_method)
+        <mj-section background-color="#ffffff" padding-left="15px" padding-right="15px">
+          <mj-column width="100%">
+            <mj-divider border-color="#DFE3E8" border-width="1px" />
+            <mj-text color="#212b35" font-weight="bold" font-size="20px">
+              Payment Information
+            </mj-text>
+          </mj-column>
 
-        <mj-column width="100%">
-          <mj-text color="#212b35" font-size="14px" style="padding: 0 25px">
-            Payment Method: {{ $payment_method->type }}<br />
-            @if($payment_method->type === 'card')
-              Card Type: {{ $payment_method->card->brand }}<br />
-              Card Ending {{ $payment_method->card->last4 }}<br />
-            @endif
-          </mj-text>
-        </mj-column>
-      </mj-section>
+          <mj-column width="100%">
+            <mj-text color="#212b35" font-size="14px" style="padding: 0 25px">
+              Payment Method: {{ $payment_method->type }}<br />
+              @if($payment_method->type === 'card')
+                Card Type: {{ $payment_method->card->brand }}<br />
+                Card Ending {{ $payment_method->card->last4 }}<br />
+              @endif
+            </mj-text>
+          </mj-column>
+        </mj-section>
+      @endisset
 
       <mj-section background-color="#ffffff" padding="0 15px 0 15px">
         <mj-column width="100%">

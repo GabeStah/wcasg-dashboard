@@ -32,7 +32,7 @@ class PlanTableSeeder extends Seeder {
         'amount' => 10 * 100,
         'active' => true,
         'coupon_id' => Coupon::create([
-          'id' => 'ALPHA_100_OFF_3_MONTH',
+          'code' => 'ALPHA_100_OFF_3_MONTH',
           'currency' => 'usd',
           'duration' => 'repeating',
           'duration_in_months' => 3,
@@ -43,17 +43,17 @@ class PlanTableSeeder extends Seeder {
       ],
       [
         'unit_count' => 5,
-        'active' => false,
+        'active' => true,
         'interval' => 'month',
         'amount' => 10 * 100 * 5
       ],
       [
         'unit_count' => 15,
         'interval' => 'month',
-        'active' => false,
+        'active' => true,
         'amount' => 10 * 100 * 15,
         'coupon_id' => Coupon::create([
-          'id' => 'EARLY_ADOPTER_20_OFF_FOREVER',
+          'code' => 'EARLY_ADOPTER_20_OFF_FOREVER',
           'currency' => 'usd',
           'duration' => 'forever',
           'name' => 'Early Bird, 20% Off Forever',
@@ -63,7 +63,7 @@ class PlanTableSeeder extends Seeder {
       ],
       [
         'unit_count' => 25,
-        'active' => false,
+        'active' => true,
         'interval' => 'month',
         'amount' => 10 * 100 * 25
       ]

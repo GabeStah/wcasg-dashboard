@@ -64,5 +64,24 @@ return [
         'success' => 'The template has been updated.'
       ]
     ]
+  ],
+  'checkout' => [
+    'payment' => [
+      'cart' => [
+        'payment_info_required' =>
+          'Please enter your credit card information below and confirm your billing address.',
+        'no_payment_info_required' =>
+          'Awesome! Your order total is eligible to subscribe without providing a credit card.'
+      ],
+      'coupon' => [
+        'status' => [
+          'applied' => 'The total reflects the applied promo code.',
+          'default' => 'If you have a promo code enter it above.',
+          'invalid' => 'This promo code is invalid.',
+          'used' =>
+            'This coupon has already been used by this account.  You may proceed at the normal price.'
+        ]
+      ]
+    ]
   ]
 ];
