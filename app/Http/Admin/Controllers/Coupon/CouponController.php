@@ -299,7 +299,7 @@ class CouponController extends Controller {
         'nullable',
         'string',
         'min:3',
-        'unique:coupons',
+        Rule::unique('coupons')->ignore($coupon->id),
         new UrlPathable(),
         new Routable()
       ]
