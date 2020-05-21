@@ -3,6 +3,7 @@
 namespace CreatyDev\Domain\Subscriptions\Mail;
 
 use CreatyDev\App\Pa11y\Pa11y;
+use CreatyDev\Domain\Coupon\Models\Coupon;
 use CreatyDev\Domain\Subscriptions\Models\Plan;
 use CreatyDev\Domain\Users\Models\User;
 use CreatyDev\Solarix\Cashier\Subscription;
@@ -30,20 +31,26 @@ class SubscriptionCreatedMail extends Mailable {
    * @var User
    */
   protected $user;
+  /**
+   * @var Coupon|null
+   */
+  protected $coupon;
 
   /**
    * Create a new message instance.
    *
-   * @param PaymentMethod $payment_method
    * @param Plan $plan
    * @param Subscription $subscription
    * @param User $user
+   * @param PaymentMethod $payment_method
+   * @param Coupon|null $coupon
    */
   public function __construct(
     Plan $plan,
     Subscription $subscription,
     User $user,
-    PaymentMethod $payment_method = null
+    PaymentMethod $payment_method = null,
+    Coupon $coupon = null
   ) {
     parent::__construct();
     $this->subject('WCASG Subscription Confirmation');
@@ -52,6 +59,7 @@ class SubscriptionCreatedMail extends Mailable {
     $this->plan = $plan;
     $this->subscription = $subscription;
     $this->user = $user;
+    $this->coupon = $coupon;
   }
 
   /**
@@ -61,15 +69,14 @@ class SubscriptionCreatedMail extends Mailable {
    * @return $this
    */
   public function build() {
-    $mjml = $this->mjml('emails.account.subscription.created', [
+    return $this->mjml('emails.account.subscription.created', [
       'hero_title' => 'Subscription Confirmation',
       'hero_text' => 'Thank you for your order!',
       'user' => $this->user,
       'subscription' => $this->subscription,
       'payment_method' => $this->payment_method,
-      'plan' => $this->plan
+      'plan' => $this->plan,
+      'coupon' => $this->coupon
     ]);
-
-    return $mjml;
   }
 }

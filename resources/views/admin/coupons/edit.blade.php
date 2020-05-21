@@ -11,7 +11,7 @@
             <strong>Update Coupon</strong>
         </div>
         <div class="card-body">
-            <p>Stripe restricts updating any field on an existing Coupon except for the <span class="font-italic">Name</span>.  If you wish to drastically adjust an existing Coupon please delete it and add a new replacement.</p>
+            <p>Stripe restricts updating any field on an existing Coupon except for the <span class="font-weight-bolder">Name</span>, <span class="font-weight-bolder">Code</span>, and <span class="font-weight-bolder">Path</span>.  If you wish to drastically adjust an existing Coupon please delete it and add a new replacement.</p>
             <form action="{{ route('admin.coupons.update', $coupon->id) }}" method="POST" class="form-horizontal offset-sm-2">
                 @csrf
                 @method('PUT')

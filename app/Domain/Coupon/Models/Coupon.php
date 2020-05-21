@@ -82,13 +82,17 @@ class Coupon extends Model {
   public $stripe_coupon = null;
 
   /**
-   * Determine if coupon has been used by User.
+   * Get the webhook route for this object.
    *
-   * @param User $user
-   * @return bool
+   * @return string
    */
-  public function wasUsedByUser(User $user) {
-    return $user->coupons->contains('id', '=', $this->id);
+  public function getPathRoute(): ?string {
+    if (!$this->path) {
+      return null;
+    }
+    return route('promotion.index', [
+      'coupon_path' => $this->path
+    ]);
   }
 
   /**
@@ -172,5 +176,15 @@ class Coupon extends Model {
    */
   public function users() {
     return $this->belongsToMany(User::class, 'coupon_user');
+  }
+
+  /**
+   * Determine if coupon has been used by User.
+   *
+   * @param User $user
+   * @return bool
+   */
+  public function wasUsedByUser(User $user) {
+    return $user->coupons->contains('id', '=', $this->id);
   }
 }

@@ -4,6 +4,7 @@ namespace CreatyDev\Http\Admin\Controllers\Coupon;
 
 use CreatyDev\App\Controllers\Controller;
 use CreatyDev\Domain\Coupon\Models\Coupon;
+use CreatyDev\Domain\Routable;
 use CreatyDev\Domain\UrlPathable;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -155,7 +156,14 @@ class CouponController extends Controller {
       ],
       'max_redemptions' => 'nullable|integer',
       'name' => 'required|string',
-      'path' => ['nullable', 'string', 'min:3', new UrlPathable()],
+      'path' => [
+        'nullable',
+        'string',
+        'min:3',
+        'unique:coupons',
+        new UrlPathable(),
+        new Routable()
+      ],
       'percent_off' => 'required|integer|between:1,100',
       'redeem_by' => 'nullable|date|after:today'
     ]);
@@ -287,7 +295,14 @@ class CouponController extends Controller {
     $this->validate($request, [
       'code' => 'required|string|min:3',
       'name' => 'required|string',
-      'path' => ['nullable', 'string', 'min:3', new UrlPathable()]
+      'path' => [
+        'nullable',
+        'string',
+        'min:3',
+        'unique:coupons',
+        new UrlPathable(),
+        new Routable()
+      ]
     ]);
 
     // Update local

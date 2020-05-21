@@ -16,3 +16,6 @@ yarn-error.log
 /docs/
 /htdocs
 /storage/app/widget/widget.base.js
+/public/css/
+/public/js/
+/public/*.js*

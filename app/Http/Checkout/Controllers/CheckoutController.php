@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class CheckoutController extends Controller {
   /**
@@ -49,7 +50,14 @@ class CheckoutController extends Controller {
     $user = auth()->user();
     $lead = $user->lead;
     $plan = $lead->plan;
-    $coupon = $plan->coupon;
+    $coupon = null;
+    if (Cookie::has('coupon_id')) {
+      // If cookie coupon, use that
+      $coupon = Coupon::find(Cookie::get('coupon_id'));
+    } elseif ($plan->coupon) {
+      // Else if plan has coupon, use that
+      $coupon = $plan->coupon;
+    }
 
     return view('checkout.payment', [
       'coupon_code' => $coupon ? $coupon->code : null,
@@ -152,9 +160,13 @@ class CheckoutController extends Controller {
         request('payment-method'),
         $plan,
         $subscription,
-        $user
+        $user,
+        $validCoupon
       )
     );
+
+    // Queue forget coupon cookie
+    Cookie::queue(Cookie::forget('coupon_id'));
 
     return redirect()
       ->route('account.sites.index')

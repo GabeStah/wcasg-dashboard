@@ -11,6 +11,8 @@ use CreatyDev\Domain\Audits\Listeners\GenerateLead;
 use CreatyDev\Domain\Auth\Events\UserRequestedActivationEmail;
 use CreatyDev\Domain\Auth\Events\UserSignedUp;
 use CreatyDev\Domain\Auth\Listeners\SendActivationEmail;
+use CreatyDev\Domain\CartTotalChanged;
+use CreatyDev\Domain\Checkout\Listeners\CartTotalChangedListener;
 use CreatyDev\Domain\Company\Listeners\CompanyUserEventSubscriber;
 use CreatyDev\Domain\Subscriptions\Events\SubscriptionCreated;
 use CreatyDev\Domain\Subscriptions\Listeners\SubscriptionCreatedListener;
@@ -25,6 +27,7 @@ class EventServiceProvider extends ServiceProvider {
   protected $listen = [
     AuditTaskCreated::class => [ExecuteAudit::class],
     AuditCompleted::class => [GenerateLead::class],
+    CartTotalChanged::class => [CartTotalChangedListener::class],
     SubscriptionCreated::class => [SubscriptionCreatedListener::class],
     UserSignedUp::class => [
       // Remove default team handling

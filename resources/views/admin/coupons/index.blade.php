@@ -15,22 +15,52 @@
                 <table class="table table-responsive-sm table-striped">
                     <thead>
                         <tr>
-                            <th>Coupon Code</th>
-                            <th>Discount %</th>
-                            <th>Name</th>
-                            <th>Duration</th>
-                            <th>Duration (in months)</th>
-                            <th>Max Redemptions</th>
+                            <th>Coupon Code <info-icon :text="__('admin.coupon.code')"/></th>
+                            <th>Path <info-icon :text="__('admin.coupon.path')"/></th>
+                            <th>Discount % <info-icon :text="__('admin.coupon.percent_off')"/></th>
+                            <th>Name <info-icon :text="__('admin.coupon.name')"/></th>
+                            <th>Duration <info-icon :text="__('admin.coupon.duration')"/></th>
+                            <th>Duration (in months) <info-icon :text="__('admin.coupon.duration_in_months')"/></th>
+                            <th>Max Redemptions <info-icon :text="__('admin.coupon.max_redemptions')"/></th>
                             <th>Date</th>
-                            <th>Redeem By</th>
+                            <th>Redeem By <info-icon :text="__('admin.coupon.redeem_by')"/></th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($coupons as $coupon )
                         <tr>
-                            <td><span class="badge badge-success" style="font-size:14px">{{ $coupon->code }}</span> </td>
-                            <td><span class="badge badge-info">{{ $coupon->percent_off }}%</span> </td>
+                            <td>
+                                <a
+                                    id="coupon-code"
+                                    href="#"
+                                    data-toggle="tooltip"
+                                    data-delay='{"show": "100", "hide": "500"}'
+                                    data-trigger="click"
+                                    title="Copied!"
+                                    data-placement="top"
+                                    data-clipboard-text="{{ $coupon->code }}"
+                                >
+                                    <span class="badge badge-success font-lg">{{ $coupon->code }}<i class="fa fa-copy ml-1"></i></span>
+                                </a>
+                            </td>
+                            <td>
+                                @isset($coupon->path)
+                                    <a
+                                        id="coupon-path"
+                                        href="#"
+                                        data-toggle="tooltip"
+                                        data-delay='{"show": "100", "hide": "500"}'
+                                        data-trigger="click"
+                                        title="Copied!"
+                                        data-placement="top"
+                                        data-clipboard-text="{{ $coupon->getPathRoute() }}"
+                                    >
+                                        <span class="badge badge-info font-lg">/{{ $coupon->path }}<i class="fa fa-copy ml-1"></i></span>
+                                    </a>
+                                @endisset
+                            </td>
+                            <td><span>{{ $coupon->percent_off }}%</span> </td>
                             <td>{{ $coupon->name }}</td>
                             <td>{{ $coupon->duration }}</td>
                             <td>{{ $coupon->duration_in_months }}</td>
@@ -55,4 +85,17 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script type="text/javascript" src="{{ asset('assets/js/vendor/clipboard.min.js') }}"></script>
+    <script>
+        const clipboard = new ClipboardJS(document.querySelectorAll('#coupon-code, #coupon-path'));
+        // Hide tooltip when leaving after click
+        clipboard.on('success', e => {
+            $('[data-toggle="tooltip"]').on('mouseleave', function () {
+                $(this).tooltip('hide');
+            });
+        })
+    </script>
 @endsection

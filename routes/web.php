@@ -1,7 +1,6 @@
 <?php
 
 use CreatyDev\Http\Middleware\Audit\ValidateAuditResultsRequest;
-use FontLib\Table\Type\name;
 
 /*
 |--------------------------------------------------------------------------
@@ -827,3 +826,10 @@ Route::get('/admin', function () {
 /**
  * Sample pages Routes
  */
+
+/**
+ * Coupon Promo Routes
+ */
+Route::get('/{coupon_path}', 'PromotionController@index')->name(
+  'promotion.index'
+);

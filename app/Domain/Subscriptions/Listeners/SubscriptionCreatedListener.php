@@ -50,7 +50,8 @@ class SubscriptionCreatedListener implements ShouldQueue {
         $event->plan,
         $event->subscription,
         $event->user,
-        $event->payment_method
+        $event->payment_method,
+        $event->coupon
       )
     );
   }

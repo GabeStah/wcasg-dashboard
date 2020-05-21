@@ -131,6 +131,7 @@ class Cart extends Component {
     $this->coupon_code = $coupon_code;
     $this->plan = $plan;
     $this->user = $user;
+    $this->updatedCouponCode($this->coupon_code);
   }
 
   public function render() {

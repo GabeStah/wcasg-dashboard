@@ -36,12 +36,16 @@
             Plan: {{ $plan->nickname }}<br />
             Order Number: {{ $subscription->id }}<br />
             Order Date: {{ \Carbon\Carbon::parse($subscription->created_at) }}<br />
-            @if(isset($plan->coupon))
+            @if(isset($coupon))
+              Promo: {{ $coupon->toString() }}<br />
+              Code: {{ $coupon->code }}<br />
+              Discount: -${{ $plan->discount($coupon) }}<br />
+            @elseif(isset($plan->coupon))
               Promo: {{ $plan->coupon->toString() }}<br />
               Code: {{ $plan->coupon->id }}<br />
               Discount: -${{ $plan->discount() }}<br />
             @endif
-            Total: ${{ $plan->price() }}<br />
+            Total: ${{ $coupon ? $plan->price($coupon) : $plan->price() }}<br />
             Term: {{ $plan->interval }}
           </mj-text>
         </mj-column>

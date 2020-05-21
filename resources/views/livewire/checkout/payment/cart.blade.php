@@ -41,7 +41,8 @@
           @if(isset($errors) && $errors->first('coupon_code'))
             {{ $this->couponstatus }}
           @else
-            {{ $this->couponstatus }}
+            @if($this->coupon)<span class="font-weight-bold d-block">{{ $this->coupon->toString() }}</span>@endif
+            <span>{{ $this->couponstatus }}</span>
           @endif
         </small>
       </div>

@@ -32,9 +32,9 @@ return [
     'metadata' => 'Additional JSON data related to coupon.',
     'name' => 'Name of the coupon displayed to customers on invoices.',
     'path' =>
-      'The URL path used for anonymous coupon association (e.g. wcasg.com/specialeventpath).',
+      'A unique promo path used to associate visitors with a specific coupon code.  Useful for assigning a pre-defined coupon to a large collection of anonymous visitors.',
     'percent_off' =>
-      'Percent that will be taken off when this coupon\' discount is applied.',
+      'Percent that will be taken off when this coupon\'s discount is applied.',
     'redeem_by' =>
       'Date after which coupon can no longer be redeemed.  If set, must be a date in the future.',
     'valid' =>
