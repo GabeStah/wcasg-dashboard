@@ -1,6 +1,7 @@
 <?php
 namespace Tests;
 use Illuminate\Support\Facades\Artisan;
+
 trait ResetDatabase {
   /**
    * If true, setup has run at least once.
@@ -16,6 +17,7 @@ trait ResetDatabase {
   public function setUp(): void {
     parent::setUp();
     if (!static::$setUpHasRunOnce) {
+      Artisan::call('config:clear');
       Artisan::call('migrate:fresh --seed');
       static::$setUpHasRunOnce = true;
     }

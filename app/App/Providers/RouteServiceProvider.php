@@ -4,6 +4,7 @@ namespace CreatyDev\App\Providers;
 
 use CreatyDev\Domain\ConfirmationToken;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider {
@@ -34,12 +35,8 @@ class RouteServiceProvider extends ServiceProvider {
    */
   public function map() {
     $this->mapApiRoutes();
-
     $this->mapWebRoutes();
-
     $this->mapTenantRoutes();
-
-    //
   }
 
   /**
@@ -52,7 +49,12 @@ class RouteServiceProvider extends ServiceProvider {
   protected function mapWebRoutes() {
     Route::middleware('web', 'bindings')
       ->namespace($this->namespace)
-      ->group(base_path('routes/web.php'));
+      ->group(function ($router) {
+        // Require all route files in /web
+        foreach (File::allFiles(base_path('/routes/web')) as $route_file) {
+          require $route_file->getPathname();
+        }
+      });
   }
 
   /**

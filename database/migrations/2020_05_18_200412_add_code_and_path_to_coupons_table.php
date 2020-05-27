@@ -14,7 +14,7 @@ class AddCodeAndPathToCouponsTable extends Migration {
     Schema::table('coupons', function (Blueprint $table) {
       $table
         ->string('code')
-        ->nullable(false)
+        ->nullable(true)
         ->unique()
         ->index()
         ->comment('Unique coupon code entered by user to apply discount.');
