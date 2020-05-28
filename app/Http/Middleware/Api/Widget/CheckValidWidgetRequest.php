@@ -50,7 +50,11 @@ class CheckValidWidgetRequest {
 
     if ($this->hasAdminToken()) {
       // Bypass token check, get first matching.
-      $site = Site::where('domain', 'LIKE', $originHost)->firstOrFail();
+      $site = Site::where(
+        'domain',
+        'LIKE',
+        '%' . $originHost . '%'
+      )->firstOrFail();
     } else {
       // Find site record with matching token.
       $site = Site::whereToken($token)->first();
