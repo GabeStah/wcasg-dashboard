@@ -54,6 +54,7 @@ class RouteServiceProvider extends ServiceProvider {
         foreach (File::allFiles(base_path('/routes/web')) as $route_file) {
           require $route_file->getPathname();
         }
+        require base_path('/routes/coupon.php');
       });
   }
 
