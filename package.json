@@ -1,6 +1,6 @@
 {
   "name": "wcasg-dashboard",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Gabe Wyatt <gabe@solarixdigital.com>",
   "repository": "git@gitlab.solarixdigital.com:solarix/wcasg/dashboard.git",
   "license": "MIT",
