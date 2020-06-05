@@ -69,9 +69,7 @@ class Site extends Model {
    * @return array|false|int|string|null
    */
   public function getDomainHost() {
-    return parse_url($this->domain, PHP_URL_HOST)
-      ? parse_url($this->domain, PHP_URL_HOST)
-      : $this->domain;
+    return get_domain($this->domain);
   }
 
   public function getWidgetScriptTag() {

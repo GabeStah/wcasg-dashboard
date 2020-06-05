@@ -44,9 +44,7 @@ class CheckValidWidgetRequest {
     }
 
     $site = null;
-    $originHost = parse_url($request->header('origin'), PHP_URL_HOST)
-      ? parse_url($request->header('origin'), PHP_URL_HOST)
-      : $request->header('origin');
+    $originHost = get_domain($request->header('origin'));
 
     if ($this->hasAdminToken()) {
       // Bypass token check, get first matching.

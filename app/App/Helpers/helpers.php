@@ -214,8 +214,17 @@ if (!function_exists('decimal_to_cents')) {
   }
 }
 
+/**
+ * Get the domain from URL.
+ * Attempt to retrieve the sld.tld, but will return full host if third level domain is not www.
+ */
 if (!function_exists('get_domain')) {
   function get_domain($url) {
+    if (
+      preg_match('/(?:https?:\/\/)?((?:www\.)?([^:\/?\n]+))/', $url, $matches)
+    ) {
+      return $matches[count($matches) - 1];
+    }
     return parse_url($url, PHP_URL_HOST) ? parse_url($url, PHP_URL_HOST) : $url;
   }
 }
