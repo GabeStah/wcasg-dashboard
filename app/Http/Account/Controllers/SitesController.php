@@ -4,7 +4,7 @@ namespace CreatyDev\Http\Account\Controllers;
 
 use CreatyDev\App\Controllers\Controller;
 use CreatyDev\Domain\Sites\Models\Site;
-use CreatyDev\Domain\Statements\Models\Statement;
+use CreatyDev\Domain\Sites\Rules\DomainIsNotDuplicated;
 use CreatyDev\Domain\Statements\Models\StatementTemplate;
 use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Contracts\View\Factory;
@@ -19,29 +19,21 @@ class SitesController extends Controller {
    * @return Factory|View|string
    */
   public function index() {
-    try {
-      $userId = Auth::id();
-      $user = User::find($userId);
+    $userId = Auth::id();
+    $user = User::find($userId);
 
-      $isSubscribed = $user->isSubscribed();
+    $isSubscribed = $user->isSubscribed();
 
-      $sites = $user->sites->sortBy('domain');
+    $sites = $user->sites->sortBy('domain');
 
-      return view('account.sites.index', [
-        'sites' => $sites,
-        'isSubscribed' => $isSubscribed
-      ]);
-    } catch (\Exception $ex) {
-      return $ex->getMessage();
-    }
+    return view('account.sites.index', [
+      'sites' => $sites,
+      'isSubscribed' => $isSubscribed
+    ]);
   }
 
   public function create() {
-    try {
-      return view('account.sites.create');
-    } catch (\Exception $ex) {
-      return $ex->getMessage();
-    }
+    return view('account.sites.create');
   }
 
   public function statementShow($id) {
@@ -129,60 +121,56 @@ class SitesController extends Controller {
   }
 
   public function store(Request $request) {
-    try {
-      $userId = Auth::id();
-      $user = User::find($userId);
+    $userId = Auth::id();
+    $user = User::find($userId);
 
-      request()->validate([
-        'domain' => 'required'
-      ]);
+    request()->validate([
+      'domain' => ['required', new DomainIsNotDuplicated($user)]
+    ]);
 
-      $subscription = $user->validSubscription();
-      if (!$subscription) {
-        // Redirect with error
-        die('TODO: No subscription');
-      }
-
-      $site = new Site([
-        'active' => request('active') ? true : false,
-        'domain' => request('domain'),
-        'subscription_id' => $subscription->id
-      ]);
-
-      $contextValidated = false;
-      // Validate context if setting active site
-      if ($site->active) {
-        $plans = $user->plans->whereNotNull('context');
-        // Find plan with site context
-        foreach ($plans as $plan) {
-          if ($plan->isContextValidated('site', 1, $user)) {
-            $contextValidated = true;
-            break;
-          }
-        }
-
-        // If contextual plans exists, route based on validation.
-        if ($plans->count() > 0 && !$contextValidated) {
-          return redirect()
-            ->route('account.sites.index')
-            ->with(
-              'error',
-              __('controller.account.Site.create.error.too_many_sites')
-            );
-        }
-      }
-
-      $site->save();
-
-      return redirect()
-        ->route('account.sites.index', [
-          'sites' => $user->sites,
-          'isSubscribed' => $user->isSubscribed()
-        ])
-        ->with('success', __('controller.account.Site.create.success'));
-    } catch (\Exception $ex) {
-      return $ex->getMessage();
+    $subscription = $user->validSubscription();
+    if (!$subscription) {
+      // Redirect with error
+      die('TODO: No subscription');
     }
+
+    $site = new Site([
+      'active' => request('active') ? true : false,
+      'domain' => request('domain'),
+      'subscription_id' => $subscription->id
+    ]);
+
+    $contextValidated = false;
+    // Validate context if user can't ignore site limit and site is active
+    if (!$user->hasPermissionTo('ignore-site-limit') && $site->active) {
+      $plans = $user->plans->whereNotNull('context');
+      // Find plan with site context
+      foreach ($plans as $plan) {
+        if ($plan->isContextValidated('site', 1, $user)) {
+          $contextValidated = true;
+          break;
+        }
+      }
+
+      // If contextual plans exists, route based on validation.
+      if ($plans->count() > 0 && !$contextValidated) {
+        return redirect()
+          ->route('account.sites.index')
+          ->with(
+            'error',
+            __('controller.account.Site.create.error.too_many_sites')
+          );
+      }
+    }
+
+    $site->save();
+
+    return redirect()
+      ->route('account.sites.index', [
+        'sites' => $user->sites,
+        'isSubscribed' => $user->isSubscribed()
+      ])
+      ->with('success', __('controller.account.Site.create.success'));
   }
 
   /**
@@ -192,15 +180,11 @@ class SitesController extends Controller {
    * @return Factory|View|string
    */
   public function edit($id) {
-    try {
-      $userId = Auth::id();
-      $user = User::find($userId);
-      $site = Site::find($id);
+    $userId = Auth::id();
+    $user = User::find($userId);
+    $site = Site::find($id);
 
-      return view('account.sites.edit', compact('site'));
-    } catch (\Exception $ex) {
-      return $ex->getMessage();
-    }
+    return view('account.sites.edit', compact('site'));
   }
 
   /**
@@ -210,22 +194,18 @@ class SitesController extends Controller {
    * @return Factory|View|string
    */
   public function delete($id) {
-    try {
-      $userId = Auth::id();
-      $user = User::find($userId);
-      $site = $user->sites()->findOrFail($id);
+    $userId = Auth::id();
+    $user = User::find($userId);
+    $site = $user->sites()->findOrFail($id);
 
-      $site->delete();
+    $site->delete();
 
-      return redirect()
-        ->route('account.sites.index', [
-          'sites' => $user->sites,
-          'isSubscribed' => $user->isSubscribed()
-        ])
-        ->with('success', __('controller.account.Site.destroy.success'));
-    } catch (\Exception $ex) {
-      return $ex->getMessage();
-    }
+    return redirect()
+      ->route('account.sites.index', [
+        'sites' => $user->sites,
+        'isSubscribed' => $user->isSubscribed()
+      ])
+      ->with('success', __('controller.account.Site.destroy.success'));
   }
 
   /**
@@ -236,46 +216,47 @@ class SitesController extends Controller {
    * @return Factory|View|string
    */
   public function update(Request $request, $id) {
-    try {
-      $userId = Auth::id();
-      $user = User::find($userId);
-      $site = Site::find($id);
+    $userId = Auth::id();
+    $user = User::find($userId);
+    $site = Site::find($id);
 
-      $active = request('active') ? true : false;
+    $active = request('active') ? true : false;
 
-      $contextValidated = false;
-      if ($active && $active !== $site->active) {
-        $plans = $user->plans->whereNotNull('context');
-        // Find plan with site context
-        foreach ($plans as $plan) {
-          if ($plan->isContextValidated('site', 1, $user)) {
-            $contextValidated = true;
-            break;
-          }
-        }
-
-        if ($plans->count() > 0 && !$contextValidated) {
-          return redirect()
-            ->route('account.sites.index')
-            ->with(
-              'error',
-              __('controller.account.Site.create.error.too_many_sites')
-            );
+    $contextValidated = false;
+    // Check if user can ignore site limit, or if site is active check context restriction
+    if (
+      !$user->hasPermissionTo('ignore-site-limit') &&
+      $active &&
+      $active !== $site->active
+    ) {
+      $plans = $user->plans->whereNotNull('context');
+      // Find plan with site context
+      foreach ($plans as $plan) {
+        if ($plan->isContextValidated('site', 1, $user)) {
+          $contextValidated = true;
+          break;
         }
       }
 
-      $site->active = $active;
-      $site->domain = request('domain');
-      $site->save();
-
-      return redirect()
-        ->route('account.sites.index', [
-          'sites' => $user->sites,
-          'isSubscribed' => $user->isSubscribed()
-        ])
-        ->with('success', __('controller.account.Site.update.success'));
-    } catch (\Exception $ex) {
-      return $ex->getMessage();
+      if ($plans->count() > 0 && !$contextValidated) {
+        return redirect()
+          ->route('account.sites.index')
+          ->with(
+            'error',
+            __('controller.account.Site.create.error.too_many_sites')
+          );
+      }
     }
+
+    $site->active = $active;
+    $site->domain = request('domain');
+    $site->save();
+
+    return redirect()
+      ->route('account.sites.index', [
+        'sites' => $user->sites,
+        'isSubscribed' => $user->isSubscribed()
+      ])
+      ->with('success', __('controller.account.Site.update.success'));
   }
 }

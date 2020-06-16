@@ -2,11 +2,10 @@
 
 namespace CreatyDev\Http\Admin\Controllers\User;
 
-use Carbon\Carbon;
+use CreatyDev\App\Controllers\Controller;
 use CreatyDev\Domain\Users\Models\Role;
 use CreatyDev\Domain\Users\Models\User;
 use Illuminate\Http\Request;
-use CreatyDev\App\Controllers\Controller;
 
 class UserRoleController extends Controller {
   /**
@@ -33,14 +32,14 @@ class UserRoleController extends Controller {
    *
    * @param  \Illuminate\Http\Request $request
    * @param  \CreatyDev\Domain\Users\Models\User $user
-   * @return \Illuminate\Http\Response
+   * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
    * @throws \Illuminate\Auth\Access\AuthorizationException
    */
   public function store(Request $request, User $user) {
     $this->authorize('touch', User::class);
 
     $request->validate([
-      'expires_at' => 'required|date'
+      'expires_at' => 'nullable|date'
     ]);
 
     $expires = null;
@@ -55,7 +54,10 @@ class UserRoleController extends Controller {
       );
     }
 
-    return back()->withSuccess("Failed assigning user {$role->name} role.");
+    return back()->with(
+      'error',
+      "Failed to assign {$role->name} role to user."
+    );
   }
 
   /**
@@ -71,7 +73,7 @@ class UserRoleController extends Controller {
     $this->authorize('touch', User::class);
 
     $request->validate([
-      'expires_at' => 'required|date'
+      'expires_at' => 'nullable|date'
     ]);
 
     $updated = $user->updateRole($role, $request->expires_at);
@@ -94,7 +96,8 @@ class UserRoleController extends Controller {
   public function destroy(User $user, Role $role) {
     $this->authorize('delete', User::class);
 
-    $updated = $user->updateRole($role, Carbon::now());
+    // Delete pivot table record
+    $updated = $user->roles()->detach($role->id);
 
     if ($updated) {
       return back()->withSuccess("{$user->name}'s {$role->name} role revoked.");

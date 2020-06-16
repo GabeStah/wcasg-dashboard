@@ -44,46 +44,48 @@
                                 {{ $role->roleable->expires_at->toDayDateTimeString() }}
                             </p>
 
-                            @if($role->roleable->isActive())
-                                <ul class="list-inline my-1">
-                                    <li class="list-inline-item">
-                                <span class="badge badge-success">
-                                    Active / Valid | Expires {{ $role->roleable->expires_at->diffForHumans() }}
-                                </span>
-                                    </li>
+                            <ul class="list-inline my-1">
+                                <li class="list-inline-item">
+                                    <p>
+                                        @if($role->roleable->isActive())
+                                            <span class="badge badge-success">
+                                                Active / Valid | Expires {{ $role->roleable->expires_at->diffForHumans() }}
+                                            </span>
+                                        @else
+                                            <span class="badge badge-danger">
+                                                Expired {{ $role->roleable->expires_at->diffForHumans() }}
+                                            </span>
+                                        @endif
+                                    </p>
+                                </li>
 
-                                    <li class="list-inline-item">
-                                        <a href="{{ route('admin.users.roles.destroy', [$user, $role]) }}"
-                                           class="btn btn-outline-primary"
-                                           data-toggle="modal"
-                                           data-target="#revoke-user-role-modal-{{ $role->roleable->id }}">
-                                            Revoke / remove role
-                                        </a>
+                                <li class="list-inline-item">
+                                    <a href="{{ route('admin.users.roles.destroy', [$user, $role]) }}"
+                                       class="btn btn-outline-primary"
+                                       data-toggle="modal"
+                                       data-target="#revoke-user-role-modal-{{ $role->roleable->id }}">
+                                        Remove role
+                                    </a>
 
-                                        @include('layouts.admin.partials.modals._confirm_modal', [
-                                            'modalId' => "revoke-user-role-modal-{$role->roleable->id}",
-                                            'title' => "Revoke role confirmation",
-                                            'action' => "revoke-user-role-form-{$role->roleable->id}",
-                                            'message' => "Do you want to revoke: {$role->name} role from {$user->name}?",
-                                            'type' => "danger"
-                                        ])
+                                    @include('layouts.admin.partials.modals._confirm_modal', [
+                                        'modalId' => "revoke-user-role-modal-{$role->roleable->id}",
+                                        'title' => "Revoke role confirmation",
+                                        'action' => "revoke-user-role-form-{$role->roleable->id}",
+                                        'message' => "Do you want to revoke: {$role->name} role from {$user->name}?",
+                                        'type' => "danger"
+                                    ])
 
-                                        <form action="{{ route('admin.users.roles.destroy', [$user, $role]) }}"
-                                              method="post"
-                                              style="display: none;"
-                                              id="revoke-user-role-form-{{ $role->roleable->id }}">
-                                            @csrf
-                                            @method('DELETE')
-                                        </form>
-                                    </li>
-                                </ul>
-                            @else
-                                <p>
-                                <span class="badge badge-danger">
-                                    Expired {{ $role->roleable->expires_at->diffForHumans() }}
-                                </span>
-                                </p>
-                            @endif
+                                    <form action="{{ route('admin.users.roles.destroy', [$user, $role]) }}"
+                                          method="post"
+                                          style="display: none;"
+                                          id="revoke-user-role-form-{{ $role->roleable->id }}">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                </li>
+                            </ul>
+
+
                         @else
                             <form action="{{ route('admin.users.roles.update', [$user, $role]) }}" method="post">
                                 @csrf
@@ -97,6 +99,30 @@
                                     </div>
                                 </div>
                             </form>
+                            <li class="list-inline-item">
+                                <a href="{{ route('admin.users.roles.destroy', [$user, $role]) }}"
+                                   class="btn btn-outline-primary"
+                                   data-toggle="modal"
+                                   data-target="#revoke-user-role-modal-{{ $role->roleable->id }}">
+                                    Revoke / remove role
+                                </a>
+
+                                @include('layouts.admin.partials.modals._confirm_modal', [
+                                    'modalId' => "revoke-user-role-modal-{$role->roleable->id}",
+                                    'title' => "Remove role confirmation",
+                                    'action' => "revoke-user-role-form-{$role->roleable->id}",
+                                    'message' => "Do you want to remove: {$role->name} role from {$user->name}?",
+                                    'type' => "danger"
+                                ])
+
+                                <form action="{{ route('admin.users.roles.destroy', [$user, $role]) }}"
+                                      method="post"
+                                      style="display: none;"
+                                      id="revoke-user-role-form-{{ $role->roleable->id }}">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                            </li>
                         @endif
                     </div>
                 </div>
