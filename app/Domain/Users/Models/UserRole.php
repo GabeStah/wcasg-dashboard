@@ -36,6 +36,10 @@ class UserRole extends Pivot {
    * @return bool
    */
   public function isActive() {
+    // Allow nullable value
+    if (!$this->expires_at) {
+      return true;
+    }
     return Carbon::now()->lt($this->expires_at);
   }
 }

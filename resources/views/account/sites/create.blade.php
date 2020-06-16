@@ -16,8 +16,8 @@
             <input id="domain" type="text"
                    class="form-control{{ $errors->has('domain') ? ' is-invalid' : '' }}"
                    name="domain"
-                   placeholder="example.com"
-                   value="" required autofocus>
+                   placeholder="{{ old('domain', 'example.com') }}"
+                   value="{{ old('domain') }}" required autofocus>
 
             @if ($errors->has('domain'))
               <div class="invalid-feedback">
