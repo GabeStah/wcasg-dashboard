@@ -7,6 +7,7 @@
   "private": true,
   "scripts": {
     "artisan:queue:work": "php artisan queue:work",
+    "artisan:queue:work:sqs": "php artisan queue:work sqs",
     "commit": "git-cz",
     "dev": "npm run development",
     "dev:db:mongo:ssh-tunnel": "ssh -L 4321:localhost:27017 ubuntu@audit.widget.wcasg.solarix.dev -f -N -i C:\\Users\\Gabe\\.ssh\\aws\\solarix__pem_dev.pem",
