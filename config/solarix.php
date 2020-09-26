@@ -15,7 +15,7 @@ return [
     'collections' => [
       'statistics' => env(
         'COEUS_COLLECTION_STATISTICS',
-        'srn:coeus:wcasg:widget:dashboard::collection'
+        'srn:coeus:wcasg:widget:dashboard::collection/statistics'
       )
     ],
     'token' => env('COEUS_TOKEN'),

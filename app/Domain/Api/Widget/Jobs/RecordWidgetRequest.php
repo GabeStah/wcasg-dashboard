@@ -2,7 +2,6 @@
 
 namespace CreatyDev\Domain\Api\Widget\Jobs;
 
-use CreatyDev\Domain\Sites\Models\Site;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
@@ -14,8 +13,7 @@ use Illuminate\Queue\SerializesModels;
 class RecordWidgetRequest implements ShouldQueue {
   use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-  protected $bytes;
-  protected $site;
+  protected $document;
 
   /**
    * The number of seconds the job can run before timing out.
@@ -34,12 +32,10 @@ class RecordWidgetRequest implements ShouldQueue {
   /**
    * Create a new job instance.
    *
-   * @param Site $site
-   * @param $bytes
+   * @param $document
    */
-  public function __construct(Site $site, $bytes) {
-    $this->bytes = $bytes;
-    $this->site = $site;
+  public function __construct($document) {
+    $this->document = $document;
   }
 
   /**
@@ -59,12 +55,7 @@ class RecordWidgetRequest implements ShouldQueue {
         'body' => json_encode([
           'collection' => config('solarix.coeus.collections.statistics'),
           'db' => config('solarix.coeus.db'),
-          'document' => [
-            [
-              'requestBytes' => $this->bytes,
-              'site' => $this->site->toArray()
-            ]
-          ]
+          'document' => [$this->document]
         ]),
         'headers' => [
           'Accept' => 'application/json',
@@ -75,7 +66,6 @@ class RecordWidgetRequest implements ShouldQueue {
         ]
       ]
     );
-    $coeusResponseContents = $coeusResponse->getBody()->getContents();
   }
 
   /**

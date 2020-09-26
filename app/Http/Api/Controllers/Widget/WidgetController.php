@@ -27,7 +27,7 @@ class WidgetController extends Controller {
     ]);
 
     // Generate stats
-    event(new WidgetRequested($site, strlen($payload)));
+    event(new WidgetRequested($request, $site, $payload));
 
     // Respond with javascript content.
     return $response->setContent($payload);
