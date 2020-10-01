@@ -235,3 +235,26 @@ if (!function_exists('stripe_base_url')) {
       (Str::contains(config('services.stripe.key'), '_test_') ? 'test/' : '');
   }
 }
+
+if (!function_exists('format_bytes')) {
+  /**
+   * Format bytes value into human-readable string.
+   *
+   * @author Chris Jester-Young <https://stackoverflow.com/users/13/chris-jester-young>
+   * @link https://stackoverflow.com/a/2510468
+   *
+   * @param $value
+   * @param int $precision
+   * @return string
+   */
+  function format_bytes($value, $precision = 2) {
+    if (!($value > 0)) {
+      return $value;
+    }
+    $base = log($value, 1024);
+    $suffixes = array('', 'kb', 'mb', 'gb', 'tb');
+
+    return round(pow(1024, $base - floor($base)), $precision) .
+      $suffixes[floor($base)];
+  }
+}

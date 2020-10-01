@@ -3,6 +3,7 @@
 namespace CreatyDev\App\Traits\Api;
 
 use Illuminate\Http\Request;
+use Tests\Mock\Request as MockRequest;
 
 /**
  * Provides methods for handling Http Request properties.
@@ -10,26 +11,57 @@ use Illuminate\Http\Request;
  * Trait HasRequest
  */
 trait HasRequest {
-  protected function getFingerprint(Request $request) {
+  /**
+   * @param Request|MockRequest $request
+   * @return string
+   */
+  protected function getFingerprint($request) {
     return $request->fingerprint();
   }
 
-  protected function getHeaders(Request $request) {
+  /**
+   * @param Request||MockRequest $request
+   * @return array
+   */
+  protected function getHeaders($request) {
+    if ($request instanceof MockRequest) {
+      return $request->getHeaders();
+    }
     // Flatten to key/value pairs array
     return array_map(function ($element) {
       return $element[0];
     }, $request->headers->all());
   }
 
-  protected function getHost(Request $request) {
+  /**
+   * @param Request|MockRequest $request
+   * @return string
+   */
+  protected function getHost($request) {
     return $request->getHost();
   }
 
-  protected function getIp(Request $request) {
+  /**
+   * @param Request|MockRequest $request
+   * @return string|null
+   */
+  protected function getIp($request) {
     return $request->ip();
   }
 
-  protected function getPath(Request $request) {
+  /**
+   * @param Request|MockRequest $request
+   * @return string
+   */
+  protected function getPath($request) {
     return $request->path();
+  }
+
+  /**
+   * @param Request|MockRequest $request
+   * @return string
+   */
+  protected function getUrl($request) {
+    return $request->fullUrl();
   }
 }

@@ -152,6 +152,13 @@ Route::group(
           )->name('download');
         }
       );
+
+      Route::group(
+        ['prefix' => '/{site}/statistics', 'as' => 'statistics.'],
+        function () {
+          Route::get('/', 'SiteStatisticsController@index')->name('index');
+        }
+      );
     });
 
     /**

@@ -2,24 +2,36 @@
 
 namespace CreatyDev\Http\Account\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use CreatyDev\Domain\Users\Models\User;
 use CreatyDev\App\Controllers\Controller;
 use CreatyDev\Domain\Ticket\Models\Ticket;
+use CreatyDev\Solarix\Statistics\StatisticsService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class DashboardController extends Controller
-{
-    /**
-     * Show the user's application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    { 
-        // $user = User::find(Auth::id());
-        // $tickets = DB::table('tickets')->where()->get();
-        $Nbtickets = Ticket::where('user_id', Auth::user()->id)->count();
-        return view('account.dashboard.index', compact('Nbtickets'));
-    }
+class DashboardController extends Controller {
+  /**
+   * Show the user's application dashboard.
+   *
+   * @param Request $request
+   * @param StatisticsService $statisticsService
+   * @return Application|Factory|Response|View
+   */
+  public function index(
+    Request $request,
+    StatisticsService $statisticsService
+  ) {
+    $Nbtickets = Ticket::where('user_id', Auth::user()->id)->count();
+    // Get statistics for active sites
+    $statistics = $statisticsService->getSiteStatistics(
+      Auth::user()->sites->where('active', true)
+    );
+    return view('account.dashboard.index', [
+      'Nbtickets' => $Nbtickets,
+      'statistics' => $statistics
+    ]);
+  }
 }

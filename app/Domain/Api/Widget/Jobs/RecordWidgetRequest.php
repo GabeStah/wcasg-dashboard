@@ -2,8 +2,8 @@
 
 namespace CreatyDev\Domain\Api\Widget\Jobs;
 
+use CreatyDev\Solarix\Coeus\CoeusApiService;
 use Exception;
-use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -41,31 +41,11 @@ class RecordWidgetRequest implements ShouldQueue {
   /**
    * Execute the job.
    *
-   * @return void
+   * @param CoeusApiService $coeusApiService
+   * @return \Psr\Http\Message\ResponseInterface
    */
-  public function handle() {
-    $client = new Client();
-    $token = config('solarix.coeus.token');
-    $bearer = 'Bearer ' . $token;
-
-    $coeusResponse = $client->request(
-      'POST',
-      config('solarix.coeus.url') . '/data/insert',
-      [
-        'body' => json_encode([
-          'collection' => config('solarix.coeus.collections.statistics'),
-          'db' => config('solarix.coeus.db'),
-          'document' => [$this->document]
-        ]),
-        'headers' => [
-          'Accept' => 'application/json',
-          'Accept-Encoding' => 'gzip, deflate, br',
-          'Authorization' => $bearer,
-          'Content-Type' => 'application/json',
-          'User-Agent' => 'wcasg-widget-dashboard/1.0'
-        ]
-      ]
-    );
+  public function handle(CoeusApiService $coeusApiService) {
+    return $coeusApiService->insert($this->document);
   }
 
   /**
