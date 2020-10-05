@@ -44,51 +44,148 @@
       </div>
 
       <div class="col-12 col-lg-6 align-items-stretch text-white">
-          <h3 class="text-muted text-center font-weight-light">Statistics Coming Soon</h3>
-          <div class="row">
+          @isset($statistics['error'])
+            <div class="row">
+              <div class="col-12">
+                @component('layouts.partials.alerts._alerts_component', [
+                  'type' => 'danger',
+                  'link' => session('error_link')
+                  ])
+                  {{ $statistics['error'] }}
+                @endcomponent
+              </div>
+            </div>
+          @else
+            <!-- Sites & Averages -->
+            <div class="row">
               <div class="col-4">
-                  <div class="card bg-info border-0 centered">
-                      <div class="card-body">
-                          <h3 class="display-1 text-center text-white">99</h3>
-                          <p class="text-center">Widget Interaction</p>
-                      </div>
-                  </div>
-                  <div class="card bg-info border-0 centered">
-                      <div class="card-body">
-                          <h3 class="display-1 text-center text-white">99</h3>
-                          <p class="text-center">Page Views</p>
-                      </div>
-                  </div>
+                @component('components.statistics.stat-card', [
+                  'value' => number_format($statistics['activeSites']),
+                  'title' => 'Active Sites'
+                ])
+                @endcomponent
               </div>
               <div class="col-4">
-                  <div class="card bg-info border-0 centered">
-                      <div class="card-body">
-                          <h3 class="display-1 text-center text-white">99</h3>
-                          <p class="text-center">Bandwith Used This Month</p>
-                      </div>
-                  </div>
-                  <div class="card bg-info border-0 centered">
-                      <div class="card-body">
-                          <h3 class="display-1 text-center text-white">99</h3>
-                          <p class="text-center">Voice-To-Text Bandwidth</p>
-                      </div>
-                  </div>
+                @component('components.statistics.stat-card', [
+                  'value' => format_bytes($statistics['bytes']['averagePerSite']),
+                  'title' => 'Avg. Site Bandwidth'
+                ])
+                @endcomponent
               </div>
               <div class="col-4">
-                  <div class="card bg-gradient-info border-0 centered">
-                      <div class="card-body">
-                          <h3 class="display-1 text-center text-white">99</h3>
-                          <p class="text-center">Enabled Webites</p>
-                      </div>
-                  </div>
-                  <div class="card bg-gradient-info border-0 centered">
-                      <div class="card-body">
-                          <h3 class="display-1 text-center text-white">99</h3>
-                          <p class="text-center">Support Tickets</p>
-                      </div>
-                  </div>
+                @component('components.statistics.stat-card', [
+                  'value' => format_bytes($statistics['bytes']['tts']['averagePerSite']),
+                  'title' => 'Avg. Site TTS Bandwidth'
+                ])
+                @endcomponent
               </div>
-          </div>
+            </div>
+            <!-- Current Month -->
+            <div class="row">
+              <div class="col-4">
+                @component('components.statistics.stat-card', [
+                  'value' => number_format($statistics['views']['month']['current']),
+                  'period' => (new DateTime())->format('F Y'),
+                  'title' => 'Views'
+                ])
+                @endcomponent
+              </div>
+              <div class="col-4">
+                @component('components.statistics.stat-card', [
+                  'value' => format_bytes($statistics['bytes']['month']['current']),
+                  'period' => (new DateTime())->format('F Y'),
+                  'title' => 'Bandwidth'
+                ])
+                @endcomponent
+              </div>
+              <div class="col-4">
+                @component('components.statistics.stat-card', [
+                  'value' => format_bytes($statistics['bytes']['tts']['month']['current']),
+                  'period' => (new DateTime())->format('F Y'),
+                  'title' => 'TTS Bandwidth'
+                ])
+                @endcomponent
+              </div>
+            </div>
+            <!-- Previous Month -->
+            <div class="row">
+              <div class="col-4">
+                @component('components.statistics.stat-card', [
+                  'value' => number_format($statistics['views']['month']['previous']),
+                  'period' => (new DateTime())->modify('-1 month')->format('F Y'),
+                  'title' => 'Views'
+                ])
+                @endcomponent
+              </div>
+              <div class="col-4">
+                @component('components.statistics.stat-card', [
+                  'value' => format_bytes($statistics['bytes']['month']['previous']),
+                  'period' => (new DateTime())->modify('-1 month')->format('F Y'),
+                  'title' => 'Bandwidth'
+                ])
+                @endcomponent
+              </div>
+              <div class="col-4">
+                @component('components.statistics.stat-card', [
+                  'value' => format_bytes($statistics['bytes']['tts']['month']['previous']),
+                  'period' => (new DateTime())->modify('-1 month')->format('F Y'),
+                  'title' => 'TTS Bandwidth'
+                ])
+                @endcomponent
+              </div>
+            </div>
+            <!-- Year -->
+            <div class="row">
+              <div class="col-4">
+                @component('components.statistics.stat-card', [
+                  'value' => number_format($statistics['views']['year']),
+                  'period' => (new DateTime())->format('Y'),
+                  'title' => 'Views'
+                ])
+                @endcomponent
+              </div>
+              <div class="col-4">
+                @component('components.statistics.stat-card', [
+                  'value' => format_bytes($statistics['bytes']['year']),
+                  'period' => (new DateTime())->format('Y'),
+                  'title' => 'Bandwidth'
+                ])
+                @endcomponent
+              </div>
+              <div class="col-4">
+                @component('components.statistics.stat-card', [
+                  'value' => format_bytes($statistics['bytes']['tts']['year']),
+                  'period' => (new DateTime())->format('Y'),
+                  'title' => 'TTS Bandwidth'
+                ])
+                @endcomponent
+              </div>
+            </div>
+            <!-- Total -->
+            <div class="row">
+              <div class="col-4">
+                @component('components.statistics.stat-card', [
+                  'value' => number_format($statistics['views']['total']),
+                  'title' => 'Total Views'
+                ])
+                @endcomponent
+              </div>
+              <div class="col-4">
+                @component('components.statistics.stat-card', [
+                  'value' => format_bytes($statistics['bytes']['total']),
+                  'title' => 'Total Bandwidth'
+                ])
+                @endcomponent
+              </div>
+              <div class="col-4">
+                @component('components.statistics.stat-card', [
+                  'value' => format_bytes($statistics['bytes']['tts']['total']),
+                  'title' => 'Total TTS Bandwidth'
+                ])
+                @endcomponent
+              </div>
+            </div>
+          @endisset
       </div>
   </div>
       

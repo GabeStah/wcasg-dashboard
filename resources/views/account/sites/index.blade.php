@@ -60,6 +60,14 @@
                                             >
                                                 <i class="fas fa-edit"></i>
                                             </a>
+
+                                            <a href="{{ route('account.sites.statistics.index', $site) }}"
+                                               data-placement="top"
+                                               data-original-title="Site Statistics"
+                                               data-toggle="tooltip"
+                                            >
+                                                <i class="fas fa-chart-bar"></i>
+                                            </a>
                                         </td>
                                         <td>
                                             {{ $site->domain }}

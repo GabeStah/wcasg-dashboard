@@ -10,6 +10,17 @@ return [
       'cvc' => env('SOLARIX_CC_PREPAID_CVC')
     ]
   ],
+  'coeus' => [
+    'db' => env('COEUS_DB', 'wcasg'),
+    'collections' => [
+      'statistics' => env(
+        'COEUS_COLLECTION_STATISTICS',
+        'srn:coeus:wcasg:widget:dashboard::collection/statistics'
+      )
+    ],
+    'token' => env('COEUS_TOKEN'),
+    'url' => env('COEUS_URL', 'https://coeus.solarix.tools')
+  ],
   'connector' => [
     'endpoint' => env(
       'CONNECTOR_ENDPOINT',

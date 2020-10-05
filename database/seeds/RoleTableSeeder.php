@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use CreatyDev\Domain\Users\Models\Permission;
 use CreatyDev\Domain\Users\Models\Role;
+use Illuminate\Database\Seeder;
 
 class RoleTableSeeder extends Seeder {
   /**
@@ -68,11 +68,21 @@ class RoleTableSeeder extends Seeder {
       ],
       [
         'name' => 'update users'
+      ],
+      [
+        'name' => 'ignore-site-limit'
       ]
     ];
 
     foreach ($permissions as $permission) {
       Permission::create($permission);
     }
+
+    // Add ignore-site-limit permission to admin-root role
+    $ignoreSiteLimitPermission = Permission::whereName(
+      'ignore-site-limit'
+    )->first();
+    $rootRole = Role::whereSlug('admin-root')->first();
+    $rootRole->permissions()->attach($ignoreSiteLimitPermission);
   }
 }

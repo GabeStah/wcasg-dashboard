@@ -70,6 +70,10 @@ return [
   'site' => [
     'add_new_button' => 'Add New Site',
     'must_be_active' => 'This site must be active.',
+    'statistic' => [
+      'back' => 'Back to Sites',
+      'description' => 'Detailed usage statistics for your site.'
+    ],
     'subscribe_to_add' => 'Subscribe now to create a site!',
     'widget_info' => "Copy and paste this line into your site's <head> section."
   ],

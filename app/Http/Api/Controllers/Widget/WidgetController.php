@@ -4,6 +4,7 @@ namespace CreatyDev\Http\Api\Controllers\Widget;
 
 use CreatyDev\App\Controllers\Controller;
 use CreatyDev\App\Traits\Api\HasWidgetPayload;
+use CreatyDev\Domain\Api\Widget\Events\WidgetRequested;
 use CreatyDev\Domain\Sites\Models\Site;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -25,7 +26,8 @@ class WidgetController extends Controller {
       'Content-Encoding' => 'gzip'
     ]);
 
-    $site->increment('widget_request_count');
+    // Generate stats
+    event(new WidgetRequested($site, $payload, $request));
 
     // Respond with javascript content.
     return $response->setContent($payload);

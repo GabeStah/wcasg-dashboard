@@ -19,3 +19,4 @@ yarn-error.log
 /public/css/
 /public/js/
 /public/*.js*
+/php_errors.log
