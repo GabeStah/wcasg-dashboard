@@ -227,5 +227,9 @@ return [
 
   'pagination' => [
     'quantity' => env('APP_PAGINATION_QUANTITY', 20)
+  ],
+
+  'paseto' => [
+    'secret' => env('APP_PASETO_SECRET')
   ]
 ];

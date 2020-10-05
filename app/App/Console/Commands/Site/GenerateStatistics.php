@@ -70,7 +70,8 @@ class GenerateStatistics extends Command {
               new WidgetRequested(
                 $site,
                 $faker->text($faker->numberBetween(1000, 1000000)),
-                $request
+                $request,
+                true
               )
             );
             $requestsCreated++;

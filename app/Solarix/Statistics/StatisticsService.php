@@ -124,6 +124,7 @@ class StatisticsService {
           'viewsMonthCurrent' => [
             (object) [
               '$match' => [
+                'request.type' => 'widget',
                 'request.timestamp' => $this->getTimespanArray('month', 0)
               ]
             ],
@@ -134,6 +135,7 @@ class StatisticsService {
           'viewsMonthPrevious' => [
             (object) [
               '$match' => [
+                'request.type' => 'widget',
                 'request.timestamp' => $this->getTimespanArray('month', 1)
               ]
             ],
@@ -144,6 +146,7 @@ class StatisticsService {
           'viewsYear' => [
             (object) [
               '$match' => [
+                'request.type' => 'widget',
                 'request.timestamp' => $this->getTimespanArray('year', 0)
               ]
             ],
@@ -153,12 +156,37 @@ class StatisticsService {
           ],
           'viewsTotal' => [
             (object) [
+              '$match' => [
+                'request.type' => 'widget'
+              ]
+            ],
+            (object) [
               '$count' => 'value'
             ]
           ],
           'bytesMonthCurrent' => [
             (object) [
               '$match' => [
+                'request.type' => 'widget',
+                'request.timestamp' => $this->getTimespanArray('month', 0)
+              ]
+            ],
+            (object) [
+              '$group' => [
+                '_id' => null,
+                'value' => [
+                  '$sum' => '$request.bytes'
+                ]
+              ]
+            ],
+            (object) [
+              '$unset' => '_id'
+            ]
+          ],
+          'bytesTTSMonthCurrent' => [
+            (object) [
+              '$match' => [
+                'request.type' => 'tts',
                 'request.timestamp' => $this->getTimespanArray('month', 0)
               ]
             ],
@@ -177,6 +205,26 @@ class StatisticsService {
           'bytesMonthPrevious' => [
             (object) [
               '$match' => [
+                'request.type' => 'widget',
+                'request.timestamp' => $this->getTimespanArray('month', 1)
+              ]
+            ],
+            (object) [
+              '$group' => [
+                '_id' => null,
+                'value' => [
+                  '$sum' => '$request.bytes'
+                ]
+              ]
+            ],
+            (object) [
+              '$unset' => '_id'
+            ]
+          ],
+          'bytesTTSMonthPrevious' => [
+            (object) [
+              '$match' => [
+                'request.type' => 'tts',
                 'request.timestamp' => $this->getTimespanArray('month', 1)
               ]
             ],
@@ -195,6 +243,26 @@ class StatisticsService {
           'bytesYear' => [
             (object) [
               '$match' => [
+                'request.type' => 'widget',
+                'request.timestamp' => $this->getTimespanArray('year', 0)
+              ]
+            ],
+            (object) [
+              '$group' => [
+                '_id' => null,
+                'value' => [
+                  '$sum' => '$request.bytes'
+                ]
+              ]
+            ],
+            (object) [
+              '$unset' => '_id'
+            ]
+          ],
+          'bytesTTSYear' => [
+            (object) [
+              '$match' => [
+                'request.type' => 'tts',
                 'request.timestamp' => $this->getTimespanArray('year', 0)
               ]
             ],
@@ -212,6 +280,29 @@ class StatisticsService {
           ],
           'bytesTotal' => [
             (object) [
+              '$match' => [
+                'request.type' => 'widget'
+              ]
+            ],
+            (object) [
+              '$group' => [
+                '_id' => null,
+                'value' => [
+                  '$sum' => '$request.bytes'
+                ]
+              ]
+            ],
+            (object) [
+              '$unset' => '_id'
+            ]
+          ],
+          'bytesTTSTotal' => [
+            (object) [
+              '$match' => [
+                'request.type' => 'tts'
+              ]
+            ],
+            (object) [
               '$group' => [
                 '_id' => null,
                 'value' => [
@@ -224,6 +315,37 @@ class StatisticsService {
             ]
           ],
           'bytesAveragePerSite' => [
+            (object) [
+              '$match' => [
+                'request.type' => 'widget'
+              ]
+            ],
+            (object) [
+              '$group' => [
+                '_id' => '$site.id',
+                'bytes' => [
+                  '$sum' => '$request.bytes'
+                ]
+              ]
+            ],
+            (object) [
+              '$group' => [
+                '_id' => null,
+                'value' => [
+                  '$avg' => '$bytes'
+                ]
+              ]
+            ],
+            (object) [
+              '$unset' => '_id'
+            ]
+          ],
+          'bytesTTSAveragePerSite' => [
+            (object) [
+              '$match' => [
+                'request.type' => 'tts'
+              ]
+            ],
             (object) [
               '$group' => [
                 '_id' => '$site.id',
@@ -269,6 +391,17 @@ class StatisticsService {
         $response[0]->bytesMonthPrevious[0]->value ?? 0;
       $statistics['bytes']['year'] = $response[0]->bytesYear[0]->value ?? 0;
       $statistics['bytes']['total'] = $response[0]->bytesTotal[0]->value ?? 0;
+
+      $statistics['bytes']['tts']['averagePerSite'] =
+        $response[0]->bytesTTSAveragePerSite[0]->value ?? 0;
+      $statistics['bytes']['tts']['month']['current'] =
+        $response[0]->bytesTTSMonthCurrent[0]->value ?? 0;
+      $statistics['bytes']['tts']['month']['previous'] =
+        $response[0]->bytesTTSMonthPrevious[0]->value ?? 0;
+      $statistics['bytes']['tts']['year'] =
+        $response[0]->bytesTTSYear[0]->value ?? 0;
+      $statistics['bytes']['tts']['total'] =
+        $response[0]->bytesTTSTotal[0]->value ?? 0;
     } else {
       $statistics['error'] = $response->getReasonPhrase();
     }

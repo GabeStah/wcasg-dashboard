@@ -4,9 +4,14 @@ namespace CreatyDev\App\Traits\Api;
 
 use CreatyDev\Domain\Configuration\Models\Configuration;
 use CreatyDev\Domain\Sites\Models\Site;
+use DateTime;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Storage;
 use LZCompressor\LZString;
+use ParagonIE\Paseto\Exception\PasetoException;
+use ParagonIE\Paseto\Keys\Version2\SymmetricKey;
+use ParagonIE\Paseto\Protocol\Version2;
+use SodiumException;
 
 /**
  * Generates Widget payload.
@@ -27,6 +32,7 @@ trait HasWidgetPayload {
     $payloads = [];
     array_push($payloads, $this->getDisclaimerPayload());
     array_push($payloads, $this->getExtensionPayload($site));
+    array_push($payloads, $this->getWidgetTTSRequestDataPayload($site));
     array_push($payloads, $this->getStatementPayload($site));
     array_push($payloads, $this->getWidgetPayload());
     return implode('', $payloads);
@@ -51,6 +57,7 @@ trait HasWidgetPayload {
         return webpackify('WcasgDisclaimer', $disclaimer);
       }
     }
+    return '';
   }
 
   /**
@@ -71,6 +78,39 @@ trait HasWidgetPayload {
       }
       return webpackify('WcasgExtensions', json_encode($reindexed));
     }
+    return '';
+  }
+
+  /**
+   * Gets packed module for TTS request data.
+   *
+   * @param Site $site
+   *
+   * @return string
+   */
+  protected function getWidgetTTSRequestDataPayload(Site $site) {
+    $encrypted = '';
+    try {
+      $encrypted = Version2::encrypt(
+        json_encode([
+          'coeus' => [
+            'url' => config('solarix.coeus.url')
+          ],
+          'request' => [
+            'timestamp' => (new DateTime())->getTimestamp(),
+            'type' => 'tts'
+          ],
+          'site' => $site->toArraySimple()
+        ]),
+        new SymmetricKey(config('app.paseto.secret'))
+      );
+    } catch (PasetoException $e) {
+      // noop
+    } catch (SodiumException $e) {
+      // noop
+    } finally {
+      return webpackify('WcasgWidgetTTSRequestData', $encrypted);
+    }
   }
 
   /**
@@ -87,6 +127,7 @@ trait HasWidgetPayload {
         return webpackify('WcasgAccessibilityStatement', $content);
       }
     }
+    return '';
   }
 
   /**

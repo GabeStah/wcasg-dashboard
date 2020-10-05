@@ -20,8 +20,14 @@ class WidgetRequested {
    * @param Site $site
    * @param $payload
    * @param Request|MockRequest $request
+   * @param bool $isMockRequest
    */
-  public function __construct(Site $site, $payload, $request) {
+  public function __construct(
+    Site $site,
+    $payload,
+    $request,
+    $isMockRequest = false
+  ) {
     $document = [
       'request' => [
         'bytes' => strlen($payload),
@@ -31,31 +37,19 @@ class WidgetRequested {
         'ip' => $this->getIp($request),
         'timestamp' =>
           $request instanceof MockRequest ? $request->getTimestamp() : time(),
+        'type' => 'widget',
         'url' => $this->getUrl($request)
       ],
-      'site' => $this->getSite($site),
+      'site' => $site->toArraySimple(),
       'subscription' => $this->getSubscription($site),
       'user' => $this->getUser($site)
     ];
 
-    RecordWidgetRequest::dispatch($document)->onConnection('sqs');
-  }
+    if ($isMockRequest) {
+      $document['request']['mock'] = true;
+    }
 
-  /**
-   * Get serialized Site.
-   *
-   * @param Site $site
-   * @return array
-   */
-  private function getSite(Site $site) {
-    $siteArray = $site->toArray();
-    // Discard extensions
-    unset($siteArray['extensions']);
-    // Discard statements
-    unset($siteArray['statement']);
-    // Discard subscription
-    unset($siteArray['subscription']);
-    return $siteArray;
+    RecordWidgetRequest::dispatch($document)->onConnection('sqs');
   }
 
   /**

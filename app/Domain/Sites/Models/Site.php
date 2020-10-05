@@ -156,6 +156,22 @@ class Site extends Model {
   }
 
   /**
+   * Get simplified version of Site.
+   *
+   * @return array
+   */
+  public function toArraySimple() {
+    $data = $this->toArray();
+    // Discard extensions
+    unset($data['extensions']);
+    // Discard statements
+    unset($data['statement']);
+    // Discard subscription
+    unset($data['subscription']);
+    return $data;
+  }
+
+  /**
    * Get the Subscription record.
    */
   public function subscription() {

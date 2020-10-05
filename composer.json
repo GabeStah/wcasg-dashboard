@@ -10,6 +10,7 @@
   "require": {
     "php": "^7.2",
     "ext-json": "*",
+    "ext-openssl": "*",
     "ext-zlib": "*",
     "asahasrabuddhe/laravel-mjml": "^0.3.0",
     "aws/aws-sdk-php": "^3.155",
@@ -33,6 +34,7 @@
     "livewire/livewire": "^1.1",
     "nullpunkt/lz-string-php": "^1.2",
     "opis/json-schema": "^1.0",
+    "paragonie/paseto": "^1.0",
     "php-http/curl-client": "^2.1",
     "pragmarx/countries": "*",
     "pusher/pusher-php-server": "^4.1",

@@ -80,7 +80,7 @@ class CoeusApiService {
         [],
         null,
         '1.1',
-        'Unable to connect to Coeus API service.'
+        'Unable to connect to statistics API service.'
       );
     }
   }
