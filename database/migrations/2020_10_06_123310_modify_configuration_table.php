@@ -22,7 +22,7 @@ class ModifyConfigurationTable extends Migration {
         ->nullable(false)
         ->unique()
         ->index();
-      $table->json('data')->nullable(false);
+      $table->longText('data')->nullable(false);
     });
   }
 

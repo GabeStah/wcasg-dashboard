@@ -20,6 +20,12 @@ class ConfigurationController extends Controller {
     if ($configuration) {
       $configuration->data = $request->json('data');
       $configuration->save();
+    } else {
+      Configuration::create([
+        'name' => $request->json('name'),
+        'type' => 'html',
+        'data' => $request->json('data')
+      ]);
     }
   }
 }

@@ -3,6 +3,7 @@
 namespace CreatyDev\Domain\Configuration\Models;
 
 use Eloquent;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -48,12 +49,44 @@ class Configuration extends Model {
   }
 
   /**
+   * Generate default Configuration db entry from template file contents.
+   *
+   * @param $name
+   * @param string $type
+   * @param string $path
+   * @return Configuration|null
+   * @throws FileNotFoundException
+   */
+  private static function createDefault(
+    $name,
+    $type = 'html',
+    $path = 'assets/templates/configuration'
+  ) {
+    // Lookup default
+    $data = app('files')->get(resource_path("$path/$name.$type"));
+
+    if ($data) {
+      return Configuration::create([
+        'data' => $data,
+        'name' => $name,
+        'type' => $type
+      ]);
+    }
+    return null;
+  }
+
+  /**
    * Get configuration instance by name.
    *
-   * @param $value
+   * @param $name
    * @return Model|null
+   * @throws FileNotFoundException
    */
-  public static function byName($value) {
-    return Configuration::where('name', '=', $value)->first();
+  public static function byName($name) {
+    $found = Configuration::where('name', '=', $name)->first();
+    if (!$found) {
+      $found = self::createDefault($name);
+    }
+    return $found;
   }
 }

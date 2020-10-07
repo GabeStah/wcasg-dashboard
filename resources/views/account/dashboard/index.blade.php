@@ -9,12 +9,14 @@
   </div>
 
   <div class="row mt-3 ">
-      <div class="col-12 col-lg-6 d-flex align-items-stretch w-100">
-        @component('account.dashboard.components.intro')
+      <div class="col-6 col-lg-6 d-flex align-items-stretch w-100">
+        @component('account.dashboard.components.panel', [
+          'panel' => $topLeftPanel
+        ])
         @endcomponent
       </div>
 
-      <div class="col-12 col-lg-6 align-items-stretch text-white">
+      <div class="col-6 col-lg-6 align-items-stretch text-white">
         @component('account.dashboard.components.statistics', [
           'statistics' => $statistics
         ])
@@ -23,13 +25,13 @@
   </div>
       
   <div class="row mt-3">
-    <div class="col-6">
+    <div class="col6 col-lg-6 d-flex align-items-stretch w-100">
       @component('account.dashboard.components.panel', [
         'panel' => $leftPanel
       ])
       @endcomponent
     </div>
-    <div class="col-6">
+    <div class="col6 col-lg-6 d-flex align-items-stretch w-100">
       @component('account.dashboard.components.panel', [
         'panel' => $rightPanel
       ]))
@@ -46,7 +48,7 @@
   <script>
       const token = {!! json_encode($token) !!};
       const updateDashboardPanelData = function(name, data) {
-          fetch(`/api/configuration?token=${token}`, {
+          fetch(`/api/configuration?X_DEBUG_SESSION=1&token=${token}`, {
               headers: {
                   "Content-Type": "application/json",
                   "Accept": "application/json, text-plain, */*",
@@ -67,6 +69,10 @@
           path_absolute: "/",
           selector: ".custom-editor",
           inline: true,
+          extended_valid_elements: "i[class],span[align<center?justify?left?right|class|"
+              +"dir<ltr?rtl|id|lang|onclick|ondblclick|onkeydown"
+              +"|onkeypress|onkeyup|onmousedown|onmousemove|onmouseout|onmouseover"
+              +"|onmouseup|style|title]",
           setup: function (editor) {
               editor.on('blur', function () {
                   // Get parent element of editor, then panel-name data attribute value

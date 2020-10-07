@@ -31,13 +31,11 @@ class DashboardController extends Controller {
       Auth::user()->sites->where('active', true)
     );
 
-    $leftPanel = Configuration::byName('dashboard-panel-left');
-    $rightPanel = Configuration::byName('dashboard-panel-right');
-
     return view('account.dashboard.index', [
       'Nbtickets' => $Nbtickets,
-      'leftPanel' => $leftPanel,
-      'rightPanel' => $rightPanel,
+      'topLeftPanel' => Configuration::byName('dashboard-panel-top-left'),
+      'leftPanel' => Configuration::byName('dashboard-panel-bottom-left'),
+      'rightPanel' => Configuration::byName('dashboard-panel-bottom-right'),
       'statistics' => $statistics,
       'token' => Auth::user()->getRememberToken()
     ]);
