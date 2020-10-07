@@ -10,7 +10,11 @@ return [
     'admin' => [
       'configuration' => [
         'disclaimer' =>
-          'The default disclaimer shown to end users of the Widget.'
+          'The default disclaimer shown to end users of the Widget.',
+        'dashboard-panel-left' =>
+          'The default Account Dashboard left panel content.',
+        'dashboard-panel-right' =>
+          'The default Account Dashboard right panel content.'
       ],
       'StatementTemplate' => [
         'columns' => [

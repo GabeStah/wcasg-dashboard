@@ -16,16 +16,46 @@ class ConfigurationObserver {
    * @throws FileNotFoundException
    */
   private function setDefaults(Configuration $configuration) {
-    if (!$configuration->settings && !$configuration->settings['disclaimer']) {
+    $settings = $configuration->settings;
+
+    switch ($configuration->name) {
+      case 'disclaimer':
+    }
+
+    if (!$settings['disclaimer']) {
       // Default disclaimer
-      $disclaimer = app('files')->get(
+      $data = app('files')->get(
         resource_path('assets/disclaimer/default.html')
       );
 
-      $configuration->settings = (object) [
-        'disclaimer' => LZString::compressToBase64($disclaimer)
-      ];
+      $settings['disclaimer'] = LZString::compressToBase64($data);
     }
+
+    if (!$settings['dashboard']) {
+      $settings['dashboard'] = [];
+      if (!$settings['dashboard']['panel-left']) {
+        $data = app('files')->get(
+          resource_path('assets/dashboard/panel-left.html')
+        );
+
+        $settings['dashboard']['panel-left'] = LZString::compressToBase64(
+          $data
+        );
+      }
+
+      if (!$settings['dashboard']['panel-right']) {
+        $data = app('files')->get(
+          resource_path('assets/dashboard/panel-right.html')
+        );
+
+        $settings['dashboard']['panel-right'] = LZString::compressToBase64(
+          $data
+        );
+      }
+      $settings['dashboard'] = (object) $settings['dashboard'];
+    }
+
+    $configuration->settings = (object) $settings;
 
     return $configuration;
   }
@@ -39,7 +69,7 @@ class ConfigurationObserver {
    * @throws FileNotFoundException
    */
   public function creating(Configuration $configuration) {
-    return $this->setDefaults($configuration);
+    //    return $this->setDefaults($configuration);
   }
 
   /**
@@ -51,6 +81,6 @@ class ConfigurationObserver {
    * @throws FileNotFoundException
    */
   public function updating(Configuration $configuration) {
-    return $this->setDefaults($configuration);
+    //    return $this->setDefaults($configuration);
   }
 }

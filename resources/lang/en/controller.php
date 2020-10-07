@@ -33,7 +33,7 @@ return [
     'Configuration' => [
       'disclaimer' => [
         'update' => [
-          'success' => 'Disclaimer has been updated.'
+          'success' => 'Configuration has been updated.'
         ]
       ]
     ],

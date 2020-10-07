@@ -3,6 +3,7 @@
 namespace CreatyDev\Http\Account\Controllers;
 
 use CreatyDev\App\Controllers\Controller;
+use CreatyDev\Domain\Configuration\Models\Configuration;
 use CreatyDev\Domain\Ticket\Models\Ticket;
 use CreatyDev\Solarix\Statistics\StatisticsService;
 use Illuminate\Contracts\Foundation\Application;
@@ -29,9 +30,16 @@ class DashboardController extends Controller {
     $statistics = $statisticsService->getSiteStatistics(
       Auth::user()->sites->where('active', true)
     );
+
+    $leftPanel = Configuration::byName('dashboard-panel-left');
+    $rightPanel = Configuration::byName('dashboard-panel-right');
+
     return view('account.dashboard.index', [
       'Nbtickets' => $Nbtickets,
-      'statistics' => $statistics
+      'leftPanel' => $leftPanel,
+      'rightPanel' => $rightPanel,
+      'statistics' => $statistics,
+      'token' => Auth::user()->getRememberToken()
     ]);
   }
 }

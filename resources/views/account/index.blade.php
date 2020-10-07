@@ -13,7 +13,7 @@
 
                 <div class="row py-3">
                     <div class="col-md-4">Email Address</div>
-                    <div class="col-md-8 text-sm text-gray">{{ auth()->user()->name }}</div>
+                    <div class="col-md-8 text-sm text-gray">{{ auth()->user()->email }}</div>
                 </div>
 
                 @subscribed

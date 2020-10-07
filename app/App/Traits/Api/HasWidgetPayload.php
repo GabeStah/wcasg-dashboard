@@ -7,7 +7,6 @@ use CreatyDev\Domain\Sites\Models\Site;
 use DateTime;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\Storage;
-use LZCompressor\LZString;
 use ParagonIE\Paseto\Exception\PasetoException;
 use ParagonIE\Paseto\Keys\Version2\SymmetricKey;
 use ParagonIE\Paseto\Protocol\Version2;
@@ -44,18 +43,9 @@ trait HasWidgetPayload {
    * @return string
    */
   protected function getDisclaimerPayload() {
-    $configuration = Configuration::first();
-    if (
-      $configuration &&
-      $configuration->settings &&
-      $configuration->settings['disclaimer']
-    ) {
-      $disclaimer = LZString::decompressFromBase64(
-        $configuration->settings['disclaimer']
-      );
-      if ($disclaimer) {
-        return webpackify('WcasgDisclaimer', $disclaimer);
-      }
+    $disclaimer = Configuration::byName('disclaimer');
+    if ($disclaimer) {
+      return webpackify('WcasgDisclaimer', $disclaimer->data);
     }
     return '';
   }

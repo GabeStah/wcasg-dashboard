@@ -29,6 +29,18 @@ Route::group(
 
 Route::group(
   [
+    'namespace' => 'Api\Controllers\Configuration',
+    'as' => 'api.configuration.'
+  ],
+  function () {
+    Route::post('configuration', 'ConfigurationController@update')->name(
+      'update'
+    );
+  }
+);
+
+Route::group(
+  [
     'namespace' => 'Api\Controllers\Extension',
     'middleware' => ['auth:api', 'api.extension'],
     'as' => 'api.extension.'

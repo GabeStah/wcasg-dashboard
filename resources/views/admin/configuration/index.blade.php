@@ -16,19 +16,29 @@
                 class="form-horizontal offset-sm-2">
             @csrf
 
-            <div class="form-group row">
-              <label class="col-md-3 col-form-label" for="disclaimer">Disclaimer
-                <info-icon :text="__('info.views.admin.configuration.disclaimer')"/>
-              </label>
-              <div class="col-md-6">
-                <textarea id="disclaimer" name="disclaimer" class="form-control custom-editor" style="min-height: 600px;"
-                          placeholder="Enter Content" v-pre>{{ $disclaimer }}</textarea>
+            @foreach($configurations as $configuration)
+              <div class="form-group row">
+                <label class="col-md-3 col-form-label" for="configurations[{{ $configuration->name }}]">{{ ucwords($configuration->name) }}
+                  <info-icon :text="$configuration->text"/>
+                </label>
+                <div class="col-md-6">
+                <textarea
+                    id="configurations[{{ $configuration->name }}]"
+                    name="configurations[{{ $configuration->name }}]"
+                    class="form-control custom-editor"
+                    style="min-height: 600px;"
+                    placeholder="Enter Content"
+                    v-pre
+                >{{ $configuration->data }}</textarea>
 
-                @if ($errors->has('disclaimer'))
-                  <span class="text-danger">{{ $errors->first('disclaimer') }}</span>
-                @endif
+                  @if ($errors->has($configuration->name))
+                    <span class="text-danger">{{ $errors->first($configuration->name) }}</span>
+                  @endif
+                </div>
               </div>
-            </div>
+            @endforeach
+
+
             <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-dot-circle-o"></i>
               Update
             </button>
