@@ -1,3 +1,7 @@
+# WCASG Dashboard
+
+Platform with user dashboard and admin dashboard for handling [WCASG Widget](https://www.github.com/GabeStah/wcasg-widget) SaaS.
+
 - [Initial Accounts / Seed Data](#initial-accounts--seed-data)
 - [Product :: Plan for Sites](#product--plan-for-sites)
   - [Stripe Product](#stripe-product)
@@ -68,16 +72,7 @@
 
 ## Initial Accounts / Seed Data
 
-Static default accounts:
-
-| first_name | last_name  | username  | email                            | password     |
-| ---------- | ---------- | --------- | -------------------------------- | ------------ |
-| Gabe       | Wyatt      | gabestah  | gabe@solarixdigital.com          | hobbes       |
-| Kyle       | Somerville | kyle      | kyle@solarixdigital.com          | secret       |
-| WCASG      | Dev        | wcasgdev  | dev+wcasg@solarixdigital.com     | SGb1OKSNtk8u |
-| Kick       | Pages      | kickpages | dev+kickpages@solarixdigital.com | cJzL4LxVB3ap |
-
-There are 15 additional `Users` added with random assignments, activations, etc. To test them out, open the `Admin` dashboard, select `Users`, copy the email address of the `User`, and `Impersonate` them. This is useful for playing around with users who have no active subscriptions and the like.
+There are 15 `Users` added with random assignments, activations, etc. To test them out, open the `Admin` dashboard, select `Users`, copy the email address of the `User`, and `Impersonate` them. This is useful for playing around with users who have no active subscriptions and the like.
 
 ## Product :: Plan for Sites
 
@@ -276,7 +271,7 @@ Creating subscription.
 ### Setup Local Dev
 
 1. `git clone` repo.
-2. Copy content of the [.env.development](https://gitlab.solarixdigital.com/solarix/wcasg/dashboard/snippets/13) snippet to the a `<root>/.env` file.
+2. Copy content of the `.env.development` snippet to the a `<root>/.env` file.
 3. Run `composer install`.
 4. Run `yarn run db:dev` to create a local MySQL Docker.
 5. Open `http://localhost:8090/`, login with `root:example`, and add a new database named `voydev_wcasgadmin`.
@@ -373,7 +368,7 @@ Consider the following table entries (some columns truncated for simplicity):
 | 3   | gabewyatt.com | 1      | iVGUxr5vwxBypx6oOtQvB4YvHB8eyIT94Ecl | 1               |
 
 1. An `Admin` creates the `Primary` plan, which generates the `stripe_plan_id` value and creates a matching plan via the Stripe API.
-2. The `User` (`gabe@solarixdigital.com`) subscribes to the `Primary` plan, which generates the `Subscription` model entry associated with that `Primary` plan. It also creates a matching subscription via the Stripe API (`sub_GgT5ufj9MFaZZ5`).
+2. The `User` (`gabe@gabewyatt.com`) subscribes to the `Primary` plan, which generates the `Subscription` model entry associated with that `Primary` plan. It also creates a matching subscription via the Stripe API (`sub_GgT5ufj9MFaZZ5`).
 3. The `User` adds a `Site` to their new `Subscription`, entering a domain of `gabewyatt.com`. This auto-generates a unique `token` for that `Site` record.
 4. The `User` copies the provided `<script>` tag `/api/widget` endpoint with the associated `token` and pasted it into the header of their website:
 
@@ -710,7 +705,7 @@ Text-to-Speech statistics are generated via AWS Lambda events.
         "last_name": "Wyatt",
         "username": "gabestah",
         "profile_image": "/img/avatar.png",
-        "email": "gabe@solarixdigital.com",
+        "email": "gabe@gabewyatt.com",
         "phone": "606-447-4553",
         "activated": 1,
         "created_at": "2020-09-26 08:12:13",
@@ -820,8 +815,8 @@ protected function getWidgetTTSRequestDataPayload(Site $site) {
 ```
 
 2. An end-user makes a TTS request via to the loaded widget, which is handled by the API Gateway endpoint (`https://9qytmg2tn1.execute-api.us-west-2.amazonaws.com/Prod`). The widget adds a custom `X-Wcasg-Widget-Tts-Request-Data` header to the request to identify this request for further pipeline processing.
-3. The API Gateway handles the TTS request via the [lambda-to-google-tts function](https://gitlab.solarixdigital.com/solarix/wcasg/lambda-to-google-tts).
-4. Along with responding to the end-user with the converted speech audio stream, [a new Lambda function](https://gitlab.solarixdigital.com/solarix/wcasg/lambda-to-google-tts/-/blob/master/srn-lambda-wcasg-widget-dashboard_coeus-insert-tts-request.js) is invoked to record the TTS request via the Coeus API.
+3. The API Gateway handles the TTS request via the [lambda-to-google-tts function](https://www.github.com/GabeStah/lambda-to-google-tts).
+4. Along with responding to the end-user with the converted speech audio stream, [a new Lambda function](https://www.github.com/GabeStah/lambda-to-google-tts/-/blob/master/srn-lambda-wcasg-widget-dashboard_coeus-insert-tts-request.js) is invoked to record the TTS request via the Coeus API.
 5. If the payload is valid and can be decrypted then the [srn-lambda-wcasg-widget-dashboard_coeus-insert-tts-request](https://us-west-2.console.aws.amazon.com/lambda/home?region=us-west-2#/functions/srn-lambda-wcasg-widget-dashboard_coeus-insert-tts-request?tab=configuration) Lambda function makes a Coeus `/data/insert` request and adds the TTS request record to the `wcasg.srn:coeus:wcasg:widget:dashboard::collection/statistics` resource.
 6. This request includes TTS-specific data such as audio options and input text, along with originating Site data:
 
